@@ -1,0 +1,69 @@
+<div>
+    <form wire:submit.prevent="submit" class="mb-4">
+        <div class="card mb-4 shadow-sm">
+            <div class="card-header">Selected products</div>
+            <table class="table m-0">
+                <thead>
+                    <tr>
+                        <th>Item</th>
+                        <th>Amount</th>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+        <div class="card mb-4 shadow-sm">
+            <div class="card-header">Contact data</div>
+            <div class="card-body">
+                <div class="form-group">
+                    <label for="inputCustomerName">First & last name</label>
+                    <input
+                        type="text"
+                        class="form-control @error('order.customer_name') is-invalid @enderror"
+                        id="inputCustomerName"
+                        wire:model.defer="order.customer_name"
+                        placeholder="John Doe"
+                        aria-describedby="customerNameHelp">
+                    @error('order.customer_name') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                    <small id="customerNameHelp" class="form-text text-muted">Write your full name according to your identification document.</small>
+                </div>
+                <div class="form-group">
+                    <label for="inputCustomerIdNumber">ID number</label>
+                    <input
+                        type="text"
+                        class="form-control @error('order.customer_id_number') is-invalid @enderror"
+                        id="inputCustomerIdNumber"
+                        wire:model.defer="order.customer_id_number"
+                        placeholder="05/0123456789"
+                        aria-describedby="customerIdNumberHelp">
+                    @error('order.customer_id_number') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                    <small id="customerIdNumberHelp" class="form-text text-muted">Write your ID number according to your identification document.</small>
+                </div>
+                <div class="form-group">
+                    <label for="inputCustomerPhone">Phone number</label>
+                    <input
+                        type="tel"
+                        class="form-control @error('order.customer_phone') is-invalid @enderror"
+                        id="inputCustomerPhone"
+                        wire:model.defer="order.customer_phone"
+                        placeholder="+30 123 456 78 90"
+                        aria-describedby="customerPhoneHelp">
+                    @error('order.customer_phone') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                    <small id="customerPhoneHelp" class="form-text text-muted">We will send you updates about your order to this number.</small>
+                </div>
+                <div class="form-group">
+                    <label for="inputRemarks">Remarks</label>
+                    <textarea
+                        class="form-control @error('order.remarks') is-invalid @enderror"
+                        id="inputRemarks"
+                        wire:model.defer="order.remarks"
+                        rows="3"
+                        placeholder="Your remarks"
+                        aria-describedby="remarksHelp"></textarea>
+                    @error('order.remarks') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                    <small id="remarksHelp" class="form-text text-muted">Please write if we need to know anything more regarding your order.</small>
+                </div>
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+</div>
