@@ -26,15 +26,30 @@
             </div>
         </div>
     </div>
-    <div class="form-group">
-        <label for="inputDescription">Description</label>
-        <textarea
-            type="text"
-            class="form-control @error('product.description') is-invalid @enderror"
-            id="inputDescription"
-            rows="3"
-            wire:model.defer="product.description"></textarea>
-        @error('product.description') <div class="invalid-feedback">{{ $message }}</div> @enderror
+    <div class="form-row">
+        <div class="col-md">
+            <div class="form-group">
+                <label for="inputDescription">Description</label>
+                <textarea
+                    type="text"
+                    class="form-control @error('product.description') is-invalid @enderror"
+                    id="inputDescription"
+                    rows="3"
+                    wire:model.defer="product.description"></textarea>
+                @error('product.description') <div class="invalid-feedback">{{ $message }}</div> @enderror
+            </div>
+        </div>
+        <div class="col-md">
+            <label for="pictureInput">Picture</label>
+            <div class="custom-file">
+                <input
+                    type="file"
+                    class="custom-file-input"
+                    accept="image/*"
+                    id="pictureInput">
+                <label class="custom-file-label" for="pictureInput">Choose file</label>
+            </div>
+        </div>
     </div>
     <div class="form-row">
         <div class="col-md">

@@ -23,6 +23,7 @@
         <table class="table table-bordered table-hover shadow-sm">
             <caption>{{ $products->count() }} products registered</caption>
             <thead>
+                <th>Picture</th>
                 <th>Name</th>
                 <th>Category</th>
                 <th>Description</th>
@@ -32,6 +33,14 @@
             <tbody>
                 @foreach($products as $product)
                     <tr class="cursor-pointer @if(!$product->is_available) table-dark text-dark @endif" wire:click="editProduct({{ $product->id }})">
+                        <td class="fit">
+                            @isset($product->pictureUrl)
+                                <img
+                                    src="{{ $product->pictureUrl }}"
+                                    alt="Product Image"
+                                    style="max-width: 100px; max-height: 75px"/>
+                            @endisset
+                        </td>
                         <td>{{ $product->name }}</td>
                         <td>{{ $product->category }}</td>
                         <td>{{ $product->description }}</td>

@@ -7,7 +7,12 @@
                 @foreach($products as $product)
                     <div class="col mb-4">
                         <div class="card shadow-sm">
-                            <img src="{{ $product->imageUrl(300, 150) }}" class="card-img-top" alt="Product name">
+                            @isset($product->pictureUrl)
+                                <img
+                                    src="{{ $product->pictureUrl }}"
+                                    class="card-img-top"
+                                    alt="Product name">
+                            @endisset
                             <div class="card-body">
                                 <h5 class="card-title">{{ $product->name }}</h5>
                                 <p class="card-text"><small class="text-muted">{{ $product->category }}</small></p>
@@ -30,8 +35,8 @@
                                             wire:model="basket.{{ $product->id }}"
                                             min="0"
                                             max="{{ $product->available_for_customer_amount }}"
-                                            style="max-width: 5em"
-                                            class="form-control"
+                                            style="max-width: 7em"
+                                            class="form-control @if($basket[$product->id] > 0) is-valid  @endif"
                                             placeholder="Amount">
                                     </div>
                                 </div>

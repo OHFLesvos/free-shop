@@ -32,9 +32,21 @@
         <tbody>
             @foreach($order->products as $product)
                 <tr>
-                    <td class="fit"><img src="{{ $product->imageUrl(100, 75) }}" alt="Product Image"/></td>
-                    <td>{{ $product->name }}<br><small>{{ $product->category }}</small></td>
-                    <td class="fit text-right"><strong><big>{{ $product->pivot->amount }}</big></strong></td>
+                    <td class="fit">
+                        @isset($product->pictureUrl)
+                            <img
+                                src="{{ $product->pictureUrl }}"
+                                alt="Product Image"
+                                style="max-width: 100px; max-height: 75px"/>
+                        @endisset
+                    </td>
+                    <td>
+                        {{ $product->name }}<br>
+                        <small>{{ $product->category }}</small>
+                    </td>
+                    <td class="fit text-right">
+                        <strong><big>{{ $product->pivot->amount }}</big></strong>
+                    </td>
                 </tr>
             @endforeach
         </tbody>

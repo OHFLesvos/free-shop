@@ -21,9 +21,11 @@ class ProductFactory extends Factory
      */
     public function definition()
     {
+        $name = $this->faker->catchPhrase;
         return [
-            'name' => $this->faker->catchPhrase,
+            'name' => $name,
             'category' => ucfirst($this->faker->word),
+            'picture' => $this->faker->boolean(70) ? 'https://picsum.photos/seed/' . md5($name) . '/300/150' : null,
             'description' => $this->faker->optional(0.9)->text,
             'stock_amount' => $this->faker->numberBetween(0, 1000),
             'customer_limit' => $this->faker->optional(0.2)->numberBetween(0, 10),

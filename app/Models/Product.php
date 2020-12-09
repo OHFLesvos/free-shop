@@ -6,6 +6,7 @@ use Dyrynda\Database\Support\NullableFields;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
 
 class Product extends Model
 {
@@ -23,9 +24,15 @@ class Product extends Model
             ->withPivot('amount');
     }
 
-    public function imageUrl($width, $height)
+    public function getPictureUrlAttribute()
     {
-        return 'https://picsum.photos/seed/' . md5($this->name) . '/' . $width . '/' . $height;
+        if ($this->picture !== null) {
+            if (preg_match('#^http[s]?://#', $this->picture)) {
+                return $this->picture;
+            }
+            return Storage::url($this->picture);
+        }
+        return null;
     }
 
     public function getReservedAmountAttribute()
