@@ -20,7 +20,8 @@ class OrderSeeder extends Seeder
             ->count(25)
             ->create()
             ->each(function ($order) use ($products) {
-                $products->random(mt_rand(1, $products->count()))
+                $products->filter(fn ($product) => $product->available_for_customer_amount > 0)
+                    ->random(mt_rand(1, $products->count()))
                     ->each(function ($product) use ($order) {
                         $order->products()->attach($product, [
                             'amount' => $product->customer_limit !== null

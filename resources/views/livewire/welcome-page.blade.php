@@ -11,6 +11,11 @@
                         <h5 class="card-title">{{ $product->name }}</h5>
                         <p class="card-text"><small class="text-muted">{{ $product->category }}</small></p>
                         <p class="card-text">{{ $product->description }}</p>
+                        @if($product->available_for_customer_amount > 0)
+                            <p class="card-text"><small class="text-muted">
+                                Available: {{ $product->available_for_customer_amount }}
+                            </small></p>
+                        @endif
                     </div>
                     <div class="card-footer">
                         @if($product->available_for_customer_amount > 0)

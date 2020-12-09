@@ -25,7 +25,7 @@ class ProductFactory extends Factory
             'name' => $this->faker->catchPhrase,
             'category' => ucfirst($this->faker->word),
             'description' => $this->faker->optional(0.9)->text,
-            'stock_amount' => $this->faker->numberBetween(0, 100),
+            'stock_amount' => $this->faker->numberBetween(0, 1000),
             'customer_limit' => $this->faker->optional(0.2)->numberBetween(0, 10),
         ];
     }
