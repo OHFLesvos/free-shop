@@ -45,9 +45,9 @@
                     <tr class="cursor-pointer" wire:click="showOrder({{ $order->id }})">
                         <td>{{ $order->id }}</td>
                         <td>
-                            @isset($order->delivered_at)
-                                {{ $order->delivered_at->isoFormat('LLLL') }}<br>
-                                <small>{{ $order->delivered_at->diffForHumans() }}</small>
+                            @isset($order->completed_at)
+                                {{ $order->completed_at->isoFormat('LLLL') }}<br>
+                                <small>{{ $order->completed_at->diffForHumans() }}</small>
                             @else
                                 {{ $order->created_at->isoFormat('LLLL') }}<br>
                                 <small>{{ $order->created_at->diffForHumans() }}</small>

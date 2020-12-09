@@ -17,7 +17,7 @@ class OrderDetail extends Component
 
     public function complete()
     {
-        $this->order->delivered_at = now();
+        $this->order->completed_at = now();
         $this->order->save();
     }
 }

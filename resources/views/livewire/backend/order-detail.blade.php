@@ -2,8 +2,12 @@
     <h1 class="mb-3">Order #{{ $order->id }}</h1>
     <ul class="list-group mb-4 shadow-sm">
         <li class="list-group-item">
-            <strong>Date:</strong> {{ $order->created_at->isoFormat('LLLL') }}<br>
-            <small>{{ $order->created_at->diffForHumans() }}</small>
+            <strong>Ordered:</strong> {{ $order->created_at->isoFormat('LLLL') }}
+            <small class="ml-1">{{ $order->created_at->diffForHumans() }}</small>
+            @isset($order->completed_at)<br>
+                <strong>Completed:</strong> {{ $order->completed_at->isoFormat('LLLL') }}
+                <small class="ml-1">{{ $order->completed_at->diffForHumans() }}</small>
+            @endisset
         </li>
         <li class="list-group-item">
             <strong>Name:</strong> {{ $order->customer_name }}<br>
@@ -39,8 +43,8 @@
         <a
             href="{{ route('backend.orders') }}"
             class="btn btn-outline-primary">Back to overview</a>
-        @isset($order->delivered_at)
-            Completed on {{ $order->delivered_at->isoFormat('LLLL') }}
+        @isset($order->completed_at)
+            Completed
         @else
             <button
                 class="btn btn-primary"
