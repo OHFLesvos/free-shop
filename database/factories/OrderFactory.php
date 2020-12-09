@@ -24,7 +24,7 @@ class OrderFactory extends Factory
         return [
 
             'customer_name' => $this->faker->name,
-            'customer_id' => $this->faker->randomNumber(9, true),
+            'customer_id_number' => $this->faker->randomNumber(9, true),
             'customer_phone' => $this->faker->e164PhoneNumber,
             'customer_ip_address' => $this->faker->ipv4,
             'customer_user_agent' => $this->faker->userAgent,

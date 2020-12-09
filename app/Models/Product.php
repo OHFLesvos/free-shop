@@ -20,4 +20,9 @@ class Product extends Model
     {
         return $this->belongsToMany(Order::class);
     }
+
+    public function imageUrl($width, $height)
+    {
+        return 'https://picsum.photos/seed/' . md5($this->name) . '/' . $width . '/' . $height;
+    }
 }

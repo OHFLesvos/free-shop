@@ -8,14 +8,14 @@
         @livewireStyles
         @stack('styles')
     </head>
-    <body class="bg-light">
-        <header class="app-header shadow-sm p-3 mb-4 bg-white">
-            <div class="container">
+    <body class="bg-white">
+        <header class="app-header shadow-sm p-3 mb-4 bg-light">
+            <div class="container container-narrow">
                 <a class="brand" href="{{ route('welcome') }}">{{ config('app.name') }}</a>
             </div>
         </header>
         <main class="app-main">
-            <div class="container">
+            <div class="container container-narrow">
                 {{ $slot }}
             </div>
         </main>
