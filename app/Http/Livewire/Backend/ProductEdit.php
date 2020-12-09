@@ -3,11 +3,17 @@
 namespace App\Http\Livewire\Backend;
 
 use App\Models\Product;
+use Illuminate\Support\Facades\Storage;
 use Livewire\Component;
+use Livewire\WithFileUploads;
 
 class ProductEdit extends Component
 {
+    use WithFileUploads;
+
     public Product $product;
+
+    public $picture;
 
     protected $rules = [
         'product.name' => 'required',
@@ -16,6 +22,7 @@ class ProductEdit extends Component
         'product.stock_amount' => 'integer|min:0',
         'product.customer_limit' => 'nullable|integer|min:0',
         'product.is_available' => 'boolean',
+        'picture' => 'nullable|image|max:1920',
     ];
 
     public function render()
@@ -27,6 +34,13 @@ class ProductEdit extends Component
     public function submit()
     {
         $this->validate();
+
+        if (isset($this->picture)) {
+            if (isset($this->product->picture)) {
+                Storage::delete($this->product->picture);
+            }
+            $this->product->picture = $this->picture->store('public/pictures');
+        }
 
         $this->product->save();
 

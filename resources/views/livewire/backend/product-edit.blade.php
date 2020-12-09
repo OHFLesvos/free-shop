@@ -41,10 +41,11 @@
         </div>
         <div class="col-md">
             <label for="pictureInput">Picture</label>
-            <div class="custom-file">
+            <div class="custom-file mb-3">
                 <input
                     type="file"
                     class="custom-file-input"
+                    wire:model="picture"
                     accept="image/*"
                     id="pictureInput">
                 <label class="custom-file-label" for="pictureInput">Choose file</label>
@@ -95,8 +96,9 @@
             <button
                 type="submit"
                 class="btn btn-primary"
+                wire:target="submit"
                 wire:loading.attr="disabled">
-                <x-bi-hourglass-split wire:loading/>
+                <x-bi-hourglass-split wire:loading wire:target="submit"/>
                 Save
             </button>
         </div>
