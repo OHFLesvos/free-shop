@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Livewire\Backend\OrderList;
+use App\Http\Livewire\Backend\ProductList;
 use App\Http\Livewire\WelcomePage;
 use Illuminate\Support\Facades\Route;
 
@@ -16,3 +18,14 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', WelcomePage::class)
     ->name('welcome');
+
+Route::redirect('backend', 'backend/orders')
+    ->name('backend');
+Route::prefix('backend')
+    ->name('backend.')
+    ->group(function () {
+        Route::get('orders', OrderList::class)
+            ->name('orders');
+        Route::get('products', ProductList::class)
+            ->name('products');
+    });

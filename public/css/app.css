@@ -10903,15 +10903,6 @@ a.text-dark:focus {
   }
 }
 
-.brand {
-  font-weight: bold;
-  text-decoration: none;
-}
-
-.brand:hover {
-  text-decoration: none;
-}
-
 .container-narrow {
   max-width: 800px;
 }

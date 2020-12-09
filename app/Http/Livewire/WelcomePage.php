@@ -11,7 +11,8 @@ class WelcomePage extends Component
 
     public function mount()
     {
-        $this->products = Product::orderBy('name')->get();
+        $this->products = Product::orderBy('name')
+            ->get();
     }
 
     public function render()

@@ -22,13 +22,13 @@ class OrderFactory extends Factory
     public function definition()
     {
         return [
-
             'customer_name' => $this->faker->name,
             'customer_id_number' => $this->faker->randomNumber(9, true),
             'customer_phone' => $this->faker->e164PhoneNumber,
             'customer_ip_address' => $this->faker->ipv4,
             'customer_user_agent' => $this->faker->userAgent,
             'remarks' => $this->faker->optional(0.2)->text,
+            'created_at' => $this->faker->dateTimeBetween('-1 month', 'now'),
         ];
     }
 }

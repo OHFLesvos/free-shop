@@ -22,6 +22,7 @@ class CreateOrdersTable extends Migration
             $table->string('customer_user_agent');
             $table->text('remarks')->nullable();
             $table->timestamps();
+            $table->timestamp('delivered_at')->nullable();
         });
 
         Schema::create('order_product', function (Blueprint $table) {
