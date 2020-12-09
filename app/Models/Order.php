@@ -27,18 +27,26 @@ class Order extends Model
             ->withPivot('amount');
     }
 
-    public function scopeOpen(Builder $builder)
+    public function scopeOpen(Builder $qry)
     {
-        $builder->whereNull('delivered_at');
+        $qry->whereNull('delivered_at');
     }
 
-    public function scopeDone(Builder $builder)
+    public function scopeDone(Builder $qry)
     {
-        $builder->whereNotNull('delivered_at');
+        $qry->whereNotNull('delivered_at');
+    }
+
+    public function scopeFilter(Builder $qry, string $filter)
+    {
+        $qry->where('customer_name', 'LIKE', '%' . trim($filter) . '%')
+            ->orWhere('customer_id_number', 'LIKE', '%' . trim($filter) . '%')
+            ->orWhere('customer_phone', 'LIKE', '%' . trim(preg_replace("/\s+/", '', $filter)) . '%')
+            ->orWhere('remarks', 'LIKE', '%' . trim($filter) . '%');
     }
 
     public function setCustomerPhoneAttribute($value)
     {
-        $this->attributes['customer_phone'] = preg_replace("/\s+/", "", $value);
+        $this->attributes['customer_phone'] = preg_replace("/\s+/", '', $value);
     }
 }

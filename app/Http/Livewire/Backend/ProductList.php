@@ -3,11 +3,12 @@
 namespace App\Http\Livewire\Backend;
 
 use App\Models\Product;
+use Illuminate\Support\Collection;
 use Livewire\Component;
 
 class ProductList extends Component
 {
-    public $products;
+    public Collection $products;
 
     public function mount()
     {
