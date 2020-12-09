@@ -42,7 +42,7 @@
             </div>
         </div>
         <div class="col-md-4">
-            <div class="card shadow-sm">
+            <div class="card shadow-sm sticky mb-4">
                 <div class="card-header">Your order</div>
                 @if($this->basketContents->isEmpty())
                     <div class="card-body">
