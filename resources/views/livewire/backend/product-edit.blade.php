@@ -63,14 +63,14 @@
             </div>
         </div>
     </div>
-    <div class="form-group form-check">
+    <div class="custom-control custom-checkbox mb-3">
         <input
             type="checkbox"
-            class="form-check-input"
+            class="custom-control-input"
             id="availableInput"
             value="1"
             wire:model.defer="product.available">
-        <label class="form-check-label" for="availableInput">Available</label>
+        <label class="custom-control-label" for="availableInput">Available</label>
     </div>
     <form wire:submit.prevent="submit" class="mb-4">
         <div class="d-flex justify-content-between mb-3">
