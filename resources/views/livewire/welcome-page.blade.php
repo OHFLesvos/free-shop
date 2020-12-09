@@ -62,7 +62,11 @@
                     <div class="card-footer text-right">
                         <button
                             class="btn btn-primary"
-                            wire:click="checkout">Checkout</button>
+                            wire:click="checkout"
+                            wire:loading.attr="disabled" wire:target="checkout">
+                            <x-bi-hourglass-split wire:loading wire:target="checkout"/>
+                            Checkout
+                        </button>
                     </div>
                 @endif
             </div>

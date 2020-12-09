@@ -5,9 +5,21 @@
         </h1>
         <span>
             @if($completed)
-                <button class="btn btn-outline-primary" wire:click="$toggle('completed')">Current orders</button>
+                <button
+                    class="btn btn-outline-primary"
+                    wire:click="$toggle('completed')"
+                    wire:loading.attr="disabled">
+                    <x-bi-hourglass-split wire:loading/>
+                    Current orders
+                </button>
             @else
-                <button class="btn btn-outline-primary" wire:click="$toggle('completed')">Completed orders</button>
+                <button
+                    class="btn btn-outline-primary"
+                    wire:click="$toggle('completed')"
+                    wire:loading.attr="disabled">
+                    <x-bi-hourglass-split wire:loading/>
+                    Completed orders
+                </button>
             @endif
         </span>
     </div>

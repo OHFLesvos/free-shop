@@ -79,8 +79,17 @@
                 </div>
             </div>
             <div class="d-flex justify-content-between">
-                <button class="btn btn-outline-secondary" wire:click="restart">Restart</button>
-                <button type="submit" class="btn btn-primary">Submit</button>
+                <button
+                    class="btn btn-outline-secondary"
+                    wire:click="restart">
+                    Restart
+                </button>
+                <button
+                    type="submit"
+                    class="btn btn-primary">
+                    <x-bi-hourglass-split wire:loading wire:target="submit"/>
+                    Submit
+                </button>
             </div>
         </form>
     @endif

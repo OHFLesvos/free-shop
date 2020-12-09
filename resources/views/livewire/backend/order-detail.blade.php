@@ -18,9 +18,9 @@
             <br>
             <strong>User Agent:</strong> {{ $order->UA->browser() }} {{ $order->UA->browserVersion() }} on {{ $order->UA->platform() }}<br>
         </li>
-        @isset($remarks)
+        @isset($order->remarks)
             <li class="list-group-item">
-                <strong>Remarks:</strong> {{ $order->remarks }}
+                <strong>Remarks:</strong><br>{!! nl2br(e($order->remarks)) !!}
             </li>
         @endisset
     </ul>
@@ -44,7 +44,11 @@
         @else
             <button
                 class="btn btn-primary"
-                wire:click="complete">Mark as completed</button>
+                wire:click="complete"
+                wire:loading.attr="disabled">
+                <x-bi-hourglass-split wire:loading/>
+                Mark as completed
+            </button>
         @endisset
     </div>
 </div>
