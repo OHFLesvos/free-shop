@@ -26,7 +26,7 @@ class OrderList extends Component
             'orders' => Order::query()
                 ->when(filled($this->search), fn ($qry) => $qry->filter(trim($this->search)))
                 ->when($this->completed, fn ($qry) => $qry->completed(),  fn ($qry) => $qry->open())
-                ->orderBy('created_at', 'desc')
+                ->when($this->completed, fn ($qry) => $qry->orderBy('delivered_at', 'desc'), fn ($qry) => $qry->orderBy('created_at', 'desc'))
                 ->get(),
             ])
             ->layout('layouts.backend', ['title' => 'Orders']);
