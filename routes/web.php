@@ -27,6 +27,7 @@ Route::redirect('backend', 'backend/orders')
     ->name('backend');
 Route::prefix('backend')
     ->name('backend.')
+    ->middleware('auth.basic')
     ->group(function () {
         Route::get('orders', OrderList::class)
             ->name('orders');
