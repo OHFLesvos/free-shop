@@ -18,7 +18,7 @@ class CreateProductsTable extends Migration
             $table->string('name');
             $table->string('category');
             $table->text('description')->nullable();
-            $table->unsignedInteger('stock')->default(0);
+            $table->unsignedInteger('stock_amount')->default(0);
             $table->unsignedInteger('customer_limit')->nullable();
             $table->timestamps();
         });

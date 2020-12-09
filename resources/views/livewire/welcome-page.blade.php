@@ -13,20 +13,25 @@
                         <p class="card-text">{{ $product->description }}</p>
                     </div>
                     <div class="card-footer">
-                        <div class="input-group justify-content-end">
-                            <input
-                                type="number"
-                                value="0"
-                                min="0"
-                                style="max-width: 5em"
-                                class="form-control"
-                                placeholder="Amount">
-                            <div class="input-group-append">
-                                <button
-                                    class="btn btn-primary"
-                                    type="button">Add</button>
+                        @if($product->available_for_customer_amount > 0)
+                            <div class="input-group justify-content-end">
+                                <input
+                                    type="number"
+                                    value="0"
+                                    min="0"
+                                    max="{{ $product->available_for_customer_amount }}"
+                                    style="max-width: 5em"
+                                    class="form-control"
+                                    placeholder="Amount">
+                                <div class="input-group-append">
+                                    <button
+                                        class="btn btn-primary"
+                                        type="button">Add</button>
+                                </div>
                             </div>
-                        </div>
+                        @else
+                            <div class="text-right text-danger"><small>Not available</small></div>
+                        @endif
                     </div>
                 </div>
             </div>

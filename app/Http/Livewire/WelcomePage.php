@@ -8,6 +8,7 @@ use Livewire\Component;
 class WelcomePage extends Component
 {
     public $products;
+    public $order = [];
 
     public function mount()
     {

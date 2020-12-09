@@ -26,4 +26,24 @@ class Product extends Model
     {
         return 'https://picsum.photos/seed/' . md5($this->name) . '/' . $width . '/' . $height;
     }
+
+    public function getReservedAmountAttribute()
+    {
+        return $this->orders
+            ->map(fn ($order) => $order->pivot->amount)
+            ->sum();
+    }
+
+    public function getFreeAmountAttribute()
+    {
+        return $this->stock_amount - $this->reserved_amount;
+    }
+
+    public function getAvailableForCustomerAmountAttribute()
+    {
+        if ($this->customer_limit !== null) {
+            return min($this->customer_limit, $this->free_amount);
+        }
+        return $this->free_amount;
+    }
 }

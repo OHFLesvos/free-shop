@@ -5,7 +5,7 @@
             <th>Name</th>
             <th>Category</th>
             <th>Description</th>
-            <th class="text-right">Stock</th>
+            <th class="text-right">Stock<br><small>(Free/Reserved)</small></th>
         </thead>
         <tbody>
             @foreach($products as $product)
@@ -13,7 +13,10 @@
                     <td>{{ $product->name }}</td>
                     <td>{{ $product->category }}</td>
                     <td>{{ $product->description }}</td>
-                    <td class="text-right">{{ $product->stock }}</td>
+                    <td class="text-right">
+                        {{ $product->stock_amount }}<br>
+                        <small>{{ $product->free_amount }} / {{ $product->reserved_amount }}</small>
+                    </td>
                 </tr>
             @endforeach
         </tbody>
