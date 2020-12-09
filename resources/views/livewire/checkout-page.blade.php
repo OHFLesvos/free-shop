@@ -79,6 +79,7 @@
             </div>
             <div class="d-flex justify-content-between">
                 <button
+                    type="button"
                     class="btn btn-outline-secondary"
                     wire:click="restart">
                     Restart

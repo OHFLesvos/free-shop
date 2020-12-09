@@ -54,17 +54,46 @@
             <div wire:loading wire:target="picture">Uploading...</div>
             <div wire:loading.remove wire:target="picture">
             @if($picture)
-                <img
-                    src="{{ $picture->temporaryUrl() }}"
-                    alt="Preview"
-                    class="mb-3"
-                    style="max-width: 300px; max-height: 150px">
+                <div class="mb-3">
+                    <img
+                        src="{{ $picture->temporaryUrl() }}"
+                        alt="Preview"
+                        class="mb-3"
+                        style="max-width: 300px; max-height: 150px">
+                    <br>
+                    <button
+                        type="button"
+                        class="btn btn-outline-danger btn-sm"
+                        wire:click="$set('picture', null)">
+                        Cancel
+                    </button>
+                </div>
             @elseif(isset($product->pictureUrl))
-                <img
-                    src="{{ $product->pictureUrl }}"
-                    alt="Preview"
-                    class="mb-3"
-                    style="max-width: 300px; max-height: 150px">
+                @unless($removePicture)
+                    <div class="mb-3">
+                        <img
+                            src="{{ $product->pictureUrl }}"
+                            alt="Preview"
+                            class="mb-2"
+                            style="max-width: 300px; max-height: 150px">
+                        <br>
+                        <button
+                            type="button"
+                            class="btn btn-outline-danger btn-sm"
+                            wire:click="$toggle('removePicture')">
+                            Remove
+                        </button>
+                    </div>
+                @else
+                    <p>Picture will be removed.
+                        <button
+                            type="button"
+                            class="btn btn-outline-primary btn-sm"
+                            wire:click="$toggle('removePicture')">
+                            Undo
+                        </button>
+                    </p>
+                @endunless
             @endif
             </div>
         </div>
@@ -110,14 +139,27 @@
             <a
                 href="{{ route('backend.products') }}"
                 class="btn btn-outline-primary">Back to products</a>
-            <button
-                type="submit"
-                class="btn btn-primary"
-                wire:target="submit"
-                wire:loading.attr="disabled">
-                <x-bi-hourglass-split wire:loading wire:target="submit"/>
-                Save
-            </button>
+            <span>
+                @if($product->orders->isEmpty())
+                    <button
+                        type="button"
+                        class="btn btn-outline-danger"
+                        wire:target="delete"
+                        wire:remove.attr="disabled"
+                        wire:click="delete">
+                        <x-bi-hourglass-split wire:loading wire:target="delete"/>
+                        Delete
+                    </button>
+                @endif
+                <button
+                    type="submit"
+                    class="btn btn-primary"
+                    wire:target="submit"
+                    wire:loading.attr="disabled">
+                    <x-bi-hourglass-split wire:loading wire:target="submit"/>
+                    Save
+                </button>
+            </span>
         </div>
     </form>
 </div>

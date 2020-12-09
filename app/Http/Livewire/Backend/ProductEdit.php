@@ -15,6 +15,8 @@ class ProductEdit extends Component
 
     public $picture;
 
+    public bool $removePicture = false;
+
     protected $rules = [
         'product.name' => 'required',
         'product.category' => 'required',
@@ -34,7 +36,7 @@ class ProductEdit extends Component
     public function updatedPicture()
     {
         $this->validate([
-            'picture' => 'image|max:4096',
+            'picture' => 'nullable|image|max:4096',
         ]);
     }
 
@@ -42,14 +44,31 @@ class ProductEdit extends Component
     {
         $this->validate();
 
+        if (isset($this->product->picture) && ($this->removePicture || isset($this->picture))) {
+            $this->product->picture = null;
+            Storage::delete($this->product->picture);
+        }
+
         if (isset($this->picture)) {
-            if (isset($this->product->picture)) {
-                Storage::delete($this->product->picture);
-            }
             $this->product->picture = $this->picture->store('public/pictures');
         }
 
         $this->product->save();
+
+        return redirect()->route('backend.products');
+    }
+
+    public function delete()
+    {
+        if ($this->product->orders->isNotEmpty()) {
+            return;
+        }
+
+        if (isset($this->product->picture)) {
+            Storage::delete($this->product->picture);
+        }
+
+        $this->product->delete();
 
         return redirect()->route('backend.products');
     }
