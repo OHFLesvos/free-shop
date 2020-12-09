@@ -2,6 +2,7 @@
 
 use App\Http\Livewire\Backend\OrderDetail;
 use App\Http\Livewire\Backend\OrderList;
+use App\Http\Livewire\Backend\ProductCreate;
 use App\Http\Livewire\Backend\ProductEdit;
 use App\Http\Livewire\Backend\ProductList;
 use App\Http\Livewire\CheckoutPage;
@@ -36,6 +37,8 @@ Route::prefix('backend')
             ->name('orders.show');
         Route::get('products', ProductList::class)
             ->name('products');
+        Route::get('products/_create', ProductCreate::class)
+            ->name('products.create');
         Route::get('products/{product}/edit', ProductEdit::class)
             ->name('products.edit');
     });

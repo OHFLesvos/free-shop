@@ -1,23 +1,28 @@
 <div>
     <div class="d-md-flex justify-content-between align-items-center mb-2">
         <h1>Products</h1>
-        <div class="btn-group" role="group">
-            <button
-                type="button"
-                class="btn @if($state == 'all') btn-primary @else btn-outline-primary @endif"
-                wire:click="$set('state', 'all')"
-                wire:loading.attr="disabled">All</button>
-            <button
-                type="button"
-                class="btn @if($state == 'available') btn-primary @else btn-outline-primary @endif"
-                wire:click="$set('state', 'available')"
-                wire:loading.attr="disabled">Available</button>
-            <button
-                type="button"
-                class="btn @if($state == 'disabled') btn-primary @else btn-outline-primary @endif"
-                wire:click="$set('state', 'disabled')"
-                wire:loading.attr="disabled">Disabled</button>
-        </div>
+        <span>
+            <a
+                href="{{ route('backend.products.create') }}"
+                class="btn btn-primary">Register</a>
+            <div class="btn-group" role="group">
+                <button
+                    type="button"
+                    class="btn @if($state == 'all') btn-primary @else btn-outline-primary @endif"
+                    wire:click="$set('state', 'all')"
+                    wire:loading.attr="disabled">All</button>
+                <button
+                    type="button"
+                    class="btn @if($state == 'available') btn-primary @else btn-outline-primary @endif"
+                    wire:click="$set('state', 'available')"
+                    wire:loading.attr="disabled">Available</button>
+                <button
+                    type="button"
+                    class="btn @if($state == 'disabled') btn-primary @else btn-outline-primary @endif"
+                    wire:click="$set('state', 'disabled')"
+                    wire:loading.attr="disabled">Disabled</button>
+            </div>
+        </span>
     </div>
     <div class="table-responsive">
         <table class="table table-bordered table-hover shadow-sm">

@@ -1,5 +1,11 @@
 <div>
-    <h1 class="mb-3">Edit Product {{ $product->name }}</h1>
+    <h1 class="mb-3">
+        @if($product->exists)
+            Edit Product
+        @else
+            Register Product
+        @endif
+    </h1>
     <div class="form-row">
         <div class="col-md">
             <div class="form-group">
@@ -9,6 +15,7 @@
                     class="form-control @error('product.name') is-invalid @enderror"
                     id="inputName"
                     required
+                    @unless($product->exists) autofocus @endunless
                     wire:model.defer="product.name">
                 @error('product.name') <div class="invalid-feedback">{{ $message }}</div> @enderror
             </div>
@@ -140,7 +147,7 @@
                 href="{{ route('backend.products') }}"
                 class="btn btn-outline-primary">Back to products</a>
             <span>
-                @if($product->orders->isEmpty())
+                @if($product->exists && $product->orders->isEmpty())
                     <button
                         type="button"
                         class="btn btn-outline-danger"

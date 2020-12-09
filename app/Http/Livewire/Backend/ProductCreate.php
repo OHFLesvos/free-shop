@@ -3,11 +3,10 @@
 namespace App\Http\Livewire\Backend;
 
 use App\Models\Product;
-use Illuminate\Support\Facades\Storage;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 
-class ProductEdit extends Component
+class ProductCreate extends Component
 {
     use WithFileUploads;
 
@@ -15,7 +14,7 @@ class ProductEdit extends Component
 
     public $picture;
 
-    public bool $removePicture = false;
+    // public bool $removePicture = false;
 
     protected $rules = [
         'product.name' => 'required',
@@ -27,10 +26,16 @@ class ProductEdit extends Component
         'picture' => 'nullable|image|max:4096',
     ];
 
+    public function mount()
+    {
+        $this->product = new Product();
+        $this->product->is_available = true;
+    }
+
     public function render()
     {
         return view('livewire.backend.product-form')
-            ->layout('layouts.backend', ['title' => 'Edit Product ' . $this->product->name]);
+            ->layout('layouts.backend', ['title' => 'Register Product ']);
     }
 
     public function updatedPicture()
@@ -44,31 +49,11 @@ class ProductEdit extends Component
     {
         $this->validate();
 
-        if (isset($this->product->picture) && ($this->removePicture || isset($this->picture))) {
-            $this->product->picture = null;
-            Storage::delete($this->product->picture);
-        }
-
         if (isset($this->picture)) {
             $this->product->picture = $this->picture->store('public/pictures');
         }
 
         $this->product->save();
-
-        return redirect()->route('backend.products');
-    }
-
-    public function delete()
-    {
-        if ($this->product->orders->isNotEmpty()) {
-            return;
-        }
-
-        if (isset($this->product->picture)) {
-            Storage::delete($this->product->picture);
-        }
-
-        $this->product->delete();
 
         return redirect()->route('backend.products');
     }
