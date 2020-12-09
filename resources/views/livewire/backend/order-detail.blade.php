@@ -10,9 +10,13 @@
             @endisset
         </li>
         <li class="list-group-item">
-            <strong>Name:</strong> {{ $order->customer_name }}<br>
-            <strong>ID Number:</strong> {{ $order->customer_id_number }}<br>
-            <strong>Phone:</strong> <a href="tel:{{ $order->customer_phone }}">{{ $order->customer_phone }}</a>
+            <strong>Name:</strong>
+            {{ $order->customer_name }}<br>
+            <strong>ID Number:</strong>
+            {{ $order->customer_id_number }}<br>
+            <strong>Phone:</strong>
+            <a href="tel:{{ $order->customer_phone }}">{{ $order->customer_phone }}</a><br>
+            {!! whatsapp_link($order->customer_phone, 'Open in WhatsApp', 'Hello '.$order->customer_name) !!}
         </li>
         <li class="list-group-item">
             <strong>IP Address:</strong> {{ $order->customer_ip_address }}
