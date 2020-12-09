@@ -33,7 +33,7 @@
     </div>
     <div class="table-responsive">
         <table class="table table-bordered table-hover shadow-sm">
-            <caption>{{ $orders->count() }} orders found</caption>
+            <caption>{{ $orders->total() }} orders found</caption>
             <thead>
                 <th>ID</th>
                 <th>Date</th>
@@ -74,4 +74,5 @@
             </tbody>
         </table>
     </div>
+    {{ $orders->links() }}
 </div>
