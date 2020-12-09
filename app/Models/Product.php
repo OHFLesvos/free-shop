@@ -52,4 +52,9 @@ class Product extends Model
     {
         $qry->where('is_available', true);
     }
+
+    public function scopeDisabled(Builder $qry)
+    {
+        $qry->where('is_available', false);
+    }
 }

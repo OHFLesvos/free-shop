@@ -1,5 +1,5 @@
 <div>
-    <div class="d-flex justify-content-between align-items-center mb-2">
+    <div class="d-md-flex justify-content-between align-items-center mb-2">
         <h1>
             @if($completed)Completed orders @else Orders @endif
         </h1>

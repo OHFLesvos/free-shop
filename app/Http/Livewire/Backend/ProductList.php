@@ -3,23 +3,28 @@
 namespace App\Http\Livewire\Backend;
 
 use App\Models\Product;
-use Illuminate\Support\Collection;
 use Livewire\Component;
 
 class ProductList extends Component
 {
-    public Collection $products;
+    public string $state;
 
     public function mount()
     {
-        $this->products = Product::query()
-            ->orderBy('name')
-            ->get();
+        $this->state = session()->get('products.state', 'all');
     }
 
     public function render()
     {
-        return view('livewire.backend.product-list')
+        session()->put('products.state', $this->state);
+
+        return view('livewire.backend.product-list', [
+            'products' => Product::query()
+                ->when($this->state == 'available', fn ($qry) => $qry->available())
+                ->when($this->state == 'disabled', fn ($qry) => $qry->disabled())
+                ->orderBy('name')
+                ->get(),
+            ])
             ->layout('layouts.backend', ['title' => 'Products']);
     }
 
