@@ -63,6 +63,15 @@
             </div>
         </div>
     </div>
+    <div class="form-group form-check">
+        <input
+            type="checkbox"
+            class="form-check-input"
+            id="availableInput"
+            value="1"
+            wire:model.defer="product.available">
+        <label class="form-check-label" for="availableInput">Available</label>
+    </div>
     <form wire:submit.prevent="submit" class="mb-4">
         <div class="d-flex justify-content-between mb-3">
             <a

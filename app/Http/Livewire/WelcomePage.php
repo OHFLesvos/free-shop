@@ -13,7 +13,9 @@ class WelcomePage extends Component
 
     public function mount()
     {
-        $this->products = Product::orderBy('name')
+        $this->products = Product::query()
+            ->available()
+            ->orderBy('name')
             ->get();
         $savedBasket = session()->get('basket', []);
         $this->basket = $this->products

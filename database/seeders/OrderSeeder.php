@@ -17,7 +17,7 @@ class OrderSeeder extends Seeder
     {
         $products = Product::all();
         Order::factory()
-            ->count(25)
+            ->count(35)
             ->create()
             ->each(function ($order) use ($products) {
                 $products->filter(fn ($product) => $product->available_for_customer_amount > 0)

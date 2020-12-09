@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Dyrynda\Database\Support\NullableFields;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -45,5 +46,10 @@ class Product extends Model
             return min($this->customer_limit, $this->free_amount);
         }
         return $this->free_amount;
+    }
+
+    public function scopeAvailable(Builder $qry)
+    {
+        $qry->where('available', true);
     }
 }

@@ -15,6 +15,7 @@ class ProductEdit extends Component
         'product.description' => 'nullable',
         'product.stock_amount' => 'integer|min:0',
         'product.customer_limit' => 'nullable|integer|min:0',
+        'product.available' => 'boolean',
     ];
 
     public function render()
