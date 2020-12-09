@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use donatj\UserAgent\UserAgentParser;
 use Dyrynda\Database\Support\NullableFields;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -51,7 +52,7 @@ class Order extends Model
         $this->attributes['customer_phone'] = preg_replace("/\s+/", '', $value);
     }
 
-    public function getUserAgentInfoAttribute()
+    public function getUAAttribute()
     {
         $parser = new UserAgentParser();
         return $parser->parse($this->customer_user_agent);
@@ -60,8 +61,8 @@ class Order extends Model
         // $ua->browserVersion();
     }
 
-    public function getGeoIpAttribute()
+    public function getGeoIpLocationAttribute()
     {
-        return geoip($this->user_ip_address);
+        return geoip()->getLocation($this->user_ip_address);
     }
 }

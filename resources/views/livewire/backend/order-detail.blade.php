@@ -11,8 +11,12 @@
             <strong>Phone:</strong> <a href="tel:{{ $order->customer_phone }}">{{ $order->customer_phone }}</a>
         </li>
         <li class="list-group-item">
-            <strong>IP Address:</strong> {{ $order->customer_ip_address }}<br>
-            <strong>User Agent:</strong> {{ $order->customer_user_agent }}<br>
+            <strong>IP Address:</strong> {{ $order->customer_ip_address }}
+            @if(!$order->geoIpLocation->default)
+            ({{ $order->geoIpLocation->city }}, @isset($order->geoIpLocation->state){{ $order->geoIpLocation->state }},@endisset {{ $order->geoIpLocation->country }})
+            @endif
+            <br>
+            <strong>User Agent:</strong> {{ $order->UA->browser() }} {{ $order->UA->browserVersion() }} on {{ $order->UA->platform() }}<br>
         </li>
         @isset($remarks)
             <li class="list-group-item">
@@ -26,12 +30,11 @@
                 <tr>
                     <td class="fit"><img src="{{ $product->imageUrl(100, 75) }}" alt="Product Image"/></td>
                     <td>{{ $product->name }}<br><small>{{ $product->category }}</small></td>
-                    <td class="fit text-right"><strong>{{ $product->pivot->amount }}</strong></td>
+                    <td class="fit text-right"><strong><big>{{ $product->pivot->amount }}</big></strong></td>
                 </tr>
             @endforeach
         </tbody>
     </table>
-
     <div class="d-flex justify-content-between mb-3">
         <a
             href="{{ route('backend.orders') }}"
