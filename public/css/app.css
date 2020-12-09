@@ -10914,3 +10914,13 @@ div.sticky {
   top: 20px;
 }
 
+.table td.fit,
+.table th.fit {
+  white-space: nowrap;
+  width: 1%;
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
+

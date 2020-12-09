@@ -1,13 +1,13 @@
 <div>
     <div class="d-flex justify-content-between align-items-center mb-2">
         <h1>
-            @if($past)Past orders @else Orders @endif
+            @if($completed)Completed orders @else Orders @endif
         </h1>
         <span>
-            @if($past)
-                <button class="btn btn-outline-primary" wire:click="$toggle('past')">Current orders</button>
+            @if($completed)
+                <button class="btn btn-outline-primary" wire:click="$toggle('completed')">Current orders</button>
             @else
-                <button class="btn btn-outline-primary" wire:click="$toggle('past')">Past orders</button>
+                <button class="btn btn-outline-primary" wire:click="$toggle('completed')">Completed orders</button>
             @endif
         </span>
     </div>
@@ -20,16 +20,18 @@
             class="form-control" />
     </div>
     <div class="table-responsive">
-        <table class="table table-bordered">
+        <table class="table table-bordered table-hover shadow-sm">
+            <caption>{{ $orders->count() }} orders found</caption>
             <thead>
+                <th>ID</th>
                 <th>Date</th>
                 <th>Customer</th>
                 <th>Products</th>
-                <th>Remarks</th>
             </thead>
             <tbody>
                 @forelse($orders as $order)
-                    <tr>
+                    <tr class="cursor-pointer" wire:click="showOrder({{ $order->id }})">
+                        <td>{{ $order->id }}</td>
                         <td>
                             {{ $order->created_at->isoFormat('LLLL') }}<br>
                             <small>{{ $order->created_at->diffForHumans() }}</small>
@@ -37,14 +39,13 @@
                         <td>
                             <strong>Name:</strong> {{ $order->customer_name }}<br>
                             <strong>ID Number:</strong> {{ $order->customer_id_number }}<br>
-                            <strong>Phone:</strong> <a href="tel:{{ $order->customer_phone }}">{{ $order->customer_phone }}</a>
+                            <strong>Phone:</strong> {{ $order->customer_phone }}
                         </td>
                         <td>
                             @foreach($order->products as $product)
                                 <strong>{{ $product->pivot->amount }}</strong> {{ $product->name }}<br>
                             @endforeach
                         </td>
-                        <td style="max-width: 20em">{{ $order->remarks }}</td>
                     </tr>
                 @empty
                     <tr>

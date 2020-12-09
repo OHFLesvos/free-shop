@@ -10,13 +10,15 @@
     "require": {
         "php": "^7.3|^8.0",
         "davidhsianturi/blade-bootstrap-icons": "^0.5.0",
+        "donatj/phpuseragentparser": "^1.1",
         "dyrynda/laravel-nullable-fields": "^4.1",
         "fideloper/proxy": "^4.4",
         "fruitcake/laravel-cors": "^2.0",
         "guzzlehttp/guzzle": "^7.0.1",
         "laravel/framework": "^8.12",
         "laravel/tinker": "^2.5",
-        "livewire/livewire": "^2.3"
+        "livewire/livewire": "^2.3",
+        "torann/geoip": "^3.0"
     },
     "require-dev": {
         "facade/ignition": "^2.5",

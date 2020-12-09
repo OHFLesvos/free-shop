@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Livewire\Backend\OrderDetail;
 use App\Http\Livewire\Backend\OrderList;
 use App\Http\Livewire\Backend\ProductList;
 use App\Http\Livewire\CheckoutPage;
@@ -29,6 +30,8 @@ Route::prefix('backend')
     ->group(function () {
         Route::get('orders', OrderList::class)
             ->name('orders');
+        Route::get('orders/{order}', OrderDetail::class)
+            ->name('orders.show');
         Route::get('products', ProductList::class)
             ->name('products');
     });
