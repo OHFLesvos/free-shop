@@ -12,7 +12,7 @@ class OrderDetail extends Component
     public function render()
     {
         return view('livewire.backend.order-detail')
-            ->layout('layouts.backend', ['title' => 'Order details']);;
+            ->layout('layouts.backend', ['title' => 'Order #' . $this->order->id]);
     }
 
     public function complete()

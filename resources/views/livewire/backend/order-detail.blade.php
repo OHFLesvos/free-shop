@@ -42,7 +42,7 @@
     <div class="d-flex justify-content-between mb-3">
         <a
             href="{{ route('backend.orders') }}"
-            class="btn btn-outline-primary">Back to overview</a>
+            class="btn btn-outline-primary">Back to orders</a>
         @isset($order->completed_at)
             Completed
         @else

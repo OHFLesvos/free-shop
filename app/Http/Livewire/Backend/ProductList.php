@@ -22,4 +22,9 @@ class ProductList extends Component
         return view('livewire.backend.product-list')
             ->layout('layouts.backend', ['title' => 'Products']);
     }
+
+    public function editProduct($id)
+    {
+        return redirect()->route('backend.products.edit', $id);
+    }
 }

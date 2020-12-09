@@ -8,10 +8,11 @@
                 <th>Category</th>
                 <th>Description</th>
                 <th class="text-right">Stock<br><small>(Free/Reserved)</small></th>
+                <th class="text-right">Limit</th>
             </thead>
             <tbody>
                 @foreach($products as $product)
-                    <tr class="cursor-pointer">
+                    <tr class="cursor-pointer" wire:click="editProduct({{ $product->id }})">
                         <td>{{ $product->name }}</td>
                         <td>{{ $product->category }}</td>
                         <td>{{ $product->description }}</td>
@@ -19,6 +20,7 @@
                             {{ $product->stock_amount }}<br>
                             <small>{{ $product->free_amount }} / {{ $product->reserved_amount }}</small>
                         </td>
+                        <td class="text-right">{{ $product->customer_limit }}</td>
                     </tr>
                 @endforeach
             </tbody>
