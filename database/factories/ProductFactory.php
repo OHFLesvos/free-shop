@@ -27,7 +27,7 @@ class ProductFactory extends Factory
             'description' => $this->faker->optional(0.9)->text,
             'stock_amount' => $this->faker->numberBetween(0, 1000),
             'customer_limit' => $this->faker->optional(0.2)->numberBetween(0, 10),
-            'available' => $this->faker->boolean(80),
+            'is_available' => $this->faker->boolean(80),
         ];
     }
 }

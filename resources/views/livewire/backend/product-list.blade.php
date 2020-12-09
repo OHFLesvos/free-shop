@@ -12,7 +12,7 @@
             </thead>
             <tbody>
                 @foreach($products as $product)
-                    <tr class="cursor-pointer @if(!$product->available) table-dark text-dark @endif" wire:click="editProduct({{ $product->id }})">
+                    <tr class="cursor-pointer @if(!$product->is_available) table-dark text-dark @endif" wire:click="editProduct({{ $product->id }})">
                         <td>{{ $product->name }}</td>
                         <td>{{ $product->category }}</td>
                         <td>{{ $product->description }}</td>

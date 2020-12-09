@@ -67,10 +67,10 @@
         <input
             type="checkbox"
             class="custom-control-input"
-            id="availableInput"
+            id="isAvailableInput"
             value="1"
-            wire:model.defer="product.available">
-        <label class="custom-control-label" for="availableInput">Available</label>
+            wire:model.defer="product.is_available">
+        <label class="custom-control-label" for="isAvailableInput">Available</label>
     </div>
     <form wire:submit.prevent="submit" class="mb-4">
         <div class="d-flex justify-content-between mb-3">

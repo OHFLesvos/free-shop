@@ -50,6 +50,6 @@ class Product extends Model
 
     public function scopeAvailable(Builder $qry)
     {
-        $qry->where('available', true);
+        $qry->where('is_available', true);
     }
 }
