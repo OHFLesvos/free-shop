@@ -14,8 +14,10 @@
                 <a class="brand" href="{{ route('welcome') }}">{{ config('app.name') }}</a>
             </div>
         </header>
-        <main class="app-main container">
-            {{ $slot }}
+        <main class="app-main">
+            <div class="container">
+                {{ $slot }}
+            </div>
         </main>
         <script src="{{ mix('js/app.js') }}" defer></script>
         @livewireScripts

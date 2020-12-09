@@ -10912,3 +10912,7 @@ a.text-dark:focus {
   text-decoration: none;
 }
 
+.container {
+  max-width: 700px;
+}
+
