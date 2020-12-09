@@ -22,13 +22,20 @@ class ProductEdit extends Component
         'product.stock_amount' => 'integer|min:0',
         'product.customer_limit' => 'nullable|integer|min:0',
         'product.is_available' => 'boolean',
-        'picture' => 'nullable|image|max:1920',
+        'picture' => 'nullable|image|max:4096',
     ];
 
     public function render()
     {
         return view('livewire.backend.product-edit')
             ->layout('layouts.backend', ['title' => 'Edit Product ' . $this->product->name]);
+    }
+
+    public function updatedPicture()
+    {
+        $this->validate([
+            'picture' => 'image|max:4096',
+        ]);
     }
 
     public function submit()

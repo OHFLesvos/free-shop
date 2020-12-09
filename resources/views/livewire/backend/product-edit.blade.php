@@ -50,6 +50,23 @@
                     id="pictureInput">
                 <label class="custom-file-label" for="pictureInput">Choose file</label>
             </div>
+            @error('picture') <span class="text-error">{{ $message }}</span> @enderror
+            <div wire:loading wire:target="picture">Uploading...</div>
+            <div wire:loading.remove wire:target="picture">
+            @if($picture)
+                <img
+                    src="{{ $picture->temporaryUrl() }}"
+                    alt="Preview"
+                    class="mb-3"
+                    style="max-width: 300px; max-height: 150px">
+            @elseif(isset($product->pictureUrl))
+                <img
+                    src="{{ $product->pictureUrl }}"
+                    alt="Preview"
+                    class="mb-3"
+                    style="max-width: 300px; max-height: 150px">
+            @endif
+            </div>
         </div>
     </div>
     <div class="form-row">
