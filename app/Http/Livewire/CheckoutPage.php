@@ -3,12 +3,15 @@
 namespace App\Http\Livewire;
 
 use App\Models\Order;
+use App\Models\Product;
 use Illuminate\Http\Request;
 use Livewire\Component;
 
 class CheckoutPage extends Component
 {
     public Order $order;
+    public array $basket;
+    public bool $submitted = false;
 
     protected $rules = [
         'order.customer_name' => 'required',
@@ -26,6 +29,11 @@ class CheckoutPage extends Component
 
     public function mount()
     {
+        $this->basket = session()->get('basket', []);
+        if (count($this->basket) == 0) {
+            return redirect()->route('welcome');
+        }
+
         $this->order = new Order();
     }
 
@@ -41,7 +49,33 @@ class CheckoutPage extends Component
 
         $this->order->customer_ip_address = $request->ip();
         $this->order->customer_user_agent = $request->server('HTTP_USER_AGENT');
+        $this->order->save();
 
-        dump($this->order);
+        collect($this->basket)
+            ->filter(fn ($amount) => $amount > 0)
+            ->each(function ($amount, $id) {
+                $this->order->products()->attach($id, ['amount' => $amount]);
+            });
+
+        $this->submitted = true;
+
+        session()->forget('basket');
+    }
+
+    public function restart()
+    {
+        session()->forget('basket');
+
+        return redirect()->route('welcome');
+    }
+
+    public function getBasketContentsProperty()
+    {
+        return collect($this->basket)
+            ->filter(fn ($amount) => $amount > 0)
+            ->map(fn ($amount, $id) => [
+                'name' => Product::where('id', $id)->first()->name,
+                'amount' => $amount,
+            ]);
     }
 }

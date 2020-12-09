@@ -36,4 +36,9 @@ class Order extends Model
     {
         $builder->whereNotNull('delivered_at');
     }
+
+    public function setCustomerPhoneAttribute($value)
+    {
+        $this->attributes['customer_phone'] = preg_replace("/\s+/", "", $value);
+    }
 }
