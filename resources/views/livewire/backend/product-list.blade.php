@@ -1,5 +1,5 @@
 <div>
-    <h1>Products</h1>
+    <h1 class="mb-3">Products</h1>
     <div class="table-responsive">
         <table class="table table-bordered">
             <thead>

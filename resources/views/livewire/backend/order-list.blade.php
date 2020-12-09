@@ -1,5 +1,16 @@
 <div>
-    <h1>Orders</h1>
+    <div class="d-flex justify-content-between align-items-center mb-2">
+        <h1>
+            @if($past)Past orders @else Orders @endif
+        </h1>
+        <span>
+            @if($past)
+                <button class="btn btn-outline-primary" wire:click="$toggle('past')">Current orders</button>
+            @else
+                <button class="btn btn-outline-primary" wire:click="$toggle('past')">Past orders</button>
+            @endif
+        </span>
+    </div>
     <div class="form-group">
         <input
             type="search"

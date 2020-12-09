@@ -32,7 +32,7 @@ class Order extends Model
         $qry->whereNull('delivered_at');
     }
 
-    public function scopeDone(Builder $qry)
+    public function scopePast(Builder $qry)
     {
         $qry->whereNotNull('delivered_at');
     }
