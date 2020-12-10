@@ -3,6 +3,7 @@
 namespace App\Http\Livewire\Backend;
 
 use App\Models\Product;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Storage;
 use Livewire\Component;
 use Livewire\WithFileUploads;
@@ -15,6 +16,8 @@ class ProductEdit extends Component
 
     public $picture;
 
+    public Collection $categories;
+
     public bool $removePicture = false;
 
     protected $rules = [
@@ -26,6 +29,16 @@ class ProductEdit extends Component
         'product.is_available' => 'boolean',
         'picture' => 'nullable|image|max:4096',
     ];
+
+    public function mount()
+    {
+        $this->categories = Product::query()
+            ->groupBy('category')
+            ->select('category')
+            ->orderBy('category')
+            ->get()
+            ->pluck('category');
+    }
 
     public function render()
     {

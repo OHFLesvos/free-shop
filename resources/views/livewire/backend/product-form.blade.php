@@ -31,8 +31,14 @@
                         id="inputCategory"
                         required
                         autocomplete="off"
+                        list="categories"
                         wire:model.defer="product.category">
                     @error('product.category') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                    <datalist id="categories">
+                        @foreach($categories as $category)
+                            <option value="{{ $category }}"/>
+                        @endforeach
+                    </datalist>
                 </div>
             </div>
         </div>

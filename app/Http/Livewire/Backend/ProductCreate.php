@@ -3,6 +3,7 @@
 namespace App\Http\Livewire\Backend;
 
 use App\Models\Product;
+use Illuminate\Support\Collection;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 
@@ -11,6 +12,8 @@ class ProductCreate extends Component
     use WithFileUploads;
 
     public Product $product;
+
+    public Collection $categories;
 
     public $picture;
 
@@ -30,6 +33,12 @@ class ProductCreate extends Component
     {
         $this->product = new Product();
         $this->product->is_available = true;
+        $this->categories = Product::query()
+            ->groupBy('category')
+            ->select('category')
+            ->orderBy('category')
+            ->get()
+            ->pluck('category');
     }
 
     public function render()
