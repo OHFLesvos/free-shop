@@ -7,6 +7,7 @@ use Dyrynda\Database\Support\NullableFields;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class Order extends Model
 {
@@ -42,9 +43,14 @@ class Order extends Model
     {
         $qry->where('id', $filter)
             ->orWhere('customer_name', 'LIKE', '%' . $filter . '%')
-            ->orWhere('customer_id_number', $filter)
-            ->orWhere('customer_phone', preg_replace("/\s+/", '', $filter))
+            ->orWhere(fn ($inner) => $inner->whereNumberCompare('customer_id_number', $filter))
+            ->orWhere(fn ($inner) => $inner->whereNumberCompare('customer_phone', $filter))
             ->orWhere('remarks', 'LIKE', '%' . $filter . '%');
+    }
+
+    public function scopeWhereNumberCompare(Builder $qry, string $field, string $value)
+    {
+        $qry->where(DB::raw('TRIM(LEADING \'0\' FROM (REGEXP_REPLACE(' . $field . ', \'[^0-9]+\', \'\')))'), ltrim(preg_replace('/[^0-9]/', '', $value), '0'));
     }
 
     public function setCustomerPhoneAttribute($value)
@@ -56,9 +62,6 @@ class Order extends Model
     {
         $parser = new UserAgentParser();
         return $parser->parse($this->customer_user_agent);
-        // $ua->platform();
-        // $ua->browser();
-        // $ua->browserVersion();
     }
 
     public function getGeoIpLocationAttribute()

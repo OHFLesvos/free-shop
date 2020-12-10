@@ -19,11 +19,19 @@
                     <ul class="navbar-nav mr-auto">
                         @php
                             $items = [
+                                [
+                                    'label' => 'Shop',
+                                    'route' => 'welcome',
+                                ],
+                                [
+                                    'label' => 'Find your order',
+                                    'route' => 'lookup',
+                                ],
                             ];
                         @endphp
                         @foreach ($items as $item)
                             @php
-                                $active = Request::route()->getName() == $item['route'];
+                                $active = Str::of(Request::route()->getName())->startsWith($item['route']);
                             @endphp
                             <li class="nav-item @if($active) active @endif">
                                 <a class="nav-link" href="{{ route($item['route']) }}">{{ $item['label'] }}@if($active)<span class="sr-only">(current)</span>@endif</a>

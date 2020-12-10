@@ -46,8 +46,10 @@
                         <td>{{ $order->id }}</td>
                         <td>
                             @isset($order->completed_at)
-                                {{ $order->completed_at->isoFormat('LLLL') }}<br>
-                                <small>{{ $order->completed_at->diffForHumans() }}</small>
+                                <span class="text-success">
+                                    {{ $order->completed_at->isoFormat('LLLL') }}<br>
+                                    <small>{{ $order->completed_at->diffForHumans() }}</small>
+                                </span>
                             @else
                                 {{ $order->created_at->isoFormat('LLLL') }}<br>
                                 <small>{{ $order->created_at->diffForHumans() }}</small>

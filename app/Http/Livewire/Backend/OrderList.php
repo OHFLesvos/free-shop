@@ -29,8 +29,8 @@ class OrderList extends Component
 
         return view('livewire.backend.order-list', [
             'orders' => Order::query()
-                ->when(filled($this->search), fn ($qry) => $qry->filter(trim($this->search)))
                 ->when($this->completed, fn ($qry) => $qry->completed(),  fn ($qry) => $qry->open())
+                ->when(filled($this->search), fn ($qry) => $qry->filter(trim($this->search)))
                 ->when($this->completed, fn ($qry) => $qry->orderBy('completed_at', 'desc'), fn ($qry) => $qry->orderBy('created_at', 'desc'))
                 ->paginate(10),
             ])

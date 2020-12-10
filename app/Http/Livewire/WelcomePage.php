@@ -32,6 +32,7 @@ class WelcomePage extends Component
     public function getBasketContentsProperty()
     {
         return collect($this->basket)
+            ->map(fn ($amount) => ltrim(preg_replace('/[^0-9]/', '', $amount), '0'))
             ->filter(fn ($amount) => $amount > 0)
             ->map(fn ($amount, $id) => [
                 'name' => $this->products->where('id', $id)->first()->name,
@@ -42,6 +43,7 @@ class WelcomePage extends Component
     public function checkout()
     {
         session()->put('basket', collect($this->basket)
+            ->map(fn ($amount) => ltrim(preg_replace('/[^0-9]/', '', $amount), '0'))
             ->filter(fn ($amount) => $amount > 0)
             ->toArray());
 
