@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire;
 
+use App\Events\OrderSubmitted;
 use App\Models\Order;
 use App\Models\Product;
 use Illuminate\Http\Request;
@@ -56,6 +57,8 @@ class CheckoutPage extends Component
             ->each(function ($amount, $id) {
                 $this->order->products()->attach($id, ['amount' => $amount]);
             });
+
+        OrderSubmitted::dispatch($this->order);
 
         $this->submitted = true;
 
