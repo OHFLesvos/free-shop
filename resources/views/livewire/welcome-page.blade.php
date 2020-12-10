@@ -1,5 +1,5 @@
 <div>
-    <p>Welcome to our FREE shop. Please place an order from out selection of items:</p>
+    <p>Please place an order from our selection of items:</p>
     @if($products->isNotEmpty())
         <div class="row">
             <div class="col-md">
