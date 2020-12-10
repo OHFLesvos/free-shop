@@ -5,6 +5,7 @@ use App\Http\Livewire\Backend\OrderList;
 use App\Http\Livewire\Backend\ProductCreate;
 use App\Http\Livewire\Backend\ProductEdit;
 use App\Http\Livewire\Backend\ProductList;
+use App\Http\Livewire\Backend\SettingsPage;
 use App\Http\Livewire\CheckoutPage;
 use App\Http\Livewire\OrderLookup;
 use App\Http\Livewire\WelcomePage;
@@ -21,12 +22,15 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', WelcomePage::class)
-    ->name('welcome');
-Route::get('checkout', CheckoutPage::class)
-    ->name('checkout');
-Route::get('lookup', OrderLookup::class)
-    ->name('lookup');
+Route::middleware('geoblock.whitelist')
+    ->group(function () {
+        Route::get('/', WelcomePage::class)
+        ->name('welcome');
+        Route::get('checkout', CheckoutPage::class)
+            ->name('checkout');
+        Route::get('lookup', OrderLookup::class)
+            ->name('lookup');
+    });
 
 Route::middleware('auth.basic')
     ->group(function () {
@@ -45,5 +49,7 @@ Route::middleware('auth.basic')
                     ->name('products.create');
                 Route::get('products/{product}/edit', ProductEdit::class)
                     ->name('products.edit');
+                Route::get('settings', SettingsPage::class)
+                    ->name('settings');
             });
     });

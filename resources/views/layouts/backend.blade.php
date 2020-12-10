@@ -27,6 +27,10 @@
                                     'label' => 'Products',
                                     'route' => 'backend.products'
                                 ],
+                                [
+                                    'label' => 'Settings',
+                                    'route' => 'backend.settings'
+                                ],
                             ];
                         @endphp
                         @foreach ($items as $item)
