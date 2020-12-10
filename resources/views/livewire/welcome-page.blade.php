@@ -18,36 +18,43 @@
                                     <div class="card-body">
                                         <h5 class="card-title">{{ $product->name }}</h5>
                                         <p class="card-text">{{ $product->description }}</p>
-                                        @if($product->available_for_customer_amount > 0)
-                                            <p class="card-text"><small class="text-muted">
-                                                Available: {{ $product->available_for_customer_amount }}
-                                            </small></p>
-                                        @else
+                                        @unless($product->available_for_customer_amount > 0)
                                             <p class="card-text"><small class="text-danger">
                                                 Not available
                                             </small></p>
-                                        @endif
+                                        @endunless
                                     </div>
                                     @if($product->available_for_customer_amount > 0)
                                         <div class="card-footer">
                                             <div class="input-group justify-content-end">
+                                                @if($basket[$product->id] > 0)
+                                                    <div class="input-group-prepend">
+                                                        <button
+                                                            class="btn @unless($basket[$product->id] < $product->available_for_customer_amount) btn-secondary @else btn-primary @endunless"
+                                                            wire:click="decrease({{ $product->id }})"
+                                                            type="button"
+                                                        >-</button>
+                                                    </div>
+                                                @endif
                                                 <input
                                                     type="number"
                                                     wire:model="basket.{{ $product->id }}"
                                                     min="0"
                                                     max="{{ $product->available_for_customer_amount }}"
                                                     style="max-width: 7em"
-                                                    class="form-control @error('basket.'.$product->id) is-invalid @enderror"
+                                                    class="form-control text-center @error('basket.'.$product->id) is-invalid @enderror"
                                                     placeholder="Amount">
-
-                                                    <div class="input-group-append">
-                                                        <button
-                                                            class="btn @unless($basket[$product->id] < $product->available_for_customer_amount) btn-secondary @else btn-primary @endunless"
-                                                            wire:click="increase({{ $product->id }})"
-                                                            type="button"
-                                                            @unless($basket[$product->id] < $product->available_for_customer_amount) disabled @endunless
-                                                        >+</button>
-                                                    </div>
+                                                <div class="input-group-append">
+                                                    @if($basket[$product->id] < $product->available_for_customer_amount)
+                                                    <button
+                                                        class="btn @unless($basket[$product->id] < $product->available_for_customer_amount) btn-secondary @else btn-primary @endunless"
+                                                        wire:click="increase({{ $product->id }})"
+                                                        type="button"
+                                                    >+</button>
+                                                    @else
+                                                        <span class="input-group-text text-danger">Maximum</span>
+                                                    @endif
+                                                </div>
                                             </div>
                                         </div>
                                     @endif

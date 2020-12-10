@@ -81,6 +81,14 @@ class WelcomePage extends Component
         return redirect()->route('checkout');
     }
 
+    public function decrease($productId)
+    {
+        if ($this->basket[$productId] > 0)
+        {
+            $this->basket[$productId]--;
+        }
+    }
+
     public function increase($productId)
     {
         if ($this->basket[$productId] < $this->products->where('id', $productId)->first()->available_for_customer_amount)
