@@ -30,7 +30,7 @@ class OrderSubmitted extends Mailable
      */
     public function build()
     {
-        return $this->subject('Nww shop order')
+        return $this->subject('New shop order')
             ->markdown('emails.order.submitted');
     }
 }

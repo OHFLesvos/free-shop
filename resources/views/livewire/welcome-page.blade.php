@@ -41,7 +41,7 @@
 
                                                 <div class="input-group-append">
                                                     <button
-                                                        class="btn btn-primary"
+                                                        class="btn @unless($basket[$product->id] < $product->available_for_customer_amount) btn-secondary @else btn-primary @endunless"
                                                         wire:click="increase({{ $product->id }})"
                                                         type="button"
                                                         @unless($basket[$product->id] < $product->available_for_customer_amount) disabled @endunless
