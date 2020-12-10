@@ -25,20 +25,22 @@ Route::get('/', WelcomePage::class)
 Route::get('checkout', CheckoutPage::class)
     ->name('checkout');
 
-Route::redirect('backend', 'backend/orders')
-    ->name('backend');
-Route::prefix('backend')
-    ->name('backend.')
-    ->middleware('auth.basic')
+Route::middleware('auth.basic')
     ->group(function () {
-        Route::get('orders', OrderList::class)
-            ->name('orders');
-        Route::get('orders/{order}', OrderDetail::class)
-            ->name('orders.show');
-        Route::get('products', ProductList::class)
-            ->name('products');
-        Route::get('products/_create', ProductCreate::class)
-            ->name('products.create');
-        Route::get('products/{product}/edit', ProductEdit::class)
-            ->name('products.edit');
+        Route::redirect('backend', 'backend/orders')
+            ->name('backend');
+        Route::prefix('backend')
+            ->name('backend.')
+            ->group(function () {
+                Route::get('orders', OrderList::class)
+                    ->name('orders');
+                Route::get('orders/{order}', OrderDetail::class)
+                    ->name('orders.show');
+                Route::get('products', ProductList::class)
+                    ->name('products');
+                Route::get('products/_create', ProductCreate::class)
+                    ->name('products.create');
+                Route::get('products/{product}/edit', ProductEdit::class)
+                    ->name('products.edit');
+            });
     });
