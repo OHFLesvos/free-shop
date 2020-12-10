@@ -25,7 +25,7 @@
         </span>
     </div>
     <div class="table-responsive">
-        <table class="table table-bordered table-hover shadow-sm">
+        <table class="table table-bordered table-hover bg-white shadow-sm">
             <caption>{{ $products->count() }} products registered</caption>
             <thead>
                 <th>Picture</th>

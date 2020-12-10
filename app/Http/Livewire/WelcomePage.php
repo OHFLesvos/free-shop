@@ -74,6 +74,9 @@ class WelcomePage extends Component
 
     public function increase($productId)
     {
-        $this->basket[$productId]++;
+        if ($this->basket[$productId] < $this->products->where('id', $productId)->first()->available_for_customer_amount)
+        {
+            $this->basket[$productId]++;
+        }
     }
 }

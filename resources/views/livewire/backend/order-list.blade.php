@@ -32,7 +32,7 @@
             class="form-control" />
     </div>
     <div class="table-responsive">
-        <table class="table table-bordered table-hover shadow-sm">
+        <table class="table table-bordered table-hover bg-white shadow-sm">
             <caption>{{ $orders->total() }} orders found</caption>
             <thead>
                 <th>ID</th>

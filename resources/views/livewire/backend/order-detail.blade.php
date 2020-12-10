@@ -32,29 +32,37 @@
             </li>
         @endisset
     </ul>
-    <table class="table table-bordered shadow-sm mb-4">
-        <tbody>
-            @foreach($order->products as $product)
-                <tr>
-                    <td class="fit">
-                        @isset($product->pictureUrl)
-                            <img
-                                src="{{ $product->pictureUrl }}"
-                                alt="Product Image"
-                                style="max-width: 100px; max-height: 75px"/>
-                        @endisset
-                    </td>
-                    <td>
-                        {{ $product->name }}<br>
-                        <small>{{ $product->category }}</small>
-                    </td>
-                    <td class="fit text-right">
-                        <strong><big>{{ $product->pivot->amount }}</big></strong>
-                    </td>
-                </tr>
-            @endforeach
-        </tbody>
-    </table>
+    <div class="card shadow-sm mb-4">
+        <div class="card-header">Products</div>
+        <table class="table table-bordered m-0">
+            <tbody>
+                @php
+                    $hasPictures = $order->products->whereNotNull('pictureUrl')->isNotEmpty();
+                @endphp
+                @foreach($order->products as $product)
+                    <tr>
+                        @if($hasPictures)
+                            <td class="fit">
+                                @isset($product->pictureUrl)
+                                    <img
+                                        src="{{ $product->pictureUrl }}"
+                                        alt="Product Image"
+                                        style="max-width: 100px; max-height: 75px"/>
+                                @endisset
+                            </td>
+                        @endif
+                        <td>
+                            {{ $product->name }}<br>
+                            <small>{{ $product->category }}</small>
+                        </td>
+                        <td class="fit text-right">
+                            <strong><big>{{ $product->pivot->amount }}</big></strong>
+                        </td>
+                    </tr>
+                @endforeach
+            </tbody>
+        </table>
+    </div>
     @if($relatedOrders->isNotEmpty())
         <div class="card shadow-sm mb-4">
             <div class="card-header">Related orders</div>

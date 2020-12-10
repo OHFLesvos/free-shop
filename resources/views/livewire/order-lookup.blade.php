@@ -46,16 +46,21 @@
                 </div>
                 <table class="table table-bordered m-0">
                     <tbody>
+                        @php
+                            $hasPictures = $order->products->whereNotNull('pictureUrl')->isNotEmpty();
+                        @endphp
                         @foreach($order->products as $product)
                             <tr>
-                                <td class="fit">
-                                    @isset($product->pictureUrl)
-                                        <img
-                                            src="{{ $product->pictureUrl }}"
-                                            alt="Product Image"
-                                            style="max-width: 100px; max-height: 75px"/>
-                                    @endisset
-                                </td>
+                                @if($hasPictures)
+                                    <td class="fit">
+                                        @isset($product->pictureUrl)
+                                            <img
+                                                src="{{ $product->pictureUrl }}"
+                                                alt="Product Image"
+                                                style="max-width: 100px; max-height: 75px"/>
+                                        @endisset
+                                    </td>
+                                @endif
                                 <td>
                                     {{ $product->name }}<br>
                                     <small>{{ $product->category }}</small>
