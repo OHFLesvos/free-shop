@@ -3,57 +3,59 @@
     @if($products->isNotEmpty())
         <div class="row">
             <div class="col-md">
-                <div class="row row-cols-1 row-cols-md-2">
-                    @foreach($products as $product)
-                        <div class="col mb-4">
-                            <div class="card shadow-sm">
-                                @isset($product->pictureUrl)
-                                    <img
-                                        src="{{ $product->pictureUrl }}"
-                                        class="card-img-top"
-                                        alt="Product name">
-                                @endisset
-                                <div class="card-body">
-                                    <h5 class="card-title">{{ $product->name }}</h5>
-                                    <p class="card-text"><small class="text-muted">{{ $product->category }}</small></p>
-                                    <p class="card-text">{{ $product->description }}</p>
+                @foreach($categories as $category)
+                    <h4>{{ $category }}</h4>
+                    <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3">
+                        @foreach($products->where('category', $category) as $product)
+                            <div class="col mb-4">
+                                <div class="card shadow-sm">
+                                    @isset($product->pictureUrl)
+                                        <img
+                                            src="{{ $product->pictureUrl }}"
+                                            class="card-img-top"
+                                            alt="Product name">
+                                    @endisset
+                                    <div class="card-body">
+                                        <h5 class="card-title">{{ $product->name }}</h5>
+                                        <p class="card-text">{{ $product->description }}</p>
+                                        @if($product->available_for_customer_amount > 0)
+                                            <p class="card-text"><small class="text-muted">
+                                                Available: {{ $product->available_for_customer_amount }}
+                                            </small></p>
+                                        @else
+                                            <p class="card-text"><small class="text-danger">
+                                                Not available
+                                            </small></p>
+                                        @endif
+                                    </div>
                                     @if($product->available_for_customer_amount > 0)
-                                        <p class="card-text"><small class="text-muted">
-                                            Available: {{ $product->available_for_customer_amount }}
-                                        </small></p>
-                                    @else
-                                        <p class="card-text"><small class="text-danger">
-                                            Not available
-                                        </small></p>
+                                        <div class="card-footer">
+                                            <div class="input-group justify-content-end">
+                                                <input
+                                                    type="number"
+                                                    wire:model="basket.{{ $product->id }}"
+                                                    min="0"
+                                                    max="{{ $product->available_for_customer_amount }}"
+                                                    style="max-width: 7em"
+                                                    class="form-control @error('basket.'.$product->id) is-invalid @enderror"
+                                                    placeholder="Amount">
+
+                                                    <div class="input-group-append">
+                                                        <button
+                                                            class="btn @unless($basket[$product->id] < $product->available_for_customer_amount) btn-secondary @else btn-primary @endunless"
+                                                            wire:click="increase({{ $product->id }})"
+                                                            type="button"
+                                                            @unless($basket[$product->id] < $product->available_for_customer_amount) disabled @endunless
+                                                        >+</button>
+                                                    </div>
+                                            </div>
+                                        </div>
                                     @endif
                                 </div>
-                                @if($product->available_for_customer_amount > 0)
-                                    <div class="card-footer">
-                                        <div class="input-group justify-content-end">
-                                            <input
-                                                type="number"
-                                                wire:model="basket.{{ $product->id }}"
-                                                min="0"
-                                                max="{{ $product->available_for_customer_amount }}"
-                                                style="max-width: 7em"
-                                                class="form-control @error('basket.'.$product->id) is-invalid @enderror"
-                                                placeholder="Amount">
-
-                                                <div class="input-group-append">
-                                                    <button
-                                                        class="btn @unless($basket[$product->id] < $product->available_for_customer_amount) btn-secondary @else btn-primary @endunless"
-                                                        wire:click="increase({{ $product->id }})"
-                                                        type="button"
-                                                        @unless($basket[$product->id] < $product->available_for_customer_amount) disabled @endunless
-                                                    >+</button>
-                                                </div>
-                                        </div>
-                                    </div>
-                                @endif
                             </div>
-                        </div>
-                    @endforeach
-                </div>
+                        @endforeach
+                    </div>
+                @endforeach
             </div>
             <div class="col-md-4">
                 <div class="card shadow-sm sticky mb-4">

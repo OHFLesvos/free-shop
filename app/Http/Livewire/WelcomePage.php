@@ -9,6 +9,7 @@ use Livewire\Component;
 class WelcomePage extends Component
 {
     public Collection $products;
+    public Collection $categories;
 
     public array $basket;
 
@@ -31,6 +32,14 @@ class WelcomePage extends Component
             ->available()
             ->orderBy('name')
             ->get();
+
+        $this->categories = Product::query()
+            ->available()
+            ->groupBy('category')
+            ->select('category')
+            ->orderBy('category')
+            ->get()
+            ->pluck('category');
 
         $savedBasket = session()->get('basket', []);
         $this->basket = $this->products
