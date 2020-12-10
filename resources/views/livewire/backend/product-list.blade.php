@@ -53,7 +53,7 @@
                             {{ $product->stock_amount }}<br>
                             <small>{{ $product->free_amount }} / {{ $product->reserved_amount }}</small>
                         </td>
-                        <td class="text-right">{{ $product->customer_limit }}</td>
+                        <td class="text-right">{{ $product->limit_per_order }}</td>
                     </tr>
                 @empty
                     <tr>

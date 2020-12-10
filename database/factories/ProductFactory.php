@@ -28,7 +28,7 @@ class ProductFactory extends Factory
             'picture' => $this->faker->boolean(70) ? 'https://picsum.photos/seed/' . md5($name) . '/300/150' : null,
             'description' => $this->faker->optional(0.9)->text,
             'stock_amount' => $this->faker->numberBetween(0, 1000),
-            'customer_limit' => $this->faker->optional(0.2)->numberBetween(0, 10),
+            'limit_per_order' => $this->faker->optional(0.2)->numberBetween(0, 10),
             'is_available' => $this->faker->boolean(80),
         ];
     }

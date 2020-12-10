@@ -59,15 +59,15 @@
             </div>
             <div class="col-md">
                 <div class="form-group">
-                    <label for="inputCustomerLimit">Limit per customer</label>
+                    <label for="inputLimitPerOrder">Limit per order</label>
                     <input
                         type="number"
                         min="0"
-                        class="form-control @error('product.customer_limit') is-invalid @enderror"
-                        id="inputCustomerLimit"
+                        class="form-control @error('product.limit_per_order') is-invalid @enderror"
+                        id="inputLimitPerOrder"
                         autocomplete="off"
-                        wire:model.defer="product.customer_limit">
-                    @error('product.customer_limit') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                        wire:model.defer="product.limit_per_order">
+                    @error('product.limit_per_order') <div class="invalid-feedback">{{ $message }}</div> @enderror
                 </div>
             </div>
         </div>

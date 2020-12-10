@@ -15,7 +15,7 @@ class Product extends Model
 
     protected $nullable = [
         'description',
-        'customer_limit',
+        'limit_per_order',
     ];
 
     public function orders()
@@ -51,8 +51,8 @@ class Product extends Model
 
     public function getAvailableForCustomerAmountAttribute()
     {
-        if ($this->customer_limit !== null) {
-            return min($this->customer_limit, $this->free_amount);
+        if ($this->limit_per_order !== null) {
+            return min($this->limit_per_order, $this->free_amount);
         }
         return $this->free_amount;
     }

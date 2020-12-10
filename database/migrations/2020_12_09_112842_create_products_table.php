@@ -20,7 +20,7 @@ class CreateProductsTable extends Migration
             $table->string('picture')->nullable();
             $table->text('description')->nullable();
             $table->unsignedInteger('stock_amount')->default(0);
-            $table->unsignedInteger('customer_limit')->nullable();
+            $table->unsignedInteger('limit_per_order')->nullable();
             $table->boolean('is_available')->default(true);
             $table->timestamps();
         });

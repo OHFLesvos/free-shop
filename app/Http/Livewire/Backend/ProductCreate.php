@@ -24,7 +24,7 @@ class ProductCreate extends Component
         'product.category' => 'required',
         'product.description' => 'nullable',
         'product.stock_amount' => 'required|integer|min:0',
-        'product.customer_limit' => 'nullable|integer|min:0',
+        'product.limit_per_order' => 'nullable|integer|min:0',
         'product.is_available' => 'boolean',
         'picture' => 'nullable|image|max:4096',
     ];

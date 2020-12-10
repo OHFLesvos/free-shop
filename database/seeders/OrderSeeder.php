@@ -24,8 +24,8 @@ class OrderSeeder extends Seeder
                     ->random(mt_rand(1, $products->count()))
                     ->each(function ($product) use ($order) {
                         $order->products()->attach($product, [
-                            'amount' => $product->customer_limit !== null
-                                ? mt_rand(1, $product->customer_limit)
+                            'amount' => $product->limit_per_order !== null
+                                ? mt_rand(1, $product->limit_per_order)
                                 : mt_rand(1, 10)
                         ]);
                     });
