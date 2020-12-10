@@ -50,7 +50,7 @@ class ProductEdit extends Component
         }
 
         if (isset($this->picture)) {
-            $this->product->picture = $this->picture->store('public/pictures');
+            $this->product->picture = $this->picture->storePublicly('public/pictures');
         }
 
         $this->product->save();
