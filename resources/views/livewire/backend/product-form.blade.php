@@ -66,6 +66,7 @@
                 <div wire:loading.remove wire:target="picture">
                 @if($picture)
                     <div class="mb-3">
+                        {{ $picture->temporaryUrl() }}
                         <img
                             src="{{ $picture->temporaryUrl() }}"
                             alt="Preview"
