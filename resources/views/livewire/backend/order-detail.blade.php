@@ -19,7 +19,8 @@
             {!! whatsapp_link($order->customer_phone, 'Open in WhatsApp', 'Hello '.$order->customer_name) !!}
         </li>
         <li class="list-group-item">
-            <strong>IP Address:</strong> {{ $order->customer_ip_address }}
+            <strong>IP Address:</strong> {{ $order->customer_ip_address }},
+            {{ gethostbyaddr($order->customer_ip_address) }}
             @if(!$order->geoIpLocation->default)
             ({{ $order->geoIpLocation->city }}, @isset($order->geoIpLocation->state){{ $order->geoIpLocation->state }},@endisset {{ $order->geoIpLocation->country }})
             @endif
