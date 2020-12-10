@@ -1,7 +1,9 @@
 <div>
-    <h1>Settings</h1>
+    <h1 class="mb-3">Settings</h1>
     <form wire:submit.prevent="submit" class="mb-4" autocomplete="off">
-        <div class="card mb-4">
+
+        {{-- Geoblock Whitelist --}}
+        <div class="card shadow-sm mb-4">
             <div class="card-header">Geoblock Whitelist</div>
             <div class="card-body">
                 <p class="card-text">Select countries from which clients would be able to access the shop. If left empty, all countries are allowed.</p>
@@ -38,6 +40,7 @@
                 </div>
             </div>
         </div>
+
         <button
             type="submit"
             class="btn btn-primary"
