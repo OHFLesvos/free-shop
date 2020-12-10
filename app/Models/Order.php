@@ -66,6 +66,6 @@ class Order extends Model
 
     public function getGeoIpLocationAttribute()
     {
-        return geoip()->getLocation($this->user_ip_address);
+        return geoip()->getLocation($this->customer_ip_address);
     }
 }
