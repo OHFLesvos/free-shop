@@ -35,6 +35,12 @@ class OrderDetail extends Component
         $this->order->save();
     }
 
+    public function cancel()
+    {
+        $this->order->cancelled_at = now();
+        $this->order->save();
+    }
+
     public function showOrder($id)
     {
         return redirect()->route('backend.orders.show', $id);

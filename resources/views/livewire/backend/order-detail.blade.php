@@ -4,6 +4,10 @@
         <li class="list-group-item">
             <strong>Ordered:</strong> {{ $order->created_at->isoFormat('LLLL') }}
             <small class="ml-1">{{ $order->created_at->diffForHumans() }}</small>
+            @isset($order->cancelled_at)<br>
+                <strong>Cancelled:</strong> {{ $order->cancelled_at->isoFormat('LLLL') }}
+                <small class="ml-1">{{ $order->cancelled_at->diffForHumans() }}</small>
+            @endisset
             @isset($order->completed_at)<br>
                 <strong>Completed:</strong> {{ $order->completed_at->isoFormat('LLLL') }}
                 <small class="ml-1">{{ $order->completed_at->diffForHumans() }}</small>
@@ -77,6 +81,11 @@
                             <td>
                                 {{ $relatedOrder->created_at->isoFormat('LLLL') }}<br>
                                 <small>{{ $relatedOrder->created_at->diffForHumans() }}</small>
+                                @isset($relatedOrder->cancelled_at)
+                                    <br><br>Cancelled:<br>
+                                    {{ $relatedOrder->cancelled_at->isoFormat('LLLL') }}<br>
+                                    <small>{{ $relatedOrder->cancelled_at->diffForHumans() }}</small>
+                                @endif
                                 @isset($relatedOrder->completed_at)
                                     <br><br>Completed:<br>
                                     {{ $relatedOrder->completed_at->isoFormat('LLLL') }}<br>
@@ -103,16 +112,29 @@
         <a
             href="{{ route('backend.orders') }}"
             class="btn btn-outline-primary">Back to orders</a>
-        @isset($order->completed_at)
+        @if($order->cancelled_at !== null)
+            Cancelled
+        @elseif($order->completed_at !== null)
             Completed
         @else
-            <button
-                class="btn btn-primary"
-                wire:click="complete"
-                wire:loading.attr="disabled">
-                <x-bi-hourglass-split wire:loading/>
-                Mark as completed
-            </button>
+            <span>
+                <button
+                    type="button"
+                    class="btn btn-danger"
+                    wire:click="cancel"
+                    wire:loading.attr="disabled">
+                    <x-bi-hourglass-split wire:loading/>
+                    Cancel order
+                </button>
+                <button
+                    type="button"
+                    class="btn btn-primary"
+                    wire:click="complete"
+                    wire:loading.attr="disabled">
+                    <x-bi-hourglass-split wire:loading/>
+                    Mark as completed
+                </button>
+            </span>
         @endisset
     </div>
 </div>

@@ -14,24 +14,26 @@ class OrderList extends Component
 
     public string $search = '';
 
-    public bool $completed = false;
+    public string $status = 'open';
 
     public function mount()
     {
         $this->search = session()->get('orders.search', '');
-        $this->completed = (bool)session()->get('orders.completed', false);
+        $this->status = session()->get('orders.status', 'open');
     }
 
     public function render()
     {
         session()->put('orders.search', $this->search);
-        session()->put('orders.completed', $this->completed);
+        session()->put('orders.status', $this->status);
 
         return view('livewire.backend.order-list', [
             'orders' => Order::query()
-                ->when($this->completed, fn ($qry) => $qry->completed(),  fn ($qry) => $qry->open())
+                ->when($this->status == 'open', fn ($qry) => $qry->open())
+                ->when($this->status == 'completed', fn ($qry) => $qry->completed())
+                ->when($this->status == 'cancelled', fn ($qry) => $qry->cancelled())
                 ->when(filled($this->search), fn ($qry) => $qry->filter(trim($this->search)))
-                ->when($this->completed, fn ($qry) => $qry->orderBy('completed_at', 'desc'), fn ($qry) => $qry->orderBy('created_at', 'desc'))
+                ->when($this->status != 'open', fn ($qry) => $qry->orderBy('updated_at', 'desc'), fn ($qry) => $qry->orderBy('created_at', 'desc'))
                 ->paginate(10),
             ])
             ->layout('layouts.backend', ['title' => 'Orders']);

@@ -1,27 +1,23 @@
 <div>
     <div class="d-md-flex justify-content-between align-items-center mb-2">
-        <h1>
-            @if($completed)Completed orders @else Orders @endif
-        </h1>
-        <span>
-            @if($completed)
-                <button
-                    class="btn btn-outline-primary"
-                    wire:click="$toggle('completed')"
-                    wire:loading.attr="disabled">
-                    <x-bi-hourglass-split wire:loading/>
-                    Current orders
-                </button>
-            @else
-                <button
-                    class="btn btn-outline-primary"
-                    wire:click="$toggle('completed')"
-                    wire:loading.attr="disabled">
-                    <x-bi-hourglass-split wire:loading/>
-                    Completed orders
-                </button>
-            @endif
-        </span>
+        <h1>Orders</h1>
+        <div class="btn-group" role="group">
+            <button
+                type="button"
+                class="btn @if($status == 'open') btn-primary @else btn-outline-primary @endif"
+                wire:click="$set('status', 'open')"
+                wire:loading.attr="disabled">Open</button>
+            <button
+                type="button"
+                class="btn @if($status == 'completed') btn-primary @else btn-outline-primary @endif"
+                wire:click="$set('status', 'completed')"
+                wire:loading.attr="disabled">Completed</button>
+            <button
+                type="button"
+                class="btn @if($status == 'cancelled') btn-primary @else btn-outline-primary @endif"
+                wire:click="$set('status', 'cancelled')"
+                wire:loading.attr="disabled">Canceled</button>
+        </div>
     </div>
     <div class="form-group">
         <input
@@ -45,7 +41,10 @@
                     <tr class="cursor-pointer" wire:click="showOrder({{ $order->id }})">
                         <td>{{ $order->id }}</td>
                         <td>
-                            @isset($order->completed_at)
+                            @if($order->cancelled_at !== null)
+                                {{ $order->cancelled_at->isoFormat('LLLL') }}<br>
+                                <small>{{ $order->cancelled_at->diffForHumans() }}</small>
+                            @elseif($order->completed_at !== null)
                                 {{ $order->completed_at->isoFormat('LLLL') }}<br>
                                 <small>{{ $order->completed_at->diffForHumans() }}</small>
                             @else

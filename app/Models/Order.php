@@ -17,10 +17,12 @@ class Order extends Model
     protected $nullable = [
         'remarks',
         'completed_at',
+        'cancelled_at',
     ];
 
     protected $dates = [
         'completed_at',
+        'cancelled_at',
     ];
 
     public function products()
@@ -31,12 +33,18 @@ class Order extends Model
 
     public function scopeOpen(Builder $qry)
     {
-        $qry->whereNull('completed_at');
+        $qry->whereNull('completed_at')
+            ->whereNull('cancelled_at');
     }
 
     public function scopeCompleted(Builder $qry)
     {
         $qry->whereNotNull('completed_at');
+    }
+
+    public function scopeCancelled(Builder $qry)
+    {
+        $qry->whereNotNull('cancelled_at');
     }
 
     public function scopeFilter(Builder $qry, string $filter)

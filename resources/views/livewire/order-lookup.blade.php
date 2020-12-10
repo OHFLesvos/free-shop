@@ -84,7 +84,9 @@
                     </div>
                 @endisset
                 <div class="card-footer">
-                    @isset($order->completed_at)
+                    @if($order->cancelled_at !== null)
+                        This order has been <span class="text-danger">cancelled</span> on {{ $order->cancelled_at->isoFormat('LLLL') }}.
+                    @elseif($order->completed_at !== null)
                         This order has been <span class="text-success">completed</span> on {{ $order->completed_at->isoFormat('LLLL') }}.
                     @else
                         This order is still <span class="text-info">open.</span>
