@@ -55,6 +55,41 @@
             @endforeach
         </tbody>
     </table>
+    @if($relatedOrders->isNotEmpty())
+        <div class="card shadow-sm mb-4">
+            <div class="card-header">Related orders</div>
+            <table class="table table-bordered table-hover m-0">
+                <tbody>
+                    @foreach($relatedOrders as $relatedOrder)
+                        <tr class="cursor-pointer" wire:click="showOrder({{ $relatedOrder->id }})">
+                            <td>{{ $relatedOrder->id }}</td>
+                            <td>
+                                @isset($relatedOrder->completed_at)
+                                    <span class="text-success">
+                                        {{ $relatedOrder->completed_at->isoFormat('LLLL') }}<br>
+                                        <small>Completed {{ $relatedOrder->completed_at->diffForHumans() }}</small>
+                                    </span>
+                                @else
+                                    {{ $relatedOrder->created_at->isoFormat('LLLL') }}<br>
+                                    <small>Registered {{ $relatedOrder->created_at->diffForHumans() }}</small>
+                                @endif
+                            </td>
+                            <td>
+                                <strong>Name:</strong> {{ $relatedOrder->customer_name }}<br>
+                                <strong>ID Number:</strong> {{ $relatedOrder->customer_id_number }}<br>
+                                <strong>Phone:</strong> {{ $relatedOrder->customer_phone }}
+                            </td>
+                            <td>
+                                @foreach($relatedOrder->products as $product)
+                                    <strong>{{ $product->pivot->amount }}</strong> {{ $product->name }}<br>
+                                @endforeach
+                            </td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
+    @endif
     <div class="d-flex justify-content-between mb-3">
         <a
             href="{{ route('backend.orders') }}"
