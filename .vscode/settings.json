@@ -1,0 +1,10 @@
+{
+    "search.exclude": {
+        "_ide_helper.php": true,
+        ".phpstorm.meta.php": true,
+        "public/css": true,
+        "public/js": true,
+        "storage/framework/views": true,
+        "bootstrap/cache": true
+    }
+}
