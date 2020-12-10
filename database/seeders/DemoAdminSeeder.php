@@ -14,6 +14,7 @@ class DemoAdminSeeder extends Seeder
      */
     public function run()
     {
+        User::where('email', 'admin@example.com')->delete();
         User::create([
             'name' => 'Demo Admin',
             'email' => 'admin@example.com',
