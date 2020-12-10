@@ -31,15 +31,14 @@ class WelcomePage extends Component
         $this->products = Product::query()
             ->available()
             ->orderBy('name')
-            ->get();
-
-        $this->categories = Product::query()
-            ->available()
-            ->groupBy('category')
-            ->select('category')
-            ->orderBy('category')
             ->get()
-            ->pluck('category');
+            ->filter(fn ($product) => $product->available_for_customer_amount > 0);
+
+        $this->categories = $this->products->values()
+            ->sortBy('category')
+            ->pluck('category')
+            ->unique()
+            ->values();
 
         $savedBasket = session()->get('basket', []);
         $this->basket = $this->products
