@@ -61,14 +61,21 @@
                         id="pictureInput">
                     <label class="custom-file-label" for="pictureInput">Choose file</label>
                 </div>
-                @error('picture') <span class="text-error">{{ $message }}</span> @enderror
+                @error('picture') <span class="text-danger">{{ $message }}</span> @enderror
                 <div wire:loading wire:target="picture">Uploading...</div>
                 <div wire:loading.remove wire:target="picture">
                 @if($picture)
                     <div class="mb-3">
-                        {{ $picture->temporaryUrl() }}
+                        @php
+                            if (config('filesystems.default') == 'ftp') {
+                                $file = basename(parse_url($picture->temporaryUrl())['path']);
+                                $previewUrl = config('filesystems.disks.ftp.url') . "/livewire-tmp/" . $file;
+                            } else {
+                                $previewUrl = $picture->temporaryUrl();
+                            }
+                        @endphp
                         <img
-                            src="{{ $picture->temporaryUrl() }}"
+                            src="{{ $previewUrl }}"
                             alt="Preview"
                             class="mb-3"
                             style="max-width: 300px; max-height: 150px">
