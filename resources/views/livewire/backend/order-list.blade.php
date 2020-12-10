@@ -46,13 +46,11 @@
                         <td>{{ $order->id }}</td>
                         <td>
                             @isset($order->completed_at)
-                                <span class="text-success">
-                                    {{ $order->completed_at->isoFormat('LLLL') }}<br>
-                                    <small>Completed {{ $order->completed_at->diffForHumans() }}</small>
-                                </span>
+                                {{ $order->completed_at->isoFormat('LLLL') }}<br>
+                                <small>{{ $order->completed_at->diffForHumans() }}</small>
                             @else
                                 {{ $order->created_at->isoFormat('LLLL') }}<br>
-                                <small>Registered {{ $order->created_at->diffForHumans() }}</small>
+                                <small>{{ $order->created_at->diffForHumans() }}</small>
                             @endif
                         </td>
                         <td>

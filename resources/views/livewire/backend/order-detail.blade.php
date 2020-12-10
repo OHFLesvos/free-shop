@@ -64,14 +64,12 @@
                         <tr class="cursor-pointer" wire:click="showOrder({{ $relatedOrder->id }})">
                             <td>{{ $relatedOrder->id }}</td>
                             <td>
+                                {{ $relatedOrder->created_at->isoFormat('LLLL') }}<br>
+                                <small>{{ $relatedOrder->created_at->diffForHumans() }}</small>
                                 @isset($relatedOrder->completed_at)
-                                    <span class="text-success">
-                                        {{ $relatedOrder->completed_at->isoFormat('LLLL') }}<br>
-                                        <small>Completed {{ $relatedOrder->completed_at->diffForHumans() }}</small>
-                                    </span>
-                                @else
-                                    {{ $relatedOrder->created_at->isoFormat('LLLL') }}<br>
-                                    <small>Registered {{ $relatedOrder->created_at->diffForHumans() }}</small>
+                                    <br><br>Completed:<br>
+                                    {{ $relatedOrder->completed_at->isoFormat('LLLL') }}<br>
+                                    <small>{{ $relatedOrder->completed_at->diffForHumans() }}</small>
                                 @endif
                             </td>
                             <td>
