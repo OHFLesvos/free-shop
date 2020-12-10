@@ -5,7 +5,7 @@
             We will contact you via your phone <strong>{{ $order->customer_phone }}</strong> when the order is ready.
         </x-alert>
     @else
-        <form wire:submit.prevent="submit" class="mb-4">
+        <form wire:submit.prevent="submit" class="mb-4" autocomplete="off">
             <div class="card mb-4 shadow-sm">
                 <div class="card-header">Selected products</div>
                 <table class="table m-0">
@@ -36,6 +36,7 @@
                             id="inputCustomerName"
                             wire:model.defer="order.customer_name"
                             required
+                            autocomplete="off"
                             aria-describedby="customerNameHelp">
                         @error('order.customer_name') <div class="invalid-feedback">{{ $message }}</div> @enderror
                         <small id="customerNameHelp" class="form-text text-muted">Write your full name according to your identification document.</small>
@@ -48,6 +49,7 @@
                             id="inputCustomerIdNumber"
                             wire:model.defer="order.customer_id_number"
                             required
+                            autocomplete="off"
                             aria-describedby="customerIdNumberHelp">
                         @error('order.customer_id_number') <div class="invalid-feedback">{{ $message }}</div> @enderror
                         <small id="customerIdNumberHelp" class="form-text text-muted">Write your ID number according to your identification document.</small>
@@ -60,6 +62,7 @@
                             id="inputCustomerPhone"
                             wire:model.defer="order.customer_phone"
                             required
+                            autocomplete="off"
                             aria-describedby="customerPhoneHelp">
                         @error('order.customer_phone') <div class="invalid-feedback">{{ $message }}</div> @enderror
                         <small id="customerPhoneHelp" class="form-text text-muted">We will send you updates about your order to this number.</small>
@@ -71,6 +74,7 @@
                             id="inputRemarks"
                             wire:model.defer="order.remarks"
                             rows="3"
+                            autocomplete="off"
                             aria-describedby="remarksHelp"></textarea>
                         @error('order.remarks') <div class="invalid-feedback">{{ $message }}</div> @enderror
                         <small id="remarksHelp" class="form-text text-muted">Please write if we need to know anything more regarding your order.</small>
