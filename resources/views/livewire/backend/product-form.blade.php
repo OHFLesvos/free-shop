@@ -45,6 +45,44 @@
         <div class="form-row">
             <div class="col-md">
                 <div class="form-group">
+                    <label for="inputStockAmount">Stock amount</label>
+                    <input
+                        type="number"
+                        min="0"
+                        class="form-control @error('product.stock_amount') is-invalid @enderror"
+                        id="inputStockAmount"
+                        required
+                        autocomplete="off"
+                        wire:model.defer="product.stock_amount">
+                    @error('product.stock_amount') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                </div>
+            </div>
+            <div class="col-md">
+                <div class="form-group">
+                    <label for="inputCustomerLimit">Limit per customer</label>
+                    <input
+                        type="number"
+                        min="0"
+                        class="form-control @error('product.customer_limit') is-invalid @enderror"
+                        id="inputCustomerLimit"
+                        autocomplete="off"
+                        wire:model.defer="product.customer_limit">
+                    @error('product.customer_limit') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                </div>
+            </div>
+        </div>
+        <div class="custom-control custom-checkbox mb-3">
+            <input
+                type="checkbox"
+                class="custom-control-input"
+                id="isAvailableInput"
+                value="1"
+                wire:model.defer="product.is_available">
+            <label class="custom-control-label" for="isAvailableInput">Available</label>
+        </div>
+        <div class="form-row">
+            <div class="col-md">
+                <div class="form-group">
                     <label for="inputDescription">Description</label>
                     <textarea
                         type="text"
@@ -122,44 +160,6 @@
                 @endif
                 </div>
             </div>
-        </div>
-        <div class="form-row">
-            <div class="col-md">
-                <div class="form-group">
-                    <label for="inputStockAmount">Stock amount</label>
-                    <input
-                        type="number"
-                        min="0"
-                        class="form-control @error('product.stock_amount') is-invalid @enderror"
-                        id="inputStockAmount"
-                        required
-                        autocomplete="off"
-                        wire:model.defer="product.stock_amount">
-                    @error('product.stock_amount') <div class="invalid-feedback">{{ $message }}</div> @enderror
-                </div>
-            </div>
-            <div class="col-md">
-                <div class="form-group">
-                    <label for="inputCustomerLimit">Limit per customer</label>
-                    <input
-                        type="number"
-                        min="0"
-                        class="form-control @error('product.customer_limit') is-invalid @enderror"
-                        id="inputCustomerLimit"
-                        autocomplete="off"
-                        wire:model.defer="product.customer_limit">
-                    @error('product.customer_limit') <div class="invalid-feedback">{{ $message }}</div> @enderror
-                </div>
-            </div>
-        </div>
-        <div class="custom-control custom-checkbox mb-3">
-            <input
-                type="checkbox"
-                class="custom-control-input"
-                id="isAvailableInput"
-                value="1"
-                wire:model.defer="product.is_available">
-            <label class="custom-control-label" for="isAvailableInput">Available</label>
         </div>
         <div class="d-flex justify-content-between mb-3">
             <a
