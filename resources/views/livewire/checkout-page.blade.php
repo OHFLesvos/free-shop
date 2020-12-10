@@ -104,7 +104,7 @@
                     type="submit"
                     class="btn btn-primary">
                     <x-bi-hourglass-split wire:loading wire:target="submit"/>
-                    Submit
+                    Send order
                 </button>
             </div>
         </form>
