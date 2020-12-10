@@ -3,28 +3,34 @@
         <div class="card mb-4 shadow-sm">
             <div class="card-header">Find your order</div>
             <div class="card-body">
-                <div class="form-group">
-                    <label for="inputCustomerIdNumber">Your ID number</label>
-                    <input
-                        type="text"
-                        class="form-control @error('customer_id_number') is-invalid @enderror"
-                        id="inputCustomerIdNumber"
-                        wire:model.defer="customer_id_number"
-                        required
-                        autofocus
-                        autocomplete="off">
-                    @error('customer_id_number') <div class="invalid-feedback">{{ $message }}</div> @enderror
-                </div>
-                <div class="form-group">
-                    <label for="inputCustomerPhone">Your phone number</label>
-                    <input
-                        type="tel"
-                        class="form-control @error('customer_phone') is-invalid @enderror"
-                        id="inputCustomerPhone"
-                        wire:model.defer="customer_phone"
-                        required
-                        autocomplete="off">
-                    @error('customer_phone') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                <div class="form-row">
+                    <div class="col-md">
+                        <div class="form-group">
+                            <label for="inputCustomerIdNumber">Your ID number</label>
+                            <input
+                                type="text"
+                                class="form-control @error('customer_id_number') is-invalid @enderror"
+                                id="inputCustomerIdNumber"
+                                wire:model.defer="customer_id_number"
+                                required
+                                autofocus
+                                autocomplete="off">
+                            @error('customer_id_number') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                        </div>
+                    </div>
+                    <div class="col-md">
+                        <div class="form-group">
+                            <label for="inputCustomerPhone">Your phone number</label>
+                            <input
+                                type="tel"
+                                class="form-control @error('customer_phone') is-invalid @enderror"
+                                id="inputCustomerPhone"
+                                wire:model.defer="customer_phone"
+                                required
+                                autocomplete="off">
+                            @error('customer_phone') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
