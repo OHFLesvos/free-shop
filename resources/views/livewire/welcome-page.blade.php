@@ -38,7 +38,15 @@
                                                 style="max-width: 7em"
                                                 class="form-control @error('basket.'.$product->id) is-invalid @enderror"
                                                 placeholder="Amount">
-                                            {{-- @error('basket.'.$product->id) <div class="invalid-feedback">{{ $message }}</div> @enderror --}}
+
+                                                <div class="input-group-append">
+                                                    <button
+                                                        class="btn btn-primary"
+                                                        wire:click="increase({{ $product->id }})"
+                                                        type="button"
+                                                        @unless($basket[$product->id] < $product->available_for_customer_amount) disabled @endunless
+                                                    >+</button>
+                                                </div>
                                         </div>
                                     </div>
                                 @endif

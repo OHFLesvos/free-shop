@@ -71,4 +71,9 @@ class WelcomePage extends Component
 
         return redirect()->route('checkout');
     }
+
+    public function increase($productId)
+    {
+        $this->basket[$productId]++;
+    }
 }
