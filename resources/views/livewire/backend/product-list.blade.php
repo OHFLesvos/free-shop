@@ -36,7 +36,7 @@
                 <th class="text-right">Limit</th>
             </thead>
             <tbody>
-                @foreach($products as $product)
+                @forelse($products as $product)
                     <tr class="cursor-pointer @if(!$product->is_available) table-dark text-dark @endif" wire:click="editProduct({{ $product->id }})">
                         <td class="fit">
                             @isset($product->pictureUrl)
@@ -55,7 +55,13 @@
                         </td>
                         <td class="text-right">{{ $product->customer_limit }}</td>
                     </tr>
-                @endforeach
+                @empty
+                    <tr>
+                        <td colspan="4" class="text-center">
+                            <em>No products registered.</em>
+                        </td>
+                    </tr>
+                @endforelse
             </tbody>
         </table>
     </div>
