@@ -9,7 +9,21 @@ use Livewire\Component;
 class WelcomePage extends Component
 {
     public Collection $products;
+
     public array $basket;
+
+    protected function rules() {
+        $products = $this->products ?? Product::available()->get();
+        $rules = [];
+        foreach ($products as $product) {
+            $rules['basket.' . $product->id] = [
+                'integer',
+                'min:0',
+                'max:' . $product->available_for_customer_amount,
+            ];
+        }
+        return $rules;
+    }
 
     public function mount()
     {
@@ -17,6 +31,7 @@ class WelcomePage extends Component
             ->available()
             ->orderBy('name')
             ->get();
+
         $savedBasket = session()->get('basket', []);
         $this->basket = $this->products
             ->mapWithKeys(fn ($product) => [$product->id => $savedBasket[$product->id] ?? 0])
@@ -27,6 +42,11 @@ class WelcomePage extends Component
     {
         return view('livewire.welcome-page')
             ->layout(null, ['title' => 'Welcome']);
+    }
+
+    public function updated($propertyName)
+    {
+        $this->validateOnly($propertyName);
     }
 
     public function getBasketContentsProperty()
@@ -42,6 +62,8 @@ class WelcomePage extends Component
 
     public function checkout()
     {
+        $this->validate();
+
         session()->put('basket', collect($this->basket)
             ->map(fn ($amount) => ltrim(preg_replace('/[^0-9]/', '', $amount), '0'))
             ->filter(fn ($amount) => $amount > 0)

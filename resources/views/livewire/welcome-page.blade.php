@@ -36,8 +36,9 @@
                                                 min="0"
                                                 max="{{ $product->available_for_customer_amount }}"
                                                 style="max-width: 7em"
-                                                class="form-control @if($basket[$product->id] > 0) is-valid  @endif"
+                                                class="form-control @error('basket.'.$product->id) is-invalid @enderror"
                                                 placeholder="Amount">
+                                            {{-- @error('basket.'.$product->id) <div class="invalid-feedback">{{ $message }}</div> @enderror --}}
                                         </div>
                                     </div>
                                 @endif
@@ -66,9 +67,11 @@
                         </table>
                         <div class="card-footer text-right">
                             <button
-                                class="btn btn-primary"
+                                class="btn @error('basket.*') btn-secondary @else btn-primary @enderror"
                                 wire:click="checkout"
-                                wire:loading.attr="disabled" wire:target="checkout">
+                                @error('basket.*') disabled @enderror
+                                wire:loading.attr="disabled"
+                                wire:target="checkout">
                                 <x-bi-hourglass-split wire:loading wire:target="checkout"/>
                                 Checkout
                             </button>
