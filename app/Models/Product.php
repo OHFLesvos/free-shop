@@ -30,7 +30,9 @@ class Product extends Model
             if (preg_match('#^http[s]?://#', $this->picture)) {
                 return $this->picture;
             }
-            return Storage::url($this->picture);
+            if (Storage::exists($this->picture)) {
+                return Storage::url($this->picture);
+            }
         }
         return null;
     }

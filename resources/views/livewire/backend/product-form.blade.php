@@ -79,7 +79,7 @@
                             Cancel
                         </button>
                     </div>
-                @elseif(isset($product->pictureUrl))
+                @elseif(isset($product->picture))
                     @unless($removePicture)
                         <div class="mb-3">
                             <img
