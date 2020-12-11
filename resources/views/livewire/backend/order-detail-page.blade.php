@@ -60,9 +60,11 @@
             @php
                 $hostname = gethostbyaddr($order->customer_ip_address);
             @endphp
-            <strong>IP Address:</strong> {{ $order->customer_ip_address }}@if($hostname != $order->customer_ip_address), {{ $hostname }}@endif
+            <strong>IP Address:</strong> {{ $order->customer_ip_address }}
+            @if($hostname != $order->customer_ip_address)({{ $hostname }})@endif
             @if(!$order->geoIpLocation->default)
-            ({{ $order->geoIpLocation->city }}, @isset($order->geoIpLocation->state){{ $order->geoIpLocation->state }},@endisset {{ $order->geoIpLocation->country }})
+                <br><strong>Geo Location:</strong>
+                {{ $order->geoIpLocation->city }}, @isset($order->geoIpLocation->state){{ $order->geoIpLocation->state }},@endisset {{ $order->geoIpLocation->country }}
             @endif
             <br>
             <strong>User Agent:</strong> {{ $order->UA->browser() }} {{ $order->UA->browserVersion() }} on {{ $order->UA->platform() }}<br>
