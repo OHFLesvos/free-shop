@@ -7,3 +7,5 @@
 * User notification choices
 * SMS to customer on order change
 * In progress status
+* Basked session
+

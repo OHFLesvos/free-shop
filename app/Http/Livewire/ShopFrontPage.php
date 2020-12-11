@@ -65,7 +65,8 @@ class ShopFrontPage extends Component
             ->map(fn ($amount, $id) => [
                 'name' => $this->products->where('id', $id)->first()->name,
                 'amount' => $amount,
-            ]);
+            ])
+            ->sortBy('name');
     }
 
     public function checkout()

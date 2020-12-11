@@ -99,6 +99,7 @@ class CheckoutPage extends Component
             ->map(fn ($amount, $id) => [
                 'name' => Product::where('id', $id)->first()->name,
                 'amount' => $amount,
-            ]);
+            ])
+            ->sortBy('name');
     }
 }
