@@ -73,10 +73,7 @@ class ShopFrontPage extends Component
     {
         $this->validate();
 
-        session()->put('basket', collect($this->basket)
-            ->map(fn ($amount) => ltrim(preg_replace('/[^0-9]/', '', $amount), '0'))
-            ->filter(fn ($amount) => $amount > 0)
-            ->toArray());
+        $this->storeBasket();
 
         return redirect()->route('checkout');
     }
@@ -86,6 +83,7 @@ class ShopFrontPage extends Component
         if ($this->basket[$productId] > 0)
         {
             $this->basket[$productId]--;
+            $this->storeBasket();
         }
     }
 
@@ -94,6 +92,15 @@ class ShopFrontPage extends Component
         if ($this->basket[$productId] < $this->products->where('id', $productId)->first()->available_for_customer_amount)
         {
             $this->basket[$productId]++;
+            $this->storeBasket();
         }
+    }
+
+    private function storeBasket()
+    {
+        session()->put('basket', collect($this->basket)
+            ->map(fn ($amount) => ltrim(preg_replace('/[^0-9]/', '', $amount), '0'))
+            ->filter(fn ($amount) => $amount > 0)
+            ->toArray());
     }
 }
