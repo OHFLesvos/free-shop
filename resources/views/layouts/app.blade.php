@@ -25,7 +25,7 @@
                                 ],
                                 [
                                     'label' => 'Find your order',
-                                    'route' => 'lookup',
+                                    'route' => 'order-lookup',
                                 ],
                             ];
                         @endphp

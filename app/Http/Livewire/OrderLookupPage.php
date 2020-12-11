@@ -5,7 +5,7 @@ namespace App\Http\Livewire;
 use App\Models\Order;
 use Livewire\Component;
 
-class OrderLookup extends Component
+class OrderLookupPage extends Component
 {
     public string $customer_id_number = '';
     public string $customer_phone = '';
@@ -23,7 +23,7 @@ class OrderLookup extends Component
 
     public function render()
     {
-        return view('livewire.order-lookup')
+        return view('livewire.order-lookup-page')
             ->layout(null, ['title' => 'Find your order']);
     }
 
