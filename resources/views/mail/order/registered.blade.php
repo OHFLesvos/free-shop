@@ -11,6 +11,12 @@ A new order has been registered by **{{ $order->customer_name }}**.
 @endforeach
 @endcomponent
 
+@isset($order->remarks)
+@component('mail::panel')
+Remarks: {{ $order->remarks }}
+@endcomponent
+@endisset
+
 @component('mail::button', ['url' => route('backend.orders.show', $order)])
 View details
 @endcomponent
