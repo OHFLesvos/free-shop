@@ -68,6 +68,6 @@ return [
     |
     */
     'defaults' => [
-        'geoblock.whitelist' => [],
+        //
     ]
 ];

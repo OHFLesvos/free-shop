@@ -41,6 +41,26 @@
             </div>
         </div>
 
+        <div class="card shadow-sm mb-4">
+            <div class="card-header">Customer</div>
+            <div class="card-body pb-1">
+                <div class="form-group">
+                    <label for="orderDefaultPhoneCountry" class="d-block">Default country for phone number</label>
+                    <select
+                        class="custom-select @error('orderDefaultPhoneCountry') is-invalid @enderror"
+                        style="max-width: 20em;"
+                        wire:model.defer="orderDefaultPhoneCountry"
+                        id="orderDefaultPhoneCountry">
+                        <option value="">-- Select country --</option>
+                        @foreach($countries as $key => $val)
+                            <option value="{{ $key }}">{{ $val }}</option>
+                        @endforeach
+                    </select>
+                    @error('orderDefaultPhoneCountry') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                </div>
+            </div>
+        </div>
+
         <button
             type="submit"
             class="btn btn-primary"
