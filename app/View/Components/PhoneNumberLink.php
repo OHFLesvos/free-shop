@@ -17,7 +17,8 @@ class PhoneNumberLink extends Component
      */
     public function __construct(string $value, string $type = 'tel', ?string $body = null)
     {
-        assert(in_array($type, ['tel', 'sms', 'whatsapp']), '$type must be one of [tel, sms]');
+        $types = ['tel', 'sms', 'whatsapp', 'viber'];
+        assert(in_array($type, $types), '$type must be one of [' . implode(', ', $types) . ']');
 
         $this->value = $value;
         $this->type = $type;
@@ -54,6 +55,13 @@ class PhoneNumberLink extends Component
                 $value = 'https://web.whatsapp.com/send?phone=';
             }
             $value .= preg_replace('/[^0-9]/', '', $this->value);
+            if (filled($this->body)) {
+                $value .= '&text=' . urlencode($this->body);
+            }
+            return $value;
+        }
+        if ($this->type == 'viber') {
+            $value = 'viber://chat/?number=' . urlencode($this->value);
             if (filled($this->body)) {
                 $value .= '&text=' . urlencode($this->body);
             }

@@ -40,6 +40,13 @@
                     class="btn btn-primary btn-sm">
                     WhatsApp
                 </x-phone-number-link>
+                <x-phone-number-link
+                    :value="$order->customer_phone"
+                    :body="'Hello '.$order->customer_name.'. '"
+                    type="viber"
+                    class="btn btn-primary btn-sm">
+                    Viber
+            </x-phone-number-link>
             </div>
         </li>
         <li class="list-group-item">
