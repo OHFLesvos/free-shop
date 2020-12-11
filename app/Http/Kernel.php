@@ -24,6 +24,7 @@ class Kernel extends HttpKernel
         \App\Http\Middleware\TrimStrings::class,
         \Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull::class,
         \anlutro\LaravelSettings\SaveMiddleware::class,
+        \App\Http\Middleware\HttpsProtocol::class,
     ];
 
     /**
