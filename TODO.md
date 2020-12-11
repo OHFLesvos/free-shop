@@ -6,5 +6,4 @@
 * Internationalization
 * User notification choices
 * SMS to customer on order change
-* Phone number validation
-* Phone country code selection
+* In progress status
