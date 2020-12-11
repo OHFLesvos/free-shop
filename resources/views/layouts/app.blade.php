@@ -40,6 +40,9 @@
                     </ul>
                     <ul class="navbar-nav">
                         <li class="nav-item">
+                            <a class="nav-link" href="{{ route('languages') }}">@lang('Switch language')</a>
+                        </li>
+                        <li class="nav-item">
                             <a class="nav-link" href="{{ route('backend') }}">@lang('Backend')</a>
                         </li>
                     </ul>

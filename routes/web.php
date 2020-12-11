@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\LanguageSelectController;
 use App\Http\Livewire\Backend\OrderDetailPage;
 use App\Http\Livewire\Backend\OrderListPage;
 use App\Http\Livewire\Backend\ProductCreatePage;
@@ -22,10 +23,14 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('geoblock.whitelist')
+Route::middleware(['geoblock.whitelist', 'set-language'])
     ->group(function () {
         Route::redirect('/', 'shop')
             ->name('home');
+        Route::get('languages', [LanguageSelectController::class, 'index'])
+            ->name('languages');
+        Route::get('languages/{lang}', [LanguageSelectController::class, 'change'])
+            ->name('languages.change');
         Route::get('shop', ShopFrontPage::class)
             ->name('shop-front');
         Route::get('checkout', CheckoutPage::class)
