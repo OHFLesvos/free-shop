@@ -44,7 +44,7 @@
                     </ul>
                     <ul class="navbar-nav">
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('welcome') }}">Frontend</a>
+                            <a class="nav-link" href="{{ route('home') }}">Frontend</a>
                         </li>
                     </ul>
                 </div>

@@ -8,7 +8,7 @@ use App\Http\Livewire\Backend\ProductList;
 use App\Http\Livewire\Backend\SettingsPage;
 use App\Http\Livewire\CheckoutPage;
 use App\Http\Livewire\OrderLookup;
-use App\Http\Livewire\WelcomePage;
+use App\Http\Livewire\ShopFrontPage;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -24,8 +24,10 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware('geoblock.whitelist')
     ->group(function () {
-        Route::get('/', WelcomePage::class)
-        ->name('welcome');
+        Route::redirect('/', 'shop')
+            ->name('home');
+        Route::get('shop', ShopFrontPage::class)
+            ->name('shop-front');
         Route::get('checkout', CheckoutPage::class)
             ->name('checkout');
         Route::get('lookup', OrderLookup::class)

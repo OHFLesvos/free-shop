@@ -6,7 +6,7 @@ use App\Models\Product;
 use Illuminate\Support\Collection;
 use Livewire\Component;
 
-class WelcomePage extends Component
+class ShopFrontPage extends Component
 {
     public Collection $products;
     public Collection $categories;
@@ -48,8 +48,8 @@ class WelcomePage extends Component
 
     public function render()
     {
-        return view('livewire.welcome-page')
-            ->layout(null, ['title' => 'Welcome']);
+        return view('livewire.shop-front-page')
+            ->layout(null, ['title' => 'Choose your items']);
     }
 
     public function updated($propertyName)

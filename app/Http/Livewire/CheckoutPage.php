@@ -32,7 +32,7 @@ class CheckoutPage extends Component
     {
         $this->basket = session()->get('basket', []);
         if (count($this->basket) == 0) {
-            return redirect()->route('welcome');
+            return redirect()->route('shop-front');
         }
 
         $this->order = new Order();
@@ -69,7 +69,7 @@ class CheckoutPage extends Component
     {
         session()->forget('basket');
 
-        return redirect()->route('welcome');
+        return redirect()->route('shop-front');
     }
 
     public function getBasketContentsProperty()
