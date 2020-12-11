@@ -1,18 +1,18 @@
 <div>
     @if($submitted)
         <x-alert type="success">
-            Your order has been submitted and your order number is <strong>#{{ $order->id }}</strong>.<br>
-            We will contact you via your phone <strong>{{ $order->customer_phone }}</strong> when the order is ready.
+            @lang('Your order has been submitted and your order number is <strong>#:id</strong>.', ['id' => $order->id])<br>
+            @lang('We will contact you via your phone <strong>:phone</strong> when the order is ready.', ['phone' => $order->customer_phone])
         </x-alert>
     @else
         <form wire:submit.prevent="submit" class="mb-4" autocomplete="off">
             <div class="card mb-4 shadow-sm">
-                <div class="card-header">Selected products</div>
+                <div class="card-header">@lang('Selected products')</div>
                 <table class="table m-0">
                     <thead>
                         <tr>
-                            <th>Item</th>
-                            <th>Amount</th>
+                            <th>@lang('Item')</th>
+                            <th>@lang('Amount')</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -26,12 +26,12 @@
                 </table>
             </div>
             <div class="card mb-4 shadow-sm">
-                <div class="card-header">Contact data</div>
+                <div class="card-header">@lang('Contact data')</div>
                 <div class="card-body">
                     <div class="form-row">
                         <div class="col-md">
                             <div class="form-group">
-                                <label for="inputCustomerName">First & last name</label>
+                                <label for="inputCustomerName">@lang('First & last name')</label>
                                 <input
                                     type="text"
                                     class="form-control @error('order.customer_name') is-invalid @enderror"
@@ -41,12 +41,14 @@
                                     autocomplete="off"
                                     aria-describedby="customerNameHelp">
                                 @error('order.customer_name') <div class="invalid-feedback">{{ $message }}</div> @enderror
-                                <small id="customerNameHelp" class="form-text text-muted">Write your full name according to your identification document.</small>
+                                <small id="customerNameHelp" class="form-text text-muted">
+                                    @lang('Write your full name according to your identification document.')
+                                </small>
                             </div>
                         </div>
                         <div class="col-md">
                             <div class="form-group">
-                                <label for="inputCustomerIdNumber">ID number</label>
+                                <label for="inputCustomerIdNumber">@lang('ID number')</label>
                                 <input
                                     type="text"
                                     class="form-control @error('order.customer_id_number') is-invalid @enderror"
@@ -56,14 +58,16 @@
                                     autocomplete="off"
                                     aria-describedby="customerIdNumberHelp">
                                 @error('order.customer_id_number') <div class="invalid-feedback">{{ $message }}</div> @enderror
-                                <small id="customerIdNumberHelp" class="form-text text-muted">Write your ID number according to your identification document.</small>
+                                <small id="customerIdNumberHelp" class="form-text text-muted">
+                                    @lang('Write your ID number according to your identification document.')
+                                </small>
                             </div>
                         </div>
                     </div>
                     <div class="form-row">
                         <div class="col-md">
                             <div class="form-group">
-                                <label for="inputCustomerPhone">Mobile phone number</label>
+                                <label for="inputCustomerPhone">@lang('Mobile phone number')</label>
                                 <div class="input-group">
                                     <select class="custom-select" style="max-width: 10em;" wire:model.defer="phone_country">
                                         @foreach($countries as $key => $val)
@@ -80,12 +84,14 @@
                                         aria-describedby="customerPhoneHelp">
                                     @error('phone') <div class="invalid-feedback">{{ $message }}</div> @enderror
                                 </div>
-                                <small id="customerPhoneHelp" class="form-text text-muted">We will send updates about your order to this number.</small>
+                                <small id="customerPhoneHelp" class="form-text text-muted">
+                                    @lang('We will send updates about your order to this number.')
+                                </small>
                             </div>
                         </div>
                         <div class="col-md">
                             <div class="form-group">
-                                <label for="inputRemarks">Remarks</label>
+                                <label for="inputRemarks">@lang('Remarks')</label>
                                 <textarea
                                     class="form-control @error('order.remarks') is-invalid @enderror"
                                     id="inputRemarks"
@@ -94,7 +100,9 @@
                                     autocomplete="off"
                                     aria-describedby="remarksHelp"></textarea>
                                 @error('order.remarks') <div class="invalid-feedback">{{ $message }}</div> @enderror
-                                <small id="remarksHelp" class="form-text text-muted">Please write if we need to know anything more regarding your order.</small>
+                                <small id="remarksHelp" class="form-text text-muted">
+                                    @lang('Please write if we need to know anything more regarding your order.')
+                                </small>
                             </div>
                         </div>
                     </div>
@@ -105,13 +113,13 @@
                     type="button"
                     class="btn btn-outline-secondary"
                     wire:click="restart">
-                    Restart
+                    @lang('Restart')
                 </button>
                 <button
                     type="submit"
                     class="btn btn-primary">
                     <x-bi-hourglass-split wire:loading wire:target="submit"/>
-                    Send order
+                    @lang('Send order')
                 </button>
             </div>
         </form>

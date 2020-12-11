@@ -1,12 +1,12 @@
 <div>
     <form wire:submit.prevent="submit" class="mb-4" autocomplete="off">
         <div class="card mb-4 shadow-sm">
-            <div class="card-header">Find your order</div>
+            <div class="card-header">@lang('Find your order')</div>
             <div class="card-body">
                 <div class="form-row">
                     <div class="col-md">
                         <div class="form-group">
-                            <label for="inputCustomerIdNumber">Your ID number</label>
+                            <label for="inputCustomerIdNumber">@lang('Your ID number')</label>
                             <input
                                 type="text"
                                 class="form-control @error('customer_id_number') is-invalid @enderror"
@@ -20,7 +20,7 @@
                     </div>
                     <div class="col-md">
                         <div class="form-group">
-                            <label for="inputCustomerPhone">Your phone number</label>
+                            <label for="inputCustomerPhone">@lang('Your phone number')</label>
                             <input
                                 type="tel"
                                 class="form-control @error('customer_phone') is-invalid @enderror"
@@ -39,7 +39,7 @@
                 type="submit"
                 class="btn btn-primary">
                 <x-bi-hourglass-split wire:loading wire:target="submit"/>
-                Search
+                @lang('Search')
             </button>
         </div>
     </form>
@@ -48,7 +48,7 @@
             <h4>{{ $order->created_at->isoFormat('LLLL') }}</h4>
             <div class="card mb-4 shadow-sm">
                 <div class="card-header">
-                    Order for {{ $order->customer_name }}
+                    @lang('Order for :name', ['name' => $order->customer_name])
                 </div>
                 <table class="table table-bordered m-0">
                     <tbody>
@@ -80,21 +80,21 @@
                 </table>
                 @isset($order->remarks)
                     <div class="card-body">
-                        <strong>Your remarks:</strong> {!! nl2br(e($order->remarks)) !!}
+                        <strong>@lang('Your remarks:')</strong> {!! nl2br(e($order->remarks)) !!}
                     </div>
                 @endisset
                 <div class="card-footer">
                     @if($order->cancelled_at !== null)
-                        This order has been <span class="text-danger">cancelled</span> on {{ $order->cancelled_at->isoFormat('LLLL') }}.
+                        @lang('This order has been cancelled on :date.', ['date' => $order->cancelled_at->isoFormat('LLLL')])
                     @elseif($order->completed_at !== null)
-                        This order has been <span class="text-success">completed</span> on {{ $order->completed_at->isoFormat('LLLL') }}.
+                        @lang('This order has been completed on :date.', ['date' => $order->completed_at->isoFormat('LLLL')])
                     @else
-                        This order is still <span class="text-info">open.</span>
+                        @lang('This order is still open.')'
                     @endif
                 </div>
             </div>
         @empty
-            <x-alert type="info">No orders found.</x-alert>
+            <x-alert type="info">@lang('No orders found.')</x-alert>
         @endforelse
     @endif
 </div>

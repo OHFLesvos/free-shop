@@ -20,11 +20,11 @@
                         @php
                             $items = [
                                 [
-                                    'label' => 'Shop',
+                                    'label' => __('Shop'),
                                     'route' => 'shop-front',
                                 ],
                                 [
-                                    'label' => 'Find your order',
+                                    'label' => __('Find your order'),
                                     'route' => 'order-lookup',
                                 ],
                             ];
@@ -40,7 +40,7 @@
                     </ul>
                     <ul class="navbar-nav">
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('backend') }}">Backend</a>
+                            <a class="nav-link" href="{{ route('backend') }}">@lang('Backend')</a>
                         </li>
                     </ul>
                 </div>

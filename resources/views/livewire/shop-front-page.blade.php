@@ -1,5 +1,5 @@
 <div>
-    <p>Please place an order from our selection of items:</p>
+    <p>@lang('Please place an order from our selection of items:')</p>
     @if($products->isNotEmpty())
         <div class="row">
             <div class="col-md">
@@ -59,10 +59,10 @@
             </div>
             <div class="col-md-4">
                 <div class="card shadow-sm sticky mb-4">
-                    <div class="card-header">Your order</div>
+                    <div class="card-header">@lang('Your order')</div>
                     @if($this->basketContents->isEmpty())
                         <div class="card-body">
-                            Please add some products.
+                            @lang('Please add some products.')
                         </div>
                     @else
                         <table class="table m-0">
@@ -83,7 +83,7 @@
                                 wire:loading.attr="disabled"
                                 wire:target="checkout">
                                 <x-bi-hourglass-split wire:loading wire:target="checkout"/>
-                                Checkout
+                                @lang('Checkout')
                             </button>
                         </div>
                     @endif
