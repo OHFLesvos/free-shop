@@ -70,9 +70,11 @@
                                 <label for="inputCustomerPhone">@lang('Mobile phone number')</label>
                                 <div class="input-group">
                                     <select class="custom-select" style="max-width: 10em;" wire:model.defer="phone_country">
-                                        @foreach($countries as $key => $val)
-                                            <option value="{{ $key }}">{{ $val }}</option>
-                                        @endforeach
+                                        @isset($countries)
+                                            @foreach($countries as $key => $val)
+                                                <option value="{{ $key }}">{{ $val }}</option>
+                                            @endforeach
+                                        @endif
                                     </select>
                                     <input
                                         type="tel"

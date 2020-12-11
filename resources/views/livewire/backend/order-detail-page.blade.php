@@ -18,6 +18,15 @@
             {{ $order->customer_name }}<br>
             <strong>ID Number:</strong>
             {{ $order->customer_id_number }}<br>
+            @isset($order->locale)
+                <strong>Language:</strong>
+                @isset(config('app.supported_languages')[$order->locale])
+                    {{ config('app.supported_languages')[$order->locale] }} ({{ $order->locale }})
+                @else
+                    {{ $order->locale }}
+                @endif
+                <br>
+            @endisset
             <strong>Phone:</strong>
             {{ $order->customer_phone }}
             @php

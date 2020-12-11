@@ -66,6 +66,7 @@ class CheckoutPage extends Component
 
         $this->order->customer_ip_address = $request->ip();
         $this->order->customer_user_agent = $request->server('HTTP_USER_AGENT');
+        $this->order->locale = app()->getLocale();
         $this->order->save();
 
         collect($this->basket)
