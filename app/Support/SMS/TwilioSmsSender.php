@@ -55,6 +55,10 @@ class TwilioSmsSender implements SmsSender
                 'from' => $this->number,
                 'body' => $message]
             );
+            Log::debug('SMS sent.', [
+                'recipient' => $recipient,
+                'messages' => $message,
+            ]);
         } catch (RestException $ex) {
             Log::error($ex->getMessage());
         }

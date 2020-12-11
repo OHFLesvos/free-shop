@@ -3,6 +3,7 @@
 namespace App\Listeners;
 
 use App\Support\SMS\SmsSender;
+use Illuminate\Support\Facades\Log;
 
 class SendOrderNotificationToCustomer
 {
@@ -35,6 +36,12 @@ class SendOrderNotificationToCustomer
                 $event->order->products->map(fn ($product) => $product->pivot->amount . 'x ' . $product->name)->join(', ')
             );
             $this->smsSender->sendMessage($message, $event->order->customer_phone);
+        } else {
+            Log::error('Unable to send SMS to customer; SMS service is not configured.', [
+                'name' => $event->order->customer_name,
+                'id_number' => $event->order->customer_id_number,
+                'phone' => $event->order->customer_phone,
+            ]);
         }
     }
 }
