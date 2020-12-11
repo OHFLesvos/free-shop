@@ -6,7 +6,7 @@
         <div class="card shadow-sm mb-4">
             <div class="card-header">Geoblock Whitelist</div>
             <div class="card-body">
-                <p class="card-text">Select countries from which clients would be able to access the shop. If left empty, all countries are allowed.</p>
+                <p class="card-text">Select countries from which clients are able to access the shop. If left empty, all countries are allowed.</p>
                 @php
                     $list = $this->countries->filter(fn ($val, $key) => $geoblockWhitelist->contains($key))
                 @endphp

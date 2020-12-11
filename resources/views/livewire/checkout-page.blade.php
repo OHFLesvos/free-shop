@@ -73,7 +73,7 @@
                                     autocomplete="off"
                                     aria-describedby="customerPhoneHelp">
                                 @error('order.customer_phone') <div class="invalid-feedback">{{ $message }}</div> @enderror
-                                <small id="customerPhoneHelp" class="form-text text-muted">We will send you updates about your order to this number.</small>
+                                <small id="customerPhoneHelp" class="form-text text-muted">We will send updates about your order to this number.</small>
                             </div>
                         </div>
                         <div class="col-md">
