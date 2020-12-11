@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Storage;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 
-class ProductEdit extends Component
+class ProductEditPage extends Component
 {
     use WithFileUploads;
 

@@ -6,7 +6,7 @@ use App\Models\Order;
 use Livewire\Component;
 use Livewire\WithPagination;
 
-class OrderList extends Component
+class OrderListPage extends Component
 {
     use WithPagination;
 
@@ -27,7 +27,7 @@ class OrderList extends Component
         session()->put('orders.search', $this->search);
         session()->put('orders.status', $this->status);
 
-        return view('livewire.backend.order-list', [
+        return view('livewire.backend.order-list-page', [
             'orders' => Order::query()
                 ->when($this->status == 'open', fn ($qry) => $qry->open())
                 ->when($this->status == 'completed', fn ($qry) => $qry->completed())

@@ -1,10 +1,10 @@
 <?php
 
-use App\Http\Livewire\Backend\OrderDetail;
-use App\Http\Livewire\Backend\OrderList;
-use App\Http\Livewire\Backend\ProductCreate;
-use App\Http\Livewire\Backend\ProductEdit;
-use App\Http\Livewire\Backend\ProductList;
+use App\Http\Livewire\Backend\OrderDetailPage;
+use App\Http\Livewire\Backend\OrderListPage;
+use App\Http\Livewire\Backend\ProductCreatePage;
+use App\Http\Livewire\Backend\ProductEditPage;
+use App\Http\Livewire\Backend\ProductListPage;
 use App\Http\Livewire\Backend\SettingsPage;
 use App\Http\Livewire\CheckoutPage;
 use App\Http\Livewire\OrderLookupPage;
@@ -41,15 +41,15 @@ Route::middleware('auth.basic')
         Route::prefix('backend')
             ->name('backend.')
             ->group(function () {
-                Route::get('orders', OrderList::class)
+                Route::get('orders', OrderListPage::class)
                     ->name('orders');
-                Route::get('orders/{order}', OrderDetail::class)
+                Route::get('orders/{order}', OrderDetailPage::class)
                     ->name('orders.show');
-                Route::get('products', ProductList::class)
+                Route::get('products', ProductListPage::class)
                     ->name('products');
-                Route::get('products/_create', ProductCreate::class)
+                Route::get('products/_create', ProductCreatePage::class)
                     ->name('products.create');
-                Route::get('products/{product}/edit', ProductEdit::class)
+                Route::get('products/{product}/edit', ProductEditPage::class)
                     ->name('products.edit');
                 Route::get('settings', SettingsPage::class)
                     ->name('settings');

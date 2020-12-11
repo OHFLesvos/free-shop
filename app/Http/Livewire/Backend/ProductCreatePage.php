@@ -7,7 +7,7 @@ use Illuminate\Support\Collection;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 
-class ProductCreate extends Component
+class ProductCreatePage extends Component
 {
     use WithFileUploads;
 

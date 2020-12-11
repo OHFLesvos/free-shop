@@ -5,7 +5,7 @@ namespace App\Http\Livewire\Backend;
 use App\Models\Product;
 use Livewire\Component;
 
-class ProductList extends Component
+class ProductListPage extends Component
 {
     public string $state;
 
@@ -18,7 +18,7 @@ class ProductList extends Component
     {
         session()->put('products.state', $this->state);
 
-        return view('livewire.backend.product-list', [
+        return view('livewire.backend.product-list-page', [
             'products' => Product::query()
                 ->when($this->state == 'available', fn ($qry) => $qry->available())
                 ->when($this->state == 'disabled', fn ($qry) => $qry->disabled())

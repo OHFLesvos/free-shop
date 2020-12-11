@@ -6,7 +6,7 @@ use App\Models\Order;
 use Illuminate\Database\Eloquent\Collection;
 use Livewire\Component;
 
-class OrderDetail extends Component
+class OrderDetailPage extends Component
 {
     public Order $order;
 
@@ -25,7 +25,7 @@ class OrderDetail extends Component
 
     public function render()
     {
-        return view('livewire.backend.order-detail')
+        return view('livewire.backend.order-detail-page')
             ->layout('layouts.backend', ['title' => 'Order #' . $this->order->id]);
     }
 
