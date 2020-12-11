@@ -34,7 +34,7 @@ class SendOrderNotification
         });
 
         $message = 'Hello ' . $event->order->customer_name . ' (' . $event->order->customer_id_number . ')' .
-            ', we receiver your order with ID #' . $event->order->id . ' and will get back to you. You ordered: '.
+            ', we received your order with ID #' . $event->order->id . ' and will get back to you. You ordered: '.
             $event->order->products->map(fn ($product) => $product->pivot->amount . 'x ' . $product->name)->join(', ');
         $this->sendMessage($message, $event->order->customer_phone);
     }
