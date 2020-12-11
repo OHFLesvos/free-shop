@@ -30,8 +30,10 @@
             <strong>Phone:</strong>
             {{ $order->customer_phone }}
             @php
-                $phone = Propaganistas\LaravelPhone\PhoneNumber::make($order->customer_phone);
-                $phoneCountry = optional($phone)->getCountry();
+                try {
+                    $phone = Propaganistas\LaravelPhone\PhoneNumber::make($order->customer_phone);
+                    $phoneCountry = optional($phone)->getCountry();
+                } catch (Throwable $ignored) {}
             @endphp
             @isset($phoneCountry)
                 ({{ Countries::getOne($phoneCountry, 'en') }})
