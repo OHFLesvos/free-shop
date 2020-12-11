@@ -13,7 +13,7 @@
                                 id="inputIdNumber"
                                 wire:model.defer="id_number"
                                 required
-                                autofocus
+                                @if($results === null) autofocus @endif
                                 autocomplete="off">
                             @error('id_number') <div class="invalid-feedback">{{ $message }}</div> @enderror
                         </div>
