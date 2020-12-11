@@ -1,4 +1,5 @@
 {
+    "Hello :customer_name (:customer_id), we received your order with ID #:id and will get back to you soon.\\nYou ordered the following items: :items": "Bonjour :customer_name (:customer_id), nous avons reçu votre commande avec le numéro de commande #:id et nous vous recontacterons bientôt.\nVous avez commandé les articles suivants : :items",
     "Unavailable for legal reasons": "Non disponible pour des raisons juridiques",
     "This site is not available in :country": "Ce site n'est pas disponible dans :country",
     "Choose your language": "Choisissez votre langue",
@@ -14,7 +15,7 @@
     "Contact data": "Données de contact",
     "First & last name": "Prénom et nom",
     "Write your full name according to your identification document.": "Inscrivez votre nom complet en fonction de votre document d'identification.",
-    "ID number": "ID number",
+    "ID number": "Numéro d'identification",
     "Write your ID number according to your identification document.": "Inscrivez votre numéro d'identification en fonction de votre document d'identification.",
     "Mobile phone number": "Numéro de téléphone portable",
     "We will send updates about your order to this number.": "Nous vous enverrons des mises à jour concernant votre commande à ce numéro.",
