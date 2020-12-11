@@ -19,7 +19,10 @@
             <strong>ID Number:</strong>
             {{ $order->customer_id_number }}<br>
             <strong>Phone:</strong>
-            <a href="tel:{{ $order->customer_phone }}">{{ $order->customer_phone }}</a><br>
+            {{ $order->customer_phone }}
+            <x-phone-number-link :value="$order->customer_phone" class="btn btn-primary btn-sm">Call</x-phone-number-link>
+            <x-phone-number-link :value="$order->customer_phone" type="sms" class="btn btn-primary btn-sm">Message</x-phone-number-link>
+            <br>
             {!! whatsapp_link($order->customer_phone, 'Open in WhatsApp', 'Hello '.$order->customer_name) !!}
         </li>
         <li class="list-group-item">
