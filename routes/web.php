@@ -25,7 +25,12 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware(['geoblock.whitelist', 'set-language'])
     ->group(function () {
-        Route::redirect('/', 'shop')
+        Route::get('/', function() {
+                if (! session()->has('lang')) {
+                    return redirect()->route('languages');
+                }
+                return redirect()->route('shop-front');
+            })
             ->name('home');
         Route::get('languages', [LanguageSelectController::class, 'index'])
             ->name('languages');
