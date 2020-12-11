@@ -17,14 +17,14 @@
         "fruitcake/laravel-cors": "^2.0",
         "guzzlehttp/guzzle": "^7.0.1",
         "kkomelin/laravel-translatable-string-exporter": "^1.11",
+        "laravel-notification-channels/twilio": "^3.1",
         "laravel/framework": "^8.12",
         "laravel/tinker": "^2.5",
         "league/flysystem-aws-s3-v3": "~1.0",
         "livewire/livewire": "^2.3",
         "monarobase/country-list": "^3.2",
         "propaganistas/laravel-phone": "^4.2",
-        "torann/geoip": "^3.0",
-        "twilio/sdk": "^6.15"
+        "torann/geoip": "^3.0"
     },
     "require-dev": {
         "facade/ignition": "^2.5",

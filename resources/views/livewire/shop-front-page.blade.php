@@ -26,6 +26,7 @@
                                                     <button
                                                         class="btn btn-primary"
                                                         wire:click="decrease({{ $product->id }})"
+                                                        wire:loading.attr="disabled"
                                                         type="button"
                                                     >-</button>
                                                 </div>
@@ -42,6 +43,7 @@
                                                 <button
                                                     class="btn @unless($basket[$product->id] < $product->available_for_customer_amount) btn-secondary @else btn-primary @endunless"
                                                     wire:click="increase({{ $product->id }})"
+                                                    wire:loading.attr="disabled"
                                                     type="button"
                                                     @unless($basket[$product->id] < $product->available_for_customer_amount) disabled @endunless
                                                 >+</button>

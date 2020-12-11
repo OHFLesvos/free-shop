@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "61725d9ff8aa71cb72145615c96d692b",
+    "content-hash": "5818d758436e9b19ea67e38d328ce1f2",
     "packages": [
         {
             "name": "anlutro/l4-settings",
@@ -1391,6 +1391,74 @@
                 "translations"
             ],
             "time": "2020-09-09T10:41:01+00:00"
+        },
+        {
+            "name": "laravel-notification-channels/twilio",
+            "version": "3.1.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/laravel-notification-channels/twilio.git",
+                "reference": "509c76853124418ca21f3257c0c832cc5018cfd2"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/laravel-notification-channels/twilio/zipball/509c76853124418ca21f3257c0c832cc5018cfd2",
+                "reference": "509c76853124418ca21f3257c0c832cc5018cfd2",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/events": "^5.8 || ^6.0 || ^7.0 || ^8.0",
+                "illuminate/notifications": "^5.8 || ^6.0 || ^7.0 || ^8.0",
+                "illuminate/queue": "^5.8 || ^6.0 || ^7.0 || ^8.0",
+                "illuminate/support": "^5.8 || ^6.0 || ^7.0 || ^8.0",
+                "php": ">=7.2",
+                "twilio/sdk": "~6.0"
+            },
+            "require-dev": {
+                "mockery/mockery": "^1.3",
+                "phpunit/phpunit": "^8.5"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "NotificationChannels\\Twilio\\TwilioProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "NotificationChannels\\Twilio\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Gregorio Hernández Caso",
+                    "email": "gregoriohc@gmail.com",
+                    "homepage": "https://github.com/gregoriohc",
+                    "role": "Developer"
+                },
+                {
+                    "name": "atymic",
+                    "email": "atymicq@gmail.com",
+                    "homepage": "https://atymic.dev",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Provides Twilio notification channel for Laravel",
+            "keywords": [
+                "call",
+                "laravel",
+                "mms",
+                "notification",
+                "sms",
+                "twilio"
+            ],
+            "time": "2020-10-19T20:04:03+00:00"
         },
         {
             "name": "laravel/framework",

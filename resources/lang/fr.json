@@ -1,5 +1,6 @@
 {
-    "Hello :customer_name (:customer_id), we received your order with ID #:id and will get back to you soon.\\nYou ordered the following items: :items": "Bonjour :customer_name (:customer_id), nous avons reçu votre commande avec le numéro de commande #:id et nous vous recontacterons bientôt.\nVous avez commandé les articles suivants : :items",
+    "Hello :customer_name (ID :customer_id), we have received your order with ID #:id and will get back to you soon.": "Bonjour :customer_name (ID :customer_id), nous avons reçu votre commande avec le numéro de commande #:id et nous vous recontacterons bientôt.",
+    "You ordered the following items:": "Vous avez commandé les articles suivants :",
     "Unavailable for legal reasons": "Non disponible pour des raisons juridiques",
     "This site is not available in :country": "Ce site n'est pas disponible dans :country",
     "Choose your language": "Choisissez votre langue",

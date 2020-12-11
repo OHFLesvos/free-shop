@@ -2,13 +2,15 @@
 
 namespace App\Http\Livewire;
 
-use App\Events\OrderSubmitted;
 use App\Models\Order;
 use App\Models\Product;
+use App\Models\User;
+use App\Notifications\OrderRegistered;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Livewire\Component;
 use Countries;
+use Illuminate\Support\Facades\Notification;
 use Propaganistas\LaravelPhone\PhoneNumber;
 
 class CheckoutPage extends Component
@@ -75,7 +77,8 @@ class CheckoutPage extends Component
                 $this->order->products()->attach($id, ['amount' => $amount]);
             });
 
-        OrderSubmitted::dispatch($this->order);
+        $this->order->notify(new OrderRegistered($this->order));
+        Notification::send(User::all(), new OrderRegistered($this->order));
 
         $this->submitted = true;
 

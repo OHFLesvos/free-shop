@@ -4,20 +4,24 @@ namespace App\Models;
 
 use donatj\UserAgent\UserAgentParser;
 use Dyrynda\Database\Support\NullableFields;
+use Illuminate\Contracts\Translation\HasLocalePreference;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\DB;
 
-class Order extends Model
+class Order extends Model implements HasLocalePreference
 {
     use HasFactory;
     use NullableFields;
+    use Notifiable;
 
     protected $nullable = [
         'remarks',
         'completed_at',
         'cancelled_at',
+        'locale',
     ];
 
     protected $dates = [
@@ -61,11 +65,6 @@ class Order extends Model
         $qry->where(DB::raw('TRIM(LEADING \'0\' FROM (REGEXP_REPLACE(' . $field . ', \'[^0-9]+\', \'\')))'), ltrim(preg_replace('/[^0-9]/', '', $value), '0'));
     }
 
-    public function setCustomerPhoneAttribute($value)
-    {
-        $this->attributes['customer_phone'] = preg_replace("/\s+/", '', $value);
-    }
-
     public function getUAAttribute()
     {
         $parser = new UserAgentParser();
@@ -75,5 +74,15 @@ class Order extends Model
     public function getGeoIpLocationAttribute()
     {
         return geoip()->getLocation($this->customer_ip_address);
+    }
+
+    public function routeNotificationForTwilio()
+    {
+        return $this->customer_phone;
+    }
+
+    public function preferredLocale()
+    {
+        return $this->locale;
     }
 }
