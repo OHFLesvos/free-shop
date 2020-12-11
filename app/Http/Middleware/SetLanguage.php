@@ -16,8 +16,10 @@ class SetLanguage
      */
     public function handle(Request $request, Closure $next)
     {
-        if (session()->has('lang')) {
-            app()->setLocale(session()->get('lang'));
+        $lang = $request->input('lang', session()->get('lang'));
+        if ($lang !== null && isset(config('app.supported_languages')[$lang])) {
+            app()->setLocale($lang);
+            session()->put('lang', $lang);
         }
 
         return $next($request);
