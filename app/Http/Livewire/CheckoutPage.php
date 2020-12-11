@@ -6,28 +6,35 @@ use App\Events\OrderSubmitted;
 use App\Models\Order;
 use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
 use Livewire\Component;
+use Countries;
+use Propaganistas\LaravelPhone\PhoneNumber;
 
 class CheckoutPage extends Component
 {
     public Order $order;
     public array $basket;
     public bool $submitted = false;
+    public Collection $countries;
+    public string $phone = '';
+    public string $phone_country;
 
     protected $rules = [
         'order.customer_name' => 'required',
         'order.customer_id_number' => 'required',
-        'order.customer_phone' => [
+        'phone' => [
             'required',
-            'phone:AUTO,mobile',
+            'phone:phone_country,mobile',
         ],
+        'phone_country' => 'required_with:phone',
         'order.remarks' => 'nullable',
     ];
 
     protected $validationAttributes = [
         'order.customer_name' => 'name',
         'order.customer_id_number' => 'ID number',
-        'order.customer_phone' => 'phone number',
+        'phone' => 'phone number',
         'order.remarks' => 'remarks',
     ];
 
@@ -39,6 +46,9 @@ class CheckoutPage extends Component
         }
 
         $this->order = new Order();
+
+        $this->countries = collect(Countries::getList('en'));
+        $this->phone_country = 'GR'; // TODO
     }
 
     public function render()
@@ -50,6 +60,9 @@ class CheckoutPage extends Component
     public function submit(Request $request)
     {
         $this->validate();
+
+        $this->order->customer_phone = PhoneNumber::make($this->phone, $this->phone_country)
+            ->formatE164();
 
         $this->order->customer_ip_address = $request->ip();
         $this->order->customer_user_agent = $request->server('HTTP_USER_AGENT');

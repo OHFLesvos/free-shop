@@ -20,6 +20,13 @@
             {{ $order->customer_id_number }}<br>
             <strong>Phone:</strong>
             {{ $order->customer_phone }}
+            @php
+                $phone = Propaganistas\LaravelPhone\PhoneNumber::make($order->customer_phone);
+                $phoneCountry = optional($phone)->getCountry();
+            @endphp
+            @isset($phoneCountry)
+                ({{ Countries::getOne($phoneCountry, 'en') }})
+            @endisset
             <div class="mt-2">
                 <x-phone-number-link
                     :value="$order->customer_phone"

@@ -64,15 +64,22 @@
                         <div class="col-md">
                             <div class="form-group">
                                 <label for="inputCustomerPhone">Mobile phone number</label>
-                                <input
-                                    type="tel"
-                                    class="form-control @error('order.customer_phone') is-invalid @enderror"
-                                    id="inputCustomerPhone"
-                                    wire:model.defer="order.customer_phone"
-                                    required
-                                    autocomplete="off"
-                                    aria-describedby="customerPhoneHelp">
-                                @error('order.customer_phone') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                                <div class="input-group">
+                                    <select class="custom-select" style="max-width: 10em;" wire:model.defer="phone_country">
+                                        @foreach($countries as $key => $val)
+                                            <option value="{{ $key }}">{{ $val }}</option>
+                                        @endforeach
+                                    </select>
+                                    <input
+                                        type="tel"
+                                        class="form-control @error('phone') is-invalid @enderror"
+                                        id="inputCustomerPhone"
+                                        wire:model.defer="phone"
+                                        required
+                                        autocomplete="off"
+                                        aria-describedby="customerPhoneHelp">
+                                    @error('phone') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                                </div>
                                 <small id="customerPhoneHelp" class="form-text text-muted">We will send updates about your order to this number.</small>
                             </div>
                         </div>
