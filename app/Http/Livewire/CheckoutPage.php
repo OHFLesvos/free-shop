@@ -47,7 +47,7 @@ class CheckoutPage extends Component
 
         $this->order = new Order();
 
-        $this->countries = collect(Countries::getList('en'));
+        $this->countries = collect(Countries::getList(app()->getLocale()));
         $this->phone_country = setting()->get('order.default_phone_country', '');
     }
 

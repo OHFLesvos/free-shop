@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "37e2d1c0d079a35bf943dee34403a2e2",
+    "content-hash": "61725d9ff8aa71cb72145615c96d692b",
     "packages": [
         {
             "name": "anlutro/l4-settings",
@@ -1334,6 +1334,63 @@
                 "url"
             ],
             "time": "2020-09-30T07:37:11+00:00"
+        },
+        {
+            "name": "kkomelin/laravel-translatable-string-exporter",
+            "version": "1.11.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/kkomelin/laravel-translatable-string-exporter.git",
+                "reference": "7dc77d52a4662d57e1f2cb884be702b3ffbddfb9"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/kkomelin/laravel-translatable-string-exporter/zipball/7dc77d52a4662d57e1f2cb884be702b3ffbddfb9",
+                "reference": "7dc77d52a4662d57e1f2cb884be702b3ffbddfb9",
+                "shasum": ""
+            },
+            "require": {
+                "ext-json": "*",
+                "illuminate/support": "^5.4|^6|^7|^8",
+                "illuminate/translation": "^5.4|^6|^7|^8",
+                "php": ">=5.4.0",
+                "symfony/finder": "^3.2|^4|^5"
+            },
+            "require-dev": {
+                "orchestra/testbench": "^3.4|^4.0|^5.0|^6.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "KKomelin\\TranslatableStringExporter\\Providers\\ExporterServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "KKomelin\\TranslatableStringExporter\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Konstantin Komelin",
+                    "email": "konstantin.komelin@gmail.com"
+                }
+            ],
+            "description": "Translatable String Exporter for Laravel",
+            "keywords": [
+                "export",
+                "exporter",
+                "json",
+                "laravel",
+                "translations"
+            ],
+            "time": "2020-09-09T10:41:01+00:00"
         },
         {
             "name": "laravel/framework",
