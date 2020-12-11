@@ -27,9 +27,4 @@ class ProductListPage extends Component
             ])
             ->layout('layouts.backend', ['title' => 'Products']);
     }
-
-    public function editProduct($id)
-    {
-        return redirect()->route('backend.products.edit', $id);
-    }
 }

@@ -38,7 +38,7 @@
             </thead>
             <tbody>
                 @forelse($orders as $order)
-                    <tr class="cursor-pointer" wire:click="showOrder({{ $order->id }})">
+                    <tr data-href="{{ route('backend.orders.show', $order) }}">
                         <td>{{ $order->id }}</td>
                         <td>
                             @if($order->cancelled_at !== null)

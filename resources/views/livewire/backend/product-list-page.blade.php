@@ -37,7 +37,10 @@
             </thead>
             <tbody>
                 @forelse($products as $product)
-                    <tr class="cursor-pointer @if(!$product->is_available) table-dark text-dark @endif" wire:click="editProduct({{ $product->id }})">
+                    <tr
+                        data-href="{{ route('backend.products.edit', $product) }}"
+                        class="@if(!$product->is_available) table-dark text-dark @endif"
+                    >
                         <td class="fit">
                             @isset($product->pictureUrl)
                                 <img

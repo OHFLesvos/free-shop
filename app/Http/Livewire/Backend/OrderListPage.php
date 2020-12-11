@@ -43,9 +43,4 @@ class OrderListPage extends Component
     {
         $this->resetPage();
     }
-
-    public function showOrder($id)
-    {
-        return redirect()->route('backend.orders.show', $id);
-    }
 }

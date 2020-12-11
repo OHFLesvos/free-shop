@@ -76,7 +76,7 @@
             <table class="table table-bordered table-hover m-0">
                 <tbody>
                     @foreach($relatedOrders as $relatedOrder)
-                        <tr class="cursor-pointer" wire:click="showOrder({{ $relatedOrder->id }})">
+                        <tr data-href="{{ route('backend.orders.show', $relatedOrder) }}">
                             <td>{{ $relatedOrder->id }}</td>
                             <td>
                                 {{ $relatedOrder->created_at->isoFormat('LLLL') }}<br>

@@ -13,6 +13,6 @@ div.sticky {
     width: 1%;
 }
 
-.cursor-pointer {
+*[data-href] {
     cursor: pointer;
 }
