@@ -63,7 +63,7 @@
                     <div class="form-row">
                         <div class="col-md">
                             <div class="form-group">
-                                <label for="inputCustomerPhone">Phone number</label>
+                                <label for="inputCustomerPhone">Mobile phone number</label>
                                 <input
                                     type="tel"
                                     class="form-control @error('order.customer_phone') is-invalid @enderror"
