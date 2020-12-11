@@ -5,6 +5,7 @@ namespace App\Http\Livewire;
 use App\Events\OrderSubmitted;
 use App\Models\Order;
 use App\Models\Product;
+use App\Rules\PhoneNumber;
 use Illuminate\Http\Request;
 use Livewire\Component;
 
@@ -47,6 +48,10 @@ class CheckoutPage extends Component
     public function submit(Request $request)
     {
         $this->validate();
+        $this->validate([
+            'order.customer_phone' => new PhoneNumber,
+        ]);
+        return;
 
         $this->order->customer_ip_address = $request->ip();
         $this->order->customer_user_agent = $request->server('HTTP_USER_AGENT');

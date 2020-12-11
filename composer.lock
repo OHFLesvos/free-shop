@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "dd82dcd76f79bf42dcfa51e52257cffe",
+    "content-hash": "a49191b73725c5762537fc00b0a29673",
     "packages": [
         {
             "name": "anlutro/l4-settings",
@@ -324,6 +324,47 @@
                 }
             ],
             "time": "2020-08-18T23:57:15+00:00"
+        },
+        {
+            "name": "brick/phonenumber",
+            "version": "0.2.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/brick/phonenumber.git",
+                "reference": "8bce37b0a4e569bae773fc2a254892acd0eb05d1"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/brick/phonenumber/zipball/8bce37b0a4e569bae773fc2a254892acd0eb05d1",
+                "reference": "8bce37b0a4e569bae773fc2a254892acd0eb05d1",
+                "shasum": ""
+            },
+            "require": {
+                "giggsey/libphonenumber-for-php": "7.* || 8.*",
+                "php": ">=7.1"
+            },
+            "require-dev": {
+                "php-coveralls/php-coveralls": "2.*",
+                "phpunit/phpunit": "7.*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Brick\\PhoneNumber\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "Phone number library",
+            "keywords": [
+                "brick",
+                "phone",
+                "phone number",
+                "phonenumber"
+            ],
+            "time": "2020-02-06T21:38:12+00:00"
         },
         {
             "name": "davidhsianturi/blade-bootstrap-icons",
@@ -935,6 +976,123 @@
                 }
             ],
             "time": "2020-10-22T13:57:20+00:00"
+        },
+        {
+            "name": "giggsey/libphonenumber-for-php",
+            "version": "8.12.14",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/giggsey/libphonenumber-for-php.git",
+                "reference": "c42a963110b08b8a4a419c35566bf9d3456ba479"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/giggsey/libphonenumber-for-php/zipball/c42a963110b08b8a4a419c35566bf9d3456ba479",
+                "reference": "c42a963110b08b8a4a419c35566bf9d3456ba479",
+                "shasum": ""
+            },
+            "require": {
+                "giggsey/locale": "^1.7",
+                "php": ">=5.3.2",
+                "symfony/polyfill-mbstring": "^1.17"
+            },
+            "require-dev": {
+                "pear/pear-core-minimal": "^1.9",
+                "pear/pear_exception": "^1.0",
+                "pear/versioncontrol_git": "^0.5",
+                "phing/phing": "^2.7",
+                "php-coveralls/php-coveralls": "^1.0|^2.0",
+                "symfony/console": "^2.8|^3.0",
+                "symfony/phpunit-bridge": "^4.2 || ^5"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "8.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "libphonenumber\\": "src/"
+                },
+                "exclude-from-classmap": [
+                    "/src/data/",
+                    "/src/carrier/data/",
+                    "/src/geocoding/data/",
+                    "/src/timezone/data/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache-2.0"
+            ],
+            "authors": [
+                {
+                    "name": "Joshua Gigg",
+                    "email": "giggsey@gmail.com",
+                    "homepage": "https://giggsey.com/"
+                }
+            ],
+            "description": "PHP Port of Google's libphonenumber",
+            "homepage": "https://github.com/giggsey/libphonenumber-for-php",
+            "keywords": [
+                "geocoding",
+                "geolocation",
+                "libphonenumber",
+                "mobile",
+                "phonenumber",
+                "validation"
+            ],
+            "time": "2020-12-02T10:54:10+00:00"
+        },
+        {
+            "name": "giggsey/locale",
+            "version": "1.9",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/giggsey/Locale.git",
+                "reference": "b07f1eace8072ccc61445ad8fbd493ff9d783043"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/giggsey/Locale/zipball/b07f1eace8072ccc61445ad8fbd493ff9d783043",
+                "reference": "b07f1eace8072ccc61445ad8fbd493ff9d783043",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.2"
+            },
+            "require-dev": {
+                "pear/pear-core-minimal": "^1.9",
+                "pear/pear_exception": "^1.0",
+                "pear/versioncontrol_git": "^0.5",
+                "phing/phing": "~2.7",
+                "php-coveralls/php-coveralls": "^1.0|^2.0",
+                "phpunit/phpunit": "^4.8|^5.0",
+                "symfony/console": "^2.8|^3.0|^4.0",
+                "symfony/filesystem": "^2.8|^3.0|^4.0",
+                "symfony/finder": "^2.8|^3.0|^4.0",
+                "symfony/process": "^2.8|^3.0|^4.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Giggsey\\Locale\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Joshua Gigg",
+                    "email": "giggsey@gmail.com",
+                    "homepage": "http://giggsey.com/"
+                }
+            ],
+            "description": "Locale functions required by libphonenumber-for-php",
+            "time": "2020-07-07T11:16:24+00:00"
         },
         {
             "name": "graham-campbell/result-type",
