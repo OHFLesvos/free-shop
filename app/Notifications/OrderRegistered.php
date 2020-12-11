@@ -8,6 +8,7 @@ use Illuminate\Notifications\Messages\MailMessage;
 use NotificationChannels\Twilio\TwilioChannel;
 use NotificationChannels\Twilio\TwilioSmsMessage;
 use Illuminate\Notifications\Notification;
+use Illuminate\Support\Facades\Log;
 
 class OrderRegistered extends Notification
 {
@@ -30,7 +31,10 @@ class OrderRegistered extends Notification
             return ['mail'];
         }
         if ($notifiable instanceof Order) {
-            return [TwilioChannel::class];
+            if (filled(config('twilio-notification-channel.account_sid'))) {
+                return [TwilioChannel::class];
+            }
+            Log::warning('Cannot send notification, SMS provider not properly configured.');
         }
     }
 
