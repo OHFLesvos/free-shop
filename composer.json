@@ -21,7 +21,8 @@
         "league/flysystem-aws-s3-v3": "~1.0",
         "livewire/livewire": "^2.3",
         "monarobase/country-list": "^3.2",
-        "torann/geoip": "^3.0"
+        "torann/geoip": "^3.0",
+        "twilio/sdk": "^6.15"
     },
     "require-dev": {
         "facade/ignition": "^2.5",
