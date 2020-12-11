@@ -33,7 +33,7 @@
                                             @endif
                                             <input
                                                 type="number"
-                                                wire:model="basket.{{ $product->id }}"
+                                                wire:model.lazy="basket.{{ $product->id }}"
                                                 min="0"
                                                 max="{{ $product->available_for_customer_amount }}"
                                                 style="max-width: 7em"
