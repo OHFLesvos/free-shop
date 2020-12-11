@@ -6,29 +6,29 @@
                 <div class="form-row">
                     <div class="col-md">
                         <div class="form-group">
-                            <label for="inputCustomerIdNumber">@lang('Your ID number')</label>
+                            <label for="inputIdNumber">@lang('Your ID number')</label>
                             <input
                                 type="text"
-                                class="form-control @error('customer_id_number') is-invalid @enderror"
-                                id="inputCustomerIdNumber"
-                                wire:model.defer="customer_id_number"
+                                class="form-control @error('id_number') is-invalid @enderror"
+                                id="inputIdNumber"
+                                wire:model.defer="id_number"
                                 required
                                 autofocus
                                 autocomplete="off">
-                            @error('customer_id_number') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                            @error('id_number') <div class="invalid-feedback">{{ $message }}</div> @enderror
                         </div>
                     </div>
                     <div class="col-md">
                         <div class="form-group">
-                            <label for="inputCustomerPhone">@lang('Your phone number')</label>
+                            <label for="inputPhone">@lang('Your phone number')</label>
                             <input
                                 type="tel"
-                                class="form-control @error('customer_phone') is-invalid @enderror"
-                                id="inputCustomerPhone"
-                                wire:model.defer="customer_phone"
+                                class="form-control @error('phone') is-invalid @enderror"
+                                id="inputPhone"
+                                wire:model.defer="phone"
                                 required
                                 autocomplete="off">
-                            @error('customer_phone') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                            @error('phone') <div class="invalid-feedback">{{ $message }}</div> @enderror
                         </div>
                     </div>
                 </div>
@@ -48,7 +48,7 @@
             <h4>{{ $order->created_at->isoFormat('LLLL') }}</h4>
             <div class="card mb-4 shadow-sm">
                 <div class="card-header">
-                    @lang('Order for :name', ['name' => $order->customer_name])
+                    @lang('Products')
                 </div>
                 <table class="table table-bordered m-0">
                     <tbody>
@@ -78,18 +78,13 @@
                         @endforeach
                     </tbody>
                 </table>
-                @isset($order->remarks)
-                    <div class="card-body">
-                        <strong>@lang('Your remarks:')</strong> {!! nl2br(e($order->remarks)) !!}
-                    </div>
-                @endisset
                 <div class="card-footer">
                     @if($order->cancelled_at !== null)
                         @lang('This order has been cancelled on :date.', ['date' => $order->cancelled_at->isoFormat('LLLL')])
                     @elseif($order->completed_at !== null)
                         @lang('This order has been completed on :date.', ['date' => $order->completed_at->isoFormat('LLLL')])
                     @else
-                        @lang('This order is still open.')'
+                        @lang('This order is in progress.')
                     @endif
                 </div>
             </div>

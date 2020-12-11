@@ -45,10 +45,7 @@ class OrderRegistered extends Notification
             'customer_id' => $this->order->customer_id_number,
             'id' => $this->order->id,
         ]);
-        $message .= "\n" . __('You ordered the following items:');
-        $message .= "\n" . $this->order->products
-                ->map(fn ($product) => $product->pivot->amount . 'x ' . $product->name)
-                ->join("\n");
+        $message .= "\n" . __('More information: ') . route('order-lookup', ['id_number' => $this->order->customer_id_number, 'phone' => $this->order->customer_phone]);
         return (new TwilioSmsMessage())
             ->content($message);
     }

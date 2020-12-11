@@ -7,19 +7,34 @@ use Livewire\Component;
 
 class OrderLookupPage extends Component
 {
-    public string $customer_id_number = '';
-    public string $customer_phone = '';
+    public string $id_number = '';
+    public string $phone = '';
     public $results = null;
 
+    protected $queryString = [
+        'id_number' => ['except' => ''],
+        'phone' => ['except' => ''],
+    ];
+
     protected $rules = [
-        'customer_id_number' => 'required',
-        'customer_phone' => 'required',
+        'id_number' => 'required',
+        'phone' => [
+            'required',
+            'phone:AUTO'
+        ],
     ];
 
     protected $validationAttributes = [
-        'customer_id_number' => 'ID number',
-        'customer_phone' => 'phone number',
+        'id_number' => 'ID number',
+        'phone' => 'phone number',
     ];
+
+    public function mount()
+    {
+        if (filled($this->id_number) && filled($this->phone)) {
+            $this->results = $this->search($this->id_number, $this->phone);
+        }
+    }
 
     public function render()
     {
@@ -31,9 +46,14 @@ class OrderLookupPage extends Component
     {
         $this->validate();
 
-        $this->results = Order::query()
-            ->whereNumberCompare('customer_id_number', $this->customer_id_number)
-            ->whereNumberCompare('customer_phone', $this->customer_phone)
+        $this->results = $this->search($this->id_number, $this->phone);
+    }
+
+    private function search($id_number, $phone)
+    {
+        return Order::query()
+            ->whereNumberCompare('customer_id_number', $id_number)
+            ->whereNumberCompare('customer_phone', $phone)
             ->orderBy('created_at', 'desc')
             ->get();
     }
