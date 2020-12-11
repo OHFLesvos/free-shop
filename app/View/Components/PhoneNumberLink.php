@@ -17,7 +17,7 @@ class PhoneNumberLink extends Component
      */
     public function __construct(string $value, string $type = 'tel', ?string $body = null)
     {
-        assert(in_array($type, ['tel', 'sms']), '$type must be one of [tel, sms]');
+        assert(in_array($type, ['tel', 'sms', 'whatsapp']), '$type must be one of [tel, sms]');
 
         $this->value = $value;
         $this->type = $type;
@@ -36,6 +36,29 @@ class PhoneNumberLink extends Component
 
     public function href()
     {
+        if ($this->type == 'whatsapp') {
+            $user_agent = $_SERVER['HTTP_USER_AGENT'];
+            $iphone = strpos($user_agent, 'iPhone');
+            $android = strpos($user_agent, 'Android');
+            $palmpre = strpos($user_agent, 'webOS');
+            $berry = strpos($user_agent, 'BlackBerry');
+            $ipod = strpos($user_agent, 'iPod');
+            $chrome = strpos($user_agent, 'Chrome');
+            $value = '';
+            if ($android || $iphone) {
+                $value = 'whatsapp://send?phone=';
+            } elseif ($palmpre || $ipod || $berry || $chrome) {
+                $value = 'https://api.whatsapp.com/send?phone=';
+            } else {
+                $this->attributes['target'] = '_blank';
+                $value = 'https://web.whatsapp.com/send?phone=';
+            }
+            $value .= preg_replace('/[^0-9]/', '', $this->value);
+            if (filled($this->body)) {
+                $value .= '&text=' . urlencode($this->body);
+            }
+            return $value;
+        }
         if ($this->type == 'sms') {
             $value = 'sms://' . $this->value;
             if (filled($this->body)) {

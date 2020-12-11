@@ -20,10 +20,27 @@
             {{ $order->customer_id_number }}<br>
             <strong>Phone:</strong>
             {{ $order->customer_phone }}
-            <x-phone-number-link :value="$order->customer_phone" class="btn btn-primary btn-sm">Call</x-phone-number-link>
-            <x-phone-number-link :value="$order->customer_phone" type="sms" class="btn btn-primary btn-sm">Message</x-phone-number-link>
-            <br>
-            {!! whatsapp_link($order->customer_phone, 'Open in WhatsApp', 'Hello '.$order->customer_name) !!}
+            <div class="mt-2">
+                <x-phone-number-link
+                    :value="$order->customer_phone"
+                    class="btn btn-primary btn-sm">
+                    Call
+                </x-phone-number-link>
+                <x-phone-number-link
+                    :value="$order->customer_phone"
+                    :body="'Hello '.$order->customer_name. '. '"
+                    type="sms"
+                    class="btn btn-primary btn-sm">
+                    SMS
+                </x-phone-number-link>
+                <x-phone-number-link
+                    :value="$order->customer_phone"
+                    :body="'Hello '.$order->customer_name.'. '"
+                    type="whatsapp"
+                    class="btn btn-primary btn-sm">
+                    WhatsApp
+                </x-phone-number-link>
+            </div>
         </li>
         <li class="list-group-item">
             @php
@@ -44,77 +61,81 @@
     </ul>
     <div class="card shadow-sm mb-4">
         <div class="card-header">Products</div>
-        <table class="table table-bordered m-0">
-            <tbody>
-                @php
-                    $hasPictures = $order->products->whereNotNull('pictureUrl')->isNotEmpty();
-                @endphp
-                @foreach($order->products as $product)
-                    <tr>
-                        @if($hasPictures)
-                            <td class="fit">
-                                @isset($product->pictureUrl)
-                                    <img
-                                        src="{{ $product->pictureUrl }}"
-                                        alt="Product Image"
-                                        style="max-width: 100px; max-height: 75px"/>
-                                @endisset
-                            </td>
-                        @endif
-                        <td>
-                            {{ $product->name }}<br>
-                            <small>{{ $product->category }}</small>
-                        </td>
-                        <td class="fit text-right">
-                            <strong><big>{{ $product->pivot->amount }}</big></strong>
-                        </td>
-                    </tr>
-                @endforeach
-            </tbody>
-        </table>
-    </div>
-    @if($relatedOrders->isNotEmpty())
-        <div class="card shadow-sm mb-4">
-            <div class="card-header">Related orders</div>
-            <table class="table table-bordered table-hover m-0">
+        <div class="table-responsive">
+            <table class="table table-bordered m-0">
                 <tbody>
-                    @foreach($relatedOrders as $relatedOrder)
-                        <tr data-href="{{ route('backend.orders.show', $relatedOrder) }}">
-                            <td>{{ $relatedOrder->id }}</td>
+                    @php
+                        $hasPictures = $order->products->whereNotNull('pictureUrl')->isNotEmpty();
+                    @endphp
+                    @foreach($order->products as $product)
+                        <tr>
+                            @if($hasPictures)
+                                <td class="fit">
+                                    @isset($product->pictureUrl)
+                                        <img
+                                            src="{{ $product->pictureUrl }}"
+                                            alt="Product Image"
+                                            style="max-width: 100px; max-height: 75px"/>
+                                    @endisset
+                                </td>
+                            @endif
                             <td>
-                                {{ $relatedOrder->created_at->isoFormat('LLLL') }}<br>
-                                <small>{{ $relatedOrder->created_at->diffForHumans() }}</small>
-                                @isset($relatedOrder->cancelled_at)
-                                    <br><br>Cancelled:<br>
-                                    {{ $relatedOrder->cancelled_at->isoFormat('LLLL') }}<br>
-                                    <small>{{ $relatedOrder->cancelled_at->diffForHumans() }}</small>
-                                @endif
-                                @isset($relatedOrder->completed_at)
-                                    <br><br>Completed:<br>
-                                    {{ $relatedOrder->completed_at->isoFormat('LLLL') }}<br>
-                                    <small>{{ $relatedOrder->completed_at->diffForHumans() }}</small>
-                                @endif
+                                {{ $product->name }}<br>
+                                <small>{{ $product->category }}</small>
                             </td>
-                            <td>
-                                <strong>Name:</strong> {{ $relatedOrder->customer_name }}<br>
-                                <strong>ID Number:</strong> {{ $relatedOrder->customer_id_number }}<br>
-                                <strong>Phone:</strong> {{ $relatedOrder->customer_phone }}
-                            </td>
-                            <td>
-                                @foreach($relatedOrder->products as $product)
-                                    <strong>{{ $product->pivot->amount }}</strong> {{ $product->name }}<br>
-                                @endforeach
+                            <td class="fit text-right">
+                                <strong><big>{{ $product->pivot->amount }}</big></strong>
                             </td>
                         </tr>
                     @endforeach
                 </tbody>
             </table>
         </div>
+    </div>
+    @if($relatedOrders->isNotEmpty())
+        <div class="card shadow-sm mb-4">
+            <div class="card-header">Related orders</div>
+            <div class="table-responsive">
+                <table class="table table-bordered table-hover m-0">
+                    <tbody>
+                        @foreach($relatedOrders as $relatedOrder)
+                            <tr data-href="{{ route('backend.orders.show', $relatedOrder) }}">
+                                <td>{{ $relatedOrder->id }}</td>
+                                <td>
+                                    {{ $relatedOrder->created_at->isoFormat('LLLL') }}<br>
+                                    <small>{{ $relatedOrder->created_at->diffForHumans() }}</small>
+                                    @isset($relatedOrder->cancelled_at)
+                                        <br><br>Cancelled:<br>
+                                        {{ $relatedOrder->cancelled_at->isoFormat('LLLL') }}<br>
+                                        <small>{{ $relatedOrder->cancelled_at->diffForHumans() }}</small>
+                                    @endif
+                                    @isset($relatedOrder->completed_at)
+                                        <br><br>Completed:<br>
+                                        {{ $relatedOrder->completed_at->isoFormat('LLLL') }}<br>
+                                        <small>{{ $relatedOrder->completed_at->diffForHumans() }}</small>
+                                    @endif
+                                </td>
+                                <td>
+                                    <strong>Name:</strong> {{ $relatedOrder->customer_name }}<br>
+                                    <strong>ID Number:</strong> {{ $relatedOrder->customer_id_number }}<br>
+                                    <strong>Phone:</strong> {{ $relatedOrder->customer_phone }}
+                                </td>
+                                <td>
+                                    @foreach($relatedOrder->products as $product)
+                                        <strong>{{ $product->pivot->amount }}</strong> {{ $product->name }}<br>
+                                    @endforeach
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+        </div>
     @endif
-    <div class="d-flex justify-content-between mb-3">
+    <div class="d-md-flex justify-content-between">
         <a
             href="{{ route('backend.orders') }}"
-            class="btn btn-outline-primary">Back to orders</a>
+            class="btn btn-outline-primary mb-3">Back to orders</a>
         @if($order->cancelled_at !== null)
             Cancelled
         @elseif($order->completed_at !== null)
@@ -123,7 +144,7 @@
             <span>
                 <button
                     type="button"
-                    class="btn btn-danger"
+                    class="btn btn-danger mb-3"
                     wire:click="cancel"
                     wire:loading.attr="disabled">
                     <x-bi-hourglass-split wire:loading/>
@@ -131,7 +152,7 @@
                 </button>
                 <button
                     type="button"
-                    class="btn btn-primary"
+                    class="btn btn-primary mb-3"
                     wire:click="complete"
                     wire:loading.attr="disabled">
                     <x-bi-hourglass-split wire:loading/>

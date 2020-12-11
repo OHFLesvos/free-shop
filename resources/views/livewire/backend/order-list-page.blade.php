@@ -1,7 +1,7 @@
 <div>
-    <div class="d-md-flex justify-content-between align-items-center mb-2">
-        <h1>Orders</h1>
-        <div class="btn-group" role="group">
+    <div class="d-md-flex justify-content-between align-items-center">
+        <h1 class="mb-3">Orders</h1>
+        <div class="btn-group mb-3" role="group">
             <button
                 type="button"
                 class="btn @if($status == 'open') btn-primary @else btn-outline-primary @endif"

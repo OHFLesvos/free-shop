@@ -1,11 +1,11 @@
 <div>
-    <div class="d-md-flex justify-content-between align-items-center mb-2">
-        <h1>Products</h1>
+    <div class="d-md-flex justify-content-between align-items-center">
+        <h1 class="mb-3">Products</h1>
         <span>
             <a
                 href="{{ route('backend.products.create') }}"
-                class="btn btn-primary">Register</a>
-            <div class="btn-group" role="group">
+                class="btn btn-primary mb-3">Register</a>
+            <div class="btn-group mb-3" role="group">
                 <button
                     type="button"
                     class="btn @if($state == 'all') btn-primary @else btn-outline-primary @endif"
