@@ -58,8 +58,8 @@
                             <strong>Phone:</strong> {{ $order->customer_phone }}
                         </td>
                         <td>
-                            @foreach($order->products as $product)
-                                <strong>{{ $product->pivot->amount }}</strong> {{ $product->name }}<br>
+                            @foreach($order->products->sortBy('name') as $product)
+                                <strong>{{ $product->pivot->quantity }}</strong> {{ $product->name }}<br>
                             @endforeach
                         </td>
                     </tr>

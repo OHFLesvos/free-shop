@@ -35,7 +35,7 @@ class ProductsSheet implements FromQuery, WithMapping, WithHeadings, WithColumnF
         return [
             'Name',
             'Category',
-            'Stock amount',
+            'Stock',
             'Limit per order',
             'Available',
             'Description',
@@ -49,7 +49,7 @@ class ProductsSheet implements FromQuery, WithMapping, WithHeadings, WithColumnF
         return [
             $order->name,
             $order->category,
-            $order->stock_amount,
+            $order->stock,
             $order->limit_per_order,
             $order->is_available ? 'Yes' : 'No',
             $order->description,

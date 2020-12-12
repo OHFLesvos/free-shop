@@ -87,16 +87,16 @@
         <div class="form-row">
             <div class="col-md">
                 <div class="form-group">
-                    <label for="inputStockAmount">Stock amount</label>
+                    <label for="inputStock">Stock</label>
                     <input
                         type="number"
                         min="0"
-                        class="form-control @error('product.stock_amount') is-invalid @enderror"
-                        id="inputStockAmount"
+                        class="form-control @error('product.stock') is-invalid @enderror"
+                        id="inputStock"
                         required
                         autocomplete="off"
-                        wire:model.defer="product.stock_amount">
-                    @error('product.stock_amount') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                        wire:model.defer="product.stock">
+                    @error('product.stock') <div class="invalid-feedback">{{ $message }}</div> @enderror
                 </div>
             </div>
             <div class="col-md">

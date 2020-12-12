@@ -28,8 +28,16 @@ class ProductEditPage extends Component
             'category.*' => 'nullable',
             'category.' . $defaultLocale => 'required',
             'description.*' => 'nullable',
-            'product.stock_amount' => 'required|integer|min:0',
-            'product.limit_per_order' => 'nullable|integer|min:0',
+            'product.stock' => [
+                'required',
+                'integer',
+                'min:0',
+            ],
+            'product.limit_per_order' => [
+                'nullable',
+                'integer',
+                'min:0',
+            ],
             'product.is_available' => 'boolean',
             'picture' => 'nullable|image|max:4096',
         ];

@@ -67,7 +67,8 @@ class OrdersSheet implements FromQuery, WithMapping, WithHeadings, WithColumnFor
             $order->UA->platform(),
             $order->locale,
             $order->products
-                ->map(fn ($product) => sprintf('%dx %s', $product->pivot->amount, $product->name))
+                ->sortBy('name')
+                ->map(fn ($product) => sprintf('%dx %s', $product->pivot->quantity, $product->name))
                 ->join(', '),
             $order->remarks,
             Date::dateTimeToExcel($order->updated_at->toUserTimezone()),

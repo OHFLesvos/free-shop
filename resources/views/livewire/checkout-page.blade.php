@@ -12,14 +12,14 @@
                     <thead>
                         <tr>
                             <th>@lang('Item')</th>
-                            <th class="text-right">@lang('Amount')</th>
+                            <th class="text-right">@lang('Quantity')</th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach($this->basketContents as $item)
                             <tr>
                                 <td>{{ $item['name'] }}</td>
-                                <td class="text-right"><strong>{{ $item['amount'] }}</strong></td>
+                                <td class="text-right"><strong>{{ $item['quantity'] }}</strong></td>
                             </tr>
                         @endforeach
                     </tbody>

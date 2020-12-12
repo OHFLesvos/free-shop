@@ -27,7 +27,7 @@ class ProductFactory extends Factory
             'category' => ucfirst($this->faker->word),
             'picture' => $this->faker->boolean(70) ? 'https://picsum.photos/seed/' . md5($name) . '/300/150' : null,
             'description' => $this->faker->optional(0.9)->text,
-            'stock_amount' => $this->faker->numberBetween(0, 1000),
+            'stock' => $this->faker->numberBetween(0, 1000),
             'limit_per_order' => $this->faker->optional(0.2)->numberBetween(0, 10),
             'is_available' => $this->faker->boolean(80),
         ];

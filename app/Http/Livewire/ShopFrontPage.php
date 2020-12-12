@@ -20,7 +20,7 @@ class ShopFrontPage extends Component
             $rules['basket.' . $product->id] = [
                 'integer',
                 'min:0',
-                'max:' . $product->available_for_customer_amount,
+                'max:' . $product->quantity_available_for_customer,
             ];
         }
         return $rules;
@@ -31,7 +31,7 @@ class ShopFrontPage extends Component
         $this->products = Product::query()
             ->available()
             ->get()
-            ->filter(fn ($product) => $product->available_for_customer_amount > 0)
+            ->filter(fn ($product) => $product->quantity_available_for_customer > 0)
             ->sortBy('name');
 
         $this->categories = $this->products->values()
@@ -60,11 +60,11 @@ class ShopFrontPage extends Component
     public function getBasketContentsProperty()
     {
         return collect($this->basket)
-            ->map(fn ($amount) => ltrim(preg_replace('/[^0-9]/', '', $amount), '0'))
-            ->filter(fn ($amount) => $amount > 0)
-            ->map(fn ($amount, $id) => [
+            ->map(fn ($quantity) => ltrim(preg_replace('/[^0-9]/', '', $quantity), '0'))
+            ->filter(fn ($quantity) => $quantity > 0)
+            ->map(fn ($quantity, $id) => [
                 'name' => $this->products->where('id', $id)->first()->name,
-                'amount' => $amount,
+                'quantity' => $quantity,
             ])
             ->sortBy('name');
     }
@@ -89,7 +89,7 @@ class ShopFrontPage extends Component
 
     public function increase($productId)
     {
-        if ($this->basket[$productId] < $this->products->where('id', $productId)->first()->available_for_customer_amount)
+        if ($this->basket[$productId] < $this->products->where('id', $productId)->first()->quantity_available_for_customer)
         {
             $this->basket[$productId]++;
             $this->storeBasket();
@@ -99,8 +99,8 @@ class ShopFrontPage extends Component
     private function storeBasket()
     {
         session()->put('basket', collect($this->basket)
-            ->map(fn ($amount) => ltrim(preg_replace('/[^0-9]/', '', $amount), '0'))
-            ->filter(fn ($amount) => $amount > 0)
+            ->map(fn ($quantity) => ltrim(preg_replace('/[^0-9]/', '', $quantity), '0'))
+            ->filter(fn ($quantity) => $quantity > 0)
             ->toArray());
     }
 }

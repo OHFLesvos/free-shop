@@ -32,7 +32,7 @@ class Order extends Model implements HasLocalePreference
     public function products()
     {
         return $this->belongsToMany(Product::class)
-            ->withPivot('amount');
+            ->withPivot('quantity');
     }
 
     public function scopeOpen(Builder $qry)

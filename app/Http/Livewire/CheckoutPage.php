@@ -72,9 +72,9 @@ class CheckoutPage extends Component
         $this->order->save();
 
         collect($this->basket)
-            ->filter(fn ($amount) => $amount > 0)
-            ->each(function ($amount, $id) {
-                $this->order->products()->attach($id, ['amount' => $amount]);
+            ->filter(fn ($quantity) => $quantity > 0)
+            ->each(function ($quantity, $id) {
+                $this->order->products()->attach($id, ['quantity' => $quantity]);
             });
 
         $this->order->notify(new OrderRegistered($this->order));
@@ -95,10 +95,10 @@ class CheckoutPage extends Component
     public function getBasketContentsProperty()
     {
         return collect($this->basket)
-            ->filter(fn ($amount) => $amount > 0)
-            ->map(fn ($amount, $id) => [
+            ->filter(fn ($quantity) => $quantity > 0)
+            ->map(fn ($quantity, $id) => [
                 'name' => Product::where('id', $id)->first()->name,
-                'amount' => $amount,
+                'quantity' => $quantity,
             ])
             ->sortBy('name');
     }

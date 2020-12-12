@@ -94,7 +94,7 @@
                     @php
                         $hasPictures = $order->products->whereNotNull('pictureUrl')->isNotEmpty();
                     @endphp
-                    @foreach($order->products as $product)
+                    @foreach($order->products->sortBy('name') as $product)
                         <tr>
                             @if($hasPictures)
                                 <td class="fit">
@@ -110,8 +110,8 @@
                                 {{ $product->name }}<br>
                                 <small>{{ $product->category }}</small>
                             </td>
-                            <td class="fit text-right">
-                                <strong><big>{{ $product->pivot->amount }}</big></strong>
+                            <td class="fit text-right align-middle">
+                                <strong><big>{{ $product->pivot->quantity }}</big></strong>
                             </td>
                         </tr>
                     @endforeach
@@ -148,8 +148,8 @@
                                     <strong>Phone:</strong> {{ $relatedOrder->customer_phone }}
                                 </td>
                                 <td>
-                                    @foreach($relatedOrder->products as $product)
-                                        <strong>{{ $product->pivot->amount }}</strong> {{ $product->name }}<br>
+                                    @foreach($relatedOrder->products->sortBy('name') as $product)
+                                        <strong>{{ $product->pivot->quantity }}</strong> {{ $product->name }}<br>
                                     @endforeach
                                 </td>
                             </tr>

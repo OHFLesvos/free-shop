@@ -19,7 +19,7 @@ class CreateProductsTable extends Migration
             $table->json('category');
             $table->string('picture')->nullable();
             $table->json('description')->nullable();
-            $table->unsignedInteger('stock_amount')->default(0);
+            $table->unsignedInteger('stock')->default(0);
             $table->unsignedInteger('limit_per_order')->nullable();
             $table->boolean('is_available')->default(true);
             $table->timestamps();

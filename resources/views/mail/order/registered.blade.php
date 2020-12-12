@@ -4,10 +4,10 @@
 A new order has been registered by **{{ $order->customer_name }}**.
 
 @component('mail::table')
-| Item          | Amount        |
+| Item          | Quantity      |
 | ------------- | -------------:|
-@foreach($order->products as $product)
-| {{ $product->name }} | {{  $product->pivot->amount }} |
+@foreach($order->products->sortBy('name') as $product)
+| {{ $product->name }} | {{  $product->pivot->quantity }} |
 @endforeach
 @endcomponent
 

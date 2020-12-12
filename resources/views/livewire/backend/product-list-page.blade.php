@@ -53,8 +53,8 @@
                         <td>{{ $product->category }}</td>
                         <td>{{ $product->description }}</td>
                         <td class="text-right">
-                            {{ $product->stock_amount }}<br>
-                            <small>{{ $product->free_amount }} / {{ $product->reserved_amount }}</small>
+                            {{ $product->stock }}<br>
+                            <small>{{ $product->free_quantity }} / {{ $product->reserved_quantity }}</small>
                         </td>
                         <td class="text-right">{{ $product->limit_per_order }}</td>
                     </tr>

@@ -28,7 +28,7 @@ class Product extends Model
     public function orders()
     {
         return $this->belongsToMany(Order::class)
-            ->withPivot('amount');
+            ->withPivot('quantity');
     }
 
     public function getPictureUrlAttribute()
@@ -44,24 +44,24 @@ class Product extends Model
         return null;
     }
 
-    public function getReservedAmountAttribute()
+    public function getReservedQuantityAttribute()
     {
         return $this->orders
-            ->map(fn ($order) => $order->pivot->amount)
+            ->map(fn ($order) => $order->pivot->quantity)
             ->sum();
     }
 
-    public function getFreeAmountAttribute()
+    public function getFreeQuantityAttribute()
     {
-        return $this->stock_amount - $this->reserved_amount;
+        return $this->stock - $this->reserved_quantity;
     }
 
-    public function getAvailableForCustomerAmountAttribute()
+    public function getQuantityAvailableForCustomerAttribute()
     {
         if ($this->limit_per_order !== null) {
-            return min($this->limit_per_order, $this->free_amount);
+            return min($this->limit_per_order, $this->free_quantity);
         }
-        return $this->free_amount;
+        return $this->free_quantity;
     }
 
     public function scopeAvailable(Builder $qry)

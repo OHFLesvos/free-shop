@@ -10,7 +10,9 @@
 * SMS to customer on order change
 * In progress status
 * Customer model?
-* Amount -> quantity
 * Storefront category breadcrumbs ?
 * Storefront quantity in card
 * socialite login?
+* import
+* Done: remove from stock
+* basket service

@@ -35,17 +35,17 @@
                                                 type="number"
                                                 wire:model.lazy="basket.{{ $product->id }}"
                                                 min="0"
-                                                max="{{ $product->available_for_customer_amount }}"
+                                                max="{{ $product->quantity_available_for_customer }}"
                                                 style="max-width: 7em"
                                                 class="form-control text-center @error('basket.'.$product->id) is-invalid @enderror"
-                                                placeholder="Amount">
+                                                placeholder="Quantity">
                                             <div class="input-group-append">
                                                 <button
-                                                    class="btn @unless($basket[$product->id] < $product->available_for_customer_amount) btn-secondary @else btn-primary @endunless"
+                                                    class="btn @unless($basket[$product->id] < $product->quantity_available_for_customer) btn-secondary @else btn-primary @endunless"
                                                     wire:click="increase({{ $product->id }})"
                                                     wire:loading.attr="disabled"
                                                     type="button"
-                                                    @unless($basket[$product->id] < $product->available_for_customer_amount) disabled @endunless
+                                                    @unless($basket[$product->id] < $product->quantity_available_for_customer) disabled @endunless
                                                 >+</button>
                                             </div>
                                         </div>
@@ -69,7 +69,7 @@
                                 @foreach($this->basketContents as $item)
                                     <tr>
                                         <td>{{ $item['name'] }}</td>
-                                        <td><strong>{{ $item['amount'] }}</strong></td>
+                                        <td><strong>{{ $item['quantity'] }}</strong></td>
                                     </tr>
                                 @endforeach
                             </tbody>
