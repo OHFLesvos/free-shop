@@ -6,7 +6,9 @@ class LanguageSelectController extends Controller
 {
     public function index()
     {
-        session()->flash('previous-url', url()->previous());
+        if (url()->previous() != route('languages')) {
+            session()->flash('previous-url', url()->previous());
+        }
 
         return view('language-select', [
             'languages' => config('app.supported_languages'),
