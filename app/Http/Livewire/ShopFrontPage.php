@@ -49,7 +49,7 @@ class ShopFrontPage extends Component
     public function render()
     {
         return view('livewire.shop-front-page')
-            ->layout(null, ['title' => 'Choose your items']);
+            ->layout(null, ['title' => __('Choose your items')]);
     }
 
     public function updated($propertyName)

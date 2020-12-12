@@ -39,7 +39,7 @@ class OrderLookupPage extends Component
     public function render()
     {
         return view('livewire.order-lookup-page')
-            ->layout(null, ['title' => 'Find your order']);
+            ->layout(null, ['title' => __('Find your order')]);
     }
 
     public function submit()

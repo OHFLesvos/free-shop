@@ -56,7 +56,7 @@ class CheckoutPage extends Component
     public function render()
     {
         return view('livewire.checkout-page')
-            ->layout(null, ['title' => 'Checkout']);
+            ->layout(null, ['title' => __('Checkout')]);
     }
 
     public function submit(Request $request)

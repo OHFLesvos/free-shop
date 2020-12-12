@@ -1,11 +1,13 @@
 {
+    "Checkout": "Commander",
+    "Find your order": "Trouvez votre commande",
+    "Choose your items": "Choisissez vos articles",
     "Hello :customer_name (ID :customer_id), we have received your order with ID #:id and will get back to you soon.": "Bonjour :customer_name (ID :customer_id), nous avons reçu votre commande avec le numéro de commande #:id et nous vous recontacterons bientôt.",
     "More information: ": "Plus d'informations : ",
     "Unavailable for legal reasons": "Non disponible pour des raisons juridiques",
     "This site is not available in :country": "Ce site n'est pas disponible dans :country",
     "Choose your language": "Choisissez votre langue",
     "Shop": "Boutique",
-    "Find your order": "Trouvez votre commande",
     "Switch language": "Changer de langue",
     "Backend": "Administration",
     "Your order has been submitted and your order number is <strong>#:id<\/strong>.": "Votre commande a été soumise et votre numéro de commande est <strong>#:id<\/strong>.",
@@ -34,6 +36,5 @@
     "No orders found.": "Aucune commande trouvée.",
     "Please place an order from our selection of items:": "Veuillez passer une commande parmi notre sélection d'articles :",
     "Your order": "Votre commande",
-    "Please add some products.": "Veuillez ajouter quelques produits.",
-    "Checkout": "Commander"
+    "Please add some products.": "Veuillez ajouter quelques produits."
 }
