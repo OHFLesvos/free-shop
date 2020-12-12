@@ -13,3 +13,4 @@
 * Amount -> quantity
 * Storefront category breadcrumbs ?
 * Storefront quantity in card
+* socialite login?
