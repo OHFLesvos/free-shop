@@ -2,14 +2,14 @@
     <h1 class="mb-3">Order #{{ $order->id }}</h1>
     <ul class="list-group mb-4 shadow-sm">
         <li class="list-group-item">
-            <strong>Ordered:</strong> {{ $order->created_at->isoFormat('LLLL') }}
+            <strong>Ordered:</strong> {{ $order->created_at->toUserTimezone()->isoFormat('LLLL') }}
             <small class="ml-1">{{ $order->created_at->diffForHumans() }}</small>
             @isset($order->cancelled_at)<br>
-                <strong>Cancelled:</strong> {{ $order->cancelled_at->isoFormat('LLLL') }}
+                <strong>Cancelled:</strong> {{ $order->cancelled_at->toUserTimezone()->isoFormat('LLLL') }}
                 <small class="ml-1">{{ $order->cancelled_at->diffForHumans() }}</small>
             @endisset
             @isset($order->completed_at)<br>
-                <strong>Completed:</strong> {{ $order->completed_at->isoFormat('LLLL') }}
+                <strong>Completed:</strong> {{ $order->completed_at->toUserTimezone()->isoFormat('LLLL') }}
                 <small class="ml-1">{{ $order->completed_at->diffForHumans() }}</small>
             @endisset
         </li>
@@ -129,16 +129,16 @@
                             <tr data-href="{{ route('backend.orders.show', $relatedOrder) }}">
                                 <td>{{ $relatedOrder->id }}</td>
                                 <td>
-                                    {{ $relatedOrder->created_at->isoFormat('LLLL') }}<br>
+                                    {{ $relatedOrder->created_at->toUserTimezone()->isoFormat('LLLL') }}<br>
                                     <small>{{ $relatedOrder->created_at->diffForHumans() }}</small>
                                     @isset($relatedOrder->cancelled_at)
                                         <br><br>Cancelled:<br>
-                                        {{ $relatedOrder->cancelled_at->isoFormat('LLLL') }}<br>
+                                        {{ $relatedOrder->cancelled_at->toUserTimezone()->isoFormat('LLLL') }}<br>
                                         <small>{{ $relatedOrder->cancelled_at->diffForHumans() }}</small>
                                     @endif
                                     @isset($relatedOrder->completed_at)
                                         <br><br>Completed:<br>
-                                        {{ $relatedOrder->completed_at->isoFormat('LLLL') }}<br>
+                                        {{ $relatedOrder->completed_at->toUserTimezone()->isoFormat('LLLL') }}<br>
                                         <small>{{ $relatedOrder->completed_at->diffForHumans() }}</small>
                                     @endif
                                 </td>

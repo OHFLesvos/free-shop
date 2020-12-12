@@ -42,13 +42,13 @@
                         <td>{{ $order->id }}</td>
                         <td>
                             @if($order->cancelled_at !== null)
-                                {{ $order->cancelled_at->isoFormat('LLLL') }}<br>
+                                {{ $order->cancelled_at->toUserTimezone()->isoFormat('LLLL') }}<br>
                                 <small>{{ $order->cancelled_at->diffForHumans() }}</small>
                             @elseif($order->completed_at !== null)
-                                {{ $order->completed_at->isoFormat('LLLL') }}<br>
+                                {{ $order->completed_at->toUserTimezone()->isoFormat('LLLL') }}<br>
                                 <small>{{ $order->completed_at->diffForHumans() }}</small>
                             @else
-                                {{ $order->created_at->isoFormat('LLLL') }}<br>
+                                {{ $order->created_at->toUserTimezone()->isoFormat('LLLL') }}<br>
                                 <small>{{ $order->created_at->diffForHumans() }}</small>
                             @endif
                         </td>

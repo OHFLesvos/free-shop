@@ -2,8 +2,9 @@
 
 * User management
 * Registration for first admin
-* Time displayed in correct timezome
-* Internationalization of products
+* User timezone select
+* Date format for user
+* Timezone / time format for annonymous user
 * User notification choices
 * Cancel confirmation / notification
 * SMS to customer on order change
