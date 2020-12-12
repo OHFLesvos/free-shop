@@ -42,28 +42,28 @@
                 <x-phone-number-link
                     :value="$order->customer_phone"
                     class="btn btn-primary btn-sm">
-                    Call
+                    <x-icon icon="phone"/> Call
                 </x-phone-number-link>
                 <x-phone-number-link
                     :value="$order->customer_phone"
                     :body="'Hello '.$order->customer_name. '. '"
                     type="sms"
                     class="btn btn-primary btn-sm">
-                    SMS
+                    <x-icon icon="sms"/> SMS
                 </x-phone-number-link>
                 <x-phone-number-link
                     :value="$order->customer_phone"
                     :body="'Hello '.$order->customer_name.'. '"
                     type="whatsapp"
                     class="btn btn-primary btn-sm">
-                    WhatsApp
+                    <x-icon icon="whatsapp" type="brands"/> WhatsApp
                 </x-phone-number-link>
                 <x-phone-number-link
                     :value="$order->customer_phone"
                     :body="'Hello '.$order->customer_name.'. '"
                     type="viber"
                     class="btn btn-primary btn-sm">
-                    Viber
+                    <x-icon icon="viber" type="brands"/> Viber
             </x-phone-number-link>
             </div>
         </li>
@@ -174,7 +174,7 @@
                     class="btn btn-danger mb-3"
                     wire:click="cancel"
                     wire:loading.attr="disabled">
-                    <x-bi-hourglass-split wire:loading/>
+                    <x-icon-progress wire:loading/>
                     Cancel order
                 </button>
                 <button
@@ -182,7 +182,7 @@
                     class="btn btn-primary mb-3"
                     wire:click="complete"
                     wire:loading.attr="disabled">
-                    <x-bi-hourglass-split wire:loading/>
+                    <x-icon-progress wire:loading/>
                     Mark as completed
                 </button>
             </span>

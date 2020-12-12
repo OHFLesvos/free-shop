@@ -1,8 +1,10 @@
 <div>
     <h1 class="mb-3">Settings</h1>
+    @if(session()->has('message'))
+        <x-alert type="success" dismissible>{{ session()->get('message') }}</x-alert>
+    @endif
     <form wire:submit.prevent="submit" class="mb-4" autocomplete="off">
 
-        {{-- Geoblock Whitelist --}}
         <div class="card shadow-sm mb-4">
             <div class="card-header">Geoblock Whitelist</div>
             <div class="card-body">
@@ -65,7 +67,7 @@
             type="submit"
             class="btn btn-primary"
             wire:target="submit">
-            <x-bi-hourglass-split wire:loading wire:target="submit"/>
+            <x-icon-progress wire:loading wire:target="submit"/>
             Save
         </button>
      </form>

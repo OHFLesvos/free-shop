@@ -81,7 +81,7 @@
                                 @error('basket.*') disabled @enderror
                                 wire:loading.attr="disabled"
                                 wire:target="checkout">
-                                <x-bi-hourglass-split wire:loading wire:target="checkout"/>
+                                <x-icon-progress wire:loading wire:target="checkout"/>
                                 @lang('Checkout')
                             </button>
                         </div>

@@ -38,7 +38,7 @@
             <button
                 type="submit"
                 class="btn btn-primary">
-                <x-bi-hourglass-split wire:loading wire:target="submit"/>
+                <x-icon-progress wire:loading wire:target="submit"/>
                 @lang('Search')
             </button>
         </div>

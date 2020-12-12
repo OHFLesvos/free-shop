@@ -16,9 +16,11 @@
             <button
                 type="submit"
                 class="btn btn-primary"
+                wire:loading.attr="disabled"
+                wire:target="submit"
             >
-                <span wire:loading wire:target="submit">Processing...</span>
-                <span wire:loading.remove wire:target="submit">Download</span>
+                <x-icon-progress wire:loading wire:target="submit"/>
+                Download
             </button>
         </p>
     </form>

@@ -221,7 +221,7 @@
                         wire:target="delete"
                         wire:remove.attr="disabled"
                         wire:click="delete">
-                        <x-bi-hourglass-split wire:loading wire:target="delete"/>
+                        <x-icon-progress wire:loading wire:target="delete"/>
                         Delete
                     </button>
                 @endif
@@ -230,7 +230,7 @@
                     class="btn btn-primary"
                     wire:target="submit"
                     wire:loading.attr="disabled">
-                    <x-bi-hourglass-split wire:loading wire:target="submit"/>
+                    <x-icon-progress wire:loading wire:target="submit"/>
                     Save
                 </button>
             </span>

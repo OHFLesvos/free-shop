@@ -54,5 +54,7 @@ class SettingsPage extends Component
         } else {
             setting()->forget('order.default_phone_country');
         }
+
+        session()->flash('message', 'Settings saved.');
     }
 }
