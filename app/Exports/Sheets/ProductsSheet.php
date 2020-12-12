@@ -27,7 +27,7 @@ class ProductsSheet implements FromQuery, WithMapping, WithHeadings, WithColumnF
 
     public function query()
     {
-        return Product::orderBy('name');
+        return Product::orderBy('name->en');
     }
 
     public function headings(): array
