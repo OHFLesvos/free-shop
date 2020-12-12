@@ -90,6 +90,6 @@
             </div>
         </div>
     @else
-        <x-alert type="info">No products available at the moment.</x-alert>
+        <x-alert type="info">@lang('There are no products available at the moment.')</x-alert>
     @endif
 </div>
