@@ -71,6 +71,11 @@
         ],
         "post-create-project-cmd": [
             "@php artisan key:generate --ansi"
+        ],
+        "warmup": [
+            "@php artisan config:cache",
+            "@php artisan route:cache",
+            "@php artisan migrate --force"
         ]
     }
 }
