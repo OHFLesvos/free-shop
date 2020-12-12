@@ -21,6 +21,7 @@ class CreateOrdersTable extends Migration
             $table->string('customer_ip_address');
             $table->string('customer_user_agent');
             $table->text('remarks')->nullable();
+            $table->string('locale')->nullable();
             $table->timestamps();
             $table->timestamp('cancelled_at')->nullable();
             $table->timestamp('completed_at')->nullable();
