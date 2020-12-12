@@ -28,6 +28,10 @@
                                     'route' => 'backend.products'
                                 ],
                                 [
+                                    'label' => 'Data Export',
+                                    'route' => 'backend.export'
+                                ],
+                                [
                                     'label' => 'Settings',
                                     'route' => 'backend.settings'
                                 ],

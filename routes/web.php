@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\LanguageSelectController;
+use App\Http\Livewire\Backend\DataExport;
 use App\Http\Livewire\Backend\OrderDetailPage;
 use App\Http\Livewire\Backend\OrderListPage;
 use App\Http\Livewire\Backend\ProductCreatePage;
@@ -61,6 +62,8 @@ Route::middleware('auth.basic')
                     ->name('products.create');
                 Route::get('products/{product}/edit', ProductEditPage::class)
                     ->name('products.edit');
+                Route::get('export', DataExport::class)
+                    ->name('export');
                 Route::get('settings', SettingsPage::class)
                     ->name('settings');
             });
