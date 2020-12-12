@@ -10,3 +10,6 @@
 * SMS to customer on order change
 * In progress status
 * Customer model?
+* Amount -> quantity
+* Storefront category breadcrumbs ?
+* Storefront quantity in card
