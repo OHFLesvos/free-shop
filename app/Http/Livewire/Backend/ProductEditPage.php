@@ -20,30 +20,56 @@ class ProductEditPage extends Component
 
     public bool $removePicture = false;
 
-    protected $rules = [
-        'product.name' => 'required',
-        'product.category' => 'required',
-        'product.description' => 'nullable',
-        'product.stock_amount' => 'required|integer|min:0',
-        'product.limit_per_order' => 'nullable|integer|min:0',
-        'product.is_available' => 'boolean',
-        'picture' => 'nullable|image|max:4096',
-    ];
+    protected function rules() {
+        $defaultLocale = config('app.fallback_locale');
+        return [
+            'name.*' => 'nullable',
+            'name.'. $defaultLocale => 'required',
+            'category.*' => 'nullable',
+            'category.' . $defaultLocale => 'required',
+            'description.*' => 'nullable',
+            'product.stock_amount' => 'required|integer|min:0',
+            'product.limit_per_order' => 'nullable|integer|min:0',
+            'product.is_available' => 'boolean',
+            'picture' => 'nullable|image|max:4096',
+        ];
+    }
+
+    public string $locale;
+
+    public $name;
+    public $category;
+    public $description;
 
     public function mount()
     {
-        $this->categories = Product::query()
-            ->groupBy('category')
-            ->select('category')
-            ->orderBy('category')
-            ->get()
-            ->pluck('category');
+        $productCategories = Product::select('category')->get();
+        $this->categories = collect(config('app.supported_languages'))
+            ->keys()
+            ->mapWithKeys(fn ($locale) => [$locale => $productCategories
+                ->map(fn ($p) => $p->getTranslations('category'))->pluck($locale)
+                ->filter()
+                ->sort()
+                ->unique()
+                ->values()
+            ]);
+
+        $this->locale = config('app.fallback_locale');
+
+        $this->name = $this->product->getTranslations('name');
+        $this->category = $this->product->getTranslations('category');
+        $this->description = $this->product->getTranslations('description');
     }
 
     public function render()
     {
         return view('livewire.backend.product-form')
             ->layout('layouts.backend', ['title' => 'Edit Product ' . $this->product->name]);
+    }
+
+    public function getIsDefaultLocaleProperty(): bool
+    {
+        return $this->locale == config('app.fallback_locale');
     }
 
     public function updatedPicture()
@@ -56,6 +82,10 @@ class ProductEditPage extends Component
     public function submit()
     {
         $this->validate();
+
+        $this->product->setTranslations('name', $this->name);
+        $this->product->setTranslations('category', $this->category);
+        $this->product->setTranslations('description', $this->description);
 
         if (isset($this->product->picture) && ($this->removePicture || isset($this->picture))) {
             $this->product->picture = null;

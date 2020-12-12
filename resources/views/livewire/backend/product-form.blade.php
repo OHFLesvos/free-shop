@@ -1,41 +1,70 @@
 <div>
-    <h1 class="mb-3">
-        @if($product->exists)
-            Edit Product
-        @else
-            Register Product
-        @endif
+    <h1 class="d-md-flex justify-content-between">
+        <div class="mb-3">
+            @if($product->exists)
+                Edit Product
+            @else
+                Register Product
+            @endif
+        </div>
+        <div>
+            <div class="input-group mb-3" style="style="max-width: 10em;">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">Language</span>
+                </div>
+                <select class="custom-select" wire:model.lazy="locale">
+                    @foreach(config('app.supported_languages') as $lang_key => $lang_name)
+                        <option
+                            value="{{ $lang_key }}"
+                            type="button"
+                            class="btn btn-secondary">
+                            {{ $lang_name }} ({{ strtoupper($lang_key) }})
+                        </option>
+                    @endforeach
+                </select>
+            </div>
+        </div>
     </h1>
     <form wire:submit.prevent="submit" class="mb-4" autocomplete="off">
         <div class="form-row">
             <div class="col-md">
                 <div class="form-group">
                     <label for="inputName">Name</label>
-                    <input
-                        type="text"
-                        class="form-control @error('product.name') is-invalid @enderror"
-                        id="inputName"
-                        required
-                        autocomplete="off"
-                        @unless($product->exists) autofocus @endunless
-                        wire:model.defer="product.name">
-                    @error('product.name') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">{{ strtoupper($locale) }}</span>
+                        </div>
+                        <input
+                            type="text"
+                            class="form-control @error('name.' . $locale) is-invalid @enderror"
+                            id="inputName"
+                            @if($this->isDefaultLocale) required @endif
+                            autocomplete="off"
+                            @unless($product->exists) autofocus @endunless
+                            wire:model.lazy="name.{{ $locale }}">
+                        @error('name.' . $locale) <div class="invalid-feedback">{{ $message }}</div> @enderror
+                    </div>
                 </div>
             </div>
             <div class="col-md">
                 <div class="form-group">
                     <label for="inputCategory">Category</label>
-                    <input
-                        type="text"
-                        class="form-control @error('product.category') is-invalid @enderror"
-                        id="inputCategory"
-                        required
-                        autocomplete="off"
-                        list="categories"
-                        wire:model.defer="product.category">
-                    @error('product.category') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">{{ strtoupper($locale) }}</span>
+                        </div>
+                        <input
+                            type="text"
+                            class="form-control @error('category.' . $locale) is-invalid @enderror"
+                            id="inputCategory"
+                            @if($this->isDefaultLocale) required @endif
+                            autocomplete="off"
+                            list="categories"
+                            wire:model.lazy="category.{{ $locale }}">
+                        @error('category.' . $locale) <div class="invalid-feedback">{{ $message }}</div> @enderror
+                    </div>
                     <datalist id="categories">
-                        @foreach($categories as $category)
+                        @foreach($categories[$locale] as $category)
                             <option value="{{ $category }}"/>
                         @endforeach
                     </datalist>
@@ -84,14 +113,19 @@
             <div class="col-md">
                 <div class="form-group">
                     <label for="inputDescription">Description</label>
-                    <textarea
-                        type="text"
-                        class="form-control @error('product.description') is-invalid @enderror"
-                        id="inputDescription"
-                        rows="3"
-                        autocomplete="off"
-                        wire:model.defer="product.description"></textarea>
-                    @error('product.description') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">{{ strtoupper($locale) }}</span>
+                        </div>
+                        <textarea
+                            type="text"
+                            class="form-control @error('description') is-invalid @enderror"
+                            id="inputDescription"
+                            rows="3"
+                            autocomplete="off"
+                            wire:model.lazy="description.{{ $locale }}"></textarea>
+                        @error('description') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                    </div>
                 </div>
             </div>
             <div class="col-md">
@@ -128,7 +162,7 @@
                             type="button"
                             class="btn btn-outline-danger btn-sm"
                             wire:click="$set('picture', null)">
-                            Cancel
+                            Undo
                         </button>
                     </div>
                 @elseif(isset($product->picture))
@@ -144,7 +178,7 @@
                                 type="button"
                                 class="btn btn-outline-danger btn-sm"
                                 wire:click="$toggle('removePicture')">
-                                Remove
+                                Remove picture
                             </button>
                         </div>
                     @else

@@ -15,10 +15,10 @@ class CreateProductsTable extends Migration
     {
         Schema::create('products', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('category');
+            $table->json('name');
+            $table->json('category');
             $table->string('picture')->nullable();
-            $table->text('description')->nullable();
+            $table->json('description')->nullable();
             $table->unsignedInteger('stock_amount')->default(0);
             $table->unsignedInteger('limit_per_order')->nullable();
             $table->boolean('is_available')->default(true);

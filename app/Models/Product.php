@@ -7,15 +7,22 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
+use Spatie\Translatable\HasTranslations;
 
 class Product extends Model
 {
     use HasFactory;
     use NullableFields;
+    use HasTranslations;
 
     protected $nullable = [
-        'description',
         'limit_per_order',
+    ];
+
+    public $translatable = [
+        'name',
+        'category',
+        'description',
     ];
 
     public function orders()
