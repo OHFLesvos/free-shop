@@ -30,9 +30,9 @@ class ShopFrontPage extends Component
     {
         $this->products = Product::query()
             ->available()
-            ->orderBy('name')
             ->get()
-            ->filter(fn ($product) => $product->available_for_customer_amount > 0);
+            ->filter(fn ($product) => $product->available_for_customer_amount > 0)
+            ->sortBy('name');
 
         $this->categories = $this->products->values()
             ->sortBy('category')
