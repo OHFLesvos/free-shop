@@ -54,7 +54,7 @@ class ProductCreatePage extends Component
                 ->values()
             ]);
 
-            $this->locale = config('app.fallback_locale');
+            $this->locale = session()->get('product-edit.locale', config('app.fallback_locale'));
 
             $this->name = $this->product->getTranslations('name');
             $this->category = $this->product->getTranslations('category');
@@ -67,9 +67,9 @@ class ProductCreatePage extends Component
             ->layout('layouts.backend', ['title' => 'Register Product ']);
     }
 
-    public function getIsDefaultLocaleProperty(): bool
+    public function getDefaultLocaleProperty()
     {
-        return $this->locale == config('app.fallback_locale');
+        return config('app.fallback_locale');
     }
 
     public function updatedPicture()
@@ -92,6 +92,8 @@ class ProductCreatePage extends Component
         }
 
         $this->product->save();
+
+        session()->put('product-edit.locale', $this->locale);
 
         return redirect()->route('backend.products');
     }

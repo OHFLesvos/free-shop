@@ -1,30 +1,41 @@
 <div>
-    <h1 class="d-md-flex justify-content-between">
-        <div class="mb-3">
+    <div class="d-md-flex justify-content-between align-items-center">
+        <h1 class="mb-3">
             @if($product->exists)
                 Edit Product
             @else
                 Register Product
             @endif
-        </div>
-        <div>
-            <div class="input-group mb-3" style="style="max-width: 10em;">
-                <div class="input-group-prepend">
-                    <span class="input-group-text">Language</span>
-                </div>
-                <select class="custom-select" wire:model.lazy="locale">
-                    @foreach(config('app.supported_languages') as $lang_key => $lang_name)
-                        <option
-                            value="{{ $lang_key }}"
-                            type="button"
-                            class="btn btn-secondary">
-                            {{ $lang_name }} ({{ strtoupper($lang_key) }})
-                        </option>
-                    @endforeach
-                </select>
+        </h1>
+        @if(count(config('app.supported_languages')) < 3)
+            <div class="btn-group mb-3">
+                @foreach(config('app.supported_languages') as $lang_key => $lang_name)
+                    <button
+                        class="btn @if($lang_key == $locale) btn-primary @else btn-outline-primary @endif"
+                        wire:click="$set('locale', '{{ $lang_key }}')"
+                    >
+                        {{ $lang_name }} ({{ strtoupper($lang_key) }})
+                    </button>
+                @endforeach
             </div>
-        </div>
-    </h1>
+        @else
+            <div>
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">Language</span>
+                    </div>
+                    <select class="custom-select" wire:model.lazy="locale">
+                        @foreach(config('app.supported_languages') as $lang_key => $lang_name)
+                            <option
+                                value="{{ $lang_key }}">
+                                {{ $lang_name }} ({{ strtoupper($lang_key) }})
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
+            </div>
+        @endif
+    </div>
     <form wire:submit.prevent="submit" class="mb-4" autocomplete="off">
         <div class="form-row">
             <div class="col-md">
@@ -38,7 +49,8 @@
                             type="text"
                             class="form-control @error('name.' . $locale) is-invalid @enderror"
                             id="inputName"
-                            @if($this->isDefaultLocale) required @endif
+                            @if($this->defaultLocale == $locale) required @endif
+                            @if($this->defaultLocale != $locale) placeholder="{{ $name[$this->defaultLocale] ?? '' }}" @endif
                             autocomplete="off"
                             @unless($product->exists) autofocus @endunless
                             wire:model.lazy="name.{{ $locale }}">
@@ -57,7 +69,8 @@
                             type="text"
                             class="form-control @error('category.' . $locale) is-invalid @enderror"
                             id="inputCategory"
-                            @if($this->isDefaultLocale) required @endif
+                            @if($this->defaultLocale == $locale) required @endif
+                            @if($this->defaultLocale != $locale) placeholder="{{ $category[$this->defaultLocale] ?? '' }}" @endif
                             autocomplete="off"
                             list="categories"
                             wire:model.lazy="category.{{ $locale }}">
@@ -123,6 +136,7 @@
                             id="inputDescription"
                             rows="3"
                             autocomplete="off"
+                            @if($this->defaultLocale != $locale) placeholder="{{ $description[$this->defaultLocale] ?? '' }}" @endif
                             wire:model.lazy="description.{{ $locale }}"></textarea>
                         @error('description') <div class="invalid-feedback">{{ $message }}</div> @enderror
                     </div>
