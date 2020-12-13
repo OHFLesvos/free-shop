@@ -69,7 +69,7 @@
         </li>
         <li class="list-group-item">
             @php
-                $hostname = gethostbyaddr($order->customer_ip_address);
+                $hostname = App::environment() != 'local' ? gethostbyaddr($order->customer_ip_address) : $order->customer_ip_address;
             @endphp
             <strong>IP Address:</strong> {{ $order->customer_ip_address }}
             @if($hostname != $order->customer_ip_address)({{ $hostname }})@endif
