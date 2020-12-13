@@ -150,10 +150,10 @@
         </form>
     @else
         <x-alert type="warning">
-            @lang('No items selected.')
+            @lang('No products selected.')
         </x-alert>
         <p>
-            <a href="{{ route('shop-front') }}" class="btn btn-primary">@lang('Choose items')</a>
+            <a href="{{ route('shop-front') }}" class="btn btn-primary">@lang('Choose products')</a>
         </p>
     @endif
 </div>

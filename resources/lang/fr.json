@@ -13,6 +13,7 @@
     "Your order has been submitted and your order number is <strong>#:id<\/strong>.": "Votre commande a été soumise et votre numéro de commande est <strong>#:id<\/strong>.",
     "We will contact you via your phone <strong>:phone<\/strong> when the order is ready.": "Nous vous contacterons via votre téléphone <strong>:phone<\/strong> quand la commande sera prête.",
     "Selected products": "Produits sélectionnés",
+    "Change": "Modifier",
     "Item": "Point",
     "Quantity": "Quantité",
     "Contact data": "Données de contact",
@@ -26,6 +27,8 @@
     "Please write if we need to know anything more regarding your order.": "Veuillez nous écrire si nous avons besoin d'en savoir plus sur votre commande.",
     "Restart": "Redémarrer",
     "Send order": "Envoyer la commande",
+    "No products selected.": "Pas de produits sélectionnés.",
+    "Choose products": "Choisissez les produits",
     "Your ID number": "Votre numéro d'identification",
     "Your phone number": "Votre numéro de téléphone",
     "Search": "Recherche",
@@ -35,7 +38,9 @@
     "This order is in progress.": "Cette commande est en cours.",
     "No orders found.": "Aucune commande trouvée.",
     "Please place an order from our selection of items:": "Veuillez passer une commande parmi notre sélection d'articles :",
+    "Add": "Ajouter",
     "Your order": "Votre commande",
+    "Add one": "Ajouter un",
     "Please add some products.": "Veuillez ajouter quelques produits.",
     "There are no products available at the moment.": "Il n'y a pas de produits disponibles actuellement."
 }
