@@ -19,7 +19,10 @@ class DataExport implements WithMultipleSheets, WithProperties
     {
         $sheets = [];
         $sheets[] = new OrdersSheet();
-        $sheets[] = new ProductsSheet();
+        foreach(array_keys(config('app.supported_languages')) as $locale)
+        {
+            $sheets[] = new ProductsSheet($locale);
+        }
         return $sheets;
     }
 

@@ -25,9 +25,17 @@ class ProductsSheet implements FromQuery, WithMapping, WithHeadings, WithColumnF
         'D' => Alignment::HORIZONTAL_RIGHT,
     ];
 
+    private string $locale;
+
+    public function __construct($locale)
+    {
+        $this->locale = $locale;
+        $this->worksheetTitle .= ' (' . strtoupper($locale) . ')';
+    }
+
     public function query()
     {
-        return Product::orderBy('name->' . config('app.fallback_locale'));
+        return Product::orderBy('name->' . $this->locale);
     }
 
     public function headings(): array
@@ -47,12 +55,12 @@ class ProductsSheet implements FromQuery, WithMapping, WithHeadings, WithColumnF
     public function map($order): array
     {
         return [
-            $order->name,
-            $order->category,
+            $order->getTranslation('name', $this->locale),
+            $order->getTranslation('category', $this->locale),
             $order->stock,
             $order->limit_per_order,
             $order->is_available ? 'Yes' : 'No',
-            $order->description,
+            $order->getTranslation('description', $this->locale),
             Date::dateTimeToExcel($order->created_at->toUserTimezone()),
             Date::dateTimeToExcel($order->updated_at->toUserTimezone()),
         ];
