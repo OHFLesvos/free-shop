@@ -21,11 +21,6 @@ class OrdersSheet implements FromQuery, WithMapping, WithHeadings, WithColumnFor
 
     protected $worksheetTitle = 'Orders';
 
-    protected array $columnAlignment = [
-        // 'C' => Alignment::HORIZONTAL_RIGHT,
-        // 'E' => Alignment::HORIZONTAL_RIGHT,
-    ];
-
     public function query()
     {
         return Order::orderBy('created_at');

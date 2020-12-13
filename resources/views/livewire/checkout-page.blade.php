@@ -7,7 +7,12 @@
     @elseif ($basket->isNotEmpty())
         <form wire:submit.prevent="submit" class="mb-4" autocomplete="off">
             <div class="card mb-4 shadow-sm">
-                <div class="card-header">@lang('Selected products')</div>
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    @lang('Selected products')
+                    <a href="{{ route('shop-front') }}" class="btn btn-primary btn-sm">
+                        @lang('Change')
+                    </a>
+                </div>
                 <table class="table m-0">
                     <thead>
                         <tr>

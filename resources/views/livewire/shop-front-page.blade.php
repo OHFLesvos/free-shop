@@ -70,14 +70,10 @@
                             </tbody>
                         </table>
                         <div class="card-footer text-right">
-                            <button
-                                class="btn btn-primary"
-                                wire:click="checkout"
-                                wire:loading.attr="disabled"
-                                wire:target="checkout">
-                                <x-icon-progress wire:loading wire:target="checkout"/>
+                            <a href="{{ route('checkout') }}"
+                                class="btn btn-primary">
                                 @lang('Checkout')
-                            </button>
+                            </a>
                         </div>
                     @else
                         <div class="card-body">

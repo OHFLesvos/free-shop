@@ -14,6 +14,4 @@
 * Storefront quantity in card
 * socialite login?
 * import
-* Done: remove from stock
-* basket service
-* order sort created
+* Done: remove from stock, update number calculation

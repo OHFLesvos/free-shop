@@ -35,11 +35,6 @@ class ShopFrontPage extends Component
             ->layout(null, ['title' => __('Choose your items')]);
     }
 
-    public function checkout()
-    {
-        return redirect()->route('checkout');
-    }
-
     public function add(ShoppingBasket $basket, $productId, $quantity = 1)
     {
         $basket->add($productId, $quantity);

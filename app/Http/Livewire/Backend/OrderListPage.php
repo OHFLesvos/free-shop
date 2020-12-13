@@ -33,7 +33,10 @@ class OrderListPage extends Component
                 ->when($this->status == 'completed', fn ($qry) => $qry->completed())
                 ->when($this->status == 'cancelled', fn ($qry) => $qry->cancelled())
                 ->when(filled($this->search), fn ($qry) => $qry->filter(trim($this->search)))
-                ->when($this->status != 'open', fn ($qry) => $qry->orderBy('updated_at', 'desc'), fn ($qry) => $qry->orderBy('created_at', 'desc'))
+                ->when($this->status != 'open',
+                    fn ($qry) => $qry->orderBy('updated_at', 'desc'),
+                    fn ($qry) => $qry->orderBy('created_at', 'asc')
+                )
                 ->paginate(10),
             ])
             ->layout('layouts.backend', ['title' => 'Orders']);
