@@ -6,11 +6,12 @@
 * Date format for user
 * Timezone / time format for annonymous user
 * User notification choices
-* Cancel confirmation / notification
-* SMS to customer on order change
-* In progress status
-* Customer model?
-* Storefront category breadcrumbs ?
 * socialite login?
-* import
+
+* In progress status
+* SMS to customer on order change
+* Cancel confirmation / notification
 * Done: remove from stock, update number calculation
+
+* Customer model?
+* Data import
