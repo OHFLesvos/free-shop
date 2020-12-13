@@ -2,6 +2,9 @@
 
 use App\Http\Controllers\LanguageSelectController;
 use App\Http\Controllers\SocialLoginController;
+use App\Http\Livewire\Backend\CustomerCreatePage;
+use App\Http\Livewire\Backend\CustomerListPage;
+use App\Http\Livewire\Backend\CustomerEditPage;
 use App\Http\Livewire\Backend\DataExport;
 use App\Http\Livewire\Backend\OrderDetailPage;
 use App\Http\Livewire\Backend\OrderListPage;
@@ -72,6 +75,12 @@ Route::middleware('auth')
                     ->name('orders');
                 Route::get('orders/{order}', OrderDetailPage::class)
                     ->name('orders.show');
+                Route::get('customers', CustomerListPage::class)
+                    ->name('customers');
+                Route::get('customers/_create', CustomerCreatePage::class)
+                    ->name('customers.create');
+                Route::get('customers/{customer}/edit', CustomerEditPage::class)
+                    ->name('customers.edit');
                 Route::get('products', ProductListPage::class)
                     ->name('products');
                 Route::get('products/_create', ProductCreatePage::class)

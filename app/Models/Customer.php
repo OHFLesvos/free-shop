@@ -30,6 +30,13 @@ class Customer extends Model implements HasLocalePreference
         'remarks',
     ];
 
+    protected static function booted()
+    {
+        static::deleting(function (Customer $customer) {
+            $customer->orders()->delete();
+        });
+    }
+
     public function orders()
     {
         return $this->hasMany(Order::class);

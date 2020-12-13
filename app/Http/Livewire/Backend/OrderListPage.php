@@ -28,9 +28,6 @@ class OrderListPage extends Component
 
     public function render()
     {
-        session()->put('orders.search', $this->search);
-        session()->put('orders.status', $this->status);
-
         return view('livewire.backend.order-list-page', [
             'orders' => Order::query()
                 ->when($this->status == 'open', fn ($qry) => $qry->open())
@@ -49,5 +46,15 @@ class OrderListPage extends Component
     public function updatingSearch()
     {
         $this->resetPage();
+    }
+
+    public function updatedSearch($value)
+    {
+        session()->put('orders.search', $value);
+    }
+
+    public function updatedStatus($value)
+    {
+        session()->put('orders.status', $value);
     }
 }

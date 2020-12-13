@@ -24,6 +24,10 @@
                                     'route' => 'backend.orders'
                                 ],
                                 [
+                                    'label' => 'Customers',
+                                    'route' => 'backend.customers'
+                                ],
+                                [
                                     'label' => 'Products',
                                     'route' => 'backend.products'
                                 ],
