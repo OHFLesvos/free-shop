@@ -31,7 +31,7 @@ class DataExport extends Component
             'format' => Rule::in(array_keys($this->formats)),
         ]);
 
-        $filename = config('app.name') . ' Data Export.' . $this->format;
+        $filename = config('app.name') . ' Data Export '. now()->toDateString() . '.' . $this->format;
         return Excel::download(new ExportsDataExport, $filename);
     }
 }
