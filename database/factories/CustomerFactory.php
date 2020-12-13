@@ -2,17 +2,17 @@
 
 namespace Database\Factories;
 
-use App\Models\Order;
+use App\Models\Customer;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-class OrderFactory extends Factory
+class CustomerFactory extends Factory
 {
     /**
      * The name of the factory's corresponding model.
      *
      * @var string
      */
-    protected $model = Order::class;
+    protected $model = Customer::class;
 
     /**
      * Define the model's default state.
@@ -22,8 +22,9 @@ class OrderFactory extends Factory
     public function definition()
     {
         return [
-            'ip_address' => $this->faker->ipv4,
-            'user_agent' => $this->faker->userAgent,
+            'name' => $this->faker->name,
+            'id_number' => $this->faker->randomNumber(9, true),
+            'phone' => $this->faker->e164PhoneNumber,
             'remarks' => $this->faker->optional(0.2)->text,
             'created_at' => $this->faker->dateTimeBetween('-1 month', 'now'),
         ];

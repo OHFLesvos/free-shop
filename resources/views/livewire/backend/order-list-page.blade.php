@@ -20,12 +20,19 @@
         </div>
     </div>
     <div class="form-group">
+        <div class="input-group">
         <input
             type="search"
-            wire:model="search"
+            wire:model.debounce.500ms="search"
             placeholder="Search orders..."
             wire:keydown.escape="$set('search', '')"
-            class="form-control" />
+            class="form-control"/>
+            <div class="input-group-append" >
+                <span class="input-group-text" wire:loading wire:target="search">
+                    <x-spinner/>
+                </span>
+            </div>
+        </div>
     </div>
     <div class="table-responsive">
         <table class="table table-bordered table-hover bg-white shadow-sm">
@@ -53,9 +60,9 @@
                             @endif
                         </td>
                         <td>
-                            <strong>Name:</strong> {{ $order->customer_name }}<br>
-                            <strong>ID Number:</strong> {{ $order->customer_id_number }}<br>
-                            <strong>Phone:</strong> {{ $order->customer_phone }}
+                            <strong>Name:</strong> {{ $order->customer->name }}<br>
+                            <strong>ID Number:</strong> {{ $order->customer->id_number }}<br>
+                            <strong>Phone:</strong> {{ $order->customer->phone }}
                         </td>
                         <td>
                             @foreach($order->products->sortBy('name') as $product)

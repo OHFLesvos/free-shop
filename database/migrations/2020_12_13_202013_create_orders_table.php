@@ -15,13 +15,10 @@ class CreateOrdersTable extends Migration
     {
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
-            $table->string('customer_name');
-            $table->string('customer_id_number');
-            $table->string('customer_phone');
-            $table->string('customer_ip_address');
-            $table->string('customer_user_agent');
+            $table->foreignId('customer_id')->constrained();
+            $table->string('ip_address');
+            $table->string('user_agent');
             $table->text('remarks')->nullable();
-            $table->string('locale')->nullable();
             $table->timestamps();
             $table->timestamp('cancelled_at')->nullable();
             $table->timestamp('completed_at')->nullable();

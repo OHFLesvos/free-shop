@@ -2,7 +2,7 @@
     @if(isset($order))
         <x-alert type="success">
             @lang('Your order has been submitted and your order number is <strong>#:id</strong>.', ['id' => $order->id])<br>
-            @lang('We will contact you via your phone <strong>:phone</strong> when the order is ready.', ['phone' => $order->customer_phone])
+            @lang('We will contact you via your phone <strong>:phone</strong> when the order is ready.', ['phone' => $order->customer->phone])
         </x-alert>
     @elseif ($basket->isNotEmpty())
         <form wire:submit.prevent="submit" class="mb-4" autocomplete="off">

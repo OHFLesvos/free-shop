@@ -34,10 +34,10 @@ class OrdersSheet implements FromQuery, WithMapping, WithHeadings, WithColumnFor
             'Customer Name',
             'Customer ID Number',
             'Customer Phone',
-            'Customer IP Address',
-            'Customer Browser',
-            'Customer Platform',
             'Customer Language',
+            'IP Address',
+            'Browser',
+            'Operating System',
             'Order',
             'Remarks',
             'Registered',
@@ -49,35 +49,53 @@ class OrdersSheet implements FromQuery, WithMapping, WithHeadings, WithColumnFor
 
     public function map($order): array
     {
-        try {
-            $phone = PhoneNumber::make($order->customer_phone)->formatInternational();
-        } catch (Throwable $t) {
-            $phone = ' ' . $order->customer_phone;
-        }
-        $ua = (new UserAgentParser())->parse($order->customer_user_agent);
         return [
             $order->id,
-            $order->customer_name,
-            $order->customer_id_number,
-            $phone,
-            $order->customer_ip_address,
-            $ua->browser() . ' ' . $ua->browserVersion(),
-            $ua->platform(),
-            strtoupper($order->locale),
+            $order->customer->name,
+            $order->customer->id_number,
+            $this->mapPhone($order->customer->phone),
+            strtoupper($order->customer->locale),
+            $order->ip_address,
+            $this->mapBrowser($order->user_agent),
+            $this->mapOS($order->user_agent),
             $order->products
                 ->sortBy('name')
                 ->map(fn ($product) => sprintf('%dx %s', $product->pivot->quantity, $product->name))
                 ->join(', '),
             $order->remarks,
-            Date::dateTimeToExcel($order->created_at->toUserTimezone()),
-            Date::dateTimeToExcel($order->updated_at->toUserTimezone()),
-            $order->completed_at !== null
-                ? Date::dateTimeToExcel($order->completed_at->toUserTimezone())
-                : null,
-            $order->cancelled_at !== null
-                ? Date::dateTimeToExcel($order->cancelled_at->toUserTimezone())
-                : null,
+            $this->mapDateTime($order->created_at),
+            $this->mapDateTime($order->updated_at),
+            $this->mapDateTime($order->completed_at),
+            $this->mapDateTime($order->cancelled_at),
         ];
+    }
+
+    private function mapPhone($value)
+    {
+        try {
+            return PhoneNumber::make($value)->formatInternational();
+        } catch (Throwable $t) {
+            return ' ' . $value;
+        }
+    }
+
+    private function mapBrowser($value)
+    {
+        $ua = (new UserAgentParser())->parse($value);
+        return $ua->browser() . ' ' . $ua->browserVersion();
+    }
+
+    private function mapOS($value)
+    {
+        $ua = (new UserAgentParser())->parse($value);
+        return $ua->platform();
+    }
+
+    private function mapDateTime($value)
+    {
+        return $value !== null
+            ? Date::dateTimeToExcel($value->toUserTimezone())
+            : null;
     }
 
     public function columnFormats(): array

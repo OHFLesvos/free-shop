@@ -35,7 +35,8 @@ class ProductsSheet implements FromQuery, WithMapping, WithHeadings, WithColumnF
 
     public function query()
     {
-        return Product::orderBy('name->' . $this->locale);
+        return Product::orderBy('name->' . $this->locale)
+            ->orderBy('name->' . config('app.fallback_locale'));
     }
 
     public function headings(): array

@@ -15,13 +15,13 @@
         </li>
         <li class="list-group-item">
             <strong>Name:</strong>
-            {{ $order->customer_name }}<br>
+            {{ $order->customer->name }}<br>
             <strong>ID Number:</strong>
-            {{ $order->customer_id_number }}<br>
+            {{ $order->customer->id_number }}<br>
             @isset($order->locale)
                 <strong>Language:</strong>
-                @isset(config('app.supported_languages')[$order->locale])
-                    {{ config('app.supported_languages')[$order->locale] }}
+                @isset(config('app.supported_languages')[$order->customer->locale])
+                    {{ config('app.supported_languages')[$order->customer->locale] }}
                     ({{ strtoupper($order->locale) }})
                 @else
                     {{ strtoupper($order->locale) }}
@@ -29,10 +29,10 @@
                 <br>
             @endisset
             <strong>Phone:</strong>
-            {{ $order->customer_phone }}
+            {{ $order->customer->phone }}
             @php
                 try {
-                    $phone = Propaganistas\LaravelPhone\PhoneNumber::make($order->customer_phone);
+                    $phone = Propaganistas\LaravelPhone\PhoneNumber::make($order->customer->phone);
                     $phoneCountry = optional($phone)->getCountry();
                 } catch (Throwable $ignored) {}
             @endphp
@@ -41,27 +41,27 @@
             @endisset
             <div class="mt-2">
                 <x-phone-number-link
-                    :value="$order->customer_phone"
+                    :value="$order->customer->phone"
                     class="btn btn-primary btn-sm">
                     <x-icon icon="phone"/> Call
                 </x-phone-number-link>
                 <x-phone-number-link
-                    :value="$order->customer_phone"
-                    :body="'Hello '.$order->customer_name. '. '"
+                    :value="$order->customer->phone"
+                    :body="'Hello '.$order->customer->name. '. '"
                     type="sms"
                     class="btn btn-primary btn-sm">
                     <x-icon icon="sms"/> SMS
                 </x-phone-number-link>
                 <x-phone-number-link
-                    :value="$order->customer_phone"
-                    :body="'Hello '.$order->customer_name.'. '"
+                    :value="$order->customer->phone"
+                    :body="'Hello '.$order->customer->name.'. '"
                     type="whatsapp"
                     class="btn btn-primary btn-sm">
                     <x-icon icon="whatsapp" type="brands"/> WhatsApp
                 </x-phone-number-link>
                 <x-phone-number-link
-                    :value="$order->customer_phone"
-                    :body="'Hello '.$order->customer_name.'. '"
+                    :value="$order->customer->phone"
+                    :body="'Hello '.$order->customer->name.'. '"
                     type="viber"
                     class="btn btn-primary btn-sm">
                     <x-icon icon="viber" type="brands"/> Viber
@@ -70,13 +70,13 @@
         </li>
         <li class="list-group-item">
             <strong>IP Address:</strong>
-            <x-ip-info :value="$order->customer_ip_address"/>
+            <x-ip-info :value="$order->ip_address"/>
             <br>
             <strong>Geo Location:</strong>
-            <x-geo-location-info :value="$order->customer_ip_address"/>
+            <x-geo-location-info :value="$order->ip_address"/>
             <br>
             <strong>User Agent:</strong>
-            <x-user-agent-info :value="$order->customer_user_agent"/>
+            <x-user-agent-info :value="$order->user_agent"/>
         </li>
         @isset($order->remarks)
             <li class="list-group-item">
@@ -141,9 +141,9 @@
                                     @endif
                                 </td>
                                 <td>
-                                    <strong>Name:</strong> {{ $relatedOrder->customer_name }}<br>
-                                    <strong>ID Number:</strong> {{ $relatedOrder->customer_id_number }}<br>
-                                    <strong>Phone:</strong> {{ $relatedOrder->customer_phone }}
+                                    <strong>Name:</strong> {{ $relatedOrder->customer->name }}<br>
+                                    <strong>ID Number:</strong> {{ $relatedOrder->customer->id_number }}<br>
+                                    <strong>Phone:</strong> {{ $relatedOrder->customer->phone }}
                                 </td>
                                 <td>
                                     @foreach($relatedOrder->products->sortBy('name') as $product)

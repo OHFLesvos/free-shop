@@ -3,7 +3,7 @@
 namespace App\Http\Livewire\Backend;
 
 use App\Models\Order;
-use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Collection;
 use Livewire\Component;
 
 class OrderDetailPage extends Component
@@ -16,9 +16,10 @@ class OrderDetailPage extends Component
     {
         $this->relatedOrders = Order::query()
             ->where('id', '!=', $this->order->id)
-            ->where(fn ($inner) => $inner->whereNumberCompare('customer_id_number', $this->order->customer_id_number)
-                ->orWhere(fn ($inner) => $inner->whereNumberCompare('customer_phone', $this->order->customer_phone))
-            )
+            ->whereHas('customer', function ($cqry) {
+                $cqry->whereNumberCompare('id_number', $this->order->customer->id_number)
+                    ->orWhere(fn ($inner) => $inner->whereNumberCompare('phone', $this->order->customer->phone));
+            })
             ->orderBy('created_at', 'desc')
             ->get();
     }

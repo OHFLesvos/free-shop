@@ -2,6 +2,7 @@
 
 namespace App\Notifications;
 
+use App\Models\Customer;
 use App\Models\Order;
 use App\Models\User;
 use Illuminate\Notifications\Messages\MailMessage;
@@ -30,7 +31,7 @@ class OrderRegistered extends Notification
         if ($notifiable instanceof User) {
             return ['mail'];
         }
-        if ($notifiable instanceof Order) {
+        if ($notifiable instanceof Customer) {
             if (filled(config('twilio-notification-channel.account_sid'))) {
                 return [TwilioChannel::class];
             }
@@ -41,15 +42,15 @@ class OrderRegistered extends Notification
     public function toTwilio($notifiable)
     {
         $message = __("Hello :customer_name (ID :customer_id), we have received your order with ID #:id and will get back to you soon.", [
-            'customer_name' => $this->order->customer_name,
-            'customer_id' => $this->order->customer_id_number,
+            'customer_name' => $notifiable->name,
+            'customer_id' => $notifiable->id_number,
             'id' => $this->order->id,
         ]);
         $message .= "\n" . __('More information: ');
         $message .= route('order-lookup', [
-            'id_number' => $this->order->customer_id_number,
-            'phone' => $this->order->customer_phone,
-            'lang' => $this->order->locale,
+            'id_number' => $notifiable->id_number,
+            'phone' => $notifiable->phone,
+            'lang' => $notifiable->locale,
         ]);
         return (new TwilioSmsMessage())
             ->content($message);

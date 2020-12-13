@@ -16,9 +16,13 @@ class OrderListPage extends Component
 
     public string $status = 'open';
 
+    protected $queryString = [
+        'search' => ['except' => ''],
+    ];
+
     public function mount()
     {
-        $this->search = session()->get('orders.search', '');
+        $this->search = request()->input('search', session()->get('orders.search', '')) ?? '';
         $this->status = session()->get('orders.status', 'open');
     }
 

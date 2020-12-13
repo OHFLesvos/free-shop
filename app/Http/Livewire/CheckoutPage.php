@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire;
 
+use App\Models\Customer;
 use App\Models\Order;
 use App\Models\User;
 use App\Notifications\OrderRegistered;
@@ -77,23 +78,38 @@ class CheckoutPage extends Component
     {
         $this->validate();
 
-        $order = Order::create([
-            'customer_name' => trim($this->customer_name),
-            'customer_id_number' => trim($this->customer_id_number),
-            'customer_phone' => PhoneNumber::make($this->customer_phone, $this->customer_phone_country)
-                ->formatE164(),
-            'remarks' => trim($this->remarks),
-            'customer_ip_address' => $request->ip(),
-            'customer_user_agent' => $request->server('HTTP_USER_AGENT'),
+        $name = trim($this->customer_name);
+        $id_number = trim($this->customer_id_number);
+        $phone = PhoneNumber::make($this->customer_phone, $this->customer_phone_country)
+            ->formatE164();
+
+        $customer = Customer::firstOrCreate([
+            'name' => $name,
+            'id_number' => $id_number,
+            'phone' => $phone,
+        ],[
+            'name' => $name,
+            'id_number' => $id_number,
+            'phone' => $phone,
             'locale' => app()->getLocale(),
         ]);
+
+        $order = new Order();
+        $order->fill([
+            'customer_id' => $customer->id,
+            'remarks' => trim($this->remarks),
+            'ip_address' => $request->ip(),
+            'user_agent' => $request->server('HTTP_USER_AGENT'),
+        ]);
+        $order->customer()->associate($customer);
+        $order->save();
 
         $order->products()->sync($basket->items()
             ->mapWithKeys(fn ($quantity, $id) => [$id => [
                 'quantity' => $quantity,
             ]]));
 
-        $order->notify(new OrderRegistered($order));
+        $customer->notify(new OrderRegistered($order));
         Notification::send(User::all(), new OrderRegistered($order));
 
         $this->order = $order;

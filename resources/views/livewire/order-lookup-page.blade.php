@@ -45,10 +45,9 @@
     </form>
     @if($results !== null)
         @forelse($results as $order)
-            <h4>{{ $order->created_at->toUserTimezone()->isoFormat('LLLL') }}</h4>
             <div class="card mb-4 shadow-sm">
                 <div class="card-header">
-                    @lang('Products')
+                    {{ $order->created_at->toUserTimezone()->isoFormat('LLLL') }}
                 </div>
                 <table class="table table-bordered m-0">
                     <tbody>
@@ -80,10 +79,13 @@
                 </table>
                 <div class="card-footer">
                     @if($order->cancelled_at !== null)
+                        <x-icon icon="ban"/>
                         @lang('This order has been cancelled on :date.', ['date' => $order->cancelled_at->toUserTimezone()->isoFormat('LLLL')])
                     @elseif($order->completed_at !== null)
+                        <x-icon icon="check-circle" type="regular" />
                         @lang('This order has been completed on :date.', ['date' => $order->completed_at->toUserTimezone()->isoFormat('LLLL')])
                     @else
+                        <x-icon icon="inbox"/>
                         @lang('This order is in progress.')
                     @endif
                 </div>

@@ -2,35 +2,28 @@
 
 namespace App\Models;
 
+use App\Models\Traits\NumberCompareScope;
 use Dyrynda\Database\Support\NullableFields;
-use Illuminate\Contracts\Translation\HasLocalePreference;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Notifications\Notifiable;
-use Illuminate\Support\Facades\DB;
 
-class Order extends Model implements HasLocalePreference
+class Order extends Model
 {
     use HasFactory;
     use NullableFields;
-    use Notifiable;
+    use NumberCompareScope;
 
     protected $fillable = [
-        'customer_name',
-        'customer_id_number',
-        'customer_phone',
+        'ip_address',
+        'user_agent',
         'remarks',
-        'customer_ip_address',
-        'customer_user_agent',
-        'locale',
     ];
 
     protected $nullable = [
         'remarks',
         'completed_at',
         'cancelled_at',
-        'locale',
     ];
 
     protected $dates = [
@@ -42,6 +35,11 @@ class Order extends Model implements HasLocalePreference
     {
         return $this->belongsToMany(Product::class)
             ->withPivot('quantity');
+    }
+
+    public function customer()
+    {
+        return $this->belongsTo(Customer::class);
     }
 
     public function scopeOpen(Builder $qry)
@@ -63,24 +61,11 @@ class Order extends Model implements HasLocalePreference
     public function scopeFilter(Builder $qry, string $filter)
     {
         $qry->where('id', $filter)
-            ->orWhere('customer_name', 'LIKE', '%' . $filter . '%')
-            ->orWhere(fn ($inner) => $inner->whereNumberCompare('customer_id_number', $filter))
-            ->orWhere(fn ($inner) => $inner->whereNumberCompare('customer_phone', $filter))
+            ->orWhereHas('customer', function ($cqry) use ($filter) {
+                $cqry->where('name', 'LIKE', '%' . $filter . '%')
+                    ->orWhere(fn ($inner) => $inner->whereNumberCompare('id_number', $filter))
+                    ->orWhere(fn ($inner) => $inner->whereNumberCompare('phone', $filter));
+            })
             ->orWhere('remarks', 'LIKE', '%' . $filter . '%');
-    }
-
-    public function scopeWhereNumberCompare(Builder $qry, string $field, string $value)
-    {
-        $qry->where(DB::raw('TRIM(LEADING \'0\' FROM (REGEXP_REPLACE(' . $field . ', \'[^0-9]+\', \'\')))'), ltrim(preg_replace('/[^0-9]/', '', $value), '0'));
-    }
-
-    public function routeNotificationForTwilio()
-    {
-        return $this->customer_phone;
-    }
-
-    public function preferredLocale()
-    {
-        return $this->locale;
     }
 }

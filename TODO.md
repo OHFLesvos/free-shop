@@ -7,5 +7,4 @@
 * Cancel confirmation / notification
 * Done: remove from stock, update number calculation
 
-* Customer model?
 * Data import

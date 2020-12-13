@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire;
 
+use App\Models\Customer;
 use App\Models\Order;
 use Livewire\Component;
 
@@ -51,9 +52,11 @@ class OrderLookupPage extends Component
 
     private function search($id_number, $phone)
     {
-        return Order::query()
-            ->whereNumberCompare('customer_id_number', $id_number)
-            ->whereNumberCompare('customer_phone', $phone)
+        return Customer::query()
+            ->whereNumberCompare('id_number', $id_number)
+            ->whereNumberCompare('phone', $phone)
+            ->first()
+            ->orders()
             ->orderBy('created_at', 'desc')
             ->get();
     }

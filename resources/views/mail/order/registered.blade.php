@@ -1,7 +1,7 @@
 @component('mail::message')
 # New order in the shop
 
-A new order has been registered by **{{ $order->customer_name }}**.
+A new order has been registered by **{{ $order->customer->name }}**.
 
 @component('mail::table')
 | Item          | Quantity      |
