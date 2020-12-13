@@ -1210,16 +1210,16 @@
         },
         {
             "name": "kkomelin/laravel-translatable-string-exporter",
-            "version": "1.11.0",
+            "version": "1.12.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/kkomelin/laravel-translatable-string-exporter.git",
-                "reference": "7dc77d52a4662d57e1f2cb884be702b3ffbddfb9"
+                "reference": "7aa082bd71127273affc47463dc4516e1d6b7f59"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kkomelin/laravel-translatable-string-exporter/zipball/7dc77d52a4662d57e1f2cb884be702b3ffbddfb9",
-                "reference": "7dc77d52a4662d57e1f2cb884be702b3ffbddfb9",
+                "url": "https://api.github.com/repos/kkomelin/laravel-translatable-string-exporter/zipball/7aa082bd71127273affc47463dc4516e1d6b7f59",
+                "reference": "7aa082bd71127273affc47463dc4516e1d6b7f59",
                 "shasum": ""
             },
             "require": {
@@ -1263,7 +1263,7 @@
                 "laravel",
                 "translations"
             ],
-            "time": "2020-09-09T10:41:01+00:00"
+            "time": "2020-12-13T17:54:23+00:00"
         },
         {
             "name": "laravel-notification-channels/twilio",
