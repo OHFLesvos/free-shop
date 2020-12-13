@@ -32,7 +32,7 @@
                                             style="max-width: 100px; max-height: 75px"/>
                                     @endisset
                                 </td>
-                                <td>
+                                <td class="align-middle">
                                     {{ $product->name }}
                                     <small class="text-muted ml-1">{{ $product->category }}</small>
                                 </td>
