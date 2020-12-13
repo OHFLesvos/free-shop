@@ -11,7 +11,6 @@
 * In progress status
 * Customer model?
 * Storefront category breadcrumbs ?
-* Storefront quantity in card
 * socialite login?
 * import
 * Done: remove from stock, update number calculation

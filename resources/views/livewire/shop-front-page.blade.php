@@ -3,38 +3,63 @@
     @if($products->isNotEmpty())
         <div class="row">
             <div class="col-md">
-                @foreach($categories as $category)
+                @isset($category)
                     <h4>{{ $category }}</h4>
-                    <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3">
-                        @foreach($products->where('category', $category) as $product)
-                            <div class="col mb-4">
-                                <div class="card shadow-sm">
-                                    @isset($product->pictureUrl)
-                                        <img
-                                            src="{{ $product->pictureUrl }}"
-                                            class="card-img-top"
-                                            alt="Product name">
-                                    @endisset
-                                    <div class="card-body">
-                                        <h5 class="card-title">{{ $product->name }}</h5>
-                                        <p class="card-text">{{ $product->description }}</p>
-                                    </div>
-                                    <div class="card-footer text-right">
-                                        <button
-                                            class="btn @unless(($basket[$product->id] ?? 0) < $product->quantity_available_for_customer) btn-secondary @else btn-primary @endunless"
-                                            wire:click="add({{ $product->id }})"
-                                            wire:loading.attr="disabled"
-                                            wire:target="add"
-                                            @unless(($basket[$product->id] ?? 0) < $product->quantity_available_for_customer) disabled @endunless
-                                            >
-                                            @lang('Add')
-                                        </button>
+                    @if($products->where('category', $category)->isNotEmpty())
+                        <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3">
+                            @foreach($products->where('category', $category) as $product)
+                                <div class="col mb-4">
+                                    <div class="card shadow-sm">
+                                        @isset($product->pictureUrl)
+                                            <img
+                                                src="{{ $product->pictureUrl }}"
+                                                class="card-img-top"
+                                                alt="Product name">
+                                        @endisset
+                                        <div class="card-body">
+                                            <h5 class="card-title">{{ $product->name }}</h5>
+                                            <p class="card-text">{{ $product->description }}</p>
+                                        </div>
+                                        <div class="card-footer text-right">
+                                            <button
+                                                class="btn @unless(($basket[$product->id] ?? 0) < $product->quantity_available_for_customer) btn-secondary @else btn-primary @endunless"
+                                                wire:click="add({{ $product->id }})"
+                                                wire:loading.attr="disabled"
+                                                wire:target="add"
+                                                @unless(($basket[$product->id] ?? 0) < $product->quantity_available_for_customer) disabled @endunless
+                                                >
+                                                @lang('Add')
+                                            </button>
+                                        </div>
                                     </div>
                                 </div>
+                            @endforeach
+                        </div>
+                    @else
+                        <x-alert type="info">@lang('There are no products in this category.')</x-alert>
+                    @endif
+                    <p>
+                        <button
+                            class="btn btn-outline-primary"
+                            wire:click="$set('category', null)">
+                            @lang('Show all categories')
+                        </button>
+                    </p>
+                @else
+                    <div class="row">
+                        @foreach($categories as $category)
+                            <div class="col-sm-6 col-lg-4 mb-3">
+                                <button
+                                    class="btn btn-lg btn-outline-primary btn-block"
+                                    wire:click="$set('category', '{{ $category }}')">
+                                    {{ $category }}
+                                </button>
                             </div>
                         @endforeach
                     </div>
-                @endforeach
+                @endunless
+
+
             </div>
             <div class="col-md-4">
                 <div class="card shadow-sm sticky mb-4">

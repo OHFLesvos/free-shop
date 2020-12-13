@@ -11,6 +11,11 @@ class ShopFrontPage extends Component
 {
     public Collection $products;
     public Collection $categories;
+    public ?string $category = null;
+
+    protected $queryString = [
+        'category' => ['except' => ''],
+    ];
 
     public function mount()
     {
