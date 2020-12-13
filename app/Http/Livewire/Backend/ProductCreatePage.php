@@ -17,6 +17,8 @@ class ProductCreatePage extends Component
 
     public $picture;
 
+    public bool $shouldDelete = false;
+
     protected function rules() {
         $defaultLocale = config('app.fallback_locale');
         return [

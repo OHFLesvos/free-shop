@@ -20,6 +20,8 @@ class ProductEditPage extends Component
 
     public bool $removePicture = false;
 
+    public bool $shouldDelete = false;
+
     protected function rules() {
         $defaultLocale = config('app.fallback_locale');
         return [

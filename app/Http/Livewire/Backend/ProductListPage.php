@@ -22,8 +22,8 @@ class ProductListPage extends Component
             'products' => Product::query()
                 ->when($this->state == 'available', fn ($qry) => $qry->available())
                 ->when($this->state == 'disabled', fn ($qry) => $qry->disabled())
-                ->get()
-                ->sortBy('name'),
+                ->orderBy('name->' . config('app.fallback_locale'))
+                ->get(),
             ])
             ->layout('layouts.backend', ['title' => 'Products']);
     }
