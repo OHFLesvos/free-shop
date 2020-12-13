@@ -15,28 +15,30 @@ use Propaganistas\LaravelPhone\PhoneNumber;
 
 class CheckoutPage extends Component
 {
-    public Order $order;
-    public bool $submitted = false;
     public Collection $countries;
-    public string $phone = '';
-    public string $phone_country;
+    public ?Order $order = null;
+
+    public string $customer_name = '';
+    public string $customer_id_number = '';
+    public string $customer_phone = '';
+    public string $customer_phone_country;
+    public string $remarks = '';
 
     protected $rules = [
-        'order.customer_name' => 'required',
-        'order.customer_id_number' => 'required',
-        'phone' => [
+        'customer_name' => 'required',
+        'customer_id_number' => 'required',
+        'customer_phone' => [
             'required',
-            'phone:phone_country,mobile',
+            'phone:customer_phone_country,mobile',
         ],
-        'phone_country' => 'required_with:phone',
-        'order.remarks' => 'nullable',
+        'customer_phone_country' => 'required_with:customer_phone',
+        'remarks' => 'nullable',
     ];
 
     protected $validationAttributes = [
-        'order.customer_name' => 'name',
-        'order.customer_id_number' => 'ID number',
-        'phone' => 'phone number',
-        'order.remarks' => 'remarks',
+        'customer_name' => 'name',
+        'customer_id_number' => 'ID number',
+        'customer_phone' => 'phone number',
     ];
 
     // protected function rules() {
@@ -59,9 +61,8 @@ class CheckoutPage extends Component
 
     public function mount()
     {
-        $this->order = new Order();
         $this->countries = collect(Countries::getList(app()->getLocale()));
-        $this->phone_country = setting()->get('order.default_phone_country', '');
+        $this->customer_phone_country = setting()->get('order.default_phone_country', '');
     }
 
     public function render(ShoppingBasket $basket)
@@ -76,21 +77,26 @@ class CheckoutPage extends Component
     {
         $this->validate();
 
-        $this->order->customer_phone = PhoneNumber::make($this->phone, $this->phone_country)
-            ->formatE164();
+        $order = Order::create([
+            'customer_name' => trim($this->customer_name),
+            'customer_id_number' => trim($this->customer_id_number),
+            'customer_phone' => PhoneNumber::make($this->customer_phone, $this->customer_phone_country)
+                ->formatE164(),
+            'remarks' => trim($this->remarks),
+            'customer_ip_address' => $request->ip(),
+            'customer_user_agent' => $request->server('HTTP_USER_AGENT'),
+            'locale' => app()->getLocale(),
+        ]);
 
-        $this->order->customer_ip_address = $request->ip();
-        $this->order->customer_user_agent = $request->server('HTTP_USER_AGENT');
-        $this->order->locale = app()->getLocale();
-        $this->order->save();
+        $order->products()->sync($basket->items()
+            ->mapWithKeys(fn ($quantity, $id) => [$id => [
+                'quantity' => $quantity,
+            ]]));
 
-        $this->order->products()->sync($basket->items()
-            ->mapWithKeys(fn ($quantity, $id) => [$id => ['quantity' => $quantity]]));
+        $order->notify(new OrderRegistered($order));
+        Notification::send(User::all(), new OrderRegistered($order));
 
-        $this->order->notify(new OrderRegistered($this->order));
-        Notification::send(User::all(), new OrderRegistered($this->order));
-
-        $this->submitted = true;
+        $this->order = $order;
 
         $basket->empty();
     }

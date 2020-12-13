@@ -17,6 +17,16 @@ class Order extends Model implements HasLocalePreference
     use NullableFields;
     use Notifiable;
 
+    protected $fillable = [
+        'customer_name',
+        'customer_id_number',
+        'customer_phone',
+        'remarks',
+        'customer_ip_address',
+        'customer_user_agent',
+        'locale',
+    ];
+
     protected $nullable = [
         'remarks',
         'completed_at',
