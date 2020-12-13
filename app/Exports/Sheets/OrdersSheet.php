@@ -29,7 +29,7 @@ class OrdersSheet implements FromQuery, WithMapping, WithHeadings, WithColumnFor
     public function headings(): array
     {
         return [
-            'Registered',
+            'ID',
             'Customer Name',
             'Customer ID Number',
             'Customer Phone',
@@ -39,6 +39,7 @@ class OrdersSheet implements FromQuery, WithMapping, WithHeadings, WithColumnFor
             'Customer Language',
             'Order',
             'Remarks',
+            'Registered',
             'Updated',
             'Completed',
             'Cancelled',
@@ -53,7 +54,7 @@ class OrdersSheet implements FromQuery, WithMapping, WithHeadings, WithColumnFor
             $phone = ' ' . $order->customer_phone;
         }
         return [
-            Date::dateTimeToExcel($order->created_at->toUserTimezone()),
+            $order->id,
             $order->customer_name,
             $order->customer_id_number,
             $phone,
@@ -66,6 +67,7 @@ class OrdersSheet implements FromQuery, WithMapping, WithHeadings, WithColumnFor
                 ->map(fn ($product) => sprintf('%dx %s', $product->pivot->quantity, $product->name))
                 ->join(', '),
             $order->remarks,
+            Date::dateTimeToExcel($order->created_at->toUserTimezone()),
             Date::dateTimeToExcel($order->updated_at->toUserTimezone()),
             $order->completed_at !== null
                 ? Date::dateTimeToExcel($order->completed_at->toUserTimezone())
@@ -79,10 +81,10 @@ class OrdersSheet implements FromQuery, WithMapping, WithHeadings, WithColumnFor
     public function columnFormats(): array
     {
         return [
-            'A' => NumberFormat::FORMAT_DATE_YYYYMMDD . ' ' . NumberFormat::FORMAT_DATE_TIME3,
-            'I' => NumberFormat::FORMAT_DATE_YYYYMMDD . ' ' . NumberFormat::FORMAT_DATE_TIME3,
-            'J' => NumberFormat::FORMAT_DATE_YYYYMMDD . ' ' . NumberFormat::FORMAT_DATE_TIME3,
             'K' => NumberFormat::FORMAT_DATE_YYYYMMDD . ' ' . NumberFormat::FORMAT_DATE_TIME3,
+            'L' => NumberFormat::FORMAT_DATE_YYYYMMDD . ' ' . NumberFormat::FORMAT_DATE_TIME3,
+            'M' => NumberFormat::FORMAT_DATE_YYYYMMDD . ' ' . NumberFormat::FORMAT_DATE_TIME3,
+            'N' => NumberFormat::FORMAT_DATE_YYYYMMDD . ' ' . NumberFormat::FORMAT_DATE_TIME3,
         ];
     }
 }
