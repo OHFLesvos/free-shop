@@ -43,7 +43,7 @@
                             <a class="nav-link" href="{{ route('languages') }}">@lang('Switch language')</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('backend') }}">@lang('Backend')</a>
+                            <a class="nav-link" href="{{ route('login') }}">@lang('Backend')</a>
                         </li>
                     </ul>
                 </div>

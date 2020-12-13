@@ -1,7 +1,7 @@
 <div>
     @if($shouldDelete)
         <h1 class="mb-3">Delete product</h1>
-        <p>Really delete this product?</p>
+        <p>Really delete the product <strong>{{ $product->name }}</strong>?</p>
         <p class="d-flex justify-content-between">
             <button
                 type="button"

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\LanguageSelectController;
+use App\Http\Controllers\SocialLoginController;
 use App\Http\Livewire\Backend\DataExport;
 use App\Http\Livewire\Backend\OrderDetailPage;
 use App\Http\Livewire\Backend\OrderListPage;
@@ -8,9 +9,11 @@ use App\Http\Livewire\Backend\ProductCreatePage;
 use App\Http\Livewire\Backend\ProductEditPage;
 use App\Http\Livewire\Backend\ProductListPage;
 use App\Http\Livewire\Backend\SettingsPage;
+use App\Http\Livewire\Backend\UserProfile;
 use App\Http\Livewire\CheckoutPage;
 use App\Http\Livewire\OrderLookupPage;
 use App\Http\Livewire\ShopFrontPage;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -45,7 +48,20 @@ Route::middleware(['geoblock.whitelist', 'set-language'])
             ->name('order-lookup');
     });
 
-Route::middleware('auth.basic')
+Route::view('login', 'login')
+    ->name('login')
+    ->middleware('guest');
+Route::get('login/google', [SocialLoginController::class, 'redirectToGoogle'])
+    ->name('login.google');
+Route::get('login/google/callback', [SocialLoginController::class, 'processGoogleCallback'])
+    ->name('login.google.callback');
+Route::post('logout', function() {
+        return redirect('/')
+            ->with(Auth::logout());
+    })
+    ->name('logout');
+
+Route::middleware('auth')
     ->group(function () {
         Route::redirect('backend', 'backend/orders')
             ->name('backend');
@@ -66,5 +82,7 @@ Route::middleware('auth.basic')
                     ->name('export');
                 Route::get('settings', SettingsPage::class)
                     ->name('settings');
+                Route::get('user-profile', UserProfile::class)
+                    ->name('user-profile');
             });
     });

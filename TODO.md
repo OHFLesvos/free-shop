@@ -1,12 +1,9 @@
 # TODO
 
 * User management
-* Registration for first admin
-* User timezone select
-* Date format for user
-* Timezone / time format for annonymous user
 * User notification choices
-* socialite login?
+* Date format for user
+* Timezone / date format for annonymous user
 
 * In progress status
 * SMS to customer on order change

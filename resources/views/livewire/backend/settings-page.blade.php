@@ -62,13 +62,13 @@
                 </div>
             </div>
         </div>
-
-        <button
-            type="submit"
-            class="btn btn-primary"
-            wire:target="submit">
-            <x-icon-progress wire:loading wire:target="submit"/>
-            Save
-        </button>
+        <p class="text-right">
+            <button
+                type="submit"
+                class="btn btn-primary">
+                <x-icon-progress wire:loading wire:target="submit"/>
+                Save
+            </button>
+        </p>
      </form>
 </div>
