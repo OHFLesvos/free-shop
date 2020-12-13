@@ -85,6 +85,34 @@
                 </div>
             </div>
         </form>
+        <div class="card shadow-sm mb-4">
+            <div class="card-header">Last Login</div>
+            <div class="card-body">
+                <strong>Time:</strong>
+                {{ $user->last_login_at->toUserTimezone()->isoFormat('LLLL') }}
+                <small class="ml-1">{{ $user->last_login_at->diffForHumans() }}</small>
+                <br>
+                <strong>IP Address:</strong>
+                {{ $user->last_login_ip }}
+                @php
+                    $hostname = App::environment() != 'local' ? gethostbyaddr($user->last_login_ip) : null;
+                @endphp
+                @if($hostname !== null && $hostname != $user->last_login_ip)({{ $hostname }})@endif
+                <br>
+                @php
+                    $location = geoip()->getLocation($user->last_login_ip);
+                @endphp
+                <strong>Geo Location:</strong>
+                {{ $location->city }}, @isset($location->state){{ $location->state }},@endisset {{ $location->country }}
+                <br>
+                <strong>User Agent:</strong>
+                @php
+                    $parser = new donatj\UserAgent\UserAgentParser();
+                    $ua = $parser->parse($user->last_login_user_agent);
+                @endphp
+                {{ $ua->browser() }} {{ $ua->browserVersion() }} on {{ $ua->platform() }}
+            </div>
+        </div>
         <p>
             <button
                 type="button"

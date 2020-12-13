@@ -56,7 +56,6 @@ class SocialLoginController extends Controller
                 'avatar' => $socialUser->getAvatar(),
                 'password' => Str::random(32),
                 'provider' => 'google',
-                'timezone' => $this->getUserTimezone(),
             ]
         );
         if ($user->email_verified_at == null) {
@@ -67,11 +66,5 @@ class SocialLoginController extends Controller
         Auth::login($user);
 
         return redirect()->intended(RouteServiceProvider::HOME);
-    }
-
-    private function getUserTimezone()
-    {
-        $location = geoip()->getLocation();
-        return $location['default'] ? null : $location['timezone'] ?? null;
     }
 }
