@@ -66,7 +66,7 @@ class ProductCreatePage extends Component
                 ->values()
             ]);
 
-            $this->locale = session()->get('product-edit.locale', config('app.fallback_locale'));
+            $this->locale = config('app.fallback_locale');
 
             $this->name = $this->product->getTranslations('name');
             $this->category = $this->product->getTranslations('category');

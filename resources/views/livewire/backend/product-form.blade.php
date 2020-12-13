@@ -13,6 +13,7 @@
                     <button
                         class="btn @if($lang_key == $locale) btn-primary @else btn-outline-primary @endif"
                         wire:click="$set('locale', '{{ $lang_key }}')"
+                        wire:loading.attr="disabled"
                     >
                         {{ $lang_name }} ({{ strtoupper($lang_key) }})
                     </button>
