@@ -152,7 +152,7 @@
                     class="btn btn-primary">
                     {{-- class="btn @error('basket.*') btn-secondary @else btn-primary @enderror" --}}
                     {{-- @error('basket.*') disabled @enderror --}}
-                    <x-icon-progress wire:loading wire:target="submit"/>
+                    <x-spinner wire:loading wire:target="submit"/>
                     @lang('Send order')
                 </button>
             </div>

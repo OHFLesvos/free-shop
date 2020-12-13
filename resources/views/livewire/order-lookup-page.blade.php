@@ -38,7 +38,7 @@
             <button
                 type="submit"
                 class="btn btn-primary">
-                <x-icon-progress wire:loading wire:target="submit"/>
+                <x-spinner wire:loading wire:target="submit"/>
                 @lang('Search')
             </button>
         </div>

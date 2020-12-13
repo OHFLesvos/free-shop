@@ -16,7 +16,7 @@
                 wire:target="delete"
                 wire:loading.attr="disabled"
                 wire:click="delete">
-                <x-icon-progress wire:loading wire:target="delete"/>
+                <x-spinner wire:loading wire:target="delete"/>
                 Delete
             </button>
         </p>
@@ -251,7 +251,7 @@
                         class="btn btn-primary"
                         wire:target="submit"
                         wire:loading.attr="disabled">
-                        <x-icon-progress wire:loading wire:target="submit"/>
+                        <x-spinner wire:loading wire:target="submit"/>
                         Save
                     </button>
                 </span>

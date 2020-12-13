@@ -169,22 +169,26 @@
             Completed
         @else
             <span>
-                <button
-                    type="button"
-                    class="btn btn-danger mb-3"
-                    wire:click="cancel"
-                    wire:loading.attr="disabled">
-                    <x-icon-progress wire:loading/>
-                    Cancel order
-                </button>
-                <button
-                    type="button"
-                    class="btn btn-primary mb-3"
-                    wire:click="complete"
-                    wire:loading.attr="disabled">
-                    <x-icon-progress wire:loading/>
-                    Mark as completed
-                </button>
+                <span wire:loading.remove wire:target="complete">
+                    <button
+                        type="button"
+                        class="btn btn-danger mb-3"
+                        wire:click="cancel"
+                        wire:loading.attr="disabled">
+                        <x-spinner wire:loading wire:target="cancel"/>
+                        Cancel order
+                    </button>
+                </span>
+                <span wire:loading.remove wire:target="cancel">
+                    <button
+                        type="button"
+                        class="btn btn-primary mb-3"
+                        wire:click="complete"
+                        wire:loading.attr="disabled">
+                        <x-spinner wire:loading wire:target="complete"/>
+                        Mark as completed
+                    </button>
+                </span>
             </span>
         @endisset
     </div>

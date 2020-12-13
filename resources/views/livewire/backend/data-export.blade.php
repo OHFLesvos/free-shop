@@ -17,9 +17,8 @@
                 type="submit"
                 class="btn btn-primary"
                 wire:loading.attr="disabled"
-                wire:target="submit"
-            >
-                <x-icon-progress wire:loading wire:target="submit"/>
+                wire:target="submit">
+                <x-spinner wire:loading wire:target="submit"/>
                 Download
             </button>
         </p>

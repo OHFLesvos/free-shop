@@ -16,7 +16,7 @@
                 wire:target="delete"
                 wire:loading.attr="disabled"
                 wire:click="delete">
-                <x-icon-progress wire:loading wire:target="delete"/>
+                <x-spinner wire:loading wire:target="delete"/>
                 Delete
             </button>
         </p>
@@ -63,12 +63,7 @@
                                     class="btn btn-outline-secondary"
                                     type="button"
                                     wire:click="detectTimezone">
-                                    <span
-                                        wire:loading
-                                        wire:target="detectTimezone"
-                                        class="spinner-border spinner-border-sm"
-                                        role="status"
-                                        aria-hidden="true"></span>
+                                    <x-spinner wire:loading wire:target="detectTimezone"/>
                                     <span
                                         wire:loading.remove
                                         wire:target="detectTimezone">
@@ -84,7 +79,7 @@
                     <button
                         type="submit"
                         class="btn btn-primary">
-                        <x-icon-progress wire:loading wire:target="submit"/>
+                        <x-spinner wire:loading wire:target="submit"/>
                         Save
                     </button>
                 </div>
