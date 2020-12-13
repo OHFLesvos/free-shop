@@ -60,7 +60,7 @@
                     </tr>
                 @empty
                     <tr>
-                        <td colspan="4" class="text-center">
+                        <td colspan="6" class="text-center">
                             <em>No products registered.</em>
                         </td>
                     </tr>
