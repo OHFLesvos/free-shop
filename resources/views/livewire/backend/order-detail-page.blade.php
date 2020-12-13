@@ -14,58 +14,32 @@
             @endisset
         </li>
         <li class="list-group-item">
-            <strong>Name:</strong>
-            {{ $order->customer->name }}<br>
-            <strong>ID Number:</strong>
-            {{ $order->customer->id_number }}<br>
-            @isset($order->locale)
-                <strong>Language:</strong>
-                @isset(config('app.supported_languages')[$order->customer->locale])
-                    {{ config('app.supported_languages')[$order->customer->locale] }}
-                    ({{ strtoupper($order->locale) }})
-                @else
-                    {{ strtoupper($order->locale) }}
-                @endif
-                <br>
-            @endisset
-            <strong>Phone:</strong>
-            {{ $order->customer->phone }}
-            @php
-                try {
-                    $phone = Propaganistas\LaravelPhone\PhoneNumber::make($order->customer->phone);
-                    $phoneCountry = optional($phone)->getCountry();
-                } catch (Throwable $ignored) {}
-            @endphp
-            @isset($phoneCountry)
-                ({{ Countries::getOne($phoneCountry, 'en') }})
-            @endisset
-            <div class="mt-2">
-                <x-phone-number-link
-                    :value="$order->customer->phone"
-                    class="btn btn-primary btn-sm">
-                    <x-icon icon="phone"/> Call
-                </x-phone-number-link>
-                <x-phone-number-link
-                    :value="$order->customer->phone"
-                    :body="'Hello '.$order->customer->name. '. '"
-                    type="sms"
-                    class="btn btn-primary btn-sm">
-                    <x-icon icon="sms"/> SMS
-                </x-phone-number-link>
-                <x-phone-number-link
-                    :value="$order->customer->phone"
-                    :body="'Hello '.$order->customer->name.'. '"
-                    type="whatsapp"
-                    class="btn btn-primary btn-sm">
-                    <x-icon icon="whatsapp" type="brands"/> WhatsApp
-                </x-phone-number-link>
-                <x-phone-number-link
-                    :value="$order->customer->phone"
-                    :body="'Hello '.$order->customer->name.'. '"
-                    type="viber"
-                    class="btn btn-primary btn-sm">
-                    <x-icon icon="viber" type="brands"/> Viber
-            </x-phone-number-link>
+            <div class="row">
+                <div class="col-sm">
+                    <strong>Name:</strong>
+                    {{ $order->customer->name }}<br>
+                    <strong>ID Number:</strong>
+                    {{ $order->customer->id_number }}<br>
+                    @isset($order->locale)
+                        <strong>Language:</strong>
+                        @isset(config('app.supported_languages')[$order->customer->locale])
+                            {{ config('app.supported_languages')[$order->customer->locale] }}
+                            ({{ strtoupper($order->locale) }})
+                        @else
+                            {{ strtoupper($order->locale) }}
+                        @endif
+                        <br>
+                    @endisset
+                    <strong>Phone:</strong>
+                    {{ $order->customer->phone }}
+                </div>
+                <div class="col-sm-auto mt-2 mt-sm-1">
+                    <a
+                        href="{{ route('backend.customers.show', $order->customer) }}"
+                        class="btn btn-primary">
+                        View
+                    </a>
+                </div>
             </div>
         </li>
         <li class="list-group-item">

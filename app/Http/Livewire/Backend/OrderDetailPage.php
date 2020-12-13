@@ -41,9 +41,4 @@ class OrderDetailPage extends Component
         $this->order->cancelled_at = now();
         $this->order->save();
     }
-
-    public function showOrder($id)
-    {
-        return redirect()->route('backend.orders.show', $id);
-    }
 }

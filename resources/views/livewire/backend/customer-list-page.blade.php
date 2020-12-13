@@ -31,7 +31,7 @@
             </thead>
             <tbody>
                 @forelse($customers as $customer)
-                    <tr data-href="{{ route('backend.customers.edit', $customer) }}">
+                    <tr data-href="{{ route('backend.customers.show', $customer) }}">
                         <td>{{ $customer->name }}</td>
                         <td>{{ $customer->id_number }}</td>
                         <td>{{ $customer->phone }}</td>
