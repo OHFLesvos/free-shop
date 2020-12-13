@@ -12,6 +12,7 @@ class SettingsPage extends Component
 
     public Collection $geoblockWhitelist;
     public string $orderDefaultPhoneCountry;
+    public string $timezone;
 
     public ?string $selectedCountry = null;
 
@@ -20,6 +21,7 @@ class SettingsPage extends Component
         $this->countries = collect(Countries::getList('en'));
         $this->geoblockWhitelist = collect(setting()->get('geoblock.whitelist', []));
         $this->orderDefaultPhoneCountry = setting()->get('order.default_phone_country', '');
+        $this->timezone = setting()->get('timezone', '');
     }
 
     public function render()
@@ -53,6 +55,12 @@ class SettingsPage extends Component
             setting()->set('order.default_phone_country', $this->orderDefaultPhoneCountry);
         } else {
             setting()->forget('order.default_phone_country');
+        }
+
+        if (filled($this->timezone)) {
+            setting()->set('timezone', $this->timezone);
+        } else {
+            setting()->forget('timezone');
         }
 
         session()->flash('message', 'Settings saved.');

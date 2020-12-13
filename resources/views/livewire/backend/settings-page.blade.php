@@ -60,6 +60,20 @@
                     </select>
                     @error('orderDefaultPhoneCountry') <div class="invalid-feedback">{{ $message }}</div> @enderror
                 </div>
+                <div class="form-group">
+                    <label for="timezone" class="d-block">Default timezone:</label>
+                    <select
+                        id="timezone"
+                        wire:model.defer="timezone"
+                        class="custom-select @error('timezone') is-invalid @enderror"
+                        style="max-width: 20em;">
+                        <option value="">- Default timezone -</option>
+                        @foreach(listTimezones() as $value => $label)
+                            <option value="{{ $value }}">{{ $label }}</option>
+                        @endforeach
+                    </select>
+                    @error('timezone') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                </div>
             </div>
         </div>
         <p class="text-right">

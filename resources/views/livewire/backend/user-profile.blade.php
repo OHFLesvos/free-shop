@@ -44,40 +44,41 @@
         <form wire:submit.prevent="submit" autocomplete="off">
             <div class="card shadow-sm mb-4">
                 <div class="card-header">Profile settings</div>
-                    <div class="card-body">
-                        <div class="form-group">
-                            <label for="timezone">Timezone:</label>
-                            <div class="input-group mb-3">
-                                <select
-                                    id="timezone"
-                                    wire:model.defer="user.timezone"
-                                    class="custom-select @error('timezone') is-invalid @enderror">
-                                    <option value="">- Default timezone -</option>
-                                    @foreach(listTimezones() as $value => $label)
-                                        <option value="{{ $value }}">{{ $label }}</option>
-                                    @endforeach
-                                </select>
-                                <div class="input-group-append">
-                                    <button
-                                        class="btn btn-outline-secondary"
-                                        type="button"
-                                        wire:click="detectTimezone">
-                                        <span
-                                            wire:loading
-                                            wire:target="detectTimezone"
-                                            class="spinner-border spinner-border-sm"
-                                            role="status"
-                                            aria-hidden="true"></span>
-                                        <span
-                                            wire:loading.remove
-                                            wire:target="detectTimezone">
-                                            <x-icon icon="search-location"/>
-                                        </span>
-                                    </button>
-                                </div>
-                                @error('timezone') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                <div class="card-body">
+                    <div class="form-group">
+                        <label for="timezone" class="d-block">Timezone:</label>
+                        <div class="input-group mb-3">
+                            <select
+                                id="timezone"
+                                wire:model.defer="user.timezone"
+                                class="custom-select @error('timezone') is-invalid @enderror"
+                                style="max-width: 20em;">
+                                <option value="">- Default timezone -</option>
+                                @foreach(listTimezones() as $value => $label)
+                                    <option value="{{ $value }}">{{ $label }}</option>
+                                @endforeach
+                            </select>
+                            <div class="input-group-append">
+                                <button
+                                    class="btn btn-outline-secondary"
+                                    type="button"
+                                    wire:click="detectTimezone">
+                                    <span
+                                        wire:loading
+                                        wire:target="detectTimezone"
+                                        class="spinner-border spinner-border-sm"
+                                        role="status"
+                                        aria-hidden="true"></span>
+                                    <span
+                                        wire:loading.remove
+                                        wire:target="detectTimezone">
+                                        <x-icon icon="search-location"/>
+                                    </span>
+                                </button>
                             </div>
+                            @error('timezone') <div class="invalid-feedback">{{ $message }}</div> @enderror
                         </div>
+                    </div>
                 </div>
                 <div class="card-footer text-right">
                     <button
