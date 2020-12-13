@@ -45,7 +45,7 @@
                                 @foreach($this->products->whereIn('id', $basket->keys()) as $product)
                                     <tr>
                                         <td class="align-middle">{{ $product->name }}</td>
-                                        <td class="align-middle"><strong>{{ $basket[$product->id] }}</strong></td>
+                                        <td class="align-middle fit"><strong>{{ $basket[$product->id] }}</strong></td>
                                         <td class="align-middle fit">
                                             <button
                                                 type="button"
