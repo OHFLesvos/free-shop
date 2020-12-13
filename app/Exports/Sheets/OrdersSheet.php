@@ -2,6 +2,7 @@
 
 namespace App\Exports\Sheets;
 
+use donatj\UserAgent\UserAgentParser;
 use App\Exports\DefaultWorksheetStyles;
 use App\Models\Order;
 use Maatwebsite\Excel\Concerns\FromQuery;
@@ -53,14 +54,15 @@ class OrdersSheet implements FromQuery, WithMapping, WithHeadings, WithColumnFor
         } catch (Throwable $t) {
             $phone = ' ' . $order->customer_phone;
         }
+        $ua = (new UserAgentParser())->parse($order->customer_user_agent);
         return [
             $order->id,
             $order->customer_name,
             $order->customer_id_number,
             $phone,
             $order->customer_ip_address,
-            $order->UA->browser() . ' ' . $order->UA->browserVersion(),
-            $order->UA->platform(),
+            $ua->browser() . ' ' . $ua->browserVersion(),
+            $ua->platform(),
             $order->locale,
             $order->products
                 ->sortBy('name')

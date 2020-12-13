@@ -48,13 +48,27 @@
                     </ul>
                     <ul class="navbar-nav">
                         <li class="nav-item">
-                            <a class="nav-link @if(Request::route()->getName() == 'backend.user-profile') active @endif" href="{{ route('backend.user-profile') }}">{{ Auth::user()->name }}</a>
+                            <a
+                                class="nav-link @isset(Auth::user()->avatar) py-1 @endif @if(Request::route()->getName() == 'backend.user-profile') active @endif"
+                                href="{{ route('backend.user-profile') }}"
+                                aria-label="User profile">
+                                @isset(Auth::user()->avatar)
+                                    <img src="{{ Auth::user()->avatar }}" alt="Avatar" class="bg-white rounded-circle" height="32">
+                                @else
+                                    {{ Auth::user()->name }}
+                                @endisset
+                            </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('home') }}" target="_blank">Frontend</a>
+                            <a class="nav-link" href="{{ route('home') }}" target="_blank">
+                                Frontend
+                                <x-icon icon="external-link-alt"/>
+                            </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();"> Logout </a>
+                            <a class="nav-link" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                                Logout
+                            </a>
                             <form id="logout-form" class="d-none" action="{{ route('logout') }}" method="POST">
                                 {{ csrf_field() }}
                             </form>

@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use donatj\UserAgent\UserAgentParser;
 use Dyrynda\Database\Support\NullableFields;
 use Illuminate\Contracts\Translation\HasLocalePreference;
 use Illuminate\Database\Eloquent\Builder;
@@ -73,17 +72,6 @@ class Order extends Model implements HasLocalePreference
     public function scopeWhereNumberCompare(Builder $qry, string $field, string $value)
     {
         $qry->where(DB::raw('TRIM(LEADING \'0\' FROM (REGEXP_REPLACE(' . $field . ', \'[^0-9]+\', \'\')))'), ltrim(preg_replace('/[^0-9]/', '', $value), '0'));
-    }
-
-    public function getUAAttribute()
-    {
-        $parser = new UserAgentParser();
-        return $parser->parse($this->customer_user_agent);
-    }
-
-    public function getGeoIpLocationAttribute()
-    {
-        return geoip()->getLocation($this->customer_ip_address);
     }
 
     public function routeNotificationForTwilio()

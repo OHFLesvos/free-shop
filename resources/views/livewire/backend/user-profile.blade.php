@@ -37,8 +37,7 @@
                 <strong>E-Mail:</strong>
                 {{ $user->email }}<br>
                 <strong>Registered:</strong>
-                {{ $user->created_at->toUserTimezone()->isoFormat('LLLL') }}
-                <small class="ml-1">{{ $user->created_at->diffForHumans() }}</small>
+                <x-date-time-info :value="$user->created_at"/>
             </div>
         </div>
         <form wire:submit.prevent="submit" autocomplete="off">
@@ -85,34 +84,24 @@
                 </div>
             </div>
         </form>
-        <div class="card shadow-sm mb-4">
-            <div class="card-header">Last Login</div>
-            <div class="card-body">
-                <strong>Time:</strong>
-                {{ $user->last_login_at->toUserTimezone()->isoFormat('LLLL') }}
-                <small class="ml-1">{{ $user->last_login_at->diffForHumans() }}</small>
-                <br>
-                <strong>IP Address:</strong>
-                {{ $user->last_login_ip }}
-                @php
-                    $hostname = App::environment() != 'local' ? gethostbyaddr($user->last_login_ip) : null;
-                @endphp
-                @if($hostname !== null && $hostname != $user->last_login_ip)({{ $hostname }})@endif
-                <br>
-                @php
-                    $location = geoip()->getLocation($user->last_login_ip);
-                @endphp
-                <strong>Geo Location:</strong>
-                {{ $location->city }}, @isset($location->state){{ $location->state }},@endisset {{ $location->country }}
-                <br>
-                <strong>User Agent:</strong>
-                @php
-                    $parser = new donatj\UserAgent\UserAgentParser();
-                    $ua = $parser->parse($user->last_login_user_agent);
-                @endphp
-                {{ $ua->browser() }} {{ $ua->browserVersion() }} on {{ $ua->platform() }}
+        @isset($user->last_login_at)
+            <div class="card shadow-sm mb-4">
+                <div class="card-header">Last Login</div>
+                <div class="card-body">
+                    <strong>Time:</strong>
+                    <x-date-time-info :value="$user->last_login_at"/>
+                    <br>
+                    <strong>IP Address:</strong>
+                    <x-ip-info :value="$user->last_login_ip"/>
+                    <br>
+                    <strong>Geo Location:</strong>
+                    <x-geo-location-info :value="$user->last_login_ip"/>
+                    <br>
+                    <strong>User Agent:</strong>
+                    <x-user-agent-info :value="$user->last_login_user_agent"/>
+                </div>
             </div>
-        </div>
+        @endisset
         <p>
             <button
                 type="button"

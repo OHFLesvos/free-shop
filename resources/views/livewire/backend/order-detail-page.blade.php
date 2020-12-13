@@ -2,15 +2,15 @@
     <h1 class="mb-3">Order #{{ $order->id }}</h1>
     <ul class="list-group mb-4 shadow-sm">
         <li class="list-group-item">
-            <strong>Ordered:</strong> {{ $order->created_at->toUserTimezone()->isoFormat('LLLL') }}
-            <small class="ml-1">{{ $order->created_at->diffForHumans() }}</small>
+            <strong>Ordered:</strong>
+            <x-date-time-info :value="$order->created_at"/>
             @isset($order->cancelled_at)<br>
-                <strong>Cancelled:</strong> {{ $order->cancelled_at->toUserTimezone()->isoFormat('LLLL') }}
-                <small class="ml-1">{{ $order->cancelled_at->diffForHumans() }}</small>
+                <strong>Cancelled:</strong>
+                <x-date-time-info :value="$order->cancelled_at"/>
             @endisset
             @isset($order->completed_at)<br>
-                <strong>Completed:</strong> {{ $order->completed_at->toUserTimezone()->isoFormat('LLLL') }}
-                <small class="ml-1">{{ $order->completed_at->diffForHumans() }}</small>
+                <strong>Completed:</strong>
+                <x-date-time-info :value="$order->completed_at"/>
             @endisset
         </li>
         <li class="list-group-item">
@@ -68,17 +68,14 @@
             </div>
         </li>
         <li class="list-group-item">
-            @php
-                $hostname = App::environment() != 'local' ? gethostbyaddr($order->customer_ip_address) : $order->customer_ip_address;
-            @endphp
-            <strong>IP Address:</strong> {{ $order->customer_ip_address }}
-            @if($hostname != $order->customer_ip_address)({{ $hostname }})@endif
-            @if(!$order->geoIpLocation->default)
-                <br><strong>Geo Location:</strong>
-                {{ $order->geoIpLocation->city }}, @isset($order->geoIpLocation->state){{ $order->geoIpLocation->state }},@endisset {{ $order->geoIpLocation->country }}
-            @endif
+            <strong>IP Address:</strong>
+            <x-ip-info :value="$order->customer_ip_address"/>
             <br>
-            <strong>User Agent:</strong> {{ $order->UA->browser() }} {{ $order->UA->browserVersion() }} on {{ $order->UA->platform() }}<br>
+            <strong>Geo Location:</strong>
+            <x-geo-location-info :value="$order->customer_ip_address"/>
+            <br>
+            <strong>User Agent:</strong>
+            <x-user-agent-info :value="$order->customer_user_agent"/>
         </li>
         @isset($order->remarks)
             <li class="list-group-item">
