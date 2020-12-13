@@ -25,22 +25,22 @@
         @if(session()->has('message'))
             <x-alert type="success" dismissible>{{ session()->get('message') }}</x-alert>
         @endif
-        @isset($user->avatar)
-            <p><img src="{{ $user->avatar }}" alt="Avatar"></p>
-        @endisset
-        <p>
-            <strong>Name:</strong>
-            {{ $user->name }}
-        </p>
-        <p>
-            <strong>E-Mail:</strong>
-            {{ $user->email }}
-        </p>
-        <p>
-            <strong>Registered:</strong>
-            {{ $user->created_at->toUserTimezone()->isoFormat('LLLL') }}
-            <small class="ml-1">{{ $user->created_at->diffForHumans() }}</small>
-        </p>
+        <div class="row mb-4">
+            <div class="col-md-auto">
+                @isset($user->avatar)
+                <p><img src="{{ $user->avatar }}" alt="Avatar"></p>
+            @endisset
+            </div>
+            <div class="col-md">
+                <strong>Name:</strong>
+                {{ $user->name }}<br>
+                <strong>E-Mail:</strong>
+                {{ $user->email }}<br>
+                <strong>Registered:</strong>
+                {{ $user->created_at->toUserTimezone()->isoFormat('LLLL') }}
+                <small class="ml-1">{{ $user->created_at->diffForHumans() }}</small>
+            </div>
+        </div>
         <form wire:submit.prevent="submit" autocomplete="off">
             <div class="card shadow-sm mb-4">
                 <div class="card-header">Profile settings</div>
