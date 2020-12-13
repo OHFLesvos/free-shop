@@ -105,8 +105,6 @@ class ProductCreatePage extends Component
 
         $this->product->save();
 
-        session()->put('product-edit.locale', $this->locale);
-
         return redirect()->route('backend.products');
     }
 }

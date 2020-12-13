@@ -62,7 +62,7 @@ class ProductEditPage extends Component
                 ->values()
             ]);
 
-        $this->locale = session()->get('product-edit.locale', config('app.fallback_locale'));
+        $this->locale = session()->get('product-form.locale', config('app.fallback_locale'));
 
         $this->name = $this->product->getTranslations('name');
         $this->category = $this->product->getTranslations('category');
@@ -87,13 +87,18 @@ class ProductEditPage extends Component
         ]);
     }
 
+    public function updatedLocale($value)
+    {
+        session()->put('product-form.locale', $value);
+    }
+
     public function submit()
     {
         $this->validate();
 
-        $this->product->setTranslations('name', $this->name);
-        $this->product->setTranslations('category', $this->category);
-        $this->product->setTranslations('description', $this->description);
+        $this->product->setTranslations('name', array_map(fn ($val) => trim($val), $this->name));
+        $this->product->setTranslations('category', array_map(fn ($val) => trim($val), $this->category));
+        $this->product->setTranslations('description', array_map(fn ($val) => trim($val), $this->description));
 
         if (isset($this->product->picture) && ($this->removePicture || isset($this->picture))) {
             $this->product->picture = null;
@@ -105,8 +110,6 @@ class ProductEditPage extends Component
         }
 
         $this->product->save();
-
-        session()->put('product-edit.locale', $this->locale);
 
         return redirect()->route('backend.products');
     }
