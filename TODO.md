@@ -16,4 +16,3 @@
 * import
 * Done: remove from stock, update number calculation
 * Export all languages
-*

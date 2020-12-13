@@ -16,13 +16,22 @@
                 <table class="table m-0">
                     <thead>
                         <tr>
-                            <th>@lang('Item')</th>
+                            <th class="d-none d-md-table-cell"></th>
+                            <th>@lang('Product')</th>
                             <th class="text-right">@lang('Quantity')</th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach(App\Models\Product::whereIn('id', $basket->keys())->get()->sortBy('name') as $product)
                             <tr>
+                                <td class="fit d-none d-md-table-cell">
+                                    @isset($product->pictureUrl)
+                                        <img
+                                            src="{{ $product->pictureUrl }}"
+                                            alt="Product Image"
+                                            style="max-width: 100px; max-height: 75px"/>
+                                    @endisset
+                                </td>
                                 <td>
                                     {{ $product->name }}
                                     <small class="text-muted ml-1">{{ $product->category }}</small>
