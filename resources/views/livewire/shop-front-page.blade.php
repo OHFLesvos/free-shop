@@ -19,36 +19,16 @@
                                         <h5 class="card-title">{{ $product->name }}</h5>
                                         <p class="card-text">{{ $product->description }}</p>
                                     </div>
-                                    <div class="card-footer">
-                                        <div class="input-group justify-content-end">
-                                            @if($basket[$product->id] > 0)
-                                                <div class="input-group-prepend">
-                                                    <button
-                                                        class="btn btn-primary"
-                                                        wire:click="decrease({{ $product->id }})"
-                                                        wire:loading.attr="disabled"
-                                                        type="button"
-                                                    >-</button>
-                                                </div>
-                                            @endif
-                                            <input
-                                                type="number"
-                                                wire:model.lazy="basket.{{ $product->id }}"
-                                                min="0"
-                                                max="{{ $product->quantity_available_for_customer }}"
-                                                style="max-width: 7em"
-                                                class="form-control text-center @error('basket.'.$product->id) is-invalid @enderror"
-                                                placeholder="Quantity">
-                                            <div class="input-group-append">
-                                                <button
-                                                    class="btn @unless($basket[$product->id] < $product->quantity_available_for_customer) btn-secondary @else btn-primary @endunless"
-                                                    wire:click="increase({{ $product->id }})"
-                                                    wire:loading.attr="disabled"
-                                                    type="button"
-                                                    @unless($basket[$product->id] < $product->quantity_available_for_customer) disabled @endunless
-                                                >+</button>
-                                            </div>
-                                        </div>
+                                    <div class="card-footer text-right">
+                                        <button
+                                            class="btn @unless(($basket[$product->id] ?? 0) < $product->quantity_available_for_customer) btn-secondary @else btn-primary @endunless"
+                                            wire:click="add({{ $product->id }})"
+                                            wire:loading.attr="disabled"
+                                            wire:target="add"
+                                            @unless(($basket[$product->id] ?? 0) < $product->quantity_available_for_customer) disabled @endunless
+                                            >
+                                            @lang('Add')
+                                        </button>
                                     </div>
                                 </div>
                             </div>
@@ -59,31 +39,49 @@
             <div class="col-md-4">
                 <div class="card shadow-sm sticky mb-4">
                     <div class="card-header">@lang('Your order')</div>
-                    @if($this->basketContents->isEmpty())
-                        <div class="card-body">
-                            @lang('Please add some products.')
-                        </div>
-                    @else
+                    @if($basket->isNotEmpty())
                         <table class="table m-0">
                             <tbody>
-                                @foreach($this->basketContents as $item)
+                                @foreach($this->products->whereIn('id', $basket->keys()) as $product)
                                     <tr>
-                                        <td>{{ $item['name'] }}</td>
-                                        <td><strong>{{ $item['quantity'] }}</strong></td>
+                                        <td class="align-middle">{{ $product->name }}</td>
+                                        <td class="align-middle"><strong>{{ $basket[$product->id] }}</strong></td>
+                                        <td class="align-middle fit">
+                                            <button
+                                                type="button"
+                                                class="btn btn-sm btn-danger"
+                                                wire:click="add({{ $product->id }}, -1)"
+                                                wire:loading.attr="disabled"
+                                                aria-label="@land('Remove one')">
+                                                <x-icon icon="minus"/>
+                                            </button>
+                                            <button
+                                                type="button"
+                                                class="btn btn-sm @unless($basket[$product->id] < $product->quantity_available_for_customer) btn-secondary @else btn-success @endunless"
+                                                wire:click="add({{ $product->id }}, 1)"
+                                                wire:loading.attr="disabled"
+                                                @unless($basket[$product->id] < $product->quantity_available_for_customer) disabled aria-disabled @endunless
+                                                aria-label="@lang('Add one')">
+                                                <x-icon icon="plus"/>
+                                            </button>
+                                        </td>
                                     </tr>
                                 @endforeach
                             </tbody>
                         </table>
                         <div class="card-footer text-right">
                             <button
-                                class="btn @error('basket.*') btn-secondary @else btn-primary @enderror"
+                                class="btn btn-primary"
                                 wire:click="checkout"
-                                @error('basket.*') disabled @enderror
                                 wire:loading.attr="disabled"
                                 wire:target="checkout">
                                 <x-icon-progress wire:loading wire:target="checkout"/>
                                 @lang('Checkout')
                             </button>
+                        </div>
+                    @else
+                        <div class="card-body">
+                            @lang('Please add some products.')
                         </div>
                     @endif
                 </div>

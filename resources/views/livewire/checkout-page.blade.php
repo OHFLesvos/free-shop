@@ -4,7 +4,7 @@
             @lang('Your order has been submitted and your order number is <strong>#:id</strong>.', ['id' => $order->id])<br>
             @lang('We will contact you via your phone <strong>:phone</strong> when the order is ready.', ['phone' => $order->customer_phone])
         </x-alert>
-    @else
+    @elseif ($basket->isNotEmpty())
         <form wire:submit.prevent="submit" class="mb-4" autocomplete="off">
             <div class="card mb-4 shadow-sm">
                 <div class="card-header">@lang('Selected products')</div>
@@ -16,11 +16,27 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach($this->basketContents as $item)
+                        @foreach(App\Models\Product::whereIn('id', $basket->keys())->get()->sortBy('name') as $product)
                             <tr>
-                                <td>{{ $item['name'] }}</td>
-                                <td class="text-right"><strong>{{ $item['quantity'] }}</strong></td>
+                                <td>
+                                    {{ $product->name }}
+                                    <small class="text-muted ml-1">{{ $product->category }}</small>
+                                </td>
+                                <td class="text-right align-middle">
+                                    <strong>{{ $basket[$product->id] }}</strong>
+                                </td>
                             </tr>
+                            {{-- <div class="input-group justify-content-end">
+                            <input
+                                type="number"
+                                wire:model.lazy="basket.{{ $product->id }}"
+                                value="{{ $basket[$product->id] ?? 0 }}"
+                                min="0"
+                                max="{{ $product->quantity_available_for_customer }}"
+                                style="max-width: 7em"
+                                class="form-control text-center @error('basket.'.$product->id) is-invalid @enderror"
+                                placeholder="Quantity">
+                        </div> --}}
                         @endforeach
                     </tbody>
                 </table>
@@ -120,10 +136,19 @@
                 <button
                     type="submit"
                     class="btn btn-primary">
+                    {{-- class="btn @error('basket.*') btn-secondary @else btn-primary @enderror" --}}
+                    {{-- @error('basket.*') disabled @enderror --}}
                     <x-icon-progress wire:loading wire:target="submit"/>
                     @lang('Send order')
                 </button>
             </div>
         </form>
+    @else
+        <x-alert type="warning">
+            @lang('No items selected.')
+        </x-alert>
+        <p>
+            <a href="{{ route('shop-front') }}" class="btn btn-primary">@lang('Choose items')</a>
+        </p>
     @endif
 </div>

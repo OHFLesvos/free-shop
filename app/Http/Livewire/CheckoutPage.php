@@ -3,9 +3,9 @@
 namespace App\Http\Livewire;
 
 use App\Models\Order;
-use App\Models\Product;
 use App\Models\User;
 use App\Notifications\OrderRegistered;
+use App\Support\ShoppingBasket;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Livewire\Component;
@@ -16,7 +16,6 @@ use Propaganistas\LaravelPhone\PhoneNumber;
 class CheckoutPage extends Component
 {
     public Order $order;
-    public array $basket;
     public bool $submitted = false;
     public Collection $countries;
     public string $phone = '';
@@ -40,26 +39,40 @@ class CheckoutPage extends Component
         'order.remarks' => 'remarks',
     ];
 
+    // protected function rules() {
+    //     $products = $this->products ?? Product::available()->get();
+    //     $rules = [];
+    //     foreach ($products as $product) {
+    //         $rules['basket.' . $product->id] = [
+    //             'integer',
+    //             'min:0',
+    //             'max:' . $product->quantity_available_for_customer,
+    //         ];
+    //     }
+    //     return $rules;
+    // }
+
+    // public function updated($propertyName)
+    // {
+    //     $this->validateOnly($propertyName);
+    // }
+
     public function mount()
     {
-        $this->basket = session()->get('basket', []);
-        if (count($this->basket) == 0) {
-            return redirect()->route('shop-front');
-        }
-
         $this->order = new Order();
-
         $this->countries = collect(Countries::getList(app()->getLocale()));
         $this->phone_country = setting()->get('order.default_phone_country', '');
     }
 
-    public function render()
+    public function render(ShoppingBasket $basket)
     {
-        return view('livewire.checkout-page')
+        return view('livewire.checkout-page', [
+                'basket' => $basket->items(),
+            ])
             ->layout(null, ['title' => __('Checkout')]);
     }
 
-    public function submit(Request $request)
+    public function submit(Request $request, ShoppingBasket $basket)
     {
         $this->validate();
 
@@ -71,35 +84,21 @@ class CheckoutPage extends Component
         $this->order->locale = app()->getLocale();
         $this->order->save();
 
-        collect($this->basket)
-            ->filter(fn ($quantity) => $quantity > 0)
-            ->each(function ($quantity, $id) {
-                $this->order->products()->attach($id, ['quantity' => $quantity]);
-            });
+        $this->order->products()->sync($basket->items()
+            ->mapWithKeys(fn ($quantity, $id) => [$id => ['quantity' => $quantity]]));
 
         $this->order->notify(new OrderRegistered($this->order));
         Notification::send(User::all(), new OrderRegistered($this->order));
 
         $this->submitted = true;
 
-        session()->forget('basket');
+        $basket->empty();
     }
 
-    public function restart()
+    public function restart(ShoppingBasket $basket)
     {
-        session()->forget('basket');
+        $basket->empty();
 
         return redirect()->route('shop-front');
-    }
-
-    public function getBasketContentsProperty()
-    {
-        return collect($this->basket)
-            ->filter(fn ($quantity) => $quantity > 0)
-            ->map(fn ($quantity, $id) => [
-                'name' => Product::where('id', $id)->first()->name,
-                'quantity' => $quantity,
-            ])
-            ->sortBy('name');
     }
 }

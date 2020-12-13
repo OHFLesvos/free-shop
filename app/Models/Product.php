@@ -61,7 +61,7 @@ class Product extends Model
         if ($this->limit_per_order !== null) {
             return min($this->limit_per_order, $this->free_quantity);
         }
-        return $this->free_quantity;
+        return max(0, $this->free_quantity);
     }
 
     public function scopeAvailable(Builder $qry)
