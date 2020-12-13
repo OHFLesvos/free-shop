@@ -21,9 +21,10 @@
             @isset($order->locale)
                 <strong>Language:</strong>
                 @isset(config('app.supported_languages')[$order->locale])
-                    {{ config('app.supported_languages')[$order->locale] }} ({{ $order->locale }})
+                    {{ config('app.supported_languages')[$order->locale] }}
+                    ({{ strtoupper($order->locale) }})
                 @else
-                    {{ $order->locale }}
+                    {{ strtoupper($order->locale) }}
                 @endif
                 <br>
             @endisset

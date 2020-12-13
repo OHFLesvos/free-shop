@@ -63,7 +63,7 @@ class OrdersSheet implements FromQuery, WithMapping, WithHeadings, WithColumnFor
             $order->customer_ip_address,
             $ua->browser() . ' ' . $ua->browserVersion(),
             $ua->platform(),
-            $order->locale,
+            strtoupper($order->locale),
             $order->products
                 ->sortBy('name')
                 ->map(fn ($product) => sprintf('%dx %s', $product->pivot->quantity, $product->name))
