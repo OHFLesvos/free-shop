@@ -99,7 +99,10 @@
                             <div class="form-group">
                                 <label for="inputCustomerPhone">@lang('Mobile phone number')</label>
                                 <div class="input-group">
-                                    <select class="custom-select" style="max-width: 10em;" wire:model.defer="customer_phone_country">
+                                    <select
+                                        class="custom-select"
+                                        style="max-width: 10em;"
+                                        wire:model.defer="customer_phone_country">
                                         @isset($countries)
                                             @foreach($countries as $key => $val)
                                                 <option value="{{ $key }}">{{ $val }}</option>
