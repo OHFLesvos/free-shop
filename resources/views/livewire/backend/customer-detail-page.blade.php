@@ -2,10 +2,6 @@
     <h1 class="mb-3">Customer {{ $customer->name }}</h1>
     <ul class="list-group mb-4 shadow-sm">
         <li class="list-group-item">
-            <strong>Registered:</strong>
-            <x-date-time-info :value="$customer->created_at"/>
-        </li>
-        <li class="list-group-item">
             <strong>ID Number:</strong>
             {{ $customer->id_number }}<br>
             @isset($customer->locale)
@@ -63,6 +59,10 @@
                 <strong>Remarks:</strong><br>{!! nl2br(e($customer->remarks)) !!}
             </li>
         @endisset
+        <li class="list-group-item">
+            <strong>Registered:</strong>
+            <x-date-time-info :value="$customer->created_at"/>
+        </li>
     </ul>
     @if($customer->orders->isNotEmpty())
         <div class="card shadow-sm mb-4">
