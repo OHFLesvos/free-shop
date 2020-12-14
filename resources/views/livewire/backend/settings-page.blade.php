@@ -1,3 +1,6 @@
+@php
+    $countries = collect(Countries::getList());
+@endphp
 <div>
     <h1 class="mb-3">Settings</h1>
     @if(session()->has('message'))
@@ -10,7 +13,7 @@
             <div class="card-body">
                 <p class="card-text">Select countries from which clients are able to access the shop. If left empty, all countries are allowed.</p>
                 @php
-                    $list = $this->countries->filter(fn ($val, $key) => $geoblockWhitelist->contains($key))
+                    $list = $countries->filter(fn ($val, $key) => $geoblockWhitelist->contains($key))
                 @endphp
                 @if($list->isNotEmpty())
                     <div class="mb-3">

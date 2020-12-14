@@ -15,16 +15,7 @@
                 <br>
             @endisset
             <strong>Phone:</strong>
-            {{ $customer->phone }}
-            @php
-                try {
-                    $phone = Propaganistas\LaravelPhone\PhoneNumber::make($customer->phone);
-                    $phoneCountry = optional($phone)->getCountry();
-                } catch (Throwable $ignored) {}
-            @endphp
-            @isset($phoneCountry)
-                ({{ Countries::getOne($phoneCountry, 'en') }})
-            @endisset
+            <x-phone-info :value="$customer->phone"/>
             <div class="mt-2">
                 <x-phone-number-link
                     :value="$customer->phone"

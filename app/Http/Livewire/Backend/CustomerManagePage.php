@@ -2,9 +2,7 @@
 
 namespace App\Http\Livewire\Backend;
 
-use Countries;
 use App\Models\Customer;
-use Illuminate\Support\Collection;
 use Livewire\Component;
 use Propaganistas\LaravelPhone\Exceptions\NumberParseException;
 use Propaganistas\LaravelPhone\PhoneNumber;
@@ -13,7 +11,6 @@ abstract class CustomerManagePage extends Component
 {
     public Customer $customer;
 
-    public Collection $countries;
     public string $customer_phone;
     public string $customer_phone_country;
 
@@ -33,7 +30,6 @@ abstract class CustomerManagePage extends Component
 
     public function mount()
     {
-        $this->countries = collect(Countries::getList(app()->getLocale()));
         $this->customer_phone_country = setting()->get('order.default_phone_country', '');
         $this->customer_phone = '';
         if ($this->customer->phone != null) {

@@ -37,7 +37,7 @@
                     <tr data-href="{{ route('backend.customers.show', $customer) }}">
                         <td>{{ $customer->name }}</td>
                         <td>{{ $customer->id_number }}</td>
-                        <td>{{ $customer->phone }}</td>
+                        <td><x-phone-info :value="$customer->phone"/></td>
                         <td>{{ $customer->orders()->count() }}</td>
                     </tr>
                 @empty

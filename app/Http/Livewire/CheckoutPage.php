@@ -9,15 +9,12 @@ use App\Notifications\CustomerOrderRegistered;
 use App\Notifications\OrderRegistered;
 use App\Support\ShoppingBasket;
 use Illuminate\Http\Request;
-use Illuminate\Support\Collection;
 use Livewire\Component;
-use Countries;
 use Illuminate\Support\Facades\Notification;
 use Propaganistas\LaravelPhone\PhoneNumber;
 
 class CheckoutPage extends Component
 {
-    public Collection $countries;
     public ?Order $order = null;
 
     public string $customer_name = '';
@@ -63,7 +60,6 @@ class CheckoutPage extends Component
 
     public function mount()
     {
-        $this->countries = collect(Countries::getList(app()->getLocale()));
         $this->customer_phone_country = setting()->get('order.default_phone_country', '');
     }
 

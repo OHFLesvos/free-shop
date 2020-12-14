@@ -3,13 +3,10 @@
 namespace App\Http\Livewire\Backend;
 
 use Livewire\Component;
-use Countries;
 use Illuminate\Support\Collection;
 
 class SettingsPage extends Component
 {
-    public Collection $countries;
-
     public Collection $geoblockWhitelist;
     public string $orderDefaultPhoneCountry;
     public string $timezone;
@@ -18,7 +15,6 @@ class SettingsPage extends Component
 
     public function mount()
     {
-        $this->countries = collect(Countries::getList('en'));
         $this->geoblockWhitelist = collect(setting()->get('geoblock.whitelist', []));
         $this->orderDefaultPhoneCountry = setting()->get('order.default_phone_country', '');
         $this->timezone = setting()->get('timezone', '');

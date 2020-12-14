@@ -65,13 +65,12 @@
                         <div class="input-group">
                             <select
                                 class="custom-select"
-                                style="max-width: 10em;"
+                                style="max-width: 11em;"
                                 wire:model.defer="customer_phone_country">
-                                @isset($countries)
-                                    @foreach($countries as $key => $val)
-                                        <option value="{{ $key }}">{{ $val }}</option>
-                                    @endforeach
-                                @endif
+                                <option value="" selected>-- Select country --</option>
+                                @foreach(Countries::getList() as $key => $val)
+                                    <option value="{{ $key }}">{{ $val }}</option>
+                                @endforeach
                             </select>
                             <input
                                 type="tel"
