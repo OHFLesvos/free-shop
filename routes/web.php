@@ -6,7 +6,7 @@ use App\Http\Livewire\Backend\CustomerCreatePage;
 use App\Http\Livewire\Backend\CustomerDetailPage;
 use App\Http\Livewire\Backend\CustomerListPage;
 use App\Http\Livewire\Backend\CustomerEditPage;
-use App\Http\Livewire\Backend\DataExportPage;
+use App\Http\Livewire\Backend\DataImportExportPage;
 use App\Http\Livewire\Backend\OrderDetailPage;
 use App\Http\Livewire\Backend\OrderListPage;
 use App\Http\Livewire\Backend\ProductCreatePage;
@@ -90,8 +90,8 @@ Route::middleware('auth')
                     ->name('products.create');
                 Route::get('products/{product}/edit', ProductEditPage::class)
                     ->name('products.edit');
-                Route::get('export', DataExportPage::class)
-                    ->name('export');
+                Route::get('import-export', DataImportExportPage::class)
+                    ->name('import-export');
                 Route::get('settings', SettingsPage::class)
                     ->name('settings');
                 Route::get('user-profile', UserProfilePage::class)

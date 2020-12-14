@@ -2,6 +2,7 @@
 
 namespace App\Exports;
 
+use App\Exports\Sheets\CustomersSheet;
 use App\Exports\Sheets\OrdersSheet;
 use App\Exports\Sheets\ProductsSheet;
 use Maatwebsite\Excel\Concerns\Exportable;
@@ -19,6 +20,7 @@ class DataExport implements WithMultipleSheets, WithProperties
     {
         $sheets = [];
         $sheets[] = new OrdersSheet();
+        $sheets[] = new CustomersSheet();
         foreach(array_keys(config('app.supported_languages')) as $locale)
         {
             $sheets[] = new ProductsSheet($locale);

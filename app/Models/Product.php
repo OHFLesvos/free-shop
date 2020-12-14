@@ -25,6 +25,12 @@ class Product extends Model
         'description',
     ];
 
+    public $fillable = [
+        'stock',
+        'limit_per_order',
+        'is_available',
+    ];
+
     public function orders()
     {
         return $this->belongsToMany(Order::class)

@@ -7,6 +7,3 @@
 * Cancel confirmation / notification
 * Done: remove from stock, update number calculation
 
-# Backend
-
-* Data import

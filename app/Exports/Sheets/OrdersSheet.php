@@ -31,10 +31,8 @@ class OrdersSheet implements FromQuery, WithMapping, WithHeadings, WithColumnFor
     {
         return [
             'ID',
-            'Customer Name',
-            'Customer ID Number',
-            'Customer Phone',
-            'Customer Language',
+            'Customer ID',
+            'Customer',
             'IP Address',
             'Browser',
             'Operating System',
@@ -51,10 +49,8 @@ class OrdersSheet implements FromQuery, WithMapping, WithHeadings, WithColumnFor
     {
         return [
             $order->id,
-            $order->customer->name,
-            $order->customer->id_number,
-            $this->mapPhone($order->customer->phone),
-            strtoupper($order->customer->locale),
+            $order->customer->id,
+            $order->customer->name . ', ' . $order->customer->id_number . ', ' . $this->mapPhone($order->customer->phone),
             $order->ip_address,
             $this->mapBrowser($order->user_agent),
             $this->mapOS($order->user_agent),
@@ -101,10 +97,10 @@ class OrdersSheet implements FromQuery, WithMapping, WithHeadings, WithColumnFor
     public function columnFormats(): array
     {
         return [
+            'I' => NumberFormat::FORMAT_DATE_YYYYMMDD . ' ' . NumberFormat::FORMAT_DATE_TIME3,
+            'J' => NumberFormat::FORMAT_DATE_YYYYMMDD . ' ' . NumberFormat::FORMAT_DATE_TIME3,
             'K' => NumberFormat::FORMAT_DATE_YYYYMMDD . ' ' . NumberFormat::FORMAT_DATE_TIME3,
             'L' => NumberFormat::FORMAT_DATE_YYYYMMDD . ' ' . NumberFormat::FORMAT_DATE_TIME3,
-            'M' => NumberFormat::FORMAT_DATE_YYYYMMDD . ' ' . NumberFormat::FORMAT_DATE_TIME3,
-            'N' => NumberFormat::FORMAT_DATE_YYYYMMDD . ' ' . NumberFormat::FORMAT_DATE_TIME3,
         ];
     }
 }

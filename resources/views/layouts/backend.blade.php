@@ -32,8 +32,8 @@
                                     'route' => 'backend.products'
                                 ],
                                 [
-                                    'label' => 'Data Export',
-                                    'route' => 'backend.export'
+                                    'label' => 'Data Import & Export',
+                                    'route' => 'backend.import-export'
                                 ],
                                 [
                                     'label' => 'Settings',
