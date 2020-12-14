@@ -36,6 +36,10 @@
                 {{ $user->name }}<br>
                 <strong>E-Mail:</strong>
                 {{ $user->email }}<br>
+                @isset($user->phone)
+                    <strong>Phone:</strong>
+                    <x-phone-info :value="$user->phone"/><br>
+                @endisset
                 <strong>Registered:</strong>
                 <x-date-time-info :value="$user->created_at"/>
             </div>
@@ -44,33 +48,60 @@
             <div class="card shadow-sm mb-4">
                 <div class="card-header">Profile settings</div>
                 <div class="card-body">
-                    <div class="form-group">
-                        <label for="timezone" class="d-block">Timezone:</label>
-                        <div class="input-group mb-3">
-                            <select
-                                id="timezone"
-                                wire:model.defer="user.timezone"
-                                class="custom-select @error('timezone') is-invalid @enderror"
-                                style="max-width: 20em;">
-                                <option value="">- Default timezone -</option>
-                                @foreach(listTimezones() as $value => $label)
-                                    <option value="{{ $value }}">{{ $label }}</option>
-                                @endforeach
-                            </select>
-                            <div class="input-group-append">
-                                <button
-                                    class="btn btn-outline-secondary"
-                                    type="button"
-                                    wire:click="detectTimezone">
-                                    <x-spinner wire:loading wire:target="detectTimezone"/>
-                                    <span
-                                        wire:loading.remove
-                                        wire:target="detectTimezone">
-                                        <x-icon icon="search-location"/>
-                                    </span>
-                                </button>
+                    <div class="form-row">
+                        <div class="col-md">
+                            <div class="form-group">
+                                <label for="timezone" class="d-block">Timezone:</label>
+                                <div class="input-group mb-3">
+                                    <select
+                                        id="timezone"
+                                        wire:model.defer="user.timezone"
+                                        class="custom-select @error('timezone') is-invalid @enderror"
+                                        style="max-width: 20em;">
+                                        <option value="">- Default timezone -</option>
+                                        @foreach(listTimezones() as $value => $label)
+                                            <option value="{{ $value }}">{{ $label }}</option>
+                                        @endforeach
+                                    </select>
+                                    <div class="input-group-append">
+                                        <button
+                                            class="btn btn-outline-secondary"
+                                            type="button"
+                                            wire:click="detectTimezone">
+                                            <x-spinner wire:loading wire:target="detectTimezone"/>
+                                            <span
+                                                wire:loading.remove
+                                                wire:target="detectTimezone">
+                                                <x-icon icon="search-location"/>
+                                            </span>
+                                        </button>
+                                    </div>
+                                    @error('timezone') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                                </div>
                             </div>
-                            @error('timezone') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                        </div>
+                        <div class="col-md">
+                            <div class="form-group">
+                                <label for="inputPhone">Phone:</label>
+                                <div class="input-group">
+                                    <select
+                                        class="custom-select"
+                                        style="max-width: 11em;"
+                                        wire:model.defer="phone_country">
+                                        <option value="" selected>-- Select country --</option>
+                                        @foreach(Countries::getList() as $key => $val)
+                                            <option value="{{ $key }}">{{ $val }}</option>
+                                        @endforeach
+                                    </select>
+                                    <input
+                                        type="tel"
+                                        class="form-control @error('phone') is-invalid @enderror"
+                                        id="inputPhone"
+                                        autocomplete="off"
+                                        wire:model.defer="phone">
+                                    @error('phone') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <p>Notifications:</p>
