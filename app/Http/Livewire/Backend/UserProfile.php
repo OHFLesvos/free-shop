@@ -15,6 +15,8 @@ class UserProfile extends Component
             'nullable',
             'timezone',
         ],
+        'user.notify_via_email' => 'boolean',
+        'user.notify_via_phone' => 'boolean',
     ];
 
     public function mount()

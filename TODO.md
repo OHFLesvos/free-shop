@@ -1,9 +1,5 @@
 # TODO
 
-## Users
-
-* User notification choices
-
 ## Orders
 
 * In progress status

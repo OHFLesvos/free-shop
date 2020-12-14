@@ -2,14 +2,12 @@
 
 namespace App\Notifications;
 
-use App\Models\Customer;
 use App\Models\Order;
 use App\Models\User;
 use Illuminate\Notifications\Messages\MailMessage;
 use NotificationChannels\Twilio\TwilioChannel;
 use NotificationChannels\Twilio\TwilioSmsMessage;
 use Illuminate\Notifications\Notification;
-use Illuminate\Support\Facades\Log;
 
 class OrderRegistered extends Notification
 {
@@ -29,31 +27,19 @@ class OrderRegistered extends Notification
     public function via($notifiable)
     {
         if ($notifiable instanceof User) {
-            return ['mail'];
-        }
-        if ($notifiable instanceof Customer) {
-            if (filled(config('twilio-notification-channel.account_sid'))) {
-                return [TwilioChannel::class];
+            $channels = [];
+            if ($notifiable->notify_via_email) {
+                $channels[] = 'mail';
             }
-            Log::warning('Cannot send notification, SMS provider not properly configured.');
+            if ($notifiable->notify_via_phone && $notifiable->phone !== null) {
+                if (filled(config('twilio-notification-channel.account_sid'))) {
+                    $channels[] = TwilioChannel::class;
+                }
+            }
+            if (count($channels) > 0) {
+                return $channels;
+            }
         }
-    }
-
-    public function toTwilio($notifiable)
-    {
-        $message = __("Hello :customer_name (ID :customer_id), we have received your order with ID #:id and will get back to you soon.", [
-            'customer_name' => $notifiable->name,
-            'customer_id' => $notifiable->id_number,
-            'id' => $this->order->id,
-        ]);
-        $message .= "\n" . __('More information: ');
-        $message .= route('order-lookup', [
-            'id_number' => $notifiable->id_number,
-            'phone' => $notifiable->phone,
-            'lang' => $notifiable->locale,
-        ]);
-        return (new TwilioSmsMessage())
-            ->content($message);
     }
 
     /**
@@ -69,5 +55,18 @@ class OrderRegistered extends Notification
             ->markdown('mail.order.registered', [
                 'order' => $this->order,
             ]);
+    }
+
+    public function toTwilio($notifiable)
+    {
+        $message = __("Hello :user_name, we have received a new order with ID #:id from :customer_name.", [
+            'user_name' => $notifiable->name,
+            'id' => $this->order->id,
+            'customer_name' => $this->order->customer->name,
+        ]);
+        $message .= "\n" . __('More information: ');
+        $message .= route('backend.orders.show', $this->order);
+        return (new TwilioSmsMessage())
+            ->content($message);
     }
 }

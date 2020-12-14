@@ -73,6 +73,25 @@
                             @error('timezone') <div class="invalid-feedback">{{ $message }}</div> @enderror
                         </div>
                     </div>
+                    <p>Notifications:</p>
+                    <div class="custom-control custom-checkbox mb-3">
+                        <input
+                            type="checkbox"
+                            class="custom-control-input"
+                            id="notifyViaEmailInput"
+                            value="1"
+                            wire:model.defer="user.notify_via_email">
+                        <label class="custom-control-label" for="notifyViaEmailInput">Receive notifications via e-mail</label>
+                    </div>
+                    <div class="custom-control custom-checkbox mb-3">
+                        <input
+                            type="checkbox"
+                            class="custom-control-input"
+                            id="notifyViaPhoneInput"
+                            value="1"
+                            wire:model.defer="user.notify_via_phone">
+                        <label class="custom-control-label" for="notifyViaPhoneInput">Receive notifications via phone</label>
+                    </div>
                 </div>
                 <div class="card-footer text-right">
                     <button

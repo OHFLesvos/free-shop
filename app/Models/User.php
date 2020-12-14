@@ -2,7 +2,8 @@
 
 namespace App\Models;
 
-use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Dyrynda\Database\Support\NullableFields;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -10,6 +11,7 @@ use Illuminate\Notifications\Notifiable;
 class User extends Authenticatable
 {
     use HasFactory, Notifiable;
+    use NullableFields;
 
     /**
      * The attributes that are mass assignable.
@@ -43,5 +45,25 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
         'last_login_at' => 'datetime',
+        'notify_via_email' => 'boolean',
+        'notify_via_phone' => 'boolean',
     ];
+
+    protected $nullable = [
+        'timezone',
+        'phone',
+    ];
+
+    public function scopeNotifiable(Builder $query)
+    {
+        $query->where('notify_via_email', true)
+            ->orWhere(fn ($inner) => $inner->where('notify_via_phone', true)
+                ->whereNotNull('phone')
+            );
+    }
+
+    public function routeNotificationForTwilio()
+    {
+        return $this->phone;
+    }
 }

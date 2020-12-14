@@ -5,6 +5,7 @@ namespace App\Http\Livewire;
 use App\Models\Customer;
 use App\Models\Order;
 use App\Models\User;
+use App\Notifications\CustomerOrderRegistered;
 use App\Notifications\OrderRegistered;
 use App\Support\ShoppingBasket;
 use Illuminate\Http\Request;
@@ -109,8 +110,8 @@ class CheckoutPage extends Component
                 'quantity' => $quantity,
             ]]));
 
-        $customer->notify(new OrderRegistered($order));
-        Notification::send(User::all(), new OrderRegistered($order));
+        $customer->notify(new CustomerOrderRegistered($order));
+        Notification::send(User::notifiable()->get(), new OrderRegistered($order));
 
         $this->order = $order;
 
