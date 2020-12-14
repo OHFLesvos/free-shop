@@ -39,6 +39,8 @@ class CustomerCreatePage extends Component
 
         $this->customer->save();
 
+        session()->flash('message', 'Customer registered.');
+
         return redirect()->route('backend.customers');
     }
 }

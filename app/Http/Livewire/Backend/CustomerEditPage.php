@@ -34,12 +34,16 @@ class CustomerEditPage extends Component
 
         $this->customer->save();
 
+        session()->flash('message', 'Customer updated.');
+
         return redirect()->route('backend.customers');
     }
 
     public function delete()
     {
         $this->customer->delete();
+
+        session()->flash('message', 'Customer deleted.');
 
         return redirect()->route('backend.customers');
     }

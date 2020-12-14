@@ -5,6 +5,9 @@
             href="{{ route('backend.customers.create') }}"
             class="btn btn-primary mb-3">Register</a>
     </div>
+    @if(session()->has('message'))
+        <x-alert type="success" dismissible>{{ session()->get('message') }}</x-alert>
+    @endif
     <div class="form-group">
         <div class="input-group">
         <input
