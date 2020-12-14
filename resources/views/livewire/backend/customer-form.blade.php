@@ -98,9 +98,15 @@
                 </div>
             </div>
             <div class="d-flex justify-content-between mb-3">
-                <a
-                    href="{{ route('backend.customers.show', $customer) }}"
-                    class="btn btn-outline-primary">Back to customer</a>
+                @if($customer->exists)
+                    <a
+                        href="{{ route('backend.customers.show', $customer) }}"
+                        class="btn btn-outline-primary">Back to customer</a>
+                @else
+                    <a
+                        href="{{ route('backend.customers') }}"
+                        class="btn btn-outline-primary">Back to customers</a>
+                @endif
                 <span>
                     @if($customer->exists)
                         <button
