@@ -1,13 +1,18 @@
+@php
+$items = [
+    [
+        'label' => __('Shop'),
+        'route' => 'shop-front',
+    ],
+    [
+        'label' => __('Find your order'),
+        'route' => 'order-lookup',
+    ],
+];
+@endphp
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>@isset($title){{ $title }} | @endisset{{ config('app.name') }}</title>
-        <link href="{{ mix('css/app.css') }}" rel="stylesheet">
-        @livewireStyles
-        @stack('styles')
-    </head>
+    @include('layouts.includes.head')
     <body class="bg-light">
         <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm mb-4">
             <div class="container container-narrow">
@@ -17,18 +22,6 @@
                 </button>
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav mr-auto">
-                        @php
-                            $items = [
-                                [
-                                    'label' => __('Shop'),
-                                    'route' => 'shop-front',
-                                ],
-                                [
-                                    'label' => __('Find your order'),
-                                    'route' => 'order-lookup',
-                                ],
-                            ];
-                        @endphp
                         @foreach ($items as $item)
                             @php
                                 $active = Str::of(Request::route()->getName())->startsWith($item['route']);
@@ -54,10 +47,6 @@
                 {{ $slot }}
             </div>
         </main>
-        <script src="{{ mix('js/manifest.js') }}" defer></script>
-        <script src="{{ mix('js/vendor.js') }}" defer></script>
-        <script src="{{ mix('js/app.js') }}" defer></script>
-        @livewireScripts
-        @stack('scripts')
+        @include('layouts.includes.foot')
     </body>
 </html>
