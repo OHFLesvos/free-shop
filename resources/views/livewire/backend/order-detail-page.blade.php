@@ -141,7 +141,9 @@
                     <table class="table table-bordered table-hover m-0">
                         <tbody>
                             @foreach($relatedOrders as $relatedOrder)
-                                <tr data-href="{{ route('backend.orders.show', $relatedOrder) }}">
+                                <tr
+                                    onclick="window.location='{{ route('backend.orders.show', $relatedOrder) }}'"
+                                    class="cursor-pointer">
                                     <td>{{ $relatedOrder->id }}</td>
                                     <td>
                                         {{ $relatedOrder->created_at->toUserTimezone()->isoFormat('LLLL') }}<br>

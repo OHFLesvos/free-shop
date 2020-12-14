@@ -1,2 +1,2 @@
-(window.webpackJsonp=window.webpackJsonp||[]).push([[0],{0:function(n,i,o){o("bUC5"),n.exports=o("g57v")},bUC5:function(n,i,o){"use strict";o.r(i);o("SYky");var t=o("5buq"),c=o.n(t),u=o("EVdn"),a=o.n(u);a()((function(){c.a.init()})),a()((function(){a()("*[data-href]").on("click",(function(){return window.location=a()(this).data("href"),!1}))}))},g57v:function(n,i){}},[[0,1,2]]]);
+(window.webpackJsonp=window.webpackJsonp||[]).push([[0],{0:function(n,i,o){o("bUC5"),n.exports=o("g57v")},bUC5:function(n,i,o){"use strict";o.r(i);o("SYky");var t=o("5buq"),c=o.n(t),u=o("EVdn");o.n(u)()((function(){c.a.init()}))},g57v:function(n,i){}},[[0,1,2]]]);
 //# sourceMappingURL=app.js.map

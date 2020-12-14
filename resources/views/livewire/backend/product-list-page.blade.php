@@ -41,8 +41,8 @@
             <tbody>
                 @forelse($products as $product)
                     <tr
-                        data-href="{{ route('backend.products.edit', $product) }}"
-                        class="@if(!$product->is_available) table-dark text-dark @endif"
+                        onclick="window.location='{{ route('backend.products.edit', $product) }}'"
+                        class="cursor-pointer @if(!$product->is_available) table-dark text-dark @endif"
                     >
                         <td class="fit">
                             @isset($product->pictureUrl)

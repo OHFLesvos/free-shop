@@ -34,7 +34,9 @@
             </thead>
             <tbody>
                 @forelse($customers as $customer)
-                    <tr data-href="{{ route('backend.customers.show', $customer) }}">
+                    <tr
+                        onclick="window.location='{{ route('backend.customers.show', $customer) }}'"
+                        class="cursor-pointer">
                         <td>{{ $customer->name }}</td>
                         <td>{{ $customer->id_number }}</td>
                         <td><x-phone-info :value="$customer->phone"/></td>
