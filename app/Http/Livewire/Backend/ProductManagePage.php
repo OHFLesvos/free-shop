@@ -7,7 +7,7 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Storage;
 use Livewire\WithFileUploads;
 
-class ProductEditPage extends BackendPage
+class ProductManagePage extends BackendPage
 {
     use WithFileUploads;
 
@@ -56,6 +56,11 @@ class ProductEditPage extends BackendPage
 
     public function mount()
     {
+        if (! isset($this->product)) {
+            $this->product = new Product();
+            $this->product->is_available = true;
+        }
+
         $productCategories = Product::select('category')->get();
         $this->categories = collect(config('app.supported_languages'))
             ->keys()
@@ -67,7 +72,11 @@ class ProductEditPage extends BackendPage
                 ->values()
             ]);
 
-        $this->locale = session()->get('product-form.locale', config('app.fallback_locale'));
+        if ($this->product->exists) {
+            $this->locale = session()->get('product-form.locale', config('app.fallback_locale'));
+        } else {
+            $this->locale = config('app.fallback_locale');
+        }
 
         $this->name = $this->product->getTranslations('name');
         $this->category = $this->product->getTranslations('category');
@@ -76,7 +85,9 @@ class ProductEditPage extends BackendPage
 
     protected function title()
     {
-        return 'Edit Product ' . $this->product->name;
+        return $this->product->exists
+            ? 'Edit Product ' . $this->product->name
+            : 'Register Product';
     }
 
     public function render()
@@ -124,6 +135,10 @@ class ProductEditPage extends BackendPage
 
         $this->product->save();
 
+        session()->flash('message', $this->product->wasRecentlyCreated
+            ? 'Product registered.'
+            : 'Product updated.');
+
         return redirect()->route('backend.products');
     }
 
@@ -138,6 +153,8 @@ class ProductEditPage extends BackendPage
         }
 
         $this->product->delete();
+
+        session()->flash('message', 'Product deleted.');
 
         return redirect()->route('backend.products');
     }

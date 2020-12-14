@@ -24,6 +24,9 @@
             </div>
         </span>
     </div>
+    @if(session()->has('message'))
+        <x-alert type="success" dismissible>{{ session()->get('message') }}</x-alert>
+    @endif
     <div class="table-responsive">
         <table class="table table-bordered table-hover bg-white shadow-sm">
             <caption>{{ $products->count() }} products registered</caption>
