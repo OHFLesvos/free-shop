@@ -60,7 +60,7 @@ class Order extends Model
 
     public function scopeFilter(Builder $qry, string $filter)
     {
-        $qry->where('id', $filter)
+        $qry->where('id', is_numeric($filter) ? $filter : 0)
             ->orWhereHas('customer', function ($cqry) use ($filter) {
                 $cqry->where('name', 'LIKE', '%' . $filter . '%')
                     ->orWhere(fn ($inner) => $inner->whereNumberCompare('id_number', $filter))
