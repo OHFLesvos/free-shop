@@ -5,7 +5,7 @@ use App\Http\Controllers\SocialLoginController;
 use App\Http\Livewire\Backend\CustomerCreatePage;
 use App\Http\Livewire\Backend\CustomerDetailPage;
 use App\Http\Livewire\Backend\CustomerListPage;
-use App\Http\Livewire\Backend\CustomerEditPage;
+use App\Http\Livewire\Backend\CustomerManagePage;
 use App\Http\Livewire\Backend\DataImportExportPage;
 use App\Http\Livewire\Backend\OrderDetailPage;
 use App\Http\Livewire\Backend\OrderListPage;
@@ -82,7 +82,7 @@ Route::middleware('auth')
                     ->name('customers.create');
                 Route::get('customers/{customer}', CustomerDetailPage::class)
                     ->name('customers.show');
-                Route::get('customers/{customer}/edit', CustomerEditPage::class)
+                Route::get('customers/{customer}/edit', CustomerManagePage::class)
                     ->name('customers.edit');
                 Route::get('products', ProductListPage::class)
                     ->name('products');

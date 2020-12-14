@@ -14,8 +14,6 @@ class CustomerListPage extends Component
 
     public string $search = '';
 
-    public string $status = 'open';
-
     protected $queryString = [
         'search' => ['except' => ''],
     ];

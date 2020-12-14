@@ -7,7 +7,7 @@ use Livewire\Component;
 use Propaganistas\LaravelPhone\Exceptions\NumberParseException;
 use Propaganistas\LaravelPhone\PhoneNumber;
 
-abstract class CustomerManagePage extends Component
+class CustomerManagePage extends Component
 {
     public Customer $customer;
 
