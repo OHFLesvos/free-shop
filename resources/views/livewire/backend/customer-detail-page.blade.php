@@ -12,9 +12,9 @@
                 <strong>Language:</strong>
                 @isset(config('app.supported_languages')[$customer->locale])
                     {{ config('app.supported_languages')[$customer->locale] }}
-                    ({{ strtoupper($locale) }})
+                    ({{ strtoupper($customer->locale) }})
                 @else
-                    {{ strtoupper($locale) }}
+                    {{ strtoupper($customer->locale) }}
                 @endif
                 <br>
             @endisset

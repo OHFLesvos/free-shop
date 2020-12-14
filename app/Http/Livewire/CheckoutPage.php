@@ -99,7 +99,7 @@ class CheckoutPage extends Component
             'customer_id' => $customer->id,
             'remarks' => trim($this->remarks),
             'ip_address' => $request->ip(),
-            'user_agent' => $request->server('HTTP_USER_AGENT'),
+            'user_agent' => $request->userAgent(),
         ]);
         $order->customer()->associate($customer);
         $order->save();

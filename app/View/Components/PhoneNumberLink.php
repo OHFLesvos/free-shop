@@ -38,7 +38,7 @@ class PhoneNumberLink extends Component
     public function href()
     {
         if ($this->type == 'whatsapp') {
-            $user_agent = $_SERVER['HTTP_USER_AGENT'];
+            $user_agent = request()->userAgent();
             $iphone = strpos($user_agent, 'iPhone');
             $android = strpos($user_agent, 'Android');
             $palmpre = strpos($user_agent, 'webOS');
