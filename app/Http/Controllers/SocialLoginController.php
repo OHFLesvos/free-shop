@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use App\Providers\RouteServiceProvider;
+use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Laravel\Socialite\Facades\Socialite;
@@ -58,6 +59,10 @@ class SocialLoginController extends Controller
                 'provider' => 'google',
             ]
         );
+        if ($user->wasRecentlyCreated) {
+            event(new Registered($user));
+        }
+
         if ($user->email_verified_at == null) {
             $user->email_verified_at = now();
             $user->save();
