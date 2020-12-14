@@ -48,31 +48,29 @@ $items = [
                         @endforeach
                     </ul>
                     <ul class="navbar-nav">
-                        <li class="nav-item">
-                            <a
-                                class="nav-link @isset(Auth::user()->avatar) py-1 @endif @if(Request::route()->getName() == 'backend.user-profile') active @endif"
-                                href="{{ route('backend.user-profile') }}"
-                                aria-label="User profile">
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 @isset(Auth::user()->avatar)
-                                    <img src="{{ Auth::user()->avatar }}" alt="Avatar" class="bg-white rounded-circle" height="32">
-                                @else
-                                    {{ Auth::user()->name }}
+                                    <img src="{{ Auth::user()->avatar }}" alt="Avatar" class="align-top bg-white rounded-circle" height="24">
                                 @endisset
+                                <span class="align-top ml-2">{{ Str::of(Auth::user()->name)->words(1, '') }}</span>
                             </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" href="{{ route('backend.user-profile') }}">User Profile</a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                                    Logout
+                                </a>
+                                <form id="logout-form" class="d-none" action="{{ route('logout') }}" method="POST">
+                                    {{ csrf_field() }}
+                                </form>
+                            </div>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('home') }}" target="_blank">
                                 Frontend
                                 <x-icon icon="external-link-alt"/>
                             </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                                Logout
-                            </a>
-                            <form id="logout-form" class="d-none" action="{{ route('logout') }}" method="POST">
-                                {{ csrf_field() }}
-                            </form>
                         </li>
                     </ul>
                 </div>

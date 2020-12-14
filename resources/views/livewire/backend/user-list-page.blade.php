@@ -24,15 +24,22 @@
         <table class="table table-bordered bg-white shadow-sm">
             <caption>{{ $users->total() }} users found</caption>
             <thead>
-                <th>Name</th>
+                <th colspan="2">Name</th>
                 <th>E-Mail</th>
                 <th>Last login</th>
             </thead>
             <tbody>
                 @forelse($users as $user)
                     <tr >
+                        <td class="fit">
+                            @isset(Auth::user()->avatar)
+                                <img src="{{ Auth::user()->avatar }}" alt="Avatar" class="align-top" height="24">
+                            @endisset
+                        </td>
                         <td>{{ $user->name }}</td>
-                        <td>{{ $user->email }}</td>
+                        <td>
+                            <a href="mailto:{{ $user->email }}">{{ $user->email }}</a>
+                        </td>
                         <td><x-date-time-info :value="$user->last_login_at"/></td>
                     </tr>
                 @empty
