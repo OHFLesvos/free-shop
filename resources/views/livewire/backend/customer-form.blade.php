@@ -62,14 +62,26 @@
                 <div class="col-md">
                     <div class="form-group">
                         <label for="inputPhone">Phone</label>
-                        <input
-                            type="tel"
-                            class="form-control @error('customer.phone') is-invalid @enderror"
-                            id="inputPhone"
-                            required
-                            autocomplete="off"
-                            wire:model.defer="customer.phone">
-                        @error('customer.phone') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                        <div class="input-group">
+                            <select
+                                class="custom-select"
+                                style="max-width: 10em;"
+                                wire:model.defer="customer_phone_country">
+                                @isset($countries)
+                                    @foreach($countries as $key => $val)
+                                        <option value="{{ $key }}">{{ $val }}</option>
+                                    @endforeach
+                                @endif
+                            </select>
+                            <input
+                                type="tel"
+                                class="form-control @error('customer_phone') is-invalid @enderror"
+                                id="inputPhone"
+                                required
+                                autocomplete="off"
+                                wire:model.defer="customer_phone">
+                            @error('customer_phone') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                        </div>
                     </div>
                 </div>
                 <div class="col-md">
@@ -87,8 +99,8 @@
             </div>
             <div class="d-flex justify-content-between mb-3">
                 <a
-                    href="{{ route('backend.customers') }}"
-                    class="btn btn-outline-primary">Back to customers</a>
+                    href="{{ route('backend.customers.show', $customer) }}"
+                    class="btn btn-outline-primary">Back to customer</a>
                 <span>
                     @if($customer->exists)
                         <button
