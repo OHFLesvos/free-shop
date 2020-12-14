@@ -38,6 +38,11 @@ class OrderDetailPage extends BackendPage
 
     public function complete()
     {
+        $this->order->products->each(function ($product) {
+            $product->stock -= $product->pivot->quantity;
+            $product->save();
+        });
+
         $this->order->completed_at = now();
         $this->order->save();
 
