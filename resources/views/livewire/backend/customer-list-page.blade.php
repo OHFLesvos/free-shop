@@ -43,7 +43,13 @@
                 @empty
                     <tr>
                         <td colspan="4" class="text-center">
-                            <em>No customers found.</em>
+                            <em>
+                                @if(filled($search))
+                                    No customers found for term '{{ $search }}'.
+                                @else
+                                    No customers found.
+                                @endif
+                            </em>
                         </td>
                     </tr>
                 @endforelse
