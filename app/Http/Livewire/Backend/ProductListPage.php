@@ -3,9 +3,8 @@
 namespace App\Http\Livewire\Backend;
 
 use App\Models\Product;
-use Livewire\Component;
 
-class ProductListPage extends Component
+class ProductListPage extends BackendPage
 {
     public string $state;
 
@@ -14,17 +13,18 @@ class ProductListPage extends Component
         $this->state = session()->get('products.state', 'all');
     }
 
+    protected $title = 'Products';
+
     public function render()
     {
         session()->put('products.state', $this->state);
 
-        return view('livewire.backend.product-list-page', [
+        return parent::view('livewire.backend.product-list-page', [
             'products' => Product::query()
                 ->when($this->state == 'available', fn ($qry) => $qry->available())
                 ->when($this->state == 'disabled', fn ($qry) => $qry->disabled())
                 ->orderBy('name->' . config('app.fallback_locale'))
                 ->get(),
-            ])
-            ->layout('layouts.backend', ['title' => 'Products']);
+            ]);
     }
 }

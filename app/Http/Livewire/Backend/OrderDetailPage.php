@@ -4,9 +4,8 @@ namespace App\Http\Livewire\Backend;
 
 use App\Models\Order;
 use Illuminate\Support\Collection;
-use Livewire\Component;
 
-class OrderDetailPage extends Component
+class OrderDetailPage extends BackendPage
 {
     public Order $order;
 
@@ -24,10 +23,14 @@ class OrderDetailPage extends Component
             ->get();
     }
 
+    protected function title()
+    {
+        return 'Order #' . $this->order->id;
+    }
+
     public function render()
     {
-        return view('livewire.backend.order-detail-page')
-            ->layout('layouts.backend', ['title' => 'Order #' . $this->order->id]);
+        return parent::view('livewire.backend.order-detail-page');
     }
 
     public function complete()

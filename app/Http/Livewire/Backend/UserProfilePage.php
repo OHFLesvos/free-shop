@@ -4,11 +4,10 @@ namespace App\Http\Livewire\Backend;
 
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
-use Livewire\Component;
 use Propaganistas\LaravelPhone\Exceptions\NumberParseException;
 use Propaganistas\LaravelPhone\PhoneNumber;
 
-class UserProfilePage extends Component
+class UserProfilePage extends BackendPage
 {
     public User $user;
 
@@ -48,10 +47,11 @@ class UserProfilePage extends Component
         }
     }
 
+    protected $title = 'User Profile';
+
     public function render()
     {
-        return view('livewire.backend.user-profile-page')
-            ->layout('layouts.backend', ['title' => 'User Profile']);
+        return parent::view('livewire.backend.user-profile-page');
     }
 
     public function detectTimezone()

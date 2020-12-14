@@ -5,10 +5,9 @@ namespace App\Http\Livewire\Backend;
 use App\Models\Product;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Storage;
-use Livewire\Component;
 use Livewire\WithFileUploads;
 
-class ProductEditPage extends Component
+class ProductEditPage extends BackendPage
 {
     use WithFileUploads;
 
@@ -75,10 +74,14 @@ class ProductEditPage extends Component
         $this->description = $this->product->getTranslations('description');
     }
 
+    protected function title()
+    {
+        return 'Edit Product ' . $this->product->name;
+    }
+
     public function render()
     {
-        return view('livewire.backend.product-form')
-            ->layout('layouts.backend', ['title' => 'Edit Product ' . $this->product->name]);
+        return parent::view('livewire.backend.product-form');
     }
 
     public function getDefaultLocaleProperty()

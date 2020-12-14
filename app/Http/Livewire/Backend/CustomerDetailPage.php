@@ -3,15 +3,17 @@
 namespace App\Http\Livewire\Backend;
 
 use App\Models\Customer;
-use Livewire\Component;
 
-class CustomerDetailPage extends Component
+class CustomerDetailPage extends BackendPage
 {
     public Customer $customer;
 
+    protected function title() {
+        return 'Customer ' . $this->customer->name;
+    }
+
     public function render()
     {
-        return view('livewire.backend.customer-detail-page')
-            ->layout('layouts.backend', ['title' => 'Customer' . $this->customer->name]);
+        return parent::view('livewire.backend.customer-detail-page');
     }
 }

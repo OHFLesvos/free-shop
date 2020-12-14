@@ -2,10 +2,9 @@
 
 namespace App\Http\Livewire\Backend;
 
-use Livewire\Component;
 use Illuminate\Support\Collection;
 
-class SettingsPage extends Component
+class SettingsPage extends BackendPage
 {
     public Collection $geoblockWhitelist;
     public string $orderDefaultPhoneCountry;
@@ -20,10 +19,11 @@ class SettingsPage extends Component
         $this->timezone = setting()->get('timezone', '');
     }
 
+    protected $title = 'Settings';
+
     public function render()
     {
-        return view('livewire.backend.settings-page')
-            ->layout('layouts.backend', ['title' => 'Settings']);
+        return parent::view('livewire.backend.settings-page');
     }
 
     public function addToGeoblockWhitelist()

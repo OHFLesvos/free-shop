@@ -7,11 +7,10 @@ use App\Imports\DataImport;
 use App\Models\Customer;
 use App\Models\Product;
 use Illuminate\Validation\Rule;
-use Livewire\Component;
 use Livewire\WithFileUploads;
 use Maatwebsite\Excel\Facades\Excel;
 
-class DataImportExportPage extends Component
+class DataImportExportPage extends BackendPage
 {
     use WithFileUploads;
 
@@ -23,10 +22,11 @@ class DataImportExportPage extends Component
         'delete_existing_data' => 'boolean',
     ];
 
+    protected $title = 'Data Export';
+
     public function render()
     {
-        return view('livewire.backend.data-import-export-page')
-            ->layout('layouts.backend', ['title' => 'Data Export']);
+        return parent::view('livewire.backend.data-import-export-page');
     }
 
     public $formats = [

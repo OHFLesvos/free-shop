@@ -3,10 +3,9 @@
 namespace App\Http\Livewire\Backend;
 
 use App\Models\Customer;
-use Livewire\Component;
 use Livewire\WithPagination;
 
-class CustomerListPage extends Component
+class CustomerListPage extends BackendPage
 {
     use WithPagination;
 
@@ -23,15 +22,16 @@ class CustomerListPage extends Component
         $this->search = request()->input('search', session()->get('customers.search', '')) ?? '';
     }
 
+    protected $title = 'Customers';
+
     public function render()
     {
-        return view('livewire.backend.customer-list-page', [
+        return parent::view('livewire.backend.customer-list-page', [
             'customers' => Customer::query()
                 ->when(filled($this->search), fn ($qry) => $qry->filter(trim($this->search)))
                 ->orderBy('name')
                 ->paginate(10),
-            ])
-            ->layout('layouts.backend', ['title' => 'Customers']);
+            ]);
     }
 
     public function updatingSearch()

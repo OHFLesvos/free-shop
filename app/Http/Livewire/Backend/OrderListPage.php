@@ -3,10 +3,9 @@
 namespace App\Http\Livewire\Backend;
 
 use App\Models\Order;
-use Livewire\Component;
 use Livewire\WithPagination;
 
-class OrderListPage extends Component
+class OrderListPage extends BackendPage
 {
     use WithPagination;
 
@@ -26,9 +25,11 @@ class OrderListPage extends Component
         $this->status = session()->get('orders.status', 'open');
     }
 
+    protected $title = 'Orders';
+
     public function render()
     {
-        return view('livewire.backend.order-list-page', [
+        return parent::view('livewire.backend.order-list-page', [
             'orders' => Order::query()
                 ->when($this->status == 'open', fn ($qry) => $qry->open())
                 ->when($this->status == 'completed', fn ($qry) => $qry->completed())
@@ -39,8 +40,7 @@ class OrderListPage extends Component
                     fn ($qry) => $qry->orderBy('created_at', 'asc')
                 )
                 ->paginate(10),
-            ])
-            ->layout('layouts.backend', ['title' => 'Orders']);
+            ]);
     }
 
     public function updatingSearch()

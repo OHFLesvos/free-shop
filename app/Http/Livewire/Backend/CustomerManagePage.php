@@ -3,11 +3,10 @@
 namespace App\Http\Livewire\Backend;
 
 use App\Models\Customer;
-use Livewire\Component;
 use Propaganistas\LaravelPhone\Exceptions\NumberParseException;
 use Propaganistas\LaravelPhone\PhoneNumber;
 
-class CustomerManagePage extends Component
+class CustomerManagePage extends BackendPage
 {
     public Customer $customer;
 
@@ -30,6 +29,10 @@ class CustomerManagePage extends Component
 
     public function mount()
     {
+        if (! isset($this->customer)) {
+            $this->customer = new Customer();
+        }
+
         $this->customer_phone_country = setting()->get('order.default_phone_country', '');
         $this->customer_phone = '';
         if ($this->customer->phone != null) {
@@ -44,14 +47,16 @@ class CustomerManagePage extends Component
         }
     }
 
+    protected function title()
+    {
+        return $this->customer->exists
+            ? 'Edit Customer ' . $this->customer->name
+            : 'Register Customer';
+    }
+
     public function render()
     {
-        return view('livewire.backend.customer-form')
-            ->layout('layouts.backend', [
-                'title' => $this->customer->exists
-                    ? 'Edit Customer ' . $this->customer->name
-                    : 'Register Customer',
-            ]);
+        return parent::view('livewire.backend.customer-form');
     }
 
     public function submit()
