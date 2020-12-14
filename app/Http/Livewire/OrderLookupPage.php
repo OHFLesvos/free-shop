@@ -52,12 +52,15 @@ class OrderLookupPage extends Component
 
     private function search($id_number, $phone)
     {
-        return Customer::query()
+        $customer = Customer::query()
             ->whereNumberCompare('id_number', $id_number)
             ->whereNumberCompare('phone', $phone)
-            ->first()
-            ->orders()
+            ->first();
+        if ($customer != null) {
+            return $customer->orders()
             ->orderBy('created_at', 'desc')
             ->get();
+        }
+        return null;
     }
 }

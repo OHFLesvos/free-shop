@@ -27,6 +27,10 @@ class LanguageSelectController extends Controller
             return redirect(session()->get('previous-url'));
         }
 
+        if (url()->previous() != route('languages')) {
+            return redirect(url()->previous());
+        }
+
         return redirect()->route('home');
     }
 }
