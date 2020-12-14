@@ -41,7 +41,11 @@ class ProductEditPage extends Component
                 'min:0',
             ],
             'product.is_available' => 'boolean',
-            'picture' => 'nullable|image|max:4096',
+            'picture' => [
+                'nullable',
+                'image',
+                'max:4096',
+            ],
         ];
     }
 
@@ -85,7 +89,11 @@ class ProductEditPage extends Component
     public function updatedPicture()
     {
         $this->validate([
-            'picture' => 'nullable|image|max:4096',
+            'picture' => [
+                'nullable',
+                'image',
+                'max:4096',
+            ],
         ]);
     }
 

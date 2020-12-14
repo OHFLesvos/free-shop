@@ -89,7 +89,11 @@ class ProductCreatePage extends Component
     public function updatedPicture()
     {
         $this->validate([
-            'picture' => 'nullable|image|max:4096',
+            'picture' => [
+                'nullable',
+                'image',
+                'max:4096',
+            ],
         ]);
     }
 
