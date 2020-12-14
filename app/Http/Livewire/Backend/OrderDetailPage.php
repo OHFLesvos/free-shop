@@ -11,6 +11,9 @@ class OrderDetailPage extends BackendPage
 
     public Collection $relatedOrders;
 
+    public bool $shouldCancel = false;
+    public bool $shouldComplete = false;
+
     public function mount()
     {
         $this->relatedOrders = Order::query()
@@ -37,11 +40,15 @@ class OrderDetailPage extends BackendPage
     {
         $this->order->completed_at = now();
         $this->order->save();
+
+        $this->shouldComplete = false;
     }
 
     public function cancel()
     {
         $this->order->cancelled_at = now();
         $this->order->save();
+
+        $this->shouldCancel = false;
     }
 }
