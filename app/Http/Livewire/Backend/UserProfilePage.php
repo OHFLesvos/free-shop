@@ -8,7 +8,7 @@ use Livewire\Component;
 use Propaganistas\LaravelPhone\Exceptions\NumberParseException;
 use Propaganistas\LaravelPhone\PhoneNumber;
 
-class UserProfile extends Component
+class UserProfilePage extends Component
 {
     public User $user;
 
@@ -50,7 +50,7 @@ class UserProfile extends Component
 
     public function render()
     {
-        return view('livewire.backend.user-profile')
+        return view('livewire.backend.user-profile-page')
             ->layout('layouts.backend', ['title' => 'User Profile']);
     }
 

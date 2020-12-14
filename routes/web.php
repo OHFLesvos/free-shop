@@ -6,14 +6,14 @@ use App\Http\Livewire\Backend\CustomerCreatePage;
 use App\Http\Livewire\Backend\CustomerDetailPage;
 use App\Http\Livewire\Backend\CustomerListPage;
 use App\Http\Livewire\Backend\CustomerEditPage;
-use App\Http\Livewire\Backend\DataExport;
+use App\Http\Livewire\Backend\DataExportPage;
 use App\Http\Livewire\Backend\OrderDetailPage;
 use App\Http\Livewire\Backend\OrderListPage;
 use App\Http\Livewire\Backend\ProductCreatePage;
 use App\Http\Livewire\Backend\ProductEditPage;
 use App\Http\Livewire\Backend\ProductListPage;
 use App\Http\Livewire\Backend\SettingsPage;
-use App\Http\Livewire\Backend\UserProfile;
+use App\Http\Livewire\Backend\UserProfilePage;
 use App\Http\Livewire\CheckoutPage;
 use App\Http\Livewire\OrderLookupPage;
 use App\Http\Livewire\ShopFrontPage;
@@ -90,11 +90,11 @@ Route::middleware('auth')
                     ->name('products.create');
                 Route::get('products/{product}/edit', ProductEditPage::class)
                     ->name('products.edit');
-                Route::get('export', DataExport::class)
+                Route::get('export', DataExportPage::class)
                     ->name('export');
                 Route::get('settings', SettingsPage::class)
                     ->name('settings');
-                Route::get('user-profile', UserProfile::class)
+                Route::get('user-profile', UserProfilePage::class)
                     ->name('user-profile');
             });
     });

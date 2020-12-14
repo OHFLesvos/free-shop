@@ -2,16 +2,16 @@
 
 namespace App\Http\Livewire\Backend;
 
-use App\Exports\DataExport as ExportsDataExport;
+use App\Exports\DataExport;
 use Illuminate\Validation\Rule;
 use Livewire\Component;
 use Maatwebsite\Excel\Facades\Excel;
 
-class DataExport extends Component
+class DataExportPage extends Component
 {
     public function render()
     {
-        return view('livewire.backend.data-export')
+        return view('livewire.backend.data-export-page')
             ->layout('layouts.backend', ['title' => 'Data Export']);
     }
 
@@ -32,6 +32,6 @@ class DataExport extends Component
         ]);
 
         $filename = config('app.name') . ' Data Export '. now()->toDateString() . '.' . $this->format;
-        return Excel::download(new ExportsDataExport, $filename);
+        return Excel::download(new DataExport, $filename);
     }
 }
