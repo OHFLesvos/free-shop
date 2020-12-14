@@ -180,12 +180,8 @@
             <a
                 href="{{ route('backend.orders') }}"
                 class="btn btn-outline-primary mb-3">Back to orders</a>
-            @if($order->cancelled_at !== null)
-                Cancelled
-            @elseif($order->completed_at !== null)
-                Completed
-            @else
-                <span>
+            @if($order->cancelled_at == null && $order->completed_at == null)
+                <div>
                     <button
                         type="button"
                         class="btn btn-danger mb-3"
@@ -198,7 +194,7 @@
                         wire:click="$toggle('shouldComplete')">
                         Mark as completed
                     </button>
-                </span>
+                </div>
             @endisset
         </div>
     @endif

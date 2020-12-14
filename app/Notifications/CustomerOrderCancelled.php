@@ -4,12 +4,12 @@ namespace App\Notifications;
 
 use App\Models\Customer;
 use App\Models\Order;
-use NotificationChannels\Twilio\TwilioChannel;
-use NotificationChannels\Twilio\TwilioSmsMessage;
 use Illuminate\Notifications\Notification;
 use Illuminate\Support\Facades\Log;
+use NotificationChannels\Twilio\TwilioChannel;
+use NotificationChannels\Twilio\TwilioSmsMessage;
 
-class CustomerOrderRegistered extends Notification
+class CustomerOrderCancelled extends Notification
 {
     private Order $order;
 
@@ -36,7 +36,7 @@ class CustomerOrderRegistered extends Notification
 
     public function toTwilio($notifiable)
     {
-        $message = __("Hello :customer_name (ID :customer_id), we have received your order with ID #:id and will get back to you soon.", [
+        $message = __("Hello :customer_name (ID :customer_id). Your order with ID #:id has been cancelled.", [
             'customer_name' => $notifiable->name,
             'customer_id' => $notifiable->id_number,
             'id' => $this->order->id,

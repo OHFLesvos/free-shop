@@ -3,6 +3,7 @@
 namespace App\Http\Livewire\Backend;
 
 use App\Models\Order;
+use App\Notifications\CustomerOrderCancelled;
 use Illuminate\Support\Collection;
 
 class OrderDetailPage extends BackendPage
@@ -53,6 +54,8 @@ class OrderDetailPage extends BackendPage
     {
         $this->order->cancelled_at = now();
         $this->order->save();
+
+        $this->order->customer->notify(new CustomerOrderCancelled($this->order));
 
         $this->shouldCancel = false;
     }
