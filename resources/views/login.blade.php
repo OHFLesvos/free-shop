@@ -10,17 +10,56 @@
                 </x-alert>
             @endif
         @endif
-        @if(config('services.google.organization_domain') != null)
+        {{-- <form action="" method="POST">
+            @csrf
+            <div class="card shadow my-4 mx-auto" style="max-width: 26em">
+                <div class="card-body">
+                    <div class="form-group">
+                        <input
+                            type="email"
+                            class="form-control @error('email') is-invalid @enderror"
+                            required
+                            autofocus
+                            placeholder="E-Mail address"
+                            autocomplete="off">
+                        @error('email') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                    </div>
+                    <div class="form-group">
+                        <input
+                            type="password"
+                            class="form-control @error('password') is-invalid @enderror"
+                            required
+                            autofocus
+                            placeholder="Password"
+                            autocomplete="off">
+                        @error('password') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                    </div>
+                    <p class="text-right mb-0">
+                        <button
+                            type="submit"
+                            class="btn btn-primary btn-block">
+                            Login
+                        </button>
+                    </p>
+                </div>
+            </div>
+        </form> --}}
+        @if(filled(config('services.google.redirect')))
+            {{-- <p class="text-center">
+                or
+            </p> --}}
             <p class="text-center">
-                You can only sign in with a <strong>{{ config('services.google.organization_domain') }}</strong> organization account.
+                <a href="{{ route('login.google') }}" class="btn btn-primary">
+                    <x-icon type="brands" icon="google"/>
+                    Sign in with Google
+                    @if(config('services.google.organization_domain') != null)
+                    ({{ config('services.google.organization_domain') }})
+                    @endif
+                </a>
             </p>
         @endif
         <p class="text-center">
-            <a href="{{ route('login.google') }}" class="btn btn-primary">
-                <x-icon type="brands" icon="google"/>
-                Sign in
-            </a>
-            <a href="{{ route('home') }}" class="btn btn-link">Cancel</a>
+            <a href="{{ route('home') }}">Return to overview</a>
         </p>
     </div>
 @endsection
