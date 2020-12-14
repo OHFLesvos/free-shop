@@ -66,4 +66,10 @@ class User extends Authenticatable
     {
         return $this->phone;
     }
+
+    public function scopeFilter(Builder $qry, string $filter)
+    {
+        $qry->where('name', 'LIKE', '%' . $filter . '%')
+            ->orWhere('email', 'LIKE', '%' . $filter . '%');
+    }
 }

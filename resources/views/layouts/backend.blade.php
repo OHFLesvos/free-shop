@@ -36,6 +36,10 @@
                                     'route' => 'backend.import-export'
                                 ],
                                 [
+                                    'label' => 'Users',
+                                    'route' => 'backend.users'
+                                ],
+                                [
                                     'label' => 'Settings',
                                     'route' => 'backend.settings'
                                 ],
