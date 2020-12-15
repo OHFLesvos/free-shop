@@ -1,4 +1,4 @@
-name: Laravel
+name: Laravel Tests
 
 on:
   push:
@@ -26,6 +26,9 @@ jobs:
         mkdir -p database
         touch database/database.sqlite
     - name: Run database migrations
+      env:
+        DB_CONNECTION: sqlite
+        DB_DATABASE: database/database.sqlite
       run: php artisan migrate
     - name: Execute tests (Unit and Feature tests) via PHPUnit
       env:
