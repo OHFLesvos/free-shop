@@ -51,7 +51,7 @@ $items = [
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 @isset(Auth::user()->avatar)
-                                    <img src="{{ Auth::user()->avatar }}" alt="Avatar" class="align-top bg-white rounded-circle" height="24">
+                                    <img src="{{ Auth::user()->avatar }}" class="align-top bg-white rounded-circle" height="24" width="24">
                                 @endisset
                                 <span class="align-top ml-2">{{ Str::of(Auth::user()->name)->words(1, '') }}</span>
                             </a>
