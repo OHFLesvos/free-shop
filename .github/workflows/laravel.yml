@@ -36,7 +36,7 @@ jobs:
         DB_DATABASE: database/database.sqlite
       run: vendor/bin/phpunit
     - name: Show log
-      run: cat storage/logs/laravel.log
+      run: cat storage/logs/laravel.log || echo "No log file to display."
       if: ${{ always() }}
 
 
