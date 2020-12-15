@@ -43,6 +43,12 @@
         </p>
     @else
         <h1 class="mb-3">Order #{{ $order->id }}</h1>
+        @if(session()->has('error'))
+            <x-alert type="danger" dismissible>{{ session()->get('error') }}</x-alert>
+        @endif
+        @if(session()->has('message'))
+            <x-alert type="success" dismissible>{{ session()->get('message') }}</x-alert>
+        @endif
         <ul class="list-group mb-4 shadow-sm">
             <li class="list-group-item">
                 <strong>Ordered:</strong>

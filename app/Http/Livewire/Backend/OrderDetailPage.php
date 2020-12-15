@@ -39,13 +39,20 @@ class OrderDetailPage extends BackendPage
 
     public function complete()
     {
-        $this->order->products->each(function ($product) {
+        foreach ($this->order->products as $product) {
             $product->stock -= $product->pivot->quantity;
+            if ($product->stock < 0) {
+                session()->flash('error', 'Cannot complete order; missing ' . abs($product->stock) . ' ' . $product->name . ' in stock.');
+                $this->shouldComplete = false;
+                return;
+            }
             $product->save();
-        });
+        }
 
         $this->order->completed_at = now();
         $this->order->save();
+
+        session()->flash('message', 'Order completed.');
 
         $this->shouldComplete = false;
     }
@@ -56,6 +63,8 @@ class OrderDetailPage extends BackendPage
         $this->order->save();
 
         $this->order->customer->notify(new CustomerOrderCancelled($this->order));
+
+        session()->flash('message', 'Order cancelled.');
 
         $this->shouldCancel = false;
     }
