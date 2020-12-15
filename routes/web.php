@@ -16,6 +16,7 @@ use App\Http\Livewire\Backend\UserProfilePage;
 use App\Http\Livewire\CheckoutPage;
 use App\Http\Livewire\OrderLookupPage;
 use App\Http\Livewire\ShopFrontPage;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -99,3 +100,7 @@ Route::middleware('auth')
                     ->name('user-profile');
             });
     });
+
+if (App::environment() == 'local') {
+    Route::get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index');
+}
