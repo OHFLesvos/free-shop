@@ -1,5 +1,13 @@
 <div>
     <p>@lang('Please place an order from our selection of items:')</p>
+    @if($basket->isNotEmpty())
+    <p class="text-right d-md-none">
+        <a href="{{ route('checkout') }}"
+            class="btn btn-primary btn-block">
+            @lang('Go to checkout')
+        </a>
+    </p>
+    @endif
     @if($products->isNotEmpty())
         <div class="row">
             <div class="col-md">
