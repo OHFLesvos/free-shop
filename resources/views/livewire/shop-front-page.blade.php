@@ -105,7 +105,7 @@
                         <div class="card-footer text-right">
                             <a href="{{ route('checkout') }}"
                                 class="btn btn-primary">
-                                @lang('Checkout')
+                                @lang('Go to checkout')
                             </a>
                         </div>
                     @else
