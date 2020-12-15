@@ -25,6 +25,8 @@ jobs:
       run: |
         mkdir -p database
         touch database/database.sqlite
+    - name: Run database migrations
+      run: php artisan migrate
     - name: Execute tests (Unit and Feature tests) via PHPUnit
       env:
         DB_CONNECTION: sqlite
