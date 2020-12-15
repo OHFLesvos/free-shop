@@ -181,16 +181,8 @@
                     <div wire:loading.remove wire:target="picture">
                     @if($picture)
                         <div class="mb-3">
-                            @php
-                                if (config('filesystems.default') == 'ftp') {
-                                    $file = basename(parse_url($picture->temporaryUrl())['path']);
-                                    $previewUrl = config('filesystems.disks.ftp.url') . "/livewire-tmp/" . $file;
-                                } else {
-                                    $previewUrl = $picture->temporaryUrl();
-                                }
-                            @endphp
                             <img
-                                src="{{ $previewUrl }}"
+                                src="{{ $picture->temporaryUrl() }}"
                                 alt="Preview"
                                 class="mb-3"
                                 style="max-width: 300px; max-height: 150px">
