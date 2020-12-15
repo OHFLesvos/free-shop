@@ -51,6 +51,9 @@
             <div class="card-body pb-1">
                 <div class="form-group">
                     <label for="orderDefaultPhoneCountry" class="d-block">Default country for phone number</label>
+                    @php
+                        $codes = megastruktur\PhoneCountryCodes::getCodesList();
+                    @endphp
                     <select
                         class="custom-select @error('orderDefaultPhoneCountry') is-invalid @enderror"
                         style="max-width: 20em;"
@@ -58,7 +61,10 @@
                         id="orderDefaultPhoneCountry">
                         <option value="">-- Select country --</option>
                         @foreach($countries as $key => $val)
-                            <option value="{{ $key }}">{{ $val }}</option>
+                            <option value="{{ $key }}">
+                                {{ $val }}
+                                @isset($codes[$key] )({{ $codes[$key] }})@endisset
+                            </option>
                         @endforeach
                     </select>
                     @error('orderDefaultPhoneCountry') <div class="invalid-feedback">{{ $message }}</div> @enderror

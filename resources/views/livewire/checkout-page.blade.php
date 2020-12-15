@@ -99,12 +99,18 @@
                             <div class="form-group">
                                 <label for="inputCustomerPhone">@lang('Mobile phone number')</label>
                                 <div class="input-group">
+                                    @php
+                                        $codes = megastruktur\PhoneCountryCodes::getCodesList();
+                                    @endphp
                                     <select
                                         class="custom-select"
                                         style="max-width: 11em;"
                                         wire:model.defer="customer_phone_country">
                                         @foreach(collect(Countries::getList(app()->getLocale())) as $key => $val)
-                                            <option value="{{ $key }}">{{ $val }}</option>
+                                            <option value="{{ $key }}">
+                                                {{ $val }}
+                                                @isset($codes[$key] )({{ $codes[$key] }})@endisset
+                                            </option>
                                         @endforeach
                                     </select>
                                     <input
