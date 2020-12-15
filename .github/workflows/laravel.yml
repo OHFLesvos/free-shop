@@ -32,4 +32,6 @@ jobs:
       run: vendor/bin/phpunit
     - name: Show log
       run: cat storage/logs/laravel.log
+      if: ${{ always() }}
+
 
