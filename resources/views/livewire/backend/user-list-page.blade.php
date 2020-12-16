@@ -33,7 +33,7 @@
                     <tr >
                         <td class="fit">
                             @isset($user->avatar)
-                                <img src="{{ $user->avatar }}" alt="Avatar" class="align-top" height="24">
+                                <img src="{{ $user->avatar }}" alt="Avatar" class="align-top rounded-circle" height="24">
                             @endisset
                         </td>
                         <td>{{ $user->name }}</td>
