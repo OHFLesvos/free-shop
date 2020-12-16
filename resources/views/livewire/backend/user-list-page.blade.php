@@ -32,8 +32,8 @@
                 @forelse($users as $user)
                     <tr >
                         <td class="fit">
-                            @isset(Auth::user()->avatar)
-                                <img src="{{ Auth::user()->avatar }}" alt="Avatar" class="align-top" height="24">
+                            @isset($user->avatar)
+                                <img src="{{ $user->avatar }}" alt="Avatar" class="align-top" height="24">
                             @endisset
                         </td>
                         <td>{{ $user->name }}</td>
