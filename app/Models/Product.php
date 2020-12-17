@@ -29,6 +29,7 @@ class Product extends Model
         'stock',
         'limit_per_order',
         'is_available',
+        'price',
     ];
 
     public function orders()

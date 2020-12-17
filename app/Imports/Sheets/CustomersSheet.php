@@ -3,7 +3,6 @@
 namespace App\Imports\Sheets;
 
 use App\Models\Customer;
-use App\Models\Product;
 use Maatwebsite\Excel\Concerns\SkipsErrors;
 use Maatwebsite\Excel\Concerns\SkipsOnError;
 use Maatwebsite\Excel\Concerns\ToModel;
@@ -30,6 +29,7 @@ class CustomersSheet implements ToModel, WithHeadingRow, WithValidation, SkipsOn
         $customer->fill([
             'name' => $row['name'],
             'id_number' => $row['id_number'],
+            'credit' => $row['credit'],
             'phone' => $row['phone'],
             'locale' => $row['language'],
             'remarks' => $row['remarks'],

@@ -21,8 +21,11 @@ class ProductsSheet implements FromQuery, WithMapping, WithHeadings, WithColumnF
     protected $worksheetTitle = 'Products';
 
     protected array $columnAlignment = [
-        'C' => Alignment::HORIZONTAL_RIGHT,
         'D' => Alignment::HORIZONTAL_RIGHT,
+        'E' => Alignment::HORIZONTAL_RIGHT,
+        'F' => Alignment::HORIZONTAL_RIGHT,
+        'G' => Alignment::HORIZONTAL_RIGHT,
+        'H' => Alignment::HORIZONTAL_RIGHT,
     ];
 
     private string $locale;
@@ -45,6 +48,7 @@ class ProductsSheet implements FromQuery, WithMapping, WithHeadings, WithColumnF
             'ID',
             'Name',
             'Category',
+            'Price',
             'Stock',
             'Free',
             'Reserved',
@@ -62,6 +66,7 @@ class ProductsSheet implements FromQuery, WithMapping, WithHeadings, WithColumnF
             $product->id,
             $product->getTranslation('name', $this->locale),
             $product->getTranslation('category', $this->locale),
+            $product->price,
             $product->stock,
             $product->free_quantity,
             $product->reserved_quantity,
@@ -76,8 +81,8 @@ class ProductsSheet implements FromQuery, WithMapping, WithHeadings, WithColumnF
     public function columnFormats(): array
     {
         return [
-            'J' => NumberFormat::FORMAT_DATE_YYYYMMDD,
             'K' => NumberFormat::FORMAT_DATE_YYYYMMDD,
+            'L' => NumberFormat::FORMAT_DATE_YYYYMMDD,
         ];
     }
 }

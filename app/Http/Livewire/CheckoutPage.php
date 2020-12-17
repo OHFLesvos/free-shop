@@ -106,6 +106,13 @@ class CheckoutPage extends Component
                 'quantity' => $quantity,
             ]]));
 
+        // TODO
+        // $totalPrice = $order->products->sum('price');
+        // if ($totalPrice > $customer->credit) {
+        //     // TODO abort
+        // }
+        // $customer->credit -= $totalPrice;
+
         $customer->notify(new CustomerOrderRegistered($order));
         Notification::send(User::notifiable()->get(), new OrderRegistered($order));
 

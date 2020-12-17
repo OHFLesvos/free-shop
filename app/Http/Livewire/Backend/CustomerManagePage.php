@@ -23,6 +23,10 @@ class CustomerManagePage extends BackendPage
             'phone:customer_phone_country,mobile',
         ],
         'customer_phone_country' => 'required_with:customer_phone',
+        'customer.credit' => [
+            'integer',
+            'min:0',
+        ],
         'customer.remarks' => 'nullable',
         'customer.locale' => 'nullable',
     ];

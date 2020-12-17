@@ -45,6 +45,9 @@
                 </x-phone-number-link>
             </div>
         </li>
+        <li class="list-group-item">
+            <strong>Credit:</strong> {{ $customer->credit }}
+        </li>
         @isset($customer->remarks)
             <li class="list-group-item">
                 <strong>Remarks:</strong><br>{!! nl2br(e($customer->remarks)) !!}

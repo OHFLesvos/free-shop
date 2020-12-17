@@ -30,7 +30,8 @@
                 <th>Name</th>
                 <th>ID Number</th>
                 <th>Phone</th>
-                <th>Orders</th>
+                <th class="text-right">Orders</th>
+                <th class="text-right">Credit</th>
             </thead>
             <tbody>
                 @forelse($customers as $customer)
@@ -40,7 +41,8 @@
                         <td>{{ $customer->name }}</td>
                         <td>{{ $customer->id_number }}</td>
                         <td><x-phone-info :value="$customer->phone"/></td>
-                        <td>{{ $customer->orders()->count() }}</td>
+                        <td class="text-right">{{ $customer->orders()->count() }}</td>
+                        <td class="text-right">{{ $customer->credit }}</td>
                     </tr>
                 @empty
                     <tr>

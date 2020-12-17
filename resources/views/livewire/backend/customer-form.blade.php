@@ -91,6 +91,22 @@
                 </div>
                 <div class="col-md">
                     <div class="form-group">
+                        <label for="inputCredit">Credit</label>
+                        <input
+                            type="number"
+                            class="form-control @error('customer.credit') is-invalid @enderror"
+                            id="inputCredit"
+                            required
+                            min="0"
+                            autocomplete="off"
+                            wire:model.defer="customer.credit">
+                        @error('customer.credit') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                    </div>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="col-md">
+                    <div class="form-group">
                         <label for="inputRemarks">Remarks</label>
                         <textarea
                             class="form-control @error('customer.remarks') is-invalid @enderror"

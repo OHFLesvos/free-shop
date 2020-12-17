@@ -124,6 +124,20 @@
                 </div>
                 <div class="col-md">
                     <div class="form-group">
+                        <label for="inputPrice">Price</label>
+                        <input
+                            type="number"
+                            min="0"
+                            class="form-control @error('product.price') is-invalid @enderror"
+                            id="inputPrice"
+                            required
+                            autocomplete="off"
+                            wire:model.defer="product.price">
+                        @error('product.price') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                    </div>
+                </div>
+                <div class="col-md">
+                    <div class="form-group">
                         <label for="inputLimitPerOrder">Limit per order</label>
                         <input
                             type="number"

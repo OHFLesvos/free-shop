@@ -23,6 +23,7 @@ class Customer extends Model implements HasLocalePreference
         'phone',
         'locale',
         'remarks',
+        'credit',
     ];
 
     protected $nullable = [

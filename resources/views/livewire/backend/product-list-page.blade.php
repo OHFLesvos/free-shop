@@ -37,6 +37,7 @@
                 <th>Description</th>
                 <th class="text-right">Stock<br><small>(Free/Reserved)</small></th>
                 <th class="text-right">Limit</th>
+                <th class="text-right">Price</th>
             </thead>
             <tbody>
                 @forelse($products as $product)
@@ -60,6 +61,7 @@
                             <small>{{ $product->free_quantity }} / {{ $product->reserved_quantity }}</small>
                         </td>
                         <td class="text-right">{{ $product->limit_per_order }}</td>
+                        <td class="text-right">{{ $product->price }}</td>
                     </tr>
                 @empty
                     <tr>

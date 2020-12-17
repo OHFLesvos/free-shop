@@ -28,7 +28,14 @@
                                             <h5 class="card-title">{{ $product->name }}</h5>
                                             <p class="card-text">{{ $product->description }}</p>
                                         </div>
-                                        <div class="card-footer text-right">
+                                        <div class="card-footer d-flex justify-content-between align-items-center">
+                                            <strong>
+                                                @if($product->price > 0)
+                                                    @lang('Price: :amount', ['amount' => $product->price])
+                                                @else
+                                                    Free
+                                                @endif
+                                            </strong>
                                             <button
                                                 class="btn @unless(($basket[$product->id] ?? 0) < $product->quantity_available_for_customer) btn-secondary @else btn-primary @endunless"
                                                 wire:click="add({{ $product->id }})"

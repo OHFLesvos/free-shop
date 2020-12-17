@@ -2,10 +2,8 @@
 
 namespace App\Exports\Sheets;
 
-use donatj\UserAgent\UserAgentParser;
 use App\Exports\DefaultWorksheetStyles;
 use App\Models\Customer;
-use App\Models\Order;
 use Maatwebsite\Excel\Concerns\FromQuery;
 use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 use Maatwebsite\Excel\Concerns\WithColumnFormatting;
@@ -36,6 +34,7 @@ class CustomersSheet implements FromQuery, WithMapping, WithHeadings, WithColumn
             'ID Number',
             'Phone',
             'Language',
+            'Credit',
             'Remarks',
             'Registered',
             'Updated',
@@ -50,6 +49,7 @@ class CustomersSheet implements FromQuery, WithMapping, WithHeadings, WithColumn
             $customer->id_number,
             $this->mapPhone($customer->phone),
             strtoupper($customer->locale),
+            $customer->credit,
             $customer->remarks,
             $this->mapDateTime($customer->created_at),
             $this->mapDateTime($customer->updated_at),
@@ -75,8 +75,8 @@ class CustomersSheet implements FromQuery, WithMapping, WithHeadings, WithColumn
     public function columnFormats(): array
     {
         return [
-            'G' => NumberFormat::FORMAT_DATE_YYYYMMDD . ' ' . NumberFormat::FORMAT_DATE_TIME3,
             'H' => NumberFormat::FORMAT_DATE_YYYYMMDD . ' ' . NumberFormat::FORMAT_DATE_TIME3,
+            'I' => NumberFormat::FORMAT_DATE_YYYYMMDD . ' ' . NumberFormat::FORMAT_DATE_TIME3,
         ];
     }
 }

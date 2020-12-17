@@ -33,6 +33,7 @@ class ProductsSheet implements ToModel, WithHeadingRow, WithValidation, SkipsOnE
         $product = Product::find($row['id']);
         if ($product == null) {
             $product = new Product([
+                'price' => $row['price'],
                 'stock' => $row['stock'],
                 'limit_per_order' => $row['limit_per_order'],
                 'is_available' => in_array($row['available'], ['Yes', 1, 'true']),
