@@ -1,0 +1,37 @@
+name: CI
+
+on:
+  push:
+    branches: [ production ]
+
+jobs:
+  prod-build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+    - name: Install dependencies
+      uses: php-actions/composer@v5
+      with:
+        dev: no
+    - name: Deploy to Server
+      uses: easingthemes/ssh-deploy@v2.1.5
+      env:
+        ARGS: "-rltgoDzvO --delete"
+        REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
+        REMOTE_PORT: ${{ secrets.REMOTE_PORT }}
+        REMOTE_USER: ${{ secrets.REMOTE_USER }}
+        SSH_PRIVATE_KEY: ${{ secrets.SERVER_SSH_KEY }}
+        TARGET: ${{ secrets.REMOTE_TARGET }}
+    - name: Prepare on remote
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.REMOTE_HOST }}
+        port: ${{ secrets.REMOTE_PORT }}
+        username: ${{ secrets.REMOTE_USER }}
+        key: ${{ secrets.SERVER_SSH_KEY }}
+        script: |
+          whoami
+          cd ${{ secrets.REMOTE_TARGET }}
+          ls -al
