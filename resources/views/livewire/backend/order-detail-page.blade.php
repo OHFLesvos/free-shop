@@ -1,5 +1,19 @@
 <div>
-    @if ($shouldComplete)
+    @if ($shouldReady)
+        <h1 class="mb-3">Ready Order</h1>
+        <p>Should the order <strong>#{{ $order->id }}</strong> be marked as ready?</p>
+        <p class="d-flex justify-content-between">
+            <button type="button" class="btn btn-outline-primary" wire:loading.attr="disabled"
+                wire:click="$toggle('shouldReady')">
+                No
+            </button>
+            <button type="button" class="btn btn-success" wire:target="ready" wire:loading.attr="disabled"
+                wire:click="ready">
+                <x-spinner wire:loading wire:target="ready" />
+                Yes
+            </button>
+        </p>
+    @elseif ($shouldComplete)
         <h1 class="mb-3">Complete Order</h1>
         <p>Should the order <strong>#{{ $order->id }}</strong> be marked as completed?</p>
         <p class="d-flex justify-content-between">
@@ -147,16 +161,23 @@
         {{-- Buttons --}}
         <div class="d-md-flex justify-content-between">
             <a href="{{ route('backend.orders') }}" class="btn btn-outline-primary mb-3">Back to orders</a>
+            <div>
+            @if ($order->status == 'new')
+                <button type="button" class="btn btn-primary mb-3" wire:click="$toggle('shouldReady')">
+                    Mark as ready
+                </button>
+            @endif
+            @if ($order->status == 'ready')
+                <button type="button" class="btn btn-primary mb-3" wire:click="$toggle('shouldComplete')">
+                    Mark as completed
+                </button>
+            @endif
             @if (in_array($order->status, ['new', 'ready']))
-                <div>
-                    <button type="button" class="btn btn-danger mb-3" wire:click="$toggle('shouldCancel')">
-                        Cancel order
-                    </button>
-                    <button type="button" class="btn btn-primary mb-3" wire:click="$toggle('shouldComplete')">
-                        Mark as completed
-                    </button>
-                </div>
-            @endisset
-    </div>
+                <button type="button" class="btn btn-danger mb-3" wire:click="$toggle('shouldCancel')">
+                    Cancel order
+                </button>
+            @endif
+            </div>
+        </div>
 @endif
 </div>

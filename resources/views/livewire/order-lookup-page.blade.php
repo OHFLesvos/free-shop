@@ -84,6 +84,9 @@
                     @elseif($order->status == 'completed')
                         <x-icon icon="check-circle" type="regular" />
                         @lang('This order has been completed.')
+                    @elseif($order->status == 'ready')
+                        <x-icon icon="box" />
+                        @lang('This order is ready.')
                     @else
                         <x-icon icon="inbox"/>
                         @lang('This order is in progress.')
