@@ -22,7 +22,7 @@ jobs:
         key: ${{ secrets.SERVER_SSH_KEY }}
         script: |
           cd ${{ secrets.REMOTE_TARGET }}
-          [ -f .env ] && php artisan down
+          if [ -f .env ]; php artisan down; fi
     - name: Deploy to remote
       uses: easingthemes/ssh-deploy@v2.1.5
       env:
