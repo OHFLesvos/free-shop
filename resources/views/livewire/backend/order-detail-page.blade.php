@@ -41,29 +41,31 @@
         <div class="card shadow-sm mb-4">
             <div class="card-header d-flex justify-content-between">
                 Order details
-                <span>Status:
-                    <span class="@if($order->status == 'new') text-warning @elseif($order->status == 'ready') text-info @elseif($order->status == 'completed') text-success @elseif($order->status == 'cancelled') text-danger @endif">
-                        {{ ucfirst($order->status) }}
-                    </span>
+                <span>
+                    Status: <x-order-status-label :order="$order" />
                 </span>
             </div>
-            <div class="card-body">
-                <strong>Customer:</strong>
-                <a href="{{ route('backend.customers.show', $order->customer) }}">{{ $order->customer->name }}</a>
-                ({{ $order->customer->id_number }})
-                <br>
-                <strong>Registered:</strong>
-                <x-date-time-info :value="$order->created_at" />
-                <br>
-                <strong>IP Address:</strong>
-                <x-ip-info :value="$order->ip_address" />
-                <br>
-                <strong>Geo Location:</strong>
-                <x-geo-location-info :value="$order->ip_address" />
-                <br>
-                <strong>User Agent:</strong>
-                <x-user-agent-info :value="$order->user_agent" />
-            </div>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">
+                    <strong>Customer:</strong>
+                    <a href="{{ route('backend.customers.show', $order->customer) }}">{{ $order->customer->name }}</a>
+                    ({{ $order->customer->id_number }})
+                </li>
+                <li class="list-group-item">
+                    <strong>IP Address:</strong>
+                    <x-ip-info :value="$order->ip_address" />
+                    <br>
+                    <strong>Geo Location:</strong>
+                    <x-geo-location-info :value="$order->ip_address" />
+                    <br>
+                    <strong>User Agent:</strong>
+                    <x-user-agent-info :value="$order->user_agent" />
+                </li>
+                <li class="list-group-item">
+                    <strong>Registered:</strong>
+                    <x-date-time-info :value="$order->created_at" />
+                </li>
+            </ul>
         </div>
         {{-- Remarks --}}
         @isset($order->remarks)
@@ -77,6 +79,12 @@
             <div class="card-header">Products</div>
             <div class="table-responsive">
                 <table class="table table-bordered m-0">
+                    <thead>
+                        <tr>
+                            <th colspan="2">Product</th>
+                            <th>Quantity</th>
+                        </tr>
+                    </thead>
                     <tbody>
                         @php
                         $hasPictures = $order->products->whereNotNull('pictureUrl')->isNotEmpty();
@@ -106,7 +114,7 @@
         </div>
         {{-- Order history --}}
         @php
-            $audits = $order->audits()->with('user')->get();
+        $audits = $order->audits()->with('user')->get();
         @endphp
         @if ($audits->isNotEmpty())
             <div class="card shadow-sm mb-4">
@@ -114,17 +122,21 @@
                 <ul class="list-group list-group-flush">
                     @foreach ($audits as $audit)
                         <li class="list-group-item">
-                            On <strong><x-date-time-info :value="$audit->created_at" /></strong>
+                            On <strong>
+                                <x-date-time-info :value="$audit->created_at" />
+                            </strong>
                             <strong>{{ optional($audit->user)->name ?? 'Unknown' }}</strong>
-                            @if($audit->event == 'created')
+                            @if ($audit->event == 'created')
                                 registered the order.
                             @elseif($audit->event == 'updated')
                                 updated the order and changed
                                 @php
-                                    $modified = $audit->getModified();
+                                $modified = $audit->getModified();
                                 @endphp
-                                @foreach($modified as $key => $val)
-                                    <em>{{ $key }}</em> from <code>{{ $val['old'] }}</code> to <code>{{ $val['new'] }}</code>@if($loop->last).@else,@endif
+                                @foreach ($modified as $key => $val)
+                                    <em>{{ $key }}</em> from <code>{{ $val['old'] }}</code> to
+                                    <code>{{ $val['new'] }}</code>
+                                    @if ($loop->last).@else,@endif
                                 @endforeach
                             @endif
                         </li>
