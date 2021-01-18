@@ -31,6 +31,7 @@ class OrdersSheet implements FromQuery, WithMapping, WithHeadings, WithColumnFor
     {
         return [
             'ID',
+            'Status',
             'Customer ID',
             'Customer',
             'IP Address',
@@ -40,8 +41,6 @@ class OrdersSheet implements FromQuery, WithMapping, WithHeadings, WithColumnFor
             'Remarks',
             'Registered',
             'Updated',
-            'Completed',
-            'Cancelled',
         ];
     }
 
@@ -49,6 +48,7 @@ class OrdersSheet implements FromQuery, WithMapping, WithHeadings, WithColumnFor
     {
         return [
             $order->id,
+            $order->status,
             $order->customer->id,
             $order->customer->name . ', ' . $order->customer->id_number . ', ' . $this->mapPhone($order->customer->phone),
             $order->ip_address,
@@ -61,8 +61,6 @@ class OrdersSheet implements FromQuery, WithMapping, WithHeadings, WithColumnFor
             $order->remarks,
             $this->mapDateTime($order->created_at),
             $this->mapDateTime($order->updated_at),
-            $this->mapDateTime($order->completed_at),
-            $this->mapDateTime($order->cancelled_at),
         ];
     }
 
@@ -97,10 +95,8 @@ class OrdersSheet implements FromQuery, WithMapping, WithHeadings, WithColumnFor
     public function columnFormats(): array
     {
         return [
-            'I' => NumberFormat::FORMAT_DATE_YYYYMMDD . ' ' . NumberFormat::FORMAT_DATE_TIME3,
             'J' => NumberFormat::FORMAT_DATE_YYYYMMDD . ' ' . NumberFormat::FORMAT_DATE_TIME3,
             'K' => NumberFormat::FORMAT_DATE_YYYYMMDD . ' ' . NumberFormat::FORMAT_DATE_TIME3,
-            'L' => NumberFormat::FORMAT_DATE_YYYYMMDD . ' ' . NumberFormat::FORMAT_DATE_TIME3,
         ];
     }
 }

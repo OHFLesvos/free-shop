@@ -78,12 +78,12 @@
                     </tbody>
                 </table>
                 <div class="card-footer">
-                    @if($order->cancelled_at !== null)
+                    @if($order->status == 'cancelled')
                         <x-icon icon="ban"/>
-                        @lang('This order has been cancelled on :date.', ['date' => $order->cancelled_at->toUserTimezone()->isoFormat('LLLL')])
-                    @elseif($order->completed_at !== null)
+                        @lang('This order has been cancelled.')
+                    @elseif($order->status == 'completed')
                         <x-icon icon="check-circle" type="regular" />
-                        @lang('This order has been completed on :date.', ['date' => $order->completed_at->toUserTimezone()->isoFormat('LLLL')])
+                        @lang('This order has been completed.')
                     @else
                         <x-icon icon="inbox"/>
                         @lang('This order is in progress.')

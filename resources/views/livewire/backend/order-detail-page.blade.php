@@ -53,14 +53,12 @@
             <li class="list-group-item">
                 <strong>Ordered:</strong>
                 <x-date-time-info :value="$order->created_at"/>
-                @isset($order->cancelled_at)<br>
-                    <strong>Cancelled:</strong>
-                    <x-date-time-info :value="$order->cancelled_at"/>
-                @endisset
-                @isset($order->completed_at)<br>
-                    <strong>Completed:</strong>
-                    <x-date-time-info :value="$order->completed_at"/>
-                @endisset
+                @if($order->status == 'cancelled')<br>
+                    <strong>Cancelled</strong>
+                @endif
+                @if($order->status == 'completed')<br>
+                    <strong>Completed</strong>
+                @endif
             </li>
             <li class="list-group-item">
                 <div class="row">
@@ -154,15 +152,11 @@
                                     <td>
                                         {{ $relatedOrder->created_at->toUserTimezone()->isoFormat('LLLL') }}<br>
                                         <small>{{ $relatedOrder->created_at->diffForHumans() }}</small>
-                                        @isset($relatedOrder->cancelled_at)
-                                            <br><br>Cancelled:<br>
-                                            {{ $relatedOrder->cancelled_at->toUserTimezone()->isoFormat('LLLL') }}<br>
-                                            <small>{{ $relatedOrder->cancelled_at->diffForHumans() }}</small>
+                                        @if($relatedOrder->status == 'cancelled')
+                                            <br><br>Cancelled
                                         @endif
-                                        @isset($relatedOrder->completed_at)
-                                            <br><br>Completed:<br>
-                                            {{ $relatedOrder->completed_at->toUserTimezone()->isoFormat('LLLL') }}<br>
-                                            <small>{{ $relatedOrder->completed_at->diffForHumans() }}</small>
+                                        @if($relatedOrder->status == 'completed')
+                                            <br><br>Completed
                                         @endif
                                     </td>
                                     <td>
@@ -186,7 +180,7 @@
             <a
                 href="{{ route('backend.orders') }}"
                 class="btn btn-outline-primary mb-3">Back to orders</a>
-            @if($order->cancelled_at == null && $order->completed_at == null)
+            @if(in_array($order->status, ['new', 'ready']))
                 <div>
                     <button
                         type="button"

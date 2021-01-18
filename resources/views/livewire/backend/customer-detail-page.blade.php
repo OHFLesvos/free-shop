@@ -72,15 +72,11 @@
                                 <td>
                                     {{ $relatedOrder->created_at->toUserTimezone()->isoFormat('LLLL') }}<br>
                                     <small>{{ $relatedOrder->created_at->diffForHumans() }}</small>
-                                    @isset($relatedOrder->cancelled_at)
-                                        <br><br>Cancelled:<br>
-                                        {{ $relatedOrder->cancelled_at->toUserTimezone()->isoFormat('LLLL') }}<br>
-                                        <small>{{ $relatedOrder->cancelled_at->diffForHumans() }}</small>
+                                    @if($relatedOrder->status == 'cancelled')
+                                        <br><br>Cancelled
                                     @endif
-                                    @isset($relatedOrder->completed_at)
-                                        <br><br>Completed:<br>
-                                        {{ $relatedOrder->completed_at->toUserTimezone()->isoFormat('LLLL') }}<br>
-                                        <small>{{ $relatedOrder->completed_at->diffForHumans() }}</small>
+                                    @if($relatedOrder->status == 'completed')
+                                        <br><br>Completed
                                     @endif
                                 </td>
                                 <td>

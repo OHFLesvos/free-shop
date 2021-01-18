@@ -50,15 +50,12 @@
                         class="cursor-pointer">
                         <td>{{ $order->id }}</td>
                         <td>
-                            @if($order->cancelled_at !== null)
-                                {{ $order->cancelled_at->toUserTimezone()->isoFormat('LLLL') }}<br>
-                                <small>{{ $order->cancelled_at->diffForHumans() }}</small>
-                            @elseif($order->completed_at !== null)
-                                {{ $order->completed_at->toUserTimezone()->isoFormat('LLLL') }}<br>
-                                <small>{{ $order->completed_at->diffForHumans() }}</small>
-                            @else
+                            @if(in_array($order->status, ['new', 'ready']))
                                 {{ $order->created_at->toUserTimezone()->isoFormat('LLLL') }}<br>
                                 <small>{{ $order->created_at->diffForHumans() }}</small>
+                            @else
+                                {{ $order->updated_at->toUserTimezone()->isoFormat('LLLL') }}<br>
+                                <small>{{ $order->updated_at->diffForHumans() }}</small>
                             @endif
                         </td>
                         <td>

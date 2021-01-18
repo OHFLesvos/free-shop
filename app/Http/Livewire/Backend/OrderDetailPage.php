@@ -49,7 +49,7 @@ class OrderDetailPage extends BackendPage
             $product->save();
         }
 
-        $this->order->completed_at = now();
+        $this->order->status = 'completed';
         $this->order->save();
 
         session()->flash('message', 'Order completed.');
@@ -59,7 +59,7 @@ class OrderDetailPage extends BackendPage
 
     public function cancel()
     {
-        $this->order->cancelled_at = now();
+        $this->order->status = 'cancelled';
         $this->order->save();
 
         $this->order->customer->notify(new CustomerOrderCancelled($this->order));
