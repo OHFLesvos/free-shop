@@ -56,7 +56,8 @@
             <div class="card-header d-flex justify-content-between">
                 Order details
                 <span>
-                    Status: <x-order-status-label :order="$order" />
+                    Status:
+                    <x-order-status-label :order="$order" />
                 </span>
             </div>
             <ul class="list-group list-group-flush">
@@ -149,8 +150,7 @@
                                 @endphp
                                 @foreach ($modified as $key => $val)
                                     <em>{{ $key }}</em> from <code>{{ $val['old'] }}</code> to
-                                    <code>{{ $val['new'] }}</code>
-                                    @if ($loop->last).@else,@endif
+                                    <code>{{ $val['new'] }}</code>@if ($loop->last).@else,@endif
                                 @endforeach
                             @endif
                         </li>
@@ -162,22 +162,22 @@
         <div class="d-md-flex justify-content-between">
             <a href="{{ route('backend.orders') }}" class="btn btn-outline-primary mb-3">Back to orders</a>
             <div>
-            @if ($order->status == 'new')
-                <button type="button" class="btn btn-primary mb-3" wire:click="$toggle('shouldReady')">
-                    Mark as ready
-                </button>
-            @endif
-            @if ($order->status == 'ready')
-                <button type="button" class="btn btn-primary mb-3" wire:click="$toggle('shouldComplete')">
-                    Mark as completed
-                </button>
-            @endif
-            @if (in_array($order->status, ['new', 'ready']))
-                <button type="button" class="btn btn-danger mb-3" wire:click="$toggle('shouldCancel')">
-                    Cancel order
-                </button>
-            @endif
+                @if ($order->status == 'new')
+                    <button type="button" class="btn btn-primary mb-3" wire:click="$toggle('shouldReady')">
+                        Mark as ready
+                    </button>
+                @endif
+                @if ($order->status == 'ready')
+                    <button type="button" class="btn btn-primary mb-3" wire:click="$toggle('shouldComplete')">
+                        Mark as completed
+                    </button>
+                @endif
+                @if (in_array($order->status, ['new', 'ready']))
+                    <button type="button" class="btn btn-danger mb-3" wire:click="$toggle('shouldCancel')">
+                        Cancel order
+                    </button>
+                @endif
             </div>
         </div>
-@endif
+    @endif
 </div>
