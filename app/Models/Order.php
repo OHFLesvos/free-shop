@@ -37,19 +37,11 @@ class Order extends Model implements Auditable
         return $this->belongsTo(Customer::class);
     }
 
-    public function scopeOpen(Builder $qry)
+    public function scopeStatus(Builder $qry, string $status)
     {
-        $qry->whereIn('status', ['new', 'ready']);
-    }
+        assert(in_array($status, ['new', 'ready', 'completed', 'cancelled']));
 
-    public function scopeCompleted(Builder $qry)
-    {
-        $qry->where('status', 'completed');
-    }
-
-    public function scopeCancelled(Builder $qry)
-    {
-        $qry->where('status', 'cancelled');
+        $qry->where('status', $status);
     }
 
     public function scopeFilter(Builder $qry, string $filter)

@@ -13,7 +13,7 @@ class OrderListPage extends BackendPage
 
     public string $search = '';
 
-    public string $status = 'open';
+    public string $status = 'new';
 
     protected $queryString = [
         'search' => ['except' => ''],
@@ -22,7 +22,7 @@ class OrderListPage extends BackendPage
     public function mount()
     {
         $this->search = request()->input('search', session()->get('orders.search', '')) ?? '';
-        $this->status = session()->get('orders.status', 'open');
+        $this->status = session()->get('orders.status', 'new');
     }
 
     protected $title = 'Orders';
@@ -31,11 +31,9 @@ class OrderListPage extends BackendPage
     {
         return parent::view('livewire.backend.order-list-page', [
             'orders' => Order::query()
-                ->when($this->status == 'open', fn ($qry) => $qry->open())
-                ->when($this->status == 'completed', fn ($qry) => $qry->completed())
-                ->when($this->status == 'cancelled', fn ($qry) => $qry->cancelled())
+                ->when(in_array($this->status, ['new', 'ready', 'completed', 'cancelled']), fn ($qry) => $qry->status($this->status))
                 ->when(filled($this->search), fn ($qry) => $qry->filter(trim($this->search)))
-                ->when($this->status != 'open',
+                ->when(in_array($this->status, ['completed', 'cancelled']),
                     fn ($qry) => $qry->orderBy('updated_at', 'desc'),
                     fn ($qry) => $qry->orderBy('created_at', 'asc')
                 )
