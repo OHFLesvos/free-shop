@@ -54,8 +54,7 @@ class Product extends Model
     public function getReservedQuantityAttribute()
     {
         return $this->orders
-            ->whereNull('completed_at')
-            ->whereNull('cancelled_at')
+            ->whereIn('status', ['new', 'ready'])
             ->map(fn ($order) => $order->pivot->quantity)
             ->sum();
     }

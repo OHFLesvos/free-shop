@@ -7,12 +7,14 @@ use Dyrynda\Database\Support\NullableFields;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use OwenIt\Auditing\Contracts\Auditable;
 
-class Order extends Model
+class Order extends Model implements Auditable
 {
     use HasFactory;
     use NullableFields;
     use NumberCompareScope;
+    use \OwenIt\Auditing\Auditable;
 
     protected $fillable = [
         'ip_address',
@@ -22,13 +24,6 @@ class Order extends Model
 
     protected $nullable = [
         'remarks',
-        'completed_at',
-        'cancelled_at',
-    ];
-
-    protected $dates = [
-        'completed_at',
-        'cancelled_at',
     ];
 
     public function products()
@@ -42,20 +37,11 @@ class Order extends Model
         return $this->belongsTo(Customer::class);
     }
 
-    public function scopeOpen(Builder $qry)
+    public function scopeStatus(Builder $qry, string $status)
     {
-        $qry->whereNull('completed_at')
-            ->whereNull('cancelled_at');
-    }
+        assert(in_array($status, ['new', 'ready', 'completed', 'cancelled']));
 
-    public function scopeCompleted(Builder $qry)
-    {
-        $qry->whereNotNull('completed_at');
-    }
-
-    public function scopeCancelled(Builder $qry)
-    {
-        $qry->whereNotNull('cancelled_at');
+        $qry->where('status', $status);
     }
 
     public function scopeFilter(Builder $qry, string $filter)

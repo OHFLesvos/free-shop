@@ -4,28 +4,15 @@ namespace App\Http\Livewire\Backend;
 
 use App\Models\Order;
 use App\Notifications\CustomerOrderCancelled;
-use Illuminate\Support\Collection;
+use App\Notifications\CustomerOrderReadyed;
 
 class OrderDetailPage extends BackendPage
 {
     public Order $order;
 
-    public Collection $relatedOrders;
-
     public bool $shouldCancel = false;
+    public bool $shouldReady = false;
     public bool $shouldComplete = false;
-
-    public function mount()
-    {
-        $this->relatedOrders = Order::query()
-            ->where('id', '!=', $this->order->id)
-            ->whereHas('customer', function ($cqry) {
-                $cqry->whereNumberCompare('id_number', $this->order->customer->id_number)
-                    ->orWhere(fn ($inner) => $inner->whereNumberCompare('phone', $this->order->customer->phone));
-            })
-            ->orderBy('created_at', 'desc')
-            ->get();
-    }
 
     protected function title()
     {
@@ -35,6 +22,18 @@ class OrderDetailPage extends BackendPage
     public function render()
     {
         return parent::view('livewire.backend.order-detail-page');
+    }
+
+    public function ready()
+    {
+        $this->order->status = 'ready';
+        $this->order->save();
+
+        $this->order->customer->notify(new CustomerOrderReadyed($this->order));
+
+        session()->flash('message', 'Order marked as ready.');
+
+        $this->shouldReady = false;
     }
 
     public function complete()
@@ -49,7 +48,7 @@ class OrderDetailPage extends BackendPage
             $product->save();
         }
 
-        $this->order->completed_at = now();
+        $this->order->status = 'completed';
         $this->order->save();
 
         session()->flash('message', 'Order completed.');
@@ -59,7 +58,7 @@ class OrderDetailPage extends BackendPage
 
     public function cancel()
     {
-        $this->order->cancelled_at = now();
+        $this->order->status = 'cancelled';
         $this->order->save();
 
         $this->order->customer->notify(new CustomerOrderCancelled($this->order));
