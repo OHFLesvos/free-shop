@@ -24,3 +24,14 @@ jobs:
         REMOTE_USER: ${{ secrets.REMOTE_USER }}
         SSH_PRIVATE_KEY: ${{ secrets.SERVER_SSH_KEY }}
         TARGET: ${{ secrets.REMOTE_TARGET }}
+    - name: Prepare on remote
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.REMOTE_HOST }}
+        port: ${{ secrets.REMOTE_PORT }}
+        username: ${{ secrets.REMOTE_USER }}
+        key: ${{ secrets.SERVER_SSH_KEY }}
+        script: |
+          whoami
+          cd ${{ secrets.REMOTE_TARGET }}
+          ls -al
