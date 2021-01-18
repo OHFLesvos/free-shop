@@ -39,7 +39,13 @@
             <caption>{{ $orders->total() }} orders found</caption>
             <thead>
                 <th>ID</th>
-                <th>Date</th>
+                <th>
+                    @if($status == 'open')
+                        Registered
+                    @else
+                        Updated
+                    @endif
+                </th>
                 <th>Customer</th>
                 <th>Products</th>
             </thead>
