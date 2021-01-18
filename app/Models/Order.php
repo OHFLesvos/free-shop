@@ -7,12 +7,14 @@ use Dyrynda\Database\Support\NullableFields;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use OwenIt\Auditing\Contracts\Auditable;
 
-class Order extends Model
+class Order extends Model implements Auditable
 {
     use HasFactory;
     use NullableFields;
     use NumberCompareScope;
+    use \OwenIt\Auditing\Auditable;
 
     protected $fillable = [
         'ip_address',
