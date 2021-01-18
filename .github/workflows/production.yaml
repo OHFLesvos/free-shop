@@ -42,4 +42,5 @@ jobs:
         script: |
           cd ${{ secrets.REMOTE_TARGET }}
           php artisan optimize
+          php artisan migrate --force
           php artisan up
