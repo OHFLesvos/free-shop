@@ -5,7 +5,7 @@ on:
     branches: [ production ]
 
 jobs:
-  prod-build:
+  deploy-to-prod:
     runs-on: ubuntu-latest
 
     steps:
