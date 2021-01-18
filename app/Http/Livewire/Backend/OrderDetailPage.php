@@ -4,28 +4,13 @@ namespace App\Http\Livewire\Backend;
 
 use App\Models\Order;
 use App\Notifications\CustomerOrderCancelled;
-use Illuminate\Support\Collection;
 
 class OrderDetailPage extends BackendPage
 {
     public Order $order;
 
-    public Collection $relatedOrders;
-
     public bool $shouldCancel = false;
     public bool $shouldComplete = false;
-
-    public function mount()
-    {
-        $this->relatedOrders = Order::query()
-            ->where('id', '!=', $this->order->id)
-            ->whereHas('customer', function ($cqry) {
-                $cqry->whereNumberCompare('id_number', $this->order->customer->id_number)
-                    ->orWhere(fn ($inner) => $inner->whereNumberCompare('phone', $this->order->customer->phone));
-            })
-            ->orderBy('created_at', 'desc')
-            ->get();
-    }
 
     protected function title()
     {
