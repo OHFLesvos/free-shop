@@ -13,16 +13,7 @@ jobs:
       uses: actions/checkout@v2
     - name: Install Dependencies
       run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist  --optimize-autoloader --no-dev
-    - name: Deploy to Server
-      uses: easingthemes/ssh-deploy@v2.1.5
-      env:
-        ARGS: "-rltgoDzvO --delete"
-        REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
-        REMOTE_PORT: ${{ secrets.REMOTE_PORT }}
-        REMOTE_USER: ${{ secrets.REMOTE_USER }}
-        SSH_PRIVATE_KEY: ${{ secrets.SERVER_SSH_KEY }}
-        TARGET: ${{ secrets.REMOTE_TARGET }}
-    - name: Prepare on remote
+    - name: Enable maintenance mode on remote
       uses: appleboy/ssh-action@master
       with:
         host: ${{ secrets.REMOTE_HOST }}
@@ -30,6 +21,25 @@ jobs:
         username: ${{ secrets.REMOTE_USER }}
         key: ${{ secrets.SERVER_SSH_KEY }}
         script: |
-          whoami
           cd ${{ secrets.REMOTE_TARGET }}
-          ls -al
+          [ -f .env ] && php artisan down
+    - name: Deploy to remote
+      uses: easingthemes/ssh-deploy@v2.1.5
+      env:
+        ARGS: "-rltgoDzvO --delete --exclude '.env' --exclude '.git'"
+        REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
+        REMOTE_PORT: ${{ secrets.REMOTE_PORT }}
+        REMOTE_USER: ${{ secrets.REMOTE_USER }}
+        SSH_PRIVATE_KEY: ${{ secrets.SERVER_SSH_KEY }}
+        TARGET: ${{ secrets.REMOTE_TARGET }}
+    - name: Publish on remote
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.REMOTE_HOST }}
+        port: ${{ secrets.REMOTE_PORT }}
+        username: ${{ secrets.REMOTE_USER }}
+        key: ${{ secrets.SERVER_SSH_KEY }}
+        script: |
+          cd ${{ secrets.REMOTE_TARGET }}
+          php artisan optimize
+          php artisan up
