@@ -54,6 +54,7 @@ class CustomerLoginPage extends Component
             'id_number' => $id_number,
             'phone' => $phone,
         ],[
+            'name' => '',
             'id_number' => $id_number,
             'phone' => $phone,
             'locale' => app()->getLocale(),
