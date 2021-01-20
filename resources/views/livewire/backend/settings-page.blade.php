@@ -95,9 +95,13 @@
                         id="welcome_text"
                         wire:model.defer="welcome_text"
                         rows="5"
-                        class="form-control @error('welcome_text') is-invalid @enderror">
+                        class="form-control @error('welcome_text') is-invalid @enderror"
+                        aria-describedby="welcome_text_help">
                     </textarea>
                     @error('welcome_text') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                    <small id="welcome_text_help" class="form-text text-muted">
+                        You can use <a href="https://commonmark.org/help/" target="_blank">Markdown syntax</a> to format the text.
+                    </small>
                 </div>
             </div>
         </div>

@@ -2,8 +2,9 @@
 
 namespace App\Http\Livewire;
 
-use Illuminate\Mail\Markdown;
 use Livewire\Component;
+
+use GrahamCampbell\Markdown\Facades\Markdown;
 
 class WelcomePage extends Component
 {
@@ -12,7 +13,7 @@ class WelcomePage extends Component
     public function mount()
     {
         if (setting()->has('welcome-text')) {
-            $this->content = Markdown::parse(setting()->get('welcome-text'));
+            $this->content = Markdown::convertToHtml(setting()->get('welcome-text'));
         }
     }
 
