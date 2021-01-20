@@ -2,13 +2,15 @@
 
 namespace App\Http\Livewire;
 
-use App\Facades\CurrentCustomer;
+use App\Models\Customer;
+use App\Services\CurrentCustomer;
 use Livewire\Component;
 use Propaganistas\LaravelPhone\Exceptions\NumberParseException;
 use Propaganistas\LaravelPhone\PhoneNumber;
 
 class CustomerAccountPage extends Component
 {
+    public Customer $customer;
     public string $customer_name = '';
     public string $customer_id_number = '';
     public string $customer_phone = '';
@@ -24,18 +26,19 @@ class CustomerAccountPage extends Component
         'customer_phone_country' => 'required_with:customer_phone',
     ];
 
-    public function mount()
+    public function mount(CurrentCustomer $currentCustomer)
     {
-        $customer = CurrentCustomer::get();
-        $this->customer_name = $customer->name;
-        $this->customer_id_number = $customer->id_number;
+        $this->customer = $currentCustomer->get();
+
+        $this->customer_name = $this->customer->name;
+        $this->customer_id_number = $this->customer->id_number;
         try {
-            $phone = PhoneNumber::make($customer->phone);
+            $phone = PhoneNumber::make($this->customer->phone);
             $this->customer_phone_country = $phone->getCountry();
             $this->customer_phone = $phone->formatNational();
         } catch (NumberParseException $ignored) {
             $this->customer_phone_country = '';
-            $this->customer_phone = $customer->phone;
+            $this->customer_phone = $this->customer->phone;
         }
     }
 
@@ -49,12 +52,11 @@ class CustomerAccountPage extends Component
     {
         $this->validate();
 
-        $customer = CurrentCustomer::get();
-        $customer->name = trim($this->customer_name);
-        $customer->id_number = trim($this->customer_id_number);
-        $customer->phone = PhoneNumber::make($this->customer_phone, $this->customer_phone_country)
+        $this->customer->name = trim($this->customer_name);
+        $this->customer->id_number = trim($this->customer_id_number);
+        $this->customer->phone = PhoneNumber::make($this->customer_phone, $this->customer_phone_country)
             ->formatE164();
-        $customer->save();
+        $this->customer->save();
 
         session()->flash('message', __('Customer profile saved.'));
     }
