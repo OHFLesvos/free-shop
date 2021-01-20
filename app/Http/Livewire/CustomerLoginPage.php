@@ -57,6 +57,7 @@ class CustomerLoginPage extends Component
             'id_number' => $id_number,
             'phone' => $phone,
             'locale' => app()->getLocale(),
+            'credit' => setting()->get('customer.starting_credit', config('shop.customer.starting_credit')),
         ]);
 
         $name = trim($this->customer_name);

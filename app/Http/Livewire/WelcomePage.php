@@ -12,8 +12,8 @@ class WelcomePage extends Component
 
     public function mount()
     {
-        if (setting()->has('welcome-text')) {
-            $this->content = Markdown::convertToHtml(setting()->get('welcome-text'));
+        if (setting()->has('content.welcome_text')) {
+            $this->content = Markdown::convertToHtml(setting()->get('content.welcome_text'));
         }
     }
 

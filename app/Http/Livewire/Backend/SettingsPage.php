@@ -9,7 +9,8 @@ class SettingsPage extends BackendPage
     public Collection $geoblockWhitelist;
     public string $orderDefaultPhoneCountry;
     public string $timezone;
-    public string $welcome_text;
+    public string $welcomeText;
+    public $customerStartingCredit;
 
     public ?string $selectedCountry = null;
 
@@ -18,7 +19,8 @@ class SettingsPage extends BackendPage
         $this->geoblockWhitelist = collect(setting()->get('geoblock.whitelist', []));
         $this->orderDefaultPhoneCountry = setting()->get('order.default_phone_country', '');
         $this->timezone = setting()->get('timezone', '');
-        $this->welcome_text = setting()->get('welcome-text', '');
+        $this->welcomeText = setting()->get('content.welcome_text', '');
+        $this->customerStartingCredit = setting()->get('customer.starting_credit', config('shop.customer.starting_credit'));
     }
 
     protected $title = 'Settings';
@@ -61,10 +63,16 @@ class SettingsPage extends BackendPage
             setting()->forget('timezone');
         }
 
-        if (filled($this->welcome_text)) {
-            setting()->set('welcome-text', $this->welcome_text);
+        if (filled($this->welcomeText)) {
+            setting()->set('content.welcome_text', $this->welcomeText);
         } else {
-            setting()->forget('welcome-text');
+            setting()->forget('content.welcome_text');
+        }
+
+        if (is_numeric($this->customerStartingCredit) && $this->customerStartingCredit >= 0) {
+            setting()->set('customer.starting_credit', $this->customerStartingCredit);
+        } else {
+            setting()->forget('customer.starting_credit');
         }
 
         session()->flash('message', 'Settings saved.');
