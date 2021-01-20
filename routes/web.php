@@ -19,6 +19,7 @@ use App\Http\Livewire\CustomerAccountPage;
 use App\Http\Livewire\CustomerLoginPage;
 use App\Http\Livewire\OrderLookupPage;
 use App\Http\Livewire\ShopFrontPage;
+use App\Http\Livewire\WelcomePage;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -36,7 +37,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware(['geoblock.whitelist', 'set-language'])
     ->group(function () {
-        Route::redirect('/', 'shop')
+        Route::get('/', WelcomePage::class)
             ->name('home');
         Route::get('shop', ShopFrontPage::class)
             ->name('shop-front');

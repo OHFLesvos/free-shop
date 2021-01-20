@@ -85,6 +85,23 @@
                 </div>
             </div>
         </div>
+
+        <div class="card shadow-sm mb-4">
+            <div class="card-header">Content</div>
+            <div class="card-body pb-1">
+                <div class="form-group">
+                    <label for="welcome_text" class="d-block">Welcome page text:</label>
+                    <textarea
+                        id="welcome_text"
+                        wire:model.defer="welcome_text"
+                        rows="5"
+                        class="form-control @error('welcome_text') is-invalid @enderror">
+                    </textarea>
+                    @error('welcome_text') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                </div>
+            </div>
+        </div>
+
         <p class="text-right">
             <button
                 type="submit"

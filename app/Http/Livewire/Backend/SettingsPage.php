@@ -9,6 +9,7 @@ class SettingsPage extends BackendPage
     public Collection $geoblockWhitelist;
     public string $orderDefaultPhoneCountry;
     public string $timezone;
+    public string $welcome_text;
 
     public ?string $selectedCountry = null;
 
@@ -17,6 +18,7 @@ class SettingsPage extends BackendPage
         $this->geoblockWhitelist = collect(setting()->get('geoblock.whitelist', []));
         $this->orderDefaultPhoneCountry = setting()->get('order.default_phone_country', '');
         $this->timezone = setting()->get('timezone', '');
+        $this->welcome_text = setting()->get('welcome-text', '');
     }
 
     protected $title = 'Settings';
@@ -57,6 +59,12 @@ class SettingsPage extends BackendPage
             setting()->set('timezone', $this->timezone);
         } else {
             setting()->forget('timezone');
+        }
+
+        if (filled($this->welcome_text)) {
+            setting()->set('welcome-text', $this->welcome_text);
+        } else {
+            setting()->forget('welcome-text');
         }
 
         session()->flash('message', 'Settings saved.');
