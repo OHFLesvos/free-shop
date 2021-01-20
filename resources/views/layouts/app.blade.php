@@ -32,16 +32,18 @@ $items = [
                         @endforeach
                     </ul>
                     <ul class="navbar-nav">
+                        {{-- Language chooser --}}
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 @lang('Switch language')
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                                 @foreach(config('app.supported_languages') as $key => $val)
-                                    <a class="dropdown-item" href="{{ route('languages.change', $key) }}">{{ $val }}</a>
+                                    <a class="dropdown-item" href="{{ route('languages.change', $key) }}">@if(session()->get('lang') == $key)<strong>{{ $val }}</strong>@else{{ $val }}@endif</a>
                                 @endforeach
                             </div>
                         </li>
+                        {{-- Backend --}}
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('login') }}">@lang('Backend')</a>
                         </li>

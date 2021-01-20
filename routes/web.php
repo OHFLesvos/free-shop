@@ -33,17 +33,8 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware(['geoblock.whitelist', 'set-language'])
     ->group(function () {
-        Route::get('/', function() {
-                if (! session()->has('lang')) {
-                    return redirect()->route('languages');
-                }
-                return redirect()->route('shop-front');
-            })
+        Route::redirect('/', 'shop')
             ->name('home');
-        Route::get('languages', [LanguageSelectController::class, 'index'])
-            ->name('languages');
-        Route::get('languages/{lang}', [LanguageSelectController::class, 'change'])
-            ->name('languages.change');
         Route::get('shop', ShopFrontPage::class)
             ->name('shop-front');
         Route::get('checkout', CheckoutPage::class)
@@ -51,6 +42,11 @@ Route::middleware(['geoblock.whitelist', 'set-language'])
         Route::get('order-lookup', OrderLookupPage::class)
             ->name('order-lookup');
     });
+
+Route::get('languages', [LanguageSelectController::class, 'index'])
+    ->name('languages');
+Route::get('languages/{lang}', [LanguageSelectController::class, 'change'])
+    ->name('languages.change');
 
 Route::view('login', 'login')
     ->name('login')
