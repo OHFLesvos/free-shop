@@ -1,5 +1,6 @@
 <?php
 
+use App\Facades\CurrentCustomer;
 use App\Http\Controllers\LanguageSelectController;
 use App\Http\Controllers\SocialLoginController;
 use App\Http\Livewire\Backend\CustomerDetailPage;
@@ -14,6 +15,8 @@ use App\Http\Livewire\Backend\SettingsPage;
 use App\Http\Livewire\Backend\UserListPage;
 use App\Http\Livewire\Backend\UserProfilePage;
 use App\Http\Livewire\CheckoutPage;
+use App\Http\Livewire\CustomerAccountPage;
+use App\Http\Livewire\CustomerLoginPage;
 use App\Http\Livewire\OrderLookupPage;
 use App\Http\Livewire\ShopFrontPage;
 use Illuminate\Support\Facades\App;
@@ -41,6 +44,15 @@ Route::middleware(['geoblock.whitelist', 'set-language'])
             ->name('checkout');
         Route::get('order-lookup', OrderLookupPage::class)
             ->name('order-lookup');
+        Route::get('customer/login', CustomerLoginPage::class)
+            ->name('customer.login');
+        Route::get('customer/account', CustomerAccountPage::class)
+            ->name('customer.account');
+        Route::get('customer/logout', function () {
+                CurrentCustomer::forget();
+                return redirect()->route('home');
+            })
+            ->name('customer.logout');
     });
 
 Route::get('languages', [LanguageSelectController::class, 'index'])

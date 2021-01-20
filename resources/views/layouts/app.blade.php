@@ -32,6 +32,16 @@ $items = [
                         @endforeach
                     </ul>
                     <ul class="navbar-nav">
+                        {{-- Customer --}}
+                        @if(CurrentCustomer::exists())
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('customer.account') }}">{{ CurrentCustomer::get()->name }}</a>
+                            </li>
+                        @else
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('customer.login') }}">@lang('Customer Login')</a>
+                            </li>
+                        @endif
                         {{-- Language chooser --}}
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
