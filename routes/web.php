@@ -39,21 +39,24 @@ Route::middleware(['geoblock.whitelist', 'set-language'])
     ->group(function () {
         Route::get('/', WelcomePage::class)
             ->name('home');
-        Route::get('shop', ShopFrontPage::class)
-            ->name('shop-front');
-        Route::get('checkout', CheckoutPage::class)
-            ->name('checkout');
-        Route::get('order-lookup', OrderLookupPage::class)
-            ->name('order-lookup');
         Route::get('customer/login', CustomerLoginPage::class)
             ->name('customer.login');
-        Route::get('customer/account', CustomerAccountPage::class)
-            ->name('customer.account');
-        Route::get('customer/logout', function () {
-                CurrentCustomer::forget();
-                return redirect()->route('home');
-            })
-            ->name('customer.logout');
+        Route::middleware('auth-customer')
+            ->group(function () {
+                Route::get('shop', ShopFrontPage::class)
+                    ->name('shop-front');
+                Route::get('checkout', CheckoutPage::class)
+                    ->name('checkout');
+                Route::get('order-lookup', OrderLookupPage::class)
+                    ->name('order-lookup');
+                Route::get('customer/account', CustomerAccountPage::class)
+                    ->name('customer.account');
+                Route::get('customer/logout', function () {
+                    CurrentCustomer::forget();
+                    return redirect()->route('home');
+                })
+                    ->name('customer.logout');
+            });
     });
 
 Route::get('languages', [LanguageSelectController::class, 'index'])
@@ -68,10 +71,10 @@ Route::get('login/google', [SocialLoginController::class, 'redirectToGoogle'])
     ->name('login.google');
 Route::get('login/google/callback', [SocialLoginController::class, 'processGoogleCallback'])
     ->name('login.google.callback');
-Route::post('logout', function() {
-        return redirect('/')
-            ->with(Auth::logout());
-    })
+Route::post('logout', function () {
+    return redirect('/')
+        ->with(Auth::logout());
+})
     ->name('logout');
 
 Route::middleware('auth')

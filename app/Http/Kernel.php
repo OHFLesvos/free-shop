@@ -2,6 +2,7 @@
 
 namespace App\Http;
 
+use App\Http\Middleware\AuthCustomer;
 use App\Http\Middleware\GeoBlockWhitelist;
 use App\Http\Middleware\SetLanguage;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
@@ -68,5 +69,6 @@ class Kernel extends HttpKernel
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'geoblock.whitelist' => GeoBlockWhitelist::class,
         'set-language' => SetLanguage::class,
+        'auth-customer' => AuthCustomer::class,
     ];
 }

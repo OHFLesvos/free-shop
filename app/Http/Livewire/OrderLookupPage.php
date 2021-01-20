@@ -4,63 +4,25 @@ namespace App\Http\Livewire;
 
 use App\Models\Customer;
 use App\Models\Order;
+use App\Services\CurrentCustomer;
 use Livewire\Component;
 
 class OrderLookupPage extends Component
 {
-    public string $id_number = '';
-    public string $phone = '';
-    public $results = null;
+    public Customer $customer;
 
-    protected $queryString = [
-        'id_number' => ['except' => ''],
-        'phone' => ['except' => ''],
-    ];
-
-    protected $rules = [
-        'id_number' => 'required',
-        'phone' => [
-            'required',
-            'phone:AUTO'
-        ],
-    ];
-
-    protected $validationAttributes = [
-        'id_number' => 'ID number',
-        'phone' => 'phone number',
-    ];
-
-    public function mount()
+    public function mount(CurrentCustomer $currentCustomer)
     {
-        if (filled($this->id_number) && filled($this->phone)) {
-            $this->results = $this->search($this->id_number, $this->phone);
-        }
+        $this->customer = $currentCustomer->get();
     }
 
     public function render()
     {
-        return view('livewire.order-lookup-page')
+        return view('livewire.order-lookup-page', [
+            'orders' => $this->customer->orders()
+                ->orderBy('created_at', 'desc')
+                ->get(),
+        ])
             ->layout(null, ['title' => __('Find your order')]);
-    }
-
-    public function submit()
-    {
-        $this->validate();
-
-        $this->results = $this->search($this->id_number, $this->phone);
-    }
-
-    private function search($id_number, $phone)
-    {
-        $customer = Customer::query()
-            ->whereNumberCompare('id_number', $id_number)
-            ->whereNumberCompare('phone', $phone)
-            ->first();
-        if ($customer != null) {
-            return $customer->orders()
-            ->orderBy('created_at', 'desc')
-            ->get();
-        }
-        return null;
     }
 }

@@ -9,6 +9,8 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
+use Propaganistas\LaravelPhone\Exceptions\NumberParseException;
+use Propaganistas\LaravelPhone\PhoneNumber;
 
 class Customer extends Model implements HasLocalePreference
 {
@@ -59,5 +61,17 @@ class Customer extends Model implements HasLocalePreference
     public function preferredLocale()
     {
         return $this->locale;
+    }
+
+    public function getPhoneFormattedInternationalAttribute()
+    {
+        if ($this->phone !== null) {
+            try {
+                return PhoneNumber::make($this->phone)->formatInternational();
+            } catch (NumberParseException $ignored) {
+                return $this->phone;
+            }
+        }
+        return null;
     }
 }

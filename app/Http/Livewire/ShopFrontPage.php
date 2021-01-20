@@ -2,7 +2,9 @@
 
 namespace App\Http\Livewire;
 
+use App\Models\Customer;
 use App\Models\Product;
+use App\Services\CurrentCustomer;
 use App\Support\ShoppingBasket;
 use Illuminate\Support\Collection;
 use Livewire\Component;
@@ -12,13 +14,16 @@ class ShopFrontPage extends Component
     public Collection $products;
     public Collection $categories;
     public ?string $category = null;
+    public Customer $customer;
 
     protected $queryString = [
         'category' => ['except' => ''],
     ];
 
-    public function mount()
+    public function mount(CurrentCustomer $currentCustomer)
     {
+        $this->customer = $currentCustomer->get();
+
         $this->products = Product::query()
             ->available()
             ->get()

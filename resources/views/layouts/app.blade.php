@@ -5,7 +5,7 @@ $items = [
         'route' => 'shop-front',
     ],
     [
-        'label' => __('Find your order'),
+        'label' => __('Your orders'),
         'route' => 'order-lookup',
     ],
 ];
