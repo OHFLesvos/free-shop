@@ -1,5 +1,17 @@
 # Free Shop App
 
+Run:
+
+    composer install
+    npm install
+
+Copy .evn.example to .env and change database parameters.
+
+Run:
+
+    php artisan key:generate
+    php artisan migrate
+    php artisan db:seed
 
 ## Export language strings
 
