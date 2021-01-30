@@ -1,5 +1,7 @@
 # Free Shop App
 
+## Installation
+
 Run:
 
     composer install
