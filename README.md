@@ -32,7 +32,7 @@ Install PHP package dependencies:
 
     composer install
 
-Copy .env.example to .env and change database parameters.
+Copy `.env.example` to `.env` and change database parameters and any other parameters according to your web setup.
 
 Generate encryption key:
 
