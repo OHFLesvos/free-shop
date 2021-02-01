@@ -28,20 +28,25 @@ This is a web-shop application based on [Laravel](https://laravel.com/), a popul
 
 ## Installation
 
-Run:
+Install PHP package dependencies:
 
     composer install
-    npm install
 
-Copy .evn.example to .env and change database parameters.
+Copy .env.example to .env and change database parameters.
 
-Run:
+Generate encryption key:
 
     php artisan key:generate
+
+Create/migrate database tables:
+
     php artisan migrate
+
+Seed the database with random entries (for development):
+
     php artisan db:seed
 
-## Export language strings
+## Export language strings from code
 
 Export translatable strings for any language (for example French = fr):
 
