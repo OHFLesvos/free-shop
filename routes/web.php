@@ -2,6 +2,7 @@
 
 use App\Facades\CurrentCustomer;
 use App\Http\Controllers\LanguageSelectController;
+use App\Http\Controllers\LoginController;
 use App\Http\Controllers\SocialLoginController;
 use App\Http\Livewire\Backend\CustomerDetailPage;
 use App\Http\Livewire\Backend\CustomerListPage;
@@ -64,18 +65,19 @@ Route::get('languages', [LanguageSelectController::class, 'index'])
 Route::get('languages/{lang}', [LanguageSelectController::class, 'change'])
     ->name('languages.change');
 
-Route::view('login', 'login')
-    ->name('login')
-    ->middleware('guest');
-Route::get('login/google', [SocialLoginController::class, 'redirectToGoogle'])
-    ->name('login.google');
-Route::get('login/google/callback', [SocialLoginController::class, 'processGoogleCallback'])
-    ->name('login.google.callback');
-Route::post('logout', function () {
-    return redirect('/')
-        ->with(Auth::logout());
-})
-    ->name('logout');
+Route::prefix('backend')
+    ->name('backend.')
+    ->group(function () {
+        Route::get('login', [LoginController::class, 'login'])
+            ->name('login')
+            ->middleware('guest');
+        Route::get('login/google', [SocialLoginController::class, 'redirectToGoogle'])
+            ->name('login.google');
+        Route::get('login/google/callback', [SocialLoginController::class, 'processGoogleCallback'])
+            ->name('login.google.callback');
+        Route::post('logout', [LoginController::class, 'logout'])
+            ->name('logout');
+});
 
 Route::middleware('auth')
     ->group(function () {

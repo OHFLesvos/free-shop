@@ -49,7 +49,7 @@
                 or
             </p> --}}
             <p class="text-center">
-                <a href="{{ route('login.google') }}" class="btn btn-primary">
+                <a href="{{ route('backend.login.google') }}" class="btn btn-primary">
                     <x-icon type="brands" icon="google"/>
                     Sign in with Google
                     @if(config('services.google.organization_domain') != null)

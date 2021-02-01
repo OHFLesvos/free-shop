@@ -53,10 +53,6 @@ $items = [
                                 @endforeach
                             </div>
                         </li>
-                        {{-- Backend --}}
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ route('login') }}">@lang('Backend')</a>
-                        </li>
                     </ul>
                 </div>
             </div>

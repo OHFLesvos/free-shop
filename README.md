@@ -17,15 +17,6 @@ This is a web-shop application based on [Laravel](https://laravel.com/), a popul
 * Composer
 * MySQL, MariaDB or PostgreSQL database
 
-## Recommended software for development
-
-* [Visual Studio Code](https://code.visualstudio.com/)
-* [Git](https://git-scm.com/)
-* [GitHub Desktop](https://desktop.github.com/)
-* [XAMPP (on Windows)](https://www.apachefriends.org/)
-* [Composer](https://getcomposer.org/)
-* [NodeJS/NPM](https://nodejs.org/)
-
 ## Installation
 
 Install PHP package dependencies:
@@ -46,6 +37,18 @@ Seed the database with random entries (for development):
 
     php artisan db:seed
 
+## Setup backend access
+
+Backend login relies on Google OAuth. Create API credentials according to the following guide:
+
+https://developers.google.com/identity/sign-in/web/sign-in
+
+to obtain the cliend ID and client secret values.
+
+Update the `GOOGLE_*` variables in `.env` accordingly.
+
+Access the backend via http://your-site.com/backend
+
 ## Export language strings from code
 
 Export translatable strings for any language (for example French = fr):
@@ -55,3 +58,12 @@ Export translatable strings for any language (for example French = fr):
 Find untranslated strings in a language file:
 
     php artisan translatable:inspect-translations fr
+
+## Recommended software for development
+
+* [Visual Studio Code](https://code.visualstudio.com/)
+* [Git](https://git-scm.com/)
+* [GitHub Desktop](https://desktop.github.com/)
+* [XAMPP (on Windows)](https://www.apachefriends.org/)
+* [Composer](https://getcomposer.org/)
+* [NodeJS/NPM](https://nodejs.org/)

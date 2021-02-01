@@ -32,7 +32,8 @@ class SocialLoginController extends Controller
         try {
             $socialUser = Socialite::driver('google')->user();
         } catch (InvalidStateException $exception) {
-            return redirect()->route('login')
+            return redirect()
+                ->route('backend.login')
                 ->withErrors([
                     'email' => [
                         'Google Login failed, please try again.',
@@ -42,7 +43,8 @@ class SocialLoginController extends Controller
 
         $orgDomain = $this->organizationDomain();
         if ($orgDomain != null && ! Str::endsWith($socialUser->getEmail(), $orgDomain)) {
-            return redirect()->route('login')
+            return redirect()
+                ->route('backend.login')
                 ->withErrors([
                     'email' => [
                         sprintf('Only %s email addresses are accepted.', $orgDomain),
