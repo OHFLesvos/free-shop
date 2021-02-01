@@ -1,5 +1,7 @@
 # Free Shop App
 
+This is a web-shop application based on [Laravel](https://laravel.com/), a popular PHP framework.
+
 ## Requirements
 
 * PHP >= 7.4
@@ -14,7 +16,15 @@
   * XML PHP Extension
 * Composer
 * MySQL, MariaDB or PostgreSQL database
-* NodeJS/NPM (for development)
+
+## Recommended software for development
+
+* [Visual Studio Code](https://code.visualstudio.com/)
+* [Git](https://git-scm.com/)
+* [GitHub Desktop](https://desktop.github.com/)
+* [XAMPP (on Windows)](https://www.apachefriends.org/)
+* [Composer](https://getcomposer.org/)
+* [NodeJS/NPM](https://nodejs.org/)
 
 ## Installation
 
