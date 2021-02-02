@@ -3,10 +3,12 @@ $items = [
     [
         'label' => __('Shop'),
         'route' => 'shop-front',
+        'icon' => 'shopping-bag',
     ],
     [
         'label' => __('Your orders'),
         'route' => 'order-lookup',
+        'icon' => 'list-alt',
     ],
 ];
 @endphp
@@ -27,24 +29,18 @@ $items = [
                                 $active = Str::of(Request::route()->getName())->startsWith($item['route']);
                             @endphp
                             <li class="nav-item @if($active) active @endif">
-                                <a class="nav-link" href="{{ route($item['route']) }}">{{ $item['label'] }}@if($active)<span class="sr-only">(current)</span>@endif</a>
+                                <a class="nav-link" href="{{ route($item['route']) }}">
+                                    @isset($item['icon'])<x-icon :icon="$item['icon']"/>@endisset
+                                    {{ $item['label'] }}@if($active)<span class="sr-only">(current)</span>@endif
+                                </a>
                             </li>
                         @endforeach
                     </ul>
                     <ul class="navbar-nav">
-                        {{-- Customer --}}
-                        @if(CurrentCustomer::exists())
-                            <li class="nav-item">
-                                <a class="nav-link" href="{{ route('customer.account') }}">{{ CurrentCustomer::get()->name }}</a>
-                            </li>
-                        @else
-                            <li class="nav-item">
-                                <a class="nav-link" href="{{ route('customer.login') }}">@lang('Customer Login')</a>
-                            </li>
-                        @endif
                         {{-- Language chooser --}}
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <x-icon icon="language"/>
                                 @lang('Switch language')
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
@@ -53,6 +49,15 @@ $items = [
                                 @endforeach
                             </div>
                         </li>
+                        {{-- Customer --}}
+                        @if(CurrentCustomer::exists())
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('customer.account') }}">
+                                    <x-icon icon="id-card"/>
+                                    {{ CurrentCustomer::get()->name }}
+                                </a>
+                            </li>
+                        @endif
                     </ul>
                 </div>
             </div>

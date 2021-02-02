@@ -6,11 +6,8 @@
 * Change price label (TBD)
 * change grey add to not available
 * show limit in interface / limit reacher
-* Translations with community volunteers
-* order items
+* add order field for items
 * contact form / ticket system
 * number of orders per day allowance
 * stop shop
 * id number format
-
-
