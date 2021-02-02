@@ -14,9 +14,12 @@ class ShopFrontPage extends Component
     public Collection $products;
     public Collection $categories;
     public Customer $customer;
+    public bool $shopDisabled;
 
     public function mount(CurrentCustomer $currentCustomer)
     {
+        $this->shopDisabled = setting()->has('shop.disabled');
+
         $this->customer = $currentCustomer->get();
 
         $this->products = Product::query()

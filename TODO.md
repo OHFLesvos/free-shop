@@ -8,5 +8,4 @@
 * show limit in interface / limit reacher
 * contact form / ticket system
 * number of orders per day allowance
-* stop shop
 * id number format

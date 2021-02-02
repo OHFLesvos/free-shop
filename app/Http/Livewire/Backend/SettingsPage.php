@@ -11,11 +11,13 @@ class SettingsPage extends BackendPage
     public string $timezone;
     public string $welcomeText;
     public $customerStartingCredit;
+    public bool $shopDisabled;
 
     public ?string $selectedCountry = null;
 
     public function mount()
     {
+        $this->shopDisabled = setting()->has('shop.disabled');
         $this->geoblockWhitelist = collect(setting()->get('geoblock.whitelist', []));
         $this->orderDefaultPhoneCountry = setting()->get('order.default_phone_country', '');
         $this->timezone = setting()->get('timezone', '');
@@ -45,6 +47,12 @@ class SettingsPage extends BackendPage
 
     public function submit()
     {
+        if ($this->shopDisabled) {
+            setting()->set('shop.disabled', true);
+        } else {
+            setting()->forget('shop.disabled');
+        }
+
         if ($this->geoblockWhitelist->isNotEmpty()) {
             setting()->set('geoblock.whitelist', $this->geoblockWhitelist->toArray());
         } else {

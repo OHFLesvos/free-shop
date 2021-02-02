@@ -9,10 +9,52 @@ $countries = collect(Countries::getList());
     <form wire:submit.prevent="submit" class="mb-4" autocomplete="off">
 
         <div class="card shadow-sm mb-4">
+            <div class="card-header">General settings</div>
+            <div class="card-body pb-1">
+                <div class="row">
+                    <div class="col-sm">
+                        <div class="form-group">
+                            <label for="timezone" class="d-block">Default timezone:</label>
+                            <select id="timezone" wire:model.defer="timezone"
+                                class="custom-select @error('timezone') is-invalid @enderror" style="max-width: 20em;">
+                                <option value="">- Default timezone -</option>
+                                @foreach (listTimezones() as $value => $label)
+                                    <option value="{{ $value }}">{{ $label }}</option>
+                                @endforeach
+                            </select>
+                            @error('timezone') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card shadow-sm mb-4">
+            <div class="card-header">Shop</div>
+            <div class="card-body pb-1">
+                <div class="row">
+                    <div class="col-sm">
+                        <div class="custom-control custom-checkbox mb-3">
+                            <input
+                                type="checkbox"
+                                class="custom-control-input"
+                                id="shopDisabledInput"
+                                value="1"
+                                wire:model.defer="shopDisabled">
+                            <label class="custom-control-label" for="shopDisabledInput">Disable shop</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card shadow-sm mb-4">
             <div class="card-header">Geoblock Whitelist</div>
             <div class="card-body">
-                <p class="card-text">Select countries from which clients are able to access the shop. If left empty, all
-                    countries are allowed.</p>
+                <p class="card-text">Select countries from which clients are able to access the shop.
+                    If left empty, all countries are allowed.<br>
+                    Your current country is <em>{{ geoip()->getLocation()['country'] }}</em>.
+                </p>
                 @php
                 $list = $countries->filter(fn ($val, $key) => $geoblockWhitelist->contains($key))
                 @endphp
@@ -66,17 +108,6 @@ $countries = collect(Countries::getList());
                             </select>
                             @error('orderDefaultPhoneCountry') <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
-                        </div>
-                        <div class="form-group">
-                            <label for="timezone" class="d-block">Default timezone:</label>
-                            <select id="timezone" wire:model.defer="timezone"
-                                class="custom-select @error('timezone') is-invalid @enderror" style="max-width: 20em;">
-                                <option value="">- Default timezone -</option>
-                                @foreach (listTimezones() as $value => $label)
-                                    <option value="{{ $value }}">{{ $label }}</option>
-                                @endforeach
-                            </select>
-                            @error('timezone') <div class="invalid-feedback">{{ $message }}</div> @enderror
                         </div>
                     </div>
                     <div class="col-sm">
