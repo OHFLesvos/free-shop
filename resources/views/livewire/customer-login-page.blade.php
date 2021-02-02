@@ -87,3 +87,11 @@
         </div>
     </form>
 </div>
+
+@push('scripts')
+<script>
+    Livewire.on('nameRequired', () => {
+        document.getElementById('inputCustomerName').focus();
+    })
+</script>
+@endpush

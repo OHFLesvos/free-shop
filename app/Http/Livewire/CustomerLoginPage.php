@@ -64,6 +64,7 @@ class CustomerLoginPage extends Component
         $name = trim($this->customer_name);
         if (blank($customer->name) && blank($name)) {
             $this->request_name = true;
+            $this->emit('nameRequired');
             return;
         }
         if (filled($name)) {
