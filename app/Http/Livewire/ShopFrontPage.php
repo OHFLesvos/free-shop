@@ -21,9 +21,10 @@ class ShopFrontPage extends Component
 
         $this->products = Product::query()
             ->available()
+            ->orderBy('sequence')
+            ->orderBy('name')
             ->get()
-            ->filter(fn ($product) => $product->quantity_available_for_customer > 0)
-            ->sortBy('name');
+            ->filter(fn ($product) => $product->quantity_available_for_customer > 0);
 
         $this->categories = $this->products->values()
             ->sortBy('category')

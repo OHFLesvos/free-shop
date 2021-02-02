@@ -29,6 +29,11 @@ class ProductManagePage extends BackendPage
             'category.*' => 'nullable',
             'category.' . $defaultLocale => 'required',
             'description.*' => 'nullable',
+            'product.sequence' => [
+                'required',
+                'integer',
+                'min:0',
+            ],
             'product.stock' => [
                 'required',
                 'integer',
