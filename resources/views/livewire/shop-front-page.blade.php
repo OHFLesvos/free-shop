@@ -1,19 +1,21 @@
 <div>
-    <p>@lang('Please place an order from our selection of items:')</p>
+    @if($products->isNotEmpty())
+        <p>@lang('Please place an order from our selection of items:')</p>
+    @endif
     @if($basket->isNotEmpty())
-    <p class="text-right d-md-none">
-        <a href="{{ route('checkout') }}"
-            class="btn btn-primary btn-block">
-            @lang('Go to checkout')
-        </a>
-    </p>
+        <p class="text-right d-md-none">
+            <a href="{{ route('checkout') }}"
+                class="btn btn-primary btn-block">
+                @lang('Go to checkout')
+            </a>
+        </p>
     @endif
     @if($products->isNotEmpty())
         <div class="row">
             <div class="col-md">
-                @isset($category)
-                    <h4>{{ $category }}</h4>
+                @foreach($categories as $category)
                     @if($products->where('category', $category)->isNotEmpty())
+                        <h4>{{ $category }}</h4>
                         <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3">
                             @foreach($products->where('category', $category) as $product)
                                 <div class="col mb-4">
@@ -50,31 +52,8 @@
                                 </div>
                             @endforeach
                         </div>
-                    @else
-                        <x-alert type="info">@lang('There are no products in this category.')</x-alert>
                     @endif
-                    <p>
-                        <button
-                            class="btn btn-outline-primary"
-                            wire:click="$set('category', null)">
-                            @lang('Show all categories')
-                        </button>
-                    </p>
-                @else
-                    <div class="row">
-                        @foreach($categories as $category)
-                            <div class="col-sm-6 col-lg-4 mb-3">
-                                <button
-                                    class="btn btn-lg btn-outline-primary btn-block"
-                                    wire:click="$set('category', '{{ $category }}')">
-                                    {{ $category }}
-                                </button>
-                            </div>
-                        @endforeach
-                    </div>
-                @endunless
-
-
+                @endforeach
             </div>
             <div class="col-md-4">
                 <div class="card shadow-sm sticky mb-4">
