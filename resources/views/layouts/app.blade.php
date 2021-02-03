@@ -14,9 +14,9 @@ $items = [
 $rtl = in_array(app()->getLocale(), config('app.rtl_languages', []));
 @endphp
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" @if($rtl) dir="rtl" @endif>
     @include('layouts.includes.head')
-    <body class="bg-light @if($rtl) rtl @endif">
+    <body class="bg-light">
         <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm mb-4">
             <div class="container container-narrow">
                 <a class="navbar-brand" href="{{ route('home') }}">{{ config('app.name') }}</a>
