@@ -7,5 +7,4 @@
 * change grey add to not available
 * show limit in interface / limit reacher
 * contact form / ticket system
-* number of orders per day allowance
 * id number format

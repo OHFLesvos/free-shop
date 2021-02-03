@@ -3,6 +3,7 @@
 namespace App\Http\Livewire\Backend;
 
 use Illuminate\Support\Collection;
+use megastruktur\PhoneCountryCodes;
 
 class SettingsPage extends BackendPage
 {
@@ -12,6 +13,8 @@ class SettingsPage extends BackendPage
     public string $welcomeText;
     public $customerStartingCredit;
     public bool $shopDisabled;
+    public array $phoneContryCodes;
+    public $shopMaxOrdersPerDay;
 
     public ?string $selectedCountry = null;
 
@@ -23,6 +26,9 @@ class SettingsPage extends BackendPage
         $this->timezone = setting()->get('timezone', '');
         $this->welcomeText = setting()->get('content.welcome_text', '');
         $this->customerStartingCredit = setting()->get('customer.starting_credit', config('shop.customer.starting_credit'));
+        $this->shopMaxOrdersPerDay = setting()->get('shop.max_orders_per_day', '');
+
+        $this->phoneContryCodes = PhoneCountryCodes::getCodesList();
     }
 
     protected $title = 'Settings';
@@ -81,6 +87,12 @@ class SettingsPage extends BackendPage
             setting()->set('customer.starting_credit', $this->customerStartingCredit);
         } else {
             setting()->forget('customer.starting_credit');
+        }
+
+        if (filled($this->shopMaxOrdersPerDay) && is_numeric($this->shopMaxOrdersPerDay) && $this->shopMaxOrdersPerDay > 0) {
+            setting()->set('shop.max_orders_per_day', $this->shopMaxOrdersPerDay);
+        } else {
+            setting()->forget('shop.max_orders_per_day');
         }
 
         session()->flash('message', 'Settings saved.');

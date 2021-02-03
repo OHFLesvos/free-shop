@@ -3,6 +3,7 @@
 namespace App\Http\Livewire;
 
 use App\Models\Customer;
+use App\Models\Order;
 use App\Models\Product;
 use App\Services\CurrentCustomer;
 use App\Support\ShoppingBasket;
@@ -15,10 +16,20 @@ class ShopFrontPage extends Component
     public Collection $categories;
     public Customer $customer;
     public bool $shopDisabled;
+    public bool $maxOrdersReached = false;
 
     public function mount(CurrentCustomer $currentCustomer)
     {
         $this->shopDisabled = setting()->has('shop.disabled');
+
+        if (setting()->has('shop.max_orders_per_day') && setting()->get('shop.max_orders_per_day') > 0) {
+            $currentOrderCount = Order::whereDate('created_at', today())
+                ->where('status', '!=', 'cancelled')
+                ->count();
+            if (setting()->get('shop.max_orders_per_day') <= $currentOrderCount) {
+                $this->maxOrdersReached = true;
+            }
+        }
 
         $this->customer = $currentCustomer->get();
 
