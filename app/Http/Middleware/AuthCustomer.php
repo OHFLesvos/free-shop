@@ -2,11 +2,19 @@
 
 namespace App\Http\Middleware;
 
+use App\Services\CurrentCustomer;
 use Closure;
 use Illuminate\Http\Request;
 
-class SetLanguage
+class AuthCustomer
 {
+    private CurrentCustomer $currentCustomer;
+
+    public function __construct(CurrentCustomer $currentCustomer)
+    {
+        $this->currentCustomer = $currentCustomer;
+    }
+
     /**
      * Handle an incoming request.
      *
@@ -16,13 +24,8 @@ class SetLanguage
      */
     public function handle(Request $request, Closure $next)
     {
-        $lang = $request->input('lang', session()->get('lang'));
-        if ($lang !== null && isset(config('app.supported_languages')[$lang])) {
-            app()->setLocale($lang);
-            session()->put('lang', $lang);
-        }
-        if (!session()->has('lang')) {
-            return redirect()->route('languages');
+        if (!$this->currentCustomer->exists()) {
+            return redirect()->route('customer.login');
         }
         return $next($request);
     }

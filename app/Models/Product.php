@@ -26,6 +26,7 @@ class Product extends Model
     ];
 
     public $fillable = [
+        'sequence',
         'stock',
         'limit_per_order',
         'is_available',

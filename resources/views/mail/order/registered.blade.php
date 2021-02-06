@@ -21,6 +21,8 @@ Remarks: {{ $order->remarks }}
 View details
 @endcomponent
 
+Update your notification settings <a href="{{ route('backend.user-profile') }}">here</a>.
+
 Thanks,<br>
 {{ config('app.name') }}
 @endcomponent

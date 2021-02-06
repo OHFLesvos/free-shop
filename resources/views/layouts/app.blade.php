@@ -3,15 +3,18 @@ $items = [
     [
         'label' => __('Shop'),
         'route' => 'shop-front',
+        'icon' => 'shopping-bag',
     ],
     [
-        'label' => __('Find your order'),
+        'label' => __('Your orders'),
         'route' => 'order-lookup',
+        'icon' => 'list-alt',
     ],
 ];
+$rtl = in_array(app()->getLocale(), config('app.rtl_languages', []));
 @endphp
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" @if($rtl) dir="rtl" @endif>
     @include('layouts.includes.head')
     <body class="bg-light">
         <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm mb-4">
@@ -27,24 +30,35 @@ $items = [
                                 $active = Str::of(Request::route()->getName())->startsWith($item['route']);
                             @endphp
                             <li class="nav-item @if($active) active @endif">
-                                <a class="nav-link" href="{{ route($item['route']) }}">{{ $item['label'] }}@if($active)<span class="sr-only">(current)</span>@endif</a>
+                                <a class="nav-link" href="{{ route($item['route']) }}">
+                                    @isset($item['icon'])<x-icon :icon="$item['icon']"/>@endisset
+                                    {{ $item['label'] }}@if($active)<span class="sr-only">(current)</span>@endif
+                                </a>
                             </li>
                         @endforeach
                     </ul>
                     <ul class="navbar-nav">
+                        {{-- Language chooser --}}
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <x-icon icon="language"/>
                                 @lang('Switch language')
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                                 @foreach(config('app.supported_languages') as $key => $val)
-                                    <a class="dropdown-item" href="{{ route('languages.change', $key) }}">{{ $val }}</a>
+                                    <a class="dropdown-item" href="{{ route('languages.change', $key) }}">@if(session()->get('lang') == $key)<strong>{{ $val }}</strong>@else{{ $val }}@endif</a>
                                 @endforeach
                             </div>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ route('login') }}">@lang('Backend')</a>
-                        </li>
+                        {{-- Customer --}}
+                        @if(CurrentCustomer::exists())
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('customer.account') }}">
+                                    <x-icon icon="id-card"/>
+                                    {{ CurrentCustomer::get()->name }}
+                                </a>
+                            </li>
+                        @endif
                     </ul>
                 </div>
             </div>

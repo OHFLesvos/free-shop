@@ -23,6 +23,7 @@ class UserProfilePage extends BackendPage
         ],
         'phone' => [
             'nullable',
+            'required_if:user.notify_via_phone,1',
             'phone:phone_country,mobile',
         ],
         'phone_country' => 'required_with:phone',

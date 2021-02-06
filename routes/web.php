@@ -1,6 +1,8 @@
 <?php
 
+use App\Facades\CurrentCustomer;
 use App\Http\Controllers\LanguageSelectController;
+use App\Http\Controllers\LoginController;
 use App\Http\Controllers\SocialLoginController;
 use App\Http\Livewire\Backend\CustomerDetailPage;
 use App\Http\Livewire\Backend\CustomerListPage;
@@ -14,8 +16,11 @@ use App\Http\Livewire\Backend\SettingsPage;
 use App\Http\Livewire\Backend\UserListPage;
 use App\Http\Livewire\Backend\UserProfilePage;
 use App\Http\Livewire\CheckoutPage;
+use App\Http\Livewire\CustomerAccountPage;
+use App\Http\Livewire\CustomerLoginPage;
 use App\Http\Livewire\OrderLookupPage;
 use App\Http\Livewire\ShopFrontPage;
+use App\Http\Livewire\WelcomePage;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -33,37 +38,46 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware(['geoblock.whitelist', 'set-language'])
     ->group(function () {
-        Route::get('/', function() {
-                if (! session()->has('lang')) {
-                    return redirect()->route('languages');
-                }
-                return redirect()->route('shop-front');
-            })
+        Route::get('/', WelcomePage::class)
             ->name('home');
-        Route::get('languages', [LanguageSelectController::class, 'index'])
-            ->name('languages');
-        Route::get('languages/{lang}', [LanguageSelectController::class, 'change'])
-            ->name('languages.change');
-        Route::get('shop', ShopFrontPage::class)
-            ->name('shop-front');
-        Route::get('checkout', CheckoutPage::class)
-            ->name('checkout');
-        Route::get('order-lookup', OrderLookupPage::class)
-            ->name('order-lookup');
+        Route::get('customer/login', CustomerLoginPage::class)
+            ->name('customer.login');
+        Route::middleware('auth-customer')
+            ->group(function () {
+                Route::get('shop', ShopFrontPage::class)
+                    ->name('shop-front');
+                Route::get('checkout', CheckoutPage::class)
+                    ->name('checkout');
+                Route::get('order-lookup', OrderLookupPage::class)
+                    ->name('order-lookup');
+                Route::get('customer/account', CustomerAccountPage::class)
+                    ->name('customer.account');
+                Route::get('customer/logout', function () {
+                    CurrentCustomer::forget();
+                    return redirect()->route('home');
+                })
+                    ->name('customer.logout');
+            });
     });
 
-Route::view('login', 'login')
-    ->name('login')
-    ->middleware('guest');
-Route::get('login/google', [SocialLoginController::class, 'redirectToGoogle'])
-    ->name('login.google');
-Route::get('login/google/callback', [SocialLoginController::class, 'processGoogleCallback'])
-    ->name('login.google.callback');
-Route::post('logout', function() {
-        return redirect('/')
-            ->with(Auth::logout());
-    })
-    ->name('logout');
+Route::get('languages', [LanguageSelectController::class, 'index'])
+    ->name('languages');
+Route::get('languages/{lang}', [LanguageSelectController::class, 'change'])
+    ->name('languages.change');
+
+Route::prefix('backend')
+    ->name('backend.')
+    ->group(function () {
+        Route::get('login', [LoginController::class, 'login'])
+            ->name('login')
+            ->middleware('guest');
+        Route::get('login/google', [SocialLoginController::class, 'redirectToGoogle'])
+            ->name('login.google');
+        Route::get('login/google/callback', [SocialLoginController::class, 'processGoogleCallback'])
+            ->name('login.google.callback');
+        Route::post('logout', [LoginController::class, 'logout'])
+            ->name('logout');
+});
 
 Route::middleware('auth')
     ->group(function () {

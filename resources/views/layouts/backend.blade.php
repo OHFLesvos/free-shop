@@ -51,17 +51,22 @@ $items = [
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 @isset(Auth::user()->avatar)
-                                    <img src="{{ Auth::user()->avatar }}" class="align-top bg-white rounded-circle" height="24" width="24">
+                                    <img
+                                        src="{{ Auth::user()->avatar }}"
+                                        alt="Avatar"
+                                        class="align-top bg-white rounded-circle"
+                                        height="24"
+                                        width="24">
                                 @endisset
                                 <span class="align-top ml-2">{{ Str::of(Auth::user()->name)->words(1, '') }}</span>
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                                 <a class="dropdown-item" href="{{ route('backend.user-profile') }}">User Profile</a>
                                 <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                                <a class="dropdown-item" href="{{ route('backend.logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                                     Logout
                                 </a>
-                                <form id="logout-form" class="d-none" action="{{ route('logout') }}" method="POST">
+                                <form id="logout-form" class="d-none" action="{{ route('backend.logout') }}" method="POST">
                                     {{ csrf_field() }}
                                 </form>
                             </div>

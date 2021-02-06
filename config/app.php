@@ -112,8 +112,12 @@ return [
         'en' => 'English',
         // 'el' => 'Ελληνικά',
         'fr' => 'Français',
-        // 'ar' => 'العربية',
-        // 'ir' => 'فارسی',
+        'ar' => 'العربية',
+        'ir' => 'فارسی',
+    ],
+    'rtl_languages' => [
+        'ar',
+        'ir',
     ],
 
     /*
@@ -234,7 +238,8 @@ return [
         'URL' => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
-
+        'CurrentCustomer' => App\Facades\CurrentCustomer::class,
+        'Markdown' => GrahamCampbell\Markdown\Facades\Markdown::class,
     ],
 
 ];
