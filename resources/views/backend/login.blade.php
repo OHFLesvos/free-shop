@@ -14,7 +14,7 @@
             @csrf
             <div class="card shadow my-4 mx-auto" style="max-width: 26em">
                 <div class="card-body">
-                    <div class="form-group">
+                    <div class="mb-3">
                         <input
                             type="email"
                             class="form-control @error('email') is-invalid @enderror"
@@ -24,7 +24,7 @@
                             autocomplete="off">
                         @error('email') <div class="invalid-feedback">{{ $message }}</div> @enderror
                     </div>
-                    <div class="form-group">
+                    <div class="fmb-3">
                         <input
                             type="password"
                             class="form-control @error('password') is-invalid @enderror"
@@ -34,7 +34,7 @@
                             autocomplete="off">
                         @error('password') <div class="invalid-feedback">{{ $message }}</div> @enderror
                     </div>
-                    <p class="text-right mb-0">
+                    <p class="text-end mb-0">
                         <button
                             type="submit"
                             class="btn btn-primary btn-block">

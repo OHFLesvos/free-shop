@@ -1,11 +1,11 @@
 <div>
     <form wire:submit.prevent="submit" class="mb-4" autocomplete="off">
-        <div class="container-small">
+        <div class="small-container">
             <div class="card mb-4 shadow-sm">
                 <div class="card-header">@lang('Customer Login')</div>
                 <div class="card-body">
                     {{-- ID number --}}
-                    <div class="form-group">
+                    <div class="mb-3">
                         <label for="inputCustomerIdNumber">@lang('ID number')</label>
                         <input
                             type="text"
@@ -23,11 +23,11 @@
                         </small>
                     </div>
                     {{-- Phone number --}}
-                    <div class="form-group">
+                    <div class="mb-3">
                         <label for="inputCustomerPhone">@lang('Mobile phone number')</label>
                         <div class="input-group">
                             @php
-                                $codes = megastruktur\PhoneCountryCodes::getCodesList();
+                                $phoneContryCodes = megastruktur\PhoneCountryCodes::getCodesList();
                             @endphp
                             <select
                                 class="custom-select"
@@ -37,7 +37,7 @@
                                 @foreach(collect(Countries::getList(app()->getLocale())) as $key => $val)
                                     <option value="{{ $key }}">
                                         {{ $val }}
-                                        @isset($codes[$key] )({{ $codes[$key] }})@endisset
+                                        @isset($phoneContryCodes[$key] )({{ $phoneContryCodes[$key] }})@endisset
                                     </option>
                                 @endforeach
                             </select>
@@ -58,7 +58,7 @@
                     </div>
                     {{-- Name --}}
                     @if($request_name)
-                        <div class="form-group">
+                        <div class="mb-3">
                             <label for="inputCustomerName">@lang('First & last name')</label>
                             <input
                                 type="text"
@@ -75,7 +75,7 @@
                         </div>
                     @endif
                 </div>
-                <div class="card-footer text-right">
+                <div class="card-footer text-end">
                     <button
                         type="submit"
                         class="btn btn-primary">

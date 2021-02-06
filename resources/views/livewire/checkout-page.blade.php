@@ -18,7 +18,7 @@
                         <tr>
                             <th class="d-none d-md-table-cell"></th>
                             <th>@lang('Product')</th>
-                            <th class="text-right">@lang('Quantity')</th>
+                            <th class="text-end">@lang('Quantity')</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -34,9 +34,9 @@
                                 </td>
                                 <td class="align-middle">
                                     {{ $product->name }}
-                                    <small class="text-muted ml-1">{{ $product->category }}</small>
+                                    <small class="text-muted ms-1">{{ $product->category }}</small>
                                 </td>
-                                <td class="text-right align-middle">
+                                <td class="text-end align-middle">
                                     <strong>{{ $basket[$product->id] }}</strong>
                                 </td>
                             </tr>
@@ -59,7 +59,7 @@
                 <div class="card-header">@lang('Your Order')</div>
                 <div class="card-body">
                     <p>@lang('We will send you updates about your order via SMS to <strong>:phone</strong>.', ['phone' => $customer->phoneFormattedInternational])</p>
-                    <div class="form-group">
+                    <div class="mb-3">
                         <label for="inputRemarks">@lang('Remarks')</label>
                         <textarea
                             class="form-control @error('remarks') is-invalid @enderror"

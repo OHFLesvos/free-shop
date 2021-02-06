@@ -5,7 +5,7 @@
                 <p>@lang('Please place an order from our selection of items:')</p>
             @endif
             @if($basket->isNotEmpty())
-                <p class="text-right d-md-none">
+                <p class="text-end d-md-none">
                     <a href="{{ route('checkout') }}"
                         class="btn btn-primary btn-block">
                         @lang('Go to checkout')
@@ -90,7 +90,7 @@
                                         @endforeach
                                     </tbody>
                                 </table>
-                                <div class="card-footer text-right">
+                                <div class="card-footer text-end">
                                     <a href="{{ route('checkout') }}"
                                         class="btn btn-primary">
                                         @lang('Go to checkout')

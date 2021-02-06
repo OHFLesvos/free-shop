@@ -14,7 +14,7 @@
             </div>
         </div>
     </div>
-    <div class="form-group">
+    <div class="mb-3">
         <div class="input-group">
             <input type="search" wire:model.debounce.500ms="search" placeholder="Search orders..."
                 wire:keydown.escape="$set('search', '')" class="form-control" />

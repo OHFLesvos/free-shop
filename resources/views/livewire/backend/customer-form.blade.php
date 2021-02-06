@@ -29,9 +29,9 @@
             @endif
         </h1>
         <form wire:submit.prevent="submit" class="mb-4" autocomplete="off">
-            <div class="form-row">
+            <div class="row g-3">
                 <div class="col-md">
-                    <div class="form-group">
+                    <div class="mb-3">
                         <label for="inputName">Name</label>
                         <input
                             type="text"
@@ -45,7 +45,7 @@
                     </div>
                 </div>
                 <div class="col-md">
-                    <div class="form-group">
+                    <div class="mb-3">
                         <label for="inputIdNumber">ID Number</label>
                         <input
                             type="text"
@@ -58,13 +58,13 @@
                     </div>
                 </div>
             </div>
-            <div class="form-row">
+            <div class="row g-3">
                 <div class="col-md">
-                    <div class="form-group">
+                    <div class="mb-3">
                         <label for="inputPhone">Phone</label>
                         <div class="input-group">
                             @php
-                                $codes = megastruktur\PhoneCountryCodes::getCodesList();
+                                $phoneContryCodes = megastruktur\PhoneCountryCodes::getCodesList();
                             @endphp
                             <select
                                 class="custom-select"
@@ -74,7 +74,7 @@
                                 @foreach(Countries::getList() as $key => $val)
                                     <option value="{{ $key }}">
                                         {{ $val }}
-                                        @isset($codes[$key] )({{ $codes[$key] }})@endisset
+                                        @isset($phoneContryCodes[$key] )({{ $phoneContryCodes[$key] }})@endisset
                                     </option>
                                 @endforeach
                             </select>
@@ -90,7 +90,7 @@
                     </div>
                 </div>
                 <div class="col-md">
-                    <div class="form-group">
+                    <div class="mb-3">
                         <label for="inputCredit">Credit</label>
                         <input
                             type="number"
@@ -104,9 +104,9 @@
                     </div>
                 </div>
             </div>
-            <div class="form-row">
+            <div class="row g-3">
                 <div class="col-md">
-                    <div class="form-group">
+                    <div class="mb-3">
                         <label for="inputRemarks">Remarks</label>
                         <textarea
                             class="form-control @error('customer.remarks') is-invalid @enderror"

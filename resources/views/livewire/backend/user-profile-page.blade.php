@@ -1,8 +1,8 @@
-<div>
+<div class="medium-container">
     @if($shouldDelete)
         <h1 class="mb-3">Delete account</h1>
         <p>Do you really want do delete your user account?</p>
-        <p class="d-flex justify-content-between">
+        <div class="d-grid gap-3 d-md-block">
             <button
                 type="button"
                 class="btn btn-outline-primary"
@@ -19,12 +19,10 @@
                 <x-spinner wire:loading wire:target="delete"/>
                 Delete
             </button>
-        </p>
+        </div>
     @else
         <h1 class="mb-3">User Profile</h1>
-        @if(session()->has('message'))
-            <x-alert type="success" dismissible>{{ session()->get('message') }}</x-alert>
-        @endif
+
         <div class="row mb-4">
             <div class="col-md-auto">
                 @isset($user->avatar)
@@ -44,121 +42,113 @@
                 <x-date-time-info :value="$user->created_at"/>
             </div>
         </div>
+
         <form wire:submit.prevent="submit" autocomplete="off">
-            <div class="card shadow-sm mb-4">
-                <div class="card-header">Profile settings</div>
-                <div class="card-body">
-                    <div class="form-row">
-                        <div class="col-md">
-                            <div class="form-group">
-                                <label for="timezone" class="d-block">Timezone:</label>
-                                <div class="input-group mb-3">
-                                    <select
-                                        id="timezone"
-                                        wire:model.defer="user.timezone"
-                                        class="custom-select @error('timezone') is-invalid @enderror"
-                                        style="max-width: 20em;">
-                                        <option value="">- Default timezone -</option>
-                                        @foreach(listTimezones() as $value => $label)
-                                            <option value="{{ $value }}">{{ $label }}</option>
-                                        @endforeach
-                                    </select>
-                                    <div class="input-group-append">
-                                        <button
-                                            class="btn btn-outline-secondary"
-                                            type="button"
-                                            wire:click="detectTimezone">
-                                            <x-spinner wire:loading wire:target="detectTimezone"/>
-                                            <span
-                                                wire:loading.remove
-                                                wire:target="detectTimezone">
-                                                <x-icon icon="search-location"/>
-                                            </span>
-                                        </button>
-                                    </div>
-                                    @error('timezone') <div class="invalid-feedback">{{ $message }}</div> @enderror
-                                </div>
-                            </div>
+
+            <x-card title="Profile settings">
+                <label for="timezone" class="form-label">Timezone:</label>
+                <div class="input-group">
+                    <select
+                        id="timezone"
+                        wire:model.defer="user.timezone"
+                        class="form-select bg-light @error('timezone') is-invalid @enderror"
+                        style="max-width: 20em;">
+                        <option value="">- Default timezone ({{ setting()->get('timezone', config('app.timezone')) }}) -</option>
+                        @foreach(listTimezones() as $value => $label)
+                            <option value="{{ $value }}">{{ $label }}</option>
+                        @endforeach
+                    </select>
+                    <div class="input-group-append">
+                        <button
+                            class="btn btn-outline-secondary"
+                            type="button"
+                            wire:click="detectTimezone">
+                            <x-spinner wire:loading wire:target="detectTimezone"/>
+                            <span
+                                wire:loading.remove
+                                wire:target="detectTimezone">
+                                <x-icon icon="search-location"/>
+                            </span>
+                        </button>
+                    </div>
+                    @error('timezone') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                </div>
+            </x-card>
+
+            <x-card title="Notifications">
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <div class="form-check form-switch mb-3">
+                            <input
+                                type="checkbox"
+                                class="form-check-input"
+                                id="notifyViaEmailInput"
+                                value="1"
+                                wire:model.defer="user.notify_via_email">
+                            <label class="form-check-label" for="notifyViaEmailInput">Receive notifications via e-mail</label>
                         </div>
-                        <div class="col-md">
-                            <div class="form-group">
-                                <label for="inputPhone">Phone:</label>
-                                <div class="input-group">
-                                    @php
-                                        $codes = megastruktur\PhoneCountryCodes::getCodesList();
-                                    @endphp
-                                    <select
-                                        class="custom-select"
-                                        style="max-width: 11em;"
-                                        wire:model.defer="phone_country">
-                                        <option value="" selected>-- Select country --</option>
-                                        @foreach(Countries::getList() as $key => $val)
-                                            <option value="{{ $key }}">
-                                                {{ $val }}
-                                                @isset($codes[$key] )({{ $codes[$key] }})@endisset
-                                            </option>
-                                        @endforeach
-                                    </select>
-                                    <input
-                                        type="tel"
-                                        class="form-control @error('phone') is-invalid @enderror"
-                                        id="inputPhone"
-                                        autocomplete="off"
-                                        wire:model.defer="phone">
-                                    @error('phone') <div class="invalid-feedback">{{ $message }}</div> @enderror
-                                </div>
-                            </div>
+                        <div class="form-check form-switch">
+                            <input
+                                type="checkbox"
+                                class="form-check-input"
+                                id="notifyViaPhoneInput"
+                                value="1"
+                                wire:model.defer="user.notify_via_phone">
+                            <label class="form-check-label" for="notifyViaPhoneInput">Receive notifications via phone</label>
                         </div>
                     </div>
-                    <p>Notifications:</p>
-                    <div class="custom-control custom-checkbox mb-3">
-                        <input
-                            type="checkbox"
-                            class="custom-control-input"
-                            id="notifyViaEmailInput"
-                            value="1"
-                            wire:model.defer="user.notify_via_email">
-                        <label class="custom-control-label" for="notifyViaEmailInput">Receive notifications via e-mail</label>
-                    </div>
-                    <div class="custom-control custom-checkbox mb-3">
-                        <input
-                            type="checkbox"
-                            class="custom-control-input"
-                            id="notifyViaPhoneInput"
-                            value="1"
-                            wire:model.defer="user.notify_via_phone">
-                        <label class="custom-control-label" for="notifyViaPhoneInput">Receive notifications via phone</label>
+                    <div class="col-md-6">
+                        <label for="inputPhone" class="form-label">Phone:</label>
+                        <div class="input-group">
+                            @php
+                                $phoneContryCodes = megastruktur\PhoneCountryCodes::getCodesList();
+                            @endphp
+                            <select
+                                class="form-select bg-light"
+                                style="max-width: 11em;"
+                                wire:model.defer="phone_country">
+                                <option value="" selected>-- Select country --</option>
+                                @foreach(Countries::getList() as $key => $val)
+                                    <option value="{{ $key }}">
+                                        {{ $val }}
+                                        @isset($phoneContryCodes[$key] )({{ $phoneContryCodes[$key] }})@endisset
+                                    </option>
+                                @endforeach
+                            </select>
+                            <input
+                                type="tel"
+                                class="form-control bg-light @error('phone') is-invalid @enderror"
+                                id="inputPhone"
+                                autocomplete="off"
+                                wire:model.defer="phone">
+                            @error('phone') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                        </div>
                     </div>
                 </div>
-                <div class="card-footer text-right">
-                    <button
-                        type="submit"
-                        class="btn btn-primary">
-                        <x-spinner wire:loading wire:target="submit"/>
-                        Save
-                    </button>
-                </div>
-            </div>
+            </x-card>
+
+            <p class="text-end mb-4">
+                <x-submit-button>Save settings</x-submit-button>
+            </p>
         </form>
+
         @isset($user->last_login_at)
-            <div class="card shadow-sm mb-4">
-                <div class="card-header">Last Login</div>
-                <div class="card-body">
-                    <strong>Time:</strong>
-                    <x-date-time-info :value="$user->last_login_at"/>
-                    <br>
-                    <strong>IP Address:</strong>
-                    <x-ip-info :value="$user->last_login_ip"/>
-                    <br>
-                    <strong>Geo Location:</strong>
-                    <x-geo-location-info :value="$user->last_login_ip"/>
-                    <br>
-                    <strong>User Agent:</strong>
-                    <x-user-agent-info :value="$user->last_login_user_agent"/>
-                </div>
-            </div>
+            <x-card title="Last Login">
+                <strong>Time:</strong>
+                <x-date-time-info :value="$user->last_login_at"/>
+                <br>
+                <strong>IP Address:</strong>
+                <x-ip-info :value="$user->last_login_ip"/>
+                <br>
+                <strong>Geo Location:</strong>
+                <x-geo-location-info :value="$user->last_login_ip"/>
+                <br>
+                <strong>User Agent:</strong>
+                <x-user-agent-info :value="$user->last_login_user_agent"/>
+            </x-card>
         @endisset
-        <p>
+
+        <x-card title="Account settings">
             <button
                 type="button"
                 class="btn btn-danger"
@@ -166,6 +156,7 @@
                 wire:click="$toggle('shouldDelete')">
                 Delete account
             </button>
-        </p>
+        </x-card>
+
     @endif
 </div>

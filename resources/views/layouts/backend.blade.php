@@ -33,23 +33,23 @@ $items = [
         <nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow-sm mb-4">
             <div class="container">
                 <a class="navbar-brand" href="{{ route('backend') }}">{{ config('app.name') }}</a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <ul class="navbar-nav mr-auto">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                         @foreach ($items as $item)
                             @php
                                 $active = Str::of(Request::route()->getName())->startsWith($item['route']);
                             @endphp
-                            <li class="nav-item @if($active) active @endif">
-                                <a class="nav-link" href="{{ route($item['route']) }}">{{ $item['label'] }}@if($active)<span class="sr-only">(current)</span>@endif</a>
+                            <li class="nav-item">
+                                <a class="nav-link @if($active) active @endif" href="{{ route($item['route']) }}" @if($active) aria-current="page" @endif>{{ $item['label'] }}</a>
                             </li>
                         @endforeach
                     </ul>
-                    <ul class="navbar-nav">
+                    <ul class="navbar-nav mb-2 mb-lg-0">
                         <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                 @isset(Auth::user()->avatar)
                                     <img
                                         src="{{ Auth::user()->avatar }}"
@@ -58,18 +58,22 @@ $items = [
                                         height="24"
                                         width="24">
                                 @endisset
-                                <span class="align-top ml-2">{{ Str::of(Auth::user()->name)->words(1, '') }}</span>
+                                <span class="align-top ms-2">{{ Str::of(Auth::user()->name)->words(1, '') }}</span>
                             </a>
-                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <a class="dropdown-item" href="{{ route('backend.user-profile') }}">User Profile</a>
-                                <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="{{ route('backend.logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                                    Logout
-                                </a>
-                                <form id="logout-form" class="d-none" action="{{ route('backend.logout') }}" method="POST">
-                                    {{ csrf_field() }}
-                                </form>
-                            </div>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <li>
+                                    <a class="dropdown-item" href="{{ route('backend.user-profile') }}">User Profile</a>
+                                </li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li>
+                                    <a class="dropdown-item" href="{{ route('backend.logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                                        Logout
+                                    </a>
+                                    <form id="logout-form" class="d-none" action="{{ route('backend.logout') }}" method="POST">
+                                        {{ csrf_field() }}
+                                    </form>
+                                </li>
+                            </ul>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('home') }}" target="_blank">

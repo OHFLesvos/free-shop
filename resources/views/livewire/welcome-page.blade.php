@@ -1,4 +1,4 @@
-<div class="container-small">
+<div class="small-container">
     @isset($content)
         {!! $content !!}
     @else

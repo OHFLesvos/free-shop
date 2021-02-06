@@ -9,7 +9,7 @@
                     <div class="card-header">@lang('Customer Profile')</div>
                     <div class="card-body">
                         {{-- Name --}}
-                        <div class="form-group">
+                        <div class="mb-3">
                             <label for="inputCustomerName">@lang('First & last name')</label>
                             <input type="text" class="form-control @error('customer_name') is-invalid @enderror"
                                 id="inputCustomerName" wire:model.defer="customer_name" required autocomplete="off"
@@ -20,7 +20,7 @@
                             </small>
                         </div>
                         {{-- ID number --}}
-                        <div class="form-group">
+                        <div class="mb-3">
                             <label for="inputCustomerIdNumber">@lang('ID number')</label>
                             <input type="text" class="form-control @error('customer_id_number') is-invalid @enderror"
                                 id="inputCustomerIdNumber" wire:model.defer="customer_id_number" required
@@ -31,18 +31,18 @@
                             </small>
                         </div>
                         {{-- Phone number --}}
-                        <div class="form-group">
+                        <div class="mb-3">
                             <label for="inputCustomerPhone">@lang('Mobile phone number')</label>
                             <div class="input-group">
                                 @php
-                                $codes = megastruktur\PhoneCountryCodes::getCodesList();
+                                $phoneContryCodes = megastruktur\PhoneCountryCodes::getCodesList();
                                 @endphp
                                 <select class="custom-select" style="max-width: 11em;"
                                     wire:model.defer="customer_phone_country">
                                     @foreach(collect(Countries::getList(app()->getLocale())) as $key => $val)
                                     <option value="{{ $key }}">
                                         {{ $val }}
-                                        @isset($codes[$key])({{ $codes[$key] }})@endisset
+                                        @isset($phoneContryCodes[$key])({{ $phoneContryCodes[$key] }})@endisset
                                     </option>
                                     @endforeach
                                 </select>

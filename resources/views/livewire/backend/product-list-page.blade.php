@@ -35,15 +35,15 @@
                 <th>Name</th>
                 <th>Category</th>
                 <th>Description</th>
-                <th class="text-right">Stock<br><small>(Free/Reserved)</small></th>
-                <th class="text-right">Limit</th>
-                <th class="text-right">Price</th>
+                <th class="text-end">Stock<br><small>(Free/Reserved)</small></th>
+                <th class="text-end">Limit</th>
+                <th class="text-end">Price</th>
             </thead>
             <tbody>
                 @forelse($products as $product)
                     <tr
                         onclick="window.location='{{ route('backend.products.edit', $product) }}'"
-                        class="cursor-pointer @if(!$product->is_available) table-dark text-dark @endif"
+                        class="cursor-pointer @if(!$product->is_available) table-secondary @endif"
                     >
                         <td class="fit">
                             @isset($product->pictureUrl)
@@ -56,12 +56,12 @@
                         <td>{{ $product->name }}</td>
                         <td>{{ $product->category }}</td>
                         <td>{{ $product->description }}</td>
-                        <td class="text-right">
+                        <td class="text-end">
                             {{ $product->stock }}<br>
                             <small>{{ $product->free_quantity }} / {{ $product->reserved_quantity }}</small>
                         </td>
-                        <td class="text-right">{{ $product->limit_per_order }}</td>
-                        <td class="text-right">{{ $product->price }}</td>
+                        <td class="text-end">{{ $product->limit_per_order }}</td>
+                        <td class="text-end">{{ $product->price }}</td>
                     </tr>
                 @empty
                     <tr>

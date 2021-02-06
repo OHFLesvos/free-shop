@@ -32,7 +32,7 @@
                                 {{ $product->name }}<br>
                                 <small>{{ $product->category }}</small>
                             </td>
-                            <td class="fit text-right align-middle">
+                            <td class="fit text-end align-middle">
                                 <strong><big>{{ $product->pivot->quantity }}</big></strong>
                             </td>
                         </tr>

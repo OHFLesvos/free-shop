@@ -8,7 +8,7 @@
     @if(session()->has('message'))
         <x-alert type="success" dismissible>{{ session()->get('message') }}</x-alert>
     @endif
-    <div class="form-group">
+    <div class="mb-3">
         <div class="input-group">
         <input
             type="search"
@@ -30,8 +30,8 @@
                 <th>Name</th>
                 <th>ID Number</th>
                 <th>Phone</th>
-                <th class="text-right">Orders</th>
-                <th class="text-right">Credit</th>
+                <th class="text-end">Orders</th>
+                <th class="text-end">Credit</th>
             </thead>
             <tbody>
                 @forelse($customers as $customer)
@@ -41,8 +41,8 @@
                         <td>{{ $customer->name }}</td>
                         <td>{{ $customer->id_number }}</td>
                         <td><x-phone-info :value="$customer->phone"/></td>
-                        <td class="text-right">{{ $customer->orders()->count() }}</td>
-                        <td class="text-right">{{ $customer->credit }}</td>
+                        <td class="text-end">{{ $customer->orders()->count() }}</td>
+                        <td class="text-end">{{ $customer->credit }}</td>
                     </tr>
                 @empty
                     <tr>

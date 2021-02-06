@@ -7,7 +7,7 @@ try {
 @endphp
 @if(isset($phoneNumber) && isset($country))
     {{ $phoneNumber->formatInternational() }}
-    <small class="ml-1 text-muted">{{ Countries::getOne($country, 'en') }}</small>
+    <small class="ms-1 text-muted">{{ Countries::getOne($country, 'en') }}</small>
 @else
     {{ $value }}
 @endif

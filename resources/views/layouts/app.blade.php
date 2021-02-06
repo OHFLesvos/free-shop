@@ -24,13 +24,13 @@ $rtl = in_array(app()->getLocale(), config('app.rtl_languages', []));
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <ul class="navbar-nav mr-auto">
+                    <ul class="navbar-nav me-auto">
                         @foreach ($items as $item)
                             @php
                                 $active = Str::of(Request::route()->getName())->startsWith($item['route']);
                             @endphp
-                            <li class="nav-item @if($active) active @endif">
-                                <a class="nav-link" href="{{ route($item['route']) }}">
+                            <li class="nav-item">
+                                <a class="nav-link @if($active) active @endif" href="{{ route($item['route']) }}">
                                     @isset($item['icon'])<x-icon :icon="$item['icon']"/>@endisset
                                     {{ $item['label'] }}@if($active)<span class="sr-only">(current)</span>@endif
                                 </a>
