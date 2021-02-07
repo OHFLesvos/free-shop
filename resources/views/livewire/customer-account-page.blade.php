@@ -73,7 +73,7 @@
                 <div class="card mb-4 shadow-sm">
                     <div class="card-header">@lang('Credit')</div>
                     <div class="card-body">
-                        <big>{{ $customer->credit }} points</big>
+                        <big>@lang(':amount points', ['amount' => $customer->credit])</big>
                     </div>
                 </div>
             </div>
