@@ -57,24 +57,15 @@ class OrderChangePage extends BackendPage
             $this->order->status = $this->newStatus;
             $this->order->save();
 
-            if ($this->newStatus == 'ready') {
+            if ($this->order->status == 'ready') {
                 $this->order->customer->notify(new CustomerOrderReadyed($this->order));
+            } else if ($this->order->status == 'cancelled') {
+                $this->order->customer->notify(new CustomerOrderCancelled($this->order));
             }
+            $this->order->save();
 
             session()->flash('message', 'Order marked as ' . $this->newStatus . '.');
         }
         return redirect()->route('backend.orders.show', $this->order);
-    }
-
-    public function cancel()
-    {
-        $this->order->status = 'cancelled';
-        $this->order->save();
-
-        $this->order->customer->notify(new CustomerOrderCancelled($this->order));
-
-        session()->flash('message', 'Order cancelled.');
-
-        $this->shouldCancel = false;
     }
 }
