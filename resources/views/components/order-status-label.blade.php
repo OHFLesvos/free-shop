@@ -1,15 +1,16 @@
-@props(['order'])
+@props(['order' => null, 'value' => null])
 @php
-if ($order->status == 'new') {
+$status = $order != null ? $order->status : $value;
+if ($status == 'new') {
 $status_class = 'text-warning';
-} elseif($order->status == 'ready') {
+} elseif($status == 'ready') {
 $status_class = 'text-info';
-} elseif($order->status == 'completed') {
+} elseif($status == 'completed') {
 $status_class = 'text-success';
-} elseif($order->status == 'cancelled') {
+} elseif($status == 'cancelled') {
 $status_class = 'text-danger';
 }
 @endphp
 <span class="{{ $status_class }}">
-    {{ ucfirst($order->status) }}
+    {{ ucfirst($status) }}
 </span>
