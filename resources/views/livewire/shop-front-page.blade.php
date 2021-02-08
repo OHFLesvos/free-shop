@@ -65,9 +65,9 @@
                                         <tbody>
                                             @foreach($this->products->whereIn('id', $basket->keys()) as $product)
                                                 <tr>
-                                                    <td class="align-middle">{{ $product->name }}</td>
+                                                    <td class="align-middle ps-3">{{ $product->name }}</td>
                                                     <td class="align-middle fit text-end"><strong>{{ $basket[$product->id] }}</strong></td>
-                                                    <td class="align-middle fit">
+                                                    <td class="align-middle pe-3 fit">
                                                         <button
                                                             type="button"
                                                             class="btn btn-sm btn-danger"
