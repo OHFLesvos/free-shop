@@ -25,6 +25,7 @@
     </div>
     <div class="table-responsive">
         <table class="table table-bordered bg-white shadow-sm">
+            <caption>{{ $users->total() }} users found</caption>
             <thead>
                 <th colspan="2">Name</th>
                 <th>E-Mail</th>

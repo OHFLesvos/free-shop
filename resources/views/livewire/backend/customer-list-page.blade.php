@@ -1,30 +1,33 @@
 <div>
-    <div class="d-md-flex justify-content-between align-items-center">
-        <h1 class="mb-3">Customers</h1>
-        <a
-            href="{{ route('backend.customers.create') }}"
-            class="btn btn-primary mb-3">Register</a>
-    </div>
     @if(session()->has('message'))
         <x-alert type="success" dismissible>{{ session()->get('message') }}</x-alert>
     @endif
     <div class="mb-3">
         <div class="input-group">
-        <input
-            type="search"
-            wire:model.debounce.500ms="search"
-            placeholder="Search customers..."
-            wire:keydown.escape="$set('search', '')"
-            class="form-control"/>
+            <input
+                type="search"
+                wire:model.debounce.500ms="search"
+                placeholder="Search customers..."
+                wire:keydown.escape="$set('search', '')"
+                class="form-control"/>
             <div class="input-group-append" >
                 <span class="input-group-text" wire:loading wire:target="search">
                     <x-spinner/>
                 </span>
+                @empty($search)
+                    <span class="input-group-text" wire:loading.remove wire:target="search">
+                        {{ $customers->total() }} total
+                    </span>
+                @else
+                    <span class="input-group-text @if($customers->isEmpty()) bg-warning @else bg-success text-light @endif" wire:loading.remove wire:target="search">
+                        {{ $customers->total() }} results
+                    </span>
+                @endif
             </div>
         </div>
     </div>
     <div class="table-responsive">
-        <table class="table table-bordered table-hover bg-white shadow-sm">
+        <table class="table table-bordered bg-white shadow-sm table-hover">
             <caption>{{ $customers->total() }} customers found</caption>
             <thead>
                 <th>Name</th>
@@ -61,4 +64,11 @@
         </table>
     </div>
     {{ $customers->links() }}
+    <p>
+        <a
+            href="{{ route('backend.customers.create') }}"
+            class="btn btn-primary">
+            Register
+        </a>
+    </p>
 </div>

@@ -103,7 +103,9 @@ class ProductManagePage extends BackendPage
 
     public function render()
     {
-        return parent::view('livewire.backend.product-form');
+        return parent::view('livewire.backend.product-form', [
+            'title' => $this->product->exists ? 'Edit Product' : 'Register Product',
+        ]);
     }
 
     public function getDefaultLocaleProperty()

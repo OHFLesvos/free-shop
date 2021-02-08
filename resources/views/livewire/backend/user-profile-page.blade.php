@@ -1,7 +1,7 @@
 @if($shouldDelete)
     <div class="small-container">
         <x-card title="Delete account">
-            <p>Do you really want do delete your user account?</p>
+            <p class="card-text">Do you really want do delete your user account?</p>
             <x-slot name="footer">
                 <div class="text-end">
                     <button
@@ -13,7 +13,7 @@
                     </button>
                     <button
                         type="button"
-                        class="btn btn-outline-danger"
+                        class="btn btn-danger"
                         wire:target="delete"
                         wire:loading.attr="disabled"
                         wire:click="delete">
@@ -48,17 +48,17 @@
 
         <ul class="nav nav-tabs" id="myTab" role="tablist">
             <li class="nav-item" role="presentation">
-                <a class="nav-link active" id="home-tab" data-bs-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Profile</a>
+                <a class="nav-link active" id="profile-tab" data-bs-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="true">Profile</a>
             </li>
             <li class="nav-item" role="presentation">
-                <a class="nav-link" id="profile-tab" data-bs-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Security</a>
+                <a class="nav-link" id="security-tab" data-bs-toggle="tab" href="#security" role="tab" aria-controls="security" aria-selected="false">Security</a>
             </li>
             <li class="nav-item" role="presentation">
-                <a class="nav-link" id="contact-tab" data-bs-toggle="tab" href="#contact" role="tab" aria-controls="contact" aria-selected="false">Account</a>
+                <a class="nav-link" id="account-tab" data-bs-toggle="tab" href="#account" role="tab" aria-controls="account" aria-selected="false">Account</a>
             </li>
         </ul>
         <div class="tab-content" id="myTabContent">
-            <div class="tab-pane fade show active mt-3" id="home" role="tabpanel" aria-labelledby="home-tab">
+            <div class="tab-pane fade show active mt-3" id="profile" role="tabpanel" aria-labelledby="profile-tab">
                 <form wire:submit.prevent="submit" autocomplete="off">
                     <x-card title="Profile settings">
                         <label for="timezone" class="form-label">Timezone:</label>
@@ -66,7 +66,7 @@
                             <select
                                 id="timezone"
                                 wire:model.defer="user.timezone"
-                                class="form-select bg-light @error('timezone') is-invalid @enderror"
+                                class="form-select @error('timezone') is-invalid @enderror"
                                 style="max-width: 20em;">
                                 <option value="">- Default timezone ({{ setting()->get('timezone', config('app.timezone')) }}) -</option>
                                 @foreach(listTimezones() as $value => $label)
@@ -119,7 +119,7 @@
                                         $phoneContryCodes = megastruktur\PhoneCountryCodes::getCodesList();
                                     @endphp
                                     <select
-                                        class="form-select bg-light"
+                                        class="form-select"
                                         style="max-width: 11em;"
                                         wire:model.defer="phone_country">
                                         <option value="" selected>-- Select country --</option>
@@ -132,7 +132,7 @@
                                     </select>
                                     <input
                                         type="tel"
-                                        class="form-control bg-light @error('phone') is-invalid @enderror"
+                                        class="form-control @error('phone') is-invalid @enderror"
                                         id="inputPhone"
                                         autocomplete="off"
                                         wire:model.defer="phone">
@@ -147,7 +147,7 @@
                 </form>
             </div>
 
-            <div class="tab-pane fade mt-3" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+            <div class="tab-pane fade mt-3" id="security" role="tabpanel" aria-labelledby="security-tab">
                 @isset($user->last_login_at)
                     <x-card title="Last Login">
                         <strong>Time:</strong>
@@ -165,7 +165,7 @@
                 @endisset
             </div>
 
-            <div class="tab-pane fade mt-3" id="contact" role="tabpanel" aria-labelledby="contact-tab">
+            <div class="tab-pane fade mt-3" id="account" role="tabpanel" aria-labelledby="account-tab">
                 <x-card title="Account settings">
                     <button
                         type="button"

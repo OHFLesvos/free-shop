@@ -12,7 +12,7 @@
                 <select
                     id="timezone"
                     wire:model.defer="timezone"
-                    class="form-select bg-light @error('timezone') is-invalid @enderror"
+                    class="form-select @error('timezone') is-invalid @enderror"
                     style="max-width: 20em;">
                     <option value="">- Default timezone ({{ config('app.timezone') }}) -</option>
                     @foreach (listTimezones() as $value => $label)
@@ -44,7 +44,7 @@
                             min="1"
                             id="shopMaxOrdersPerDayInput"
                             wire:model.defer="shopMaxOrdersPerDay"
-                            class="form-control bg-light @error('shopMaxOrdersPerDay') is-invalid @enderror"
+                            class="form-control @error('shopMaxOrdersPerDay') is-invalid @enderror"
                             style="max-width: 10em;"
                             aria-describedby="shopMaxOrdersPerDayHelp">
                         @error('shopMaxOrdersPerDay') <div class="invalid-feedback">{{ $message }}</div> @enderror
@@ -79,7 +79,7 @@
             @endif
             <div class="input-group" style="max-width: 20em;">
                 <select
-                    class="form-select bg-light"
+                    class="form-select"
                     wire:model.lazy="selectedCountry">
                     <option value="" selected>-- Select country --</option>
                     @foreach ($countries->filter(fn($val, $key) => !$geoblockWhitelist->contains($key)) as $key => $val)
@@ -108,7 +108,7 @@
                             $phoneContryCodes = megastruktur\PhoneCountryCodes::getCodesList();
                         @endphp
                         <select
-                            class="form-select bg-light @error('orderDefaultPhoneCountry') is-invalid @enderror"
+                            class="form-select @error('orderDefaultPhoneCountry') is-invalid @enderror"
                             style="max-width: 20em;"
                             wire:model.defer="orderDefaultPhoneCountry"
                             id="orderDefaultPhoneCountry">
@@ -132,7 +132,7 @@
                             min="0"
                             id="customerStartingCredit"
                             wire:model.defer="customerStartingCredit"
-                            class="form-control bg-light @error('customerStartingCredit') is-invalid @enderror"
+                            class="form-control @error('customerStartingCredit') is-invalid @enderror"
                             style="max-width: 10em;">
                         @error('customerStartingCredit') <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
@@ -148,7 +148,7 @@
                     id="welcomeText"
                     wire:model.defer="welcomeText"
                     rows="5"
-                    class="form-control bg-light @error('welcomeText') is-invalid @enderror"
+                    class="form-control @error('welcomeText') is-invalid @enderror"
                     aria-describedby="welcomeTextHelp">
                 </textarea>
                 @error('welcomeText') <div class="invalid-feedback">{{ $message }}</div> @enderror

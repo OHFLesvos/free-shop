@@ -26,7 +26,7 @@
         </div>
     </div>
     <div class="table-responsive">
-        <table class="table table-bordered table-hover bg-white shadow-sm">
+        <table class="table table-bordered bg-white shadow-sm table-hover">
             <caption>{{ $orders->total() }} orders found</caption>
             <thead>
                 <th>ID</th>
