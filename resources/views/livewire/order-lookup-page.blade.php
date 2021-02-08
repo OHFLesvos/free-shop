@@ -1,60 +1,34 @@
-<div>
+<div class="medium-container">
     @forelse($orders as $order)
-        <div class="card mb-4 shadow-sm">
-            <div class="card-header">
-                {{ $order->created_at->toUserTimezone()->isoFormat('LLLL') }}
-            </div>
-            <table class="table table-bordered m-0">
-                <thead>
-                    <tr>
-                        <th class="d-none d-md-table-cell"></th>
-                        <th>@lang('Product')</th>
-                        <th class="fit">@lang('Quantity')</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @php
-                        $hasPictures = $order->products->whereNotNull('pictureUrl')->isNotEmpty();
-                    @endphp
-                    @foreach($order->products->sortBy('name') as $product)
-                        <tr>
-                            @if($hasPictures)
-                                <td class="fit d-none d-md-table-cell">
-                                    @isset($product->pictureUrl)
-                                        <img
-                                            src="{{ $product->pictureUrl }}"
-                                            alt="Product Image"
-                                            style="max-width: 100px; max-height: 75px"/>
-                                    @endisset
-                                </td>
-                            @endif
-                            <td>
-                                {{ $product->name }}<br>
-                                <small>{{ $product->category }}</small>
-                            </td>
-                            <td class="fit text-end align-middle">
-                                <strong><big>{{ $product->pivot->quantity }}</big></strong>
-                            </td>
-                        </tr>
-                    @endforeach
-                </tbody>
-            </table>
-            <div class="card-footer">
+        <x-card :title="__('Order #:id', ['id' => $order->id])">
+            <p class="card-text">
+                @lang('Ordered on :date', ['date' => $order->created_at->toUserTimezone()->isoFormat('LLLL')])
+            </p>
+            <ul>
+                @foreach($order->products->sortBy('name') as $product)
+                    <li>
+                        <strong>{{ $product->pivot->quantity }}</strong>
+                        {{ $product->name }}
+                        <small class="text-muted ms-2">{{ $product->category }}</small>
+                    </li>
+                @endforeach
+            </ul>
+            <p class="card-text">
                 @if($order->status == 'cancelled')
-                    <x-icon icon="ban"/>
+                    <x-icon icon="ban" class="text-danger" />
                     @lang('This order has been cancelled.')
                 @elseif($order->status == 'completed')
-                    <x-icon icon="check-circle" type="regular" />
+                    <x-icon icon="check-circle" type="regular" class="text-success" />
                     @lang('This order has been completed.')
                 @elseif($order->status == 'ready')
-                    <x-icon icon="box" />
+                    <x-icon icon="box" class="text-info" />
                     @lang('This order is ready.')
                 @else
-                    <x-icon icon="inbox"/>
+                    <x-icon icon="inbox" class="text-warning"/>
                     @lang('This order is in progress.')
                 @endif
-            </div>
-        </div>
+            </p>
+        </x-card>
     @empty
         <x-alert type="info">@lang('No orders found.')</x-alert>
     @endforelse

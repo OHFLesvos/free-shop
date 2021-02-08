@@ -18,7 +18,7 @@
                         @foreach($categories as $category)
                             @if($products->where('category', $category)->isNotEmpty())
                                 <h4>{{ $category }}</h4>
-                                <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3">
+                                <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 row-cols-xl-4">
                                     @foreach($products->where('category', $category) as $product)
                                         <div class="col mb-4">
                                             <div class="card shadow-sm">

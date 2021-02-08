@@ -3,7 +3,6 @@
 namespace App\Http\Livewire;
 
 use App\Models\Customer;
-use App\Models\Order;
 use App\Services\CurrentCustomer;
 use Livewire\Component;
 
@@ -18,11 +17,13 @@ class OrderLookupPage extends Component
 
     public function render()
     {
+        $orders = $this->customer->orders()
+            ->orderBy('created_at', 'desc')
+            ->get();
+
         return view('livewire.order-lookup-page', [
-            'orders' => $this->customer->orders()
-                ->orderBy('created_at', 'desc')
-                ->get(),
-        ])
+                'orders' => $orders,
+            ])
             ->layout(null, ['title' => __('Find your order')]);
     }
 }

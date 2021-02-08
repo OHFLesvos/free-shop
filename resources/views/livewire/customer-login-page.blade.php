@@ -1,81 +1,82 @@
-<div>
+<div class="small-container">
     <form wire:submit.prevent="submit" class="mb-4" autocomplete="off">
-        <div class="small-container">
-            <div class="card mb-4 shadow-sm">
-                <div class="card-header">@lang('Customer Login')</div>
-                <div class="card-body">
-                    {{-- ID number --}}
-                    <div class="mb-3">
-                        <label for="inputCustomerIdNumber">@lang('ID number')</label>
-                        <input
-                            type="text"
-                            class="form-control @error('customer_id_number') is-invalid @enderror"
-                            id="inputCustomerIdNumber"
-                            wire:model.defer="customer_id_number"
-                            required
-                            autofocus
-                            autocomplete="off"
-                            @if($request_name) disabled @endif
-                            aria-describedby="customerIdNumberHelp">
-                        @error('customer_id_number') <div class="invalid-feedback">{{ $message }}</div> @enderror
-                        <small id="customerIdNumberHelp" class="form-text text-muted">
-                            @lang('Write your ID number according to your identification document.')
-                        </small>
-                    </div>
-                    {{-- Phone number --}}
-                    <div class="mb-3">
-                        <label for="inputCustomerPhone">@lang('Mobile phone number')</label>
-                        <div class="input-group">
-                            @php
-                                $phoneContryCodes = megastruktur\PhoneCountryCodes::getCodesList();
-                            @endphp
-                            <select
-                                class="custom-select"
-                                style="max-width: 11em;"
-                                @if($request_name) disabled @endif
-                                wire:model.defer="customer_phone_country">
-                                @foreach(collect(Countries::getList(app()->getLocale())) as $key => $val)
-                                    <option value="{{ $key }}">
-                                        {{ $val }}
-                                        @isset($phoneContryCodes[$key] )({{ $phoneContryCodes[$key] }})@endisset
-                                    </option>
-                                @endforeach
-                            </select>
-                            <input
-                                type="tel"
-                                class="form-control @error('customer_phone') is-invalid @enderror"
-                                id="inputCustomerPhone"
-                                wire:model.defer="customer_phone"
-                                required
-                                autocomplete="off"
-                                @if($request_name) disabled @endif
-                                aria-describedby="customerPhoneHelp">
-                            @error('customer_phone') <div class="invalid-feedback">{{ $message }}</div> @enderror
-                        </div>
-                        <small id="customerPhoneHelp" class="form-text text-muted">
-                            @lang('We will send updates about your order to this number.')
-                        </small>
-                    </div>
-                    {{-- Name --}}
-                    @if($request_name)
-                        <div class="mb-3">
-                            <label for="inputCustomerName">@lang('First & last name')</label>
-                            <input
-                                type="text"
-                                class="form-control @error('customer_name') is-invalid @enderror"
-                                id="inputCustomerName"
-                                wire:model.defer="customer_name"
-                                required
-                                autocomplete="off"
-                                aria-describedby="customerNameHelp">
-                            @error('customer_name') <div class="invalid-feedback">{{ $message }}</div> @enderror
-                            <small id="customerNameHelp" class="form-text text-muted">
-                                @lang('Write your full name according to your identification document.')
-                            </small>
-                        </div>
-                    @endif
+        <x-card :title="__('Customer Login')">
+
+            {{-- ID number --}}
+            <div class="mb-3">
+                <label for="inputCustomerIdNumber" class="form-label">@lang('ID number')</label>
+                <input
+                    type="text"
+                    class="form-control @error('customer_id_number') is-invalid @enderror"
+                    id="inputCustomerIdNumber"
+                    wire:model.defer="customer_id_number"
+                    required
+                    autofocus
+                    autocomplete="off"
+                    @if($request_name) disabled @endif
+                    aria-describedby="customerIdNumberHelp">
+                @error('customer_id_number') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                <small id="customerIdNumberHelp" class="form-text text-muted">
+                    @lang('Write your ID number according to your identification document.')
+                </small>
+            </div>
+
+            {{-- Phone number --}}
+            <div>
+                <label for="inputCustomerPhone" class="form-label">@lang('Mobile phone number')</label>
+                <div class="input-group">
+                    @php
+                        $phoneContryCodes = megastruktur\PhoneCountryCodes::getCodesList();
+                    @endphp
+                    <select
+                        class="form-select"
+                        style="max-width: 11em;"
+                        @if($request_name) disabled @endif
+                        wire:model.defer="customer_phone_country">
+                        @foreach(collect(Countries::getList(app()->getLocale())) as $key => $val)
+                            <option value="{{ $key }}">
+                                {{ $val }}
+                                @isset($phoneContryCodes[$key] )({{ $phoneContryCodes[$key] }})@endisset
+                            </option>
+                        @endforeach
+                    </select>
+                    <input
+                        type="tel"
+                        class="form-control @error('customer_phone') is-invalid @enderror"
+                        id="inputCustomerPhone"
+                        wire:model.defer="customer_phone"
+                        required
+                        autocomplete="off"
+                        @if($request_name) disabled @endif
+                        aria-describedby="customerPhoneHelp">
+                    @error('customer_phone') <div class="invalid-feedback">{{ $message }}</div> @enderror
                 </div>
-                <div class="card-footer text-end">
+                <small id="customerPhoneHelp" class="form-text text-muted">
+                    @lang('We will send updates about your order to this number.')
+                </small>
+            </div>
+
+            {{-- Name --}}
+            @if($request_name)
+                <div class="mt-3">
+                    <label for="inputCustomerName" class="form-label">@lang('First & last name')</label>
+                    <input
+                        type="text"
+                        class="form-control @error('customer_name') is-invalid @enderror"
+                        id="inputCustomerName"
+                        wire:model.defer="customer_name"
+                        required
+                        autocomplete="off"
+                        aria-describedby="customerNameHelp">
+                    @error('customer_name') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                    <small id="customerNameHelp" class="form-text text-muted">
+                        @lang('Write your full name according to your identification document.')
+                    </small>
+                </div>
+            @endif
+
+            <x-slot name="footer">
+                <div class="text-end">
                     <button
                         type="submit"
                         class="btn btn-primary">
@@ -83,8 +84,8 @@
                         @lang('Login')
                     </button>
                 </div>
-            </div>
-        </div>
+            </x-slot>
+        </x-card>
     </form>
 </div>
 

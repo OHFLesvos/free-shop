@@ -58,6 +58,6 @@ class CustomerAccountPage extends Component
             ->formatE164();
         $this->customer->save();
 
-        session()->flash('message', __('Customer profile saved.'));
+        session()->flash('submitMessage', __('Customer profile saved.'));
     }
 }
