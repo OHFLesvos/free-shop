@@ -66,12 +66,12 @@
 
     {{-- Orders --}}
     @if($customer->orders->isNotEmpty())
-        <h2>Orders</h2>
+        <h3>Orders</h3>
         <div class="table-responsive">
             <table class="table table-bordered table-hover shadow-sm bg-white">
                 <thead>
                     <tr>
-                        <th>Order</th>
+                        <th class="text-end">Order</th>
                         <th>Status</th>
                         <th>Registered</th>
                         <th class="text-end">Products</th>
@@ -82,7 +82,7 @@
                         <tr
                             onclick="window.location='{{ route('backend.orders.show', $relatedOrder) }}'"
                             class="cursor-pointer">
-                            <td class="fit">#{{ $relatedOrder->id }}</td>
+                            <td class="fit text-end">#{{ $relatedOrder->id }}</td>
                             <td class="fit"><x-order-status-label :order="$relatedOrder" /></td>
                             <td>
                                 <x-date-time-info :value="$relatedOrder->created_at" />
@@ -96,16 +96,12 @@
             </table>
         </div>
     @endif
-    <div class="mb-3 d-flex justify-content-between">
+    <div class="d-flex justify-content-between mb-3">
         <a
             href="{{ route('backend.customers.edit', $customer) }}"
-            class="btn btn-primary">
-            Edit
-        </a>
+            class="btn btn-primary">Edit</a>
         <a
             href="{{ route('backend.customers') }}"
-            class="btn btn-link">
-            Back to overview
-        </a>
+            class="btn btn-link">Back to overview</a>
     </div>
 </div>
