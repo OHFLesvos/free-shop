@@ -2,7 +2,7 @@
     'title',
     'noFooterPadding' => false,
 ])
-<div class="card shadow-sm mb-4">
+<div {{ $attributes->merge(['class' => 'card shadow-sm mb-4']) }}>
     @isset($header)
         <div class="card-header">
             {{ $header }}

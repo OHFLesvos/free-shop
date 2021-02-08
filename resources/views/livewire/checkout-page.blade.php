@@ -1,4 +1,4 @@
-<div>
+<div class="medium-container">
     @if(isset($order))
         <x-alert type="success">
             @lang('Your order has been submitted and your order number is <strong>#:id</strong>.', ['id' => $order->id])<br>
