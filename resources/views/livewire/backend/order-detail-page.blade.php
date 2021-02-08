@@ -196,7 +196,7 @@
             </div>
             <a
                 href="{{ route('backend.orders') }}" c
-                lass="btn btn-link">Back to overview</a>
+                class="btn btn-link">Back to overview</a>
         </div>
     </div>
 @endif

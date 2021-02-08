@@ -1,5 +1,5 @@
 <div class="medium-container">
-    <x-card :title="$customer->name">
+    <x-card title="{{ $customer->name }}">
         <x-slot name="addon">
             <ul class="list-group list-group-flush">
                 <li class="list-group-item">
