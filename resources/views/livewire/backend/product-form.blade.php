@@ -59,8 +59,10 @@
                 </div>
             @endif
         </div>
+
         <form wire:submit.prevent="submit" class="mb-4" autocomplete="off">
-            <div class="row g-3 mb-4">
+            <x-card title="Edit product">
+                <div class="row g-3 mb-4">
                 <div class="col-md-6">
                     <label for="inputName" class="form-label">Name</label>
                     <div class="input-group">
@@ -178,23 +180,24 @@
                     </div>
                 </div>
                 <div class="col-md-6">
-                    <label for="pictureInput" class="form-label">Picture</label>
-                    <input
-                        type="file"
-                        class="form-control"
-                        wire:model="picture"
-                        accept="image/*"
-                        id="pictureInput">
-                    @error('picture') <span class="text-danger">{{ $message }}</span> @enderror
-                    <div wire:loading wire:target="picture">Uploading...</div>
+                    <div class="mb-3">
+                        <label for="pictureInput" class="form-label">Picture</label>
+                        <input
+                            type="file"
+                            class="form-control"
+                            wire:model="picture"
+                            accept="image/*"
+                            id="pictureInput">
+                        @error('picture') <span class="text-danger">{{ $message }}</span> @enderror
+                    </div>
+                    <div wire:loading wire:target="picture"><x-spinner/> Uploading...</div>
                     <div wire:loading.remove wire:target="picture">
                         @if($picture)
-                            <div class="mb-3">
+                            <div>
                                 <img
                                     src="{{ $picture->temporaryUrl() }}"
                                     alt="Preview"
-                                    class="mb-3"
-                                    style="max-width: 300px; max-height: 150px">
+                                    class="mb-3 img-thumbnail img-fluid">
                                 <br>
                                 <button
                                     type="button"
@@ -205,12 +208,11 @@
                             </div>
                         @elseif(isset($product->picture))
                             @unless($removePicture)
-                                <div class="mb-3">
+                                <div>
                                     <img
                                         src="{{ $product->pictureUrl }}"
                                         alt="Preview"
-                                        class="mb-2"
-                                        style="max-width: 300px; max-height: 150px">
+                                        class="mb-3 img-thumbnail img-fluid">
                                     <br>
                                     <button
                                         type="button"
@@ -233,11 +235,9 @@
                     </div>
                 </div>
             </div>
+        </x-card>
 
             <div class="d-flex justify-content-between mb-3">
-                <a
-                    href="{{ route('backend.products') }}"
-                    class="btn btn-outline-primary">Back to products</a>
                 <span>
                     @if($product->exists && $product->orders->isEmpty())
                         <button
@@ -248,6 +248,11 @@
                             Delete
                         </button>
                     @endif
+                </span>
+                <span>
+                    <a
+                        href="{{ route('backend.products') }}"
+                        class="btn btn-link">Cancel</a>
                     <button
                         type="submit"
                         class="btn btn-primary"
@@ -259,5 +264,6 @@
                 </span>
             </div>
         </form>
+
     @endif
 </div>

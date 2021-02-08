@@ -1,5 +1,4 @@
 <div class="medium-container">
-    <h1 class="mb-3">Data Import & Export</h1>
     <div class="row">
         <div class="col-md">
             <form wire:submit.prevent="import">

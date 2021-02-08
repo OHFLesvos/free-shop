@@ -32,7 +32,8 @@ $items = [
     <body class="bg-light">
         <nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow-sm mb-4">
             <div class="container">
-                <a class="navbar-brand" href="{{ route('backend') }}">{{ config('app.name') }}</a>
+                <span class="d-lg-none text-light">{{ $title }}</span>
+                <a class="navbar-brand d-none d-lg-inline" href="{{ route('backend') }}">{{ config('app.name') }}</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
@@ -49,7 +50,10 @@ $items = [
                     </ul>
                     <ul class="navbar-nav mb-2 mb-lg-0">
                         <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            @php
+                                $active = Str::of(Request::route()->getName())->startsWith('backend.user-profile');
+                            @endphp
+                            <a class="nav-link @if($active) active @endif dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                 @isset(Auth::user()->avatar)
                                     <img
                                         src="{{ Auth::user()->avatar }}"

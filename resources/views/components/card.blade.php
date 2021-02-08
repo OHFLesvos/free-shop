@@ -7,4 +7,9 @@
         <h5 class="card-title">{{ $title }}</h5>
         {{ $slot }}
     </div>
+    @isset($footer)
+        <div class="card-footer">
+            {{ $footer }}
+        </div>
+    @endisset
 </div>

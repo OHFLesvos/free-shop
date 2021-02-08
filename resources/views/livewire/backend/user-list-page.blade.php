@@ -1,5 +1,4 @@
 <div>
-    <h1 class="mb-3">Users</h1>
     <div class="mb-3">
         <div class="input-group">
             <input
@@ -12,12 +11,20 @@
                 <span class="input-group-text" wire:loading wire:target="search">
                     <x-spinner/>
                 </span>
+                @empty($search)
+                    <span class="input-group-text" wire:loading.remove wire:target="search">
+                        {{ $users->total() }} total
+                    </span>
+                @else
+                    <span class="input-group-text @if($users->isEmpty()) bg-warning @else bg-success text-light @endif" wire:loading.remove wire:target="search">
+                        {{ $users->total() }} results
+                    </span>
+                @endif
             </div>
         </div>
     </div>
     <div class="table-responsive">
         <table class="table table-bordered bg-white shadow-sm">
-            <caption>{{ $users->total() }} users found</caption>
             <thead>
                 <th colspan="2">Name</th>
                 <th>E-Mail</th>
@@ -32,7 +39,8 @@
                                     src="{{ $user->avatar }}"
                                     alt="Avatar"
                                     class="align-top rounded-circle"
-                                    height="24">
+                                    height="24"
+                                    width="24">
                             @endisset
                         </td>
                         <td>{{ $user->name }}</td>

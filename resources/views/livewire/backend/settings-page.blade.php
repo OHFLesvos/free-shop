@@ -1,5 +1,4 @@
 <div class="medium-container">
-    <h1 class="mb-3">Settings</h1>
 
     @if (session()->has('message'))
         <x-alert type="success" dismissible>{{ session()->get('message') }}</x-alert>
@@ -159,7 +158,7 @@
             </div>
         </x-card>
 
-        <p class="text-end">
+        <p>
             <x-submit-button>Save</x-submit-button>
         </p>
     </form>
