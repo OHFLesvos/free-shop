@@ -144,17 +144,45 @@
         <x-card title="Content">
             <div>
                 <label for="welcomeText" class="form-label">Welcome page text:</label>
-                <textarea
-                    id="welcomeText"
-                    wire:model.defer="welcomeText"
-                    rows="5"
-                    class="form-control @error('welcomeText') is-invalid @enderror"
-                    aria-describedby="welcomeTextHelp">
-                </textarea>
-                @error('welcomeText') <div class="invalid-feedback">{{ $message }}</div> @enderror
-                <small id="welcomeTextHelp" class="form-text">
-                    You can use <a href="https://commonmark.org/help/" target="_blank">Markdown syntax</a> to format the text.
-                </small>
+                <ul class="nav nav-tabs mb-2">
+                    <li class="nav-item">
+                        <a
+                            class="nav-link @unless($welcomeTextPreview) active @endunless"
+                            @unless($welcomeTextPreview) aria-current="page" @endunless
+                            href="#editor"
+                            wire:click="$set('welcomeTextPreview', false)">
+                            Editor
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a
+                            class="nav-link @if($welcomeTextPreview) active @endif"
+                            @if($welcomeTextPreview) aria-current="page" @endif
+                            href="#preview"
+                            wire:click="$set('welcomeTextPreview', true)">
+                            Preview
+                        </a>
+                    </li>
+                </ul>
+                @unless($welcomeTextPreview)
+                    <textarea
+                        id="welcomeText"
+                        wire:model.lazy="welcomeText"
+                        rows="5"
+                        class="form-control @error('welcomeText') is-invalid @enderror"
+                        aria-describedby="welcomeTextHelp">
+                    </textarea>
+                    @error('welcomeText') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                    <small id="welcomeTextHelp" class="form-text">
+                        You can use <a href="https://commonmark.org/help/" target="_blank">Markdown syntax</a> to format the text.
+                    </small>
+                @else
+                    @if($welcomeText != null)
+                        {!! Str::of($welcomeText)->markdown() !!}
+                    @else
+                        <em>No preview available.</em>
+                    @endif
+                @endunless
             </div>
         </x-card>
 

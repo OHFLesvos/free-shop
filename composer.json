@@ -14,7 +14,6 @@
         "dyrynda/laravel-nullable-fields": "^4.1",
         "fideloper/proxy": "^4.4",
         "fruitcake/laravel-cors": "^2.0",
-        "graham-campbell/markdown": "13.1",
         "guzzlehttp/guzzle": "^7.0.1",
         "kkomelin/laravel-translatable-string-exporter": "^1.11",
         "laravel-notification-channels/twilio": "^3.1",
