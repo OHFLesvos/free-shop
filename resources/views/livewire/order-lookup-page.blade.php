@@ -30,33 +30,41 @@
             </p>
             @if(in_array($order->status, ['new', 'ready']))
             <x-slot name="footer">
-                <div class="d-flex justify-content-end align-items-center">
+                <div class="row g-2 align-items-center">
                     @if($requestCancel == $order->id)
-                        <span class="me-2">
+                        <div class="col-md">
                             @lang('Do you really want to cancel your order?')
-                        </span>
-                        <span>
+                        </div>
+                        <div class="col-auto">
                             <button
                                 type="button"
                                 class="btn btn-danger"
                                 wire:click="cancelOrder({{ $order->id }})"
                                 wire:loading.attr="disabled">
+                                <x-spinner wire:loading wire:target="cancelOrder"/>
                                 @lang('Yes')
                             </button>
+                        </div>
+                        <div class="col-auto">
                             <button
                                 type="button"
                                 class="btn btn-secondary"
-                                wire:click="$set('requestCancel', 0)">
+                                wire:click="$set('requestCancel', 0)"
+                                wire:loading.attr="disabled"
+                                wire:loading.remove wire:target="cancelOrder">
                                 @lang('No, keep my order')
                             </button>
-                        </span>
+                        </div>
                     @else
-                        <button
-                            type="button"
-                            class="btn btn-outline-danger"
-                            wire:click="$set('requestCancel', {{ $order->id }})">
-                            @lang('Cancel order')
-                        </button>
+                        <div class="col text-end">
+                            <button
+                                type="button"
+                                class="btn btn-outline-danger"
+                                wire:click="$set('requestCancel', {{ $order->id }})"
+                                wire:loading.attr="disabled">
+                                @lang('Cancel order')
+                            </button>
+                        </div>
                     @endif
                 </div>
             </x-slot>
