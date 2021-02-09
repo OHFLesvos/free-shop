@@ -8,4 +8,3 @@
 * show limit in interface / limit reacher
 * contact form / ticket system
 * id number format
-* Phone number fortmat rtl
