@@ -23,7 +23,7 @@
                         <label class="form-check-label" for="deleteExistingDataInput">Delete existing data</label>
                     </div>
                     <x-slot name="footer">
-                        <div class="text-end">
+                        <div class="d-flex justify-content-end align-items-center">
                             <span wire:loading wire:target="upload" class="me-2"><x-spinner/></span>
                             <button
                                 type="submit"
@@ -70,7 +70,7 @@
                         @error('format') <div class="invalid-feedback">{{ $message }}</div> @enderror
                     </div>
                     <x-slot name="footer">
-                        <div class="text-end">
+                        <div class="d-flex justify-content-end">
                             <button
                                 type="submit"
                                 class="btn btn-primary"

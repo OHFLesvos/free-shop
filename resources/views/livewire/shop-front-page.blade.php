@@ -1,16 +1,16 @@
 <div>
     @unless($shopDisabled)
         @unless($maxOrdersReached)
-            @if($products->isNotEmpty())
-                <p>@lang('Please place an order from our selection of items:')</p>
-            @endif
             @if($basket->isNotEmpty())
-                <p class="text-end d-md-none">
+                <p class="d-md-none">
                     <a href="{{ route('checkout') }}"
                         class="btn btn-primary btn-block">
                         @lang('Go to checkout')
                     </a>
                 </p>
+            @endif
+            @if($products->isNotEmpty())
+                <p>@lang('Please place an order from our selection of items:')</p>
             @endif
             @if($products->isNotEmpty())
                 <div class="row">
@@ -92,7 +92,7 @@
                                     </table>
                                 </x-slot>
                                 <x-slot name="footer">
-                                    <div class="text-end">
+                                    <div class="d-flex justify-content-end">
                                         <a href="{{ route('checkout') }}"
                                             class="btn btn-primary">
                                             @lang('Go to checkout')

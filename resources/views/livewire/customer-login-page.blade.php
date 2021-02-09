@@ -76,7 +76,7 @@
             @endif
 
             <x-slot name="footer">
-                <div class="text-end">
+                <div class="d-flex justify-content-end">
                     <button
                         type="submit"
                         class="btn btn-primary">

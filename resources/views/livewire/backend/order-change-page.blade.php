@@ -19,21 +19,23 @@
             </div>
         @endforeach
         <x-slot name="footer">
-            <div class="text-end">
-                <a
-                    href="{{ route('backend.orders.show', $order) }}" c
-                    class="btn btn-link">
-                    Cancel
-                </a>
-                <button
-                    type="submit"
-                    class="btn btn-primary"
-                    wire:target="submit"
-                    wire:loading.attr="disabled"
-                    wire:click="submit">
-                    <x-spinner wire:loading wire:target="submit"/>
-                    Apply
-                </button>
+            <div class="d-flex justify-content-end">
+                <span>
+                    <a
+                        href="{{ route('backend.orders.show', $order) }}" c
+                        class="btn btn-link">
+                        Cancel
+                    </a>
+                    <button
+                        type="submit"
+                        class="btn btn-primary"
+                        wire:target="submit"
+                        wire:loading.attr="disabled"
+                        wire:click="submit">
+                        <x-spinner wire:loading wire:target="submit"/>
+                        Apply
+                    </button>
+                </span>
             </div>
         </x-slot>
     </x-card>

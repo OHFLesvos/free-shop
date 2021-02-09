@@ -3,23 +3,25 @@
         <x-card title="Delete account">
             <p class="card-text">Do you really want do delete your user account?</p>
             <x-slot name="footer">
-                <div class="text-end">
-                    <button
-                        type="button"
-                        class="btn btn-link"
-                        wire:loading.attr="disabled"
-                        wire:click="$toggle('shouldDelete')">
-                        Cancel
-                    </button>
-                    <button
-                        type="button"
-                        class="btn btn-danger"
-                        wire:target="delete"
-                        wire:loading.attr="disabled"
-                        wire:click="delete">
-                        <x-spinner wire:loading wire:target="delete"/>
-                        Delete
-                    </button>
+                <div class="d-flex justify-content-end">
+                    <span>
+                        <button
+                            type="button"
+                            class="btn btn-link"
+                            wire:loading.attr="disabled"
+                            wire:click="$toggle('shouldDelete')">
+                            Cancel
+                        </button>
+                        <button
+                            type="button"
+                            class="btn btn-danger"
+                            wire:target="delete"
+                            wire:loading.attr="disabled"
+                            wire:click="delete">
+                            <x-spinner wire:loading wire:target="delete"/>
+                            Delete
+                        </button>
+                    </span>
                 </div>
             </x-slot>
         </x-card>

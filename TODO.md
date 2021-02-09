@@ -9,4 +9,3 @@
 * contact form / ticket system
 * id number format
 * Phone number fortmat rtl
-* text-end rtl bug
