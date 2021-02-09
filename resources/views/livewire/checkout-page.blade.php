@@ -1,4 +1,4 @@
-<div class="medium-container">
+<div class="small-container">
     @if(isset($order))
         <x-alert type="success">
             @lang('Your order has been submitted and your order number is <strong>#:id</strong>.', ['id' => $order->id])<br>
@@ -6,32 +6,28 @@
         </x-alert>
     @elseif ($basket->isNotEmpty())
         <form wire:submit.prevent="submit" autocomplete="off">
-            <x-card :title="__('Selected products')">
-                <x-slot name="addon">
-                    <table class="table m-0">
-                        <tbody>
-                            @foreach(App\Models\Product::whereIn('id', $basket->keys())->get()->sortBy('name') as $product)
-                                <tr>
-                                    <td class="fit text-end align-middle ps-3">
-                                        <strong>{{ $basket[$product->id] }}</strong>
-                                    </td>
-                                    <td class="align-middle">
-                                        {{ $product->name }}
-                                        <small class="text-muted ms-1">{{ $product->category }}</small>
-                                    </td>
-                                </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-                </x-slot>
-                <x-slot name="footer">
+            <x-card :title="__('Your Order')">
+                <p class="mb-1">{{ __('Selected products:') }}</p>
+                <table class="table">
+                    <tbody>
+                        @foreach(App\Models\Product::whereIn('id', $basket->keys())->get()->sortBy('name') as $product)
+                            <tr>
+                                <td class="fit text-end align-middle ps-3">
+                                    <strong>{{ $basket[$product->id] }}</strong>
+                                </td>
+                                <td class="align-middle">
+                                    {{ $product->name }}
+                                    <small class="text-muted ms-1">{{ $product->category }}</small>
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+                <p>
                     <a href="{{ route('shop-front') }}" class="btn btn-secondary btn-sm">
                         @lang('Change')
                     </a>
-                </x-slot>
-            </x-card>
-
-            <x-card :title="__('Your Order')">
+                </p>
                 <div class="mb-3">
                     <label for="inputRemarks" class="form-label">@lang('Remarks')</label>
                     <textarea
@@ -47,15 +43,17 @@
                     </small>
                 </div>
                 <p class="card-text">@lang('We will send you updates about your order via SMS to <strong>:phone</strong>.', ['phone' => $customer->phoneFormattedInternational])</p>
+                <x-slot name="footer">
+                    <div class="text-end">
+                        <button
+                            type="submit"
+                            class="btn btn-primary">
+                            <x-spinner wire:loading wire:target="submit"/>
+                            @lang('Send order')
+                        </button>
+                    </div>
+                </x-slot>
             </x-card>
-            <p>
-                <button
-                    type="submit"
-                    class="btn btn-primary">
-                    <x-spinner wire:loading wire:target="submit"/>
-                    @lang('Send order')
-                </button>
-            </p>
         </form>
     @else
         <x-alert type="warning">

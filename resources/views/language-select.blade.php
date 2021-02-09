@@ -1,7 +1,7 @@
 @extends('layouts.empty', ['title' => __('Choose your language')])
 
 @section('content')
-    <div class="text-center mx-auto" style="max-width: 600px">
+    <div class="small-container text-center">
         <h1 class="mb-5 display-4">{{ config('app.name') }}</h1>
         <h3>@lang('Choose your language')</h3>
         <div class="list-group shadow-sm my-4">
