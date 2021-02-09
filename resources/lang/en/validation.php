@@ -120,6 +120,8 @@ return [
     'uuid' => 'The :attribute must be a valid UUID.',
     'phone' => 'The :attribute field contains an invalid number.',
 
+    'country_code' => 'The :attribute must be a valid country code.',
+
     /*
     |--------------------------------------------------------------------------
     | Custom Validation Language Lines

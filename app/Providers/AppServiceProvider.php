@@ -5,6 +5,9 @@ namespace App\Providers;
 use App\Services\CurrentCustomer;
 use App\Util\Carbon\UserTimeZoneMixin;
 use Carbon\Carbon;
+use Countries;
+use Illuminate\Support\Facades\Validator;
+
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -29,5 +32,7 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         Carbon::mixin(new UserTimeZoneMixin());
+
+        Validator::extend('country_code', fn ($attribute, $value, $params) => in_array($value, array_keys(Countries::getList())));
     }
 }
