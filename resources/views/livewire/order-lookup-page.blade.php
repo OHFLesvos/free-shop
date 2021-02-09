@@ -47,7 +47,7 @@
                                 type="button"
                                 class="btn btn-secondary"
                                 wire:click="$set('requestCancel', 0)">
-                                @lang('No')
+                                @lang('No, keep my order')
                             </button>
                         </span>
                     @else

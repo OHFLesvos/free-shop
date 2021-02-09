@@ -4,6 +4,7 @@ namespace App\Http\Livewire\Backend;
 
 use Illuminate\Support\Collection;
 use Countries;
+use Illuminate\Support\Str;
 
 class SettingsPage extends BackendPage
 {
@@ -18,6 +19,8 @@ class SettingsPage extends BackendPage
     public $countries;
 
     public ?string $selectedCountry = null;
+
+    public bool $welcomeTextPreview = false;
 
     protected $rules = [
         'shopDisabled' => [

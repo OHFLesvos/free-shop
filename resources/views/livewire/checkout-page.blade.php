@@ -44,7 +44,7 @@
                 </div>
                 <p class="card-text">@lang('We will send you updates about your order via SMS to <strong>:phone</strong>.', ['phone' => $customer->phoneFormattedInternational])</p>
                 <x-slot name="footer">
-                    <div class="text-end">
+                    <div class="d-flex justify-content-end">
                         <button
                             type="submit"
                             class="btn btn-primary">

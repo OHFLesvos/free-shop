@@ -3,7 +3,10 @@
 namespace App\Http\Livewire;
 
 use App\Models\Customer;
+use App\Models\User;
+use App\Notifications\OrderCancelled;
 use App\Services\CurrentCustomer;
+use Illuminate\Support\Facades\Notification;
 use Livewire\Component;
 
 class OrderLookupPage extends Component
@@ -33,9 +36,10 @@ class OrderLookupPage extends Component
     {
         $order = $this->customer->orders()->find($id);
         if ($order != null) {
-            // TODO notify admin
             $order->status = 'cancelled';
             $order->save();
+
+            Notification::send(User::notifiable()->get(), new OrderCancelled($order));
         }
     }
 }

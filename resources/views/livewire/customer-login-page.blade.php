@@ -24,7 +24,7 @@
             {{-- Phone number --}}
             <div>
                 <label for="inputCustomerPhone" class="form-label">@lang('Mobile phone number')</label>
-                <div class="input-group">
+                <div class="input-group" dir="ltr">
                     @php
                         $phoneContryCodes = megastruktur\PhoneCountryCodes::getCodesList();
                     @endphp
@@ -34,10 +34,11 @@
                         @if($request_name) disabled @endif
                         wire:model.defer="customer_phone_country">
                         @foreach(collect(Countries::getList(app()->getLocale())) as $key => $val)
-                            <option value="{{ $key }}">
-                                {{ $val }}
-                                @isset($phoneContryCodes[$key] )({{ $phoneContryCodes[$key] }})@endisset
-                            </option>
+                            @isset($phoneContryCodes[$key])
+                                <option value="{{ $key }}">
+                                    @lang(':country (:code)', ['country' => $val, 'code' => $phoneContryCodes[$key]])
+                                </option>
+                            @endisset
                         @endforeach
                     </select>
                     <input
@@ -76,7 +77,7 @@
             @endif
 
             <x-slot name="footer">
-                <div class="text-end">
+                <div class="d-flex justify-content-end">
                     <button
                         type="submit"
                         class="btn btn-primary">

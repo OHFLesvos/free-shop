@@ -239,7 +239,6 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
         'CurrentCustomer' => App\Facades\CurrentCustomer::class,
-        'Markdown' => GrahamCampbell\Markdown\Facades\Markdown::class,
     ],
 
 ];

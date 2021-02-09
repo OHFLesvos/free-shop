@@ -31,23 +31,33 @@
 
                     {{-- Phone number --}}
                     <div>
-                        <label for="inputCustomerPhone" class="form-label">@lang('Mobile phone number')</label>
-                        <div class="input-group">
+                        <label
+                            for="inputCustomerPhone"
+                            class="form-label">@lang('Mobile phone number')</label>
+                        <div class="input-group" dir="ltr">
                             @php
                                 $phoneContryCodes = megastruktur\PhoneCountryCodes::getCodesList();
                             @endphp
-                            <select class="form-select" style="max-width: 11em;"
+                            <select
+                                class="form-select"
+                                style="max-width: 11em;"
                                 wire:model.defer="customer_phone_country">
                                 @foreach(collect(Countries::getList(app()->getLocale())) as $key => $val)
-                                <option value="{{ $key }}">
-                                    {{ $val }}
-                                    @isset($phoneContryCodes[$key])({{ $phoneContryCodes[$key] }})@endisset
-                                </option>
+                                    @isset($phoneContryCodes[$key])
+                                        <option value="{{ $key }}">
+                                            @lang(':country (:code)', ['country' => $val, 'code' => $phoneContryCodes[$key]])
+                                        </option>
+                                    @endisset
                                 @endforeach
                             </select>
-                            <input type="tel" class="form-control @error('customer_phone') is-invalid @enderror"
-                                id="inputCustomerPhone" wire:model.defer="customer_phone" required
-                                autocomplete="off" aria-describedby="customerPhoneHelp">
+                            <input
+                                type="tel"
+                                class="form-control @error('customer_phone') is-invalid @enderror"
+                                id="inputCustomerPhone"
+                                wire:model.defer="customer_phone"
+                                required
+                                autocomplete="off"
+                                aria-describedby="customerPhoneHelp">
                             @error('customer_phone') <div class="invalid-feedback">{{ $message }}</div> @enderror
                         </div>
                         <small id="customerPhoneHelp" class="form-text text-muted">

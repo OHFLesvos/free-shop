@@ -9,7 +9,7 @@ use NotificationChannels\Twilio\TwilioChannel;
 use NotificationChannels\Twilio\TwilioSmsMessage;
 use Illuminate\Notifications\Notification;
 
-class OrderRegistered extends Notification
+class OrderCancelled extends Notification
 {
     private Order $order;
 
@@ -51,15 +51,15 @@ class OrderRegistered extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
-            ->subject('Order #' . $this->order->id . ' registered')
-            ->markdown('mail.order.registered_by_customer', [
+            ->subject('Order #' . $this->order->id . ' cancelled by customer')
+            ->markdown('mail.order.cancelled_by_customer', [
                 'order' => $this->order,
             ]);
     }
 
     public function toTwilio($notifiable)
     {
-        $message = sprintf("Hello %, we have received a new order with ID #%s from %s.\nMore information: %s",
+        $message = sprintf("Hello %s, the order with ID #%d has been cancelled by customer %s.\nMore information: %s",
             $notifiable->name,
             $this->order->id,
             $this->order->customer->name,

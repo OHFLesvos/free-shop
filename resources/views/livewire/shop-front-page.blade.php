@@ -1,11 +1,8 @@
 <div>
     @unless($shopDisabled)
         @unless($maxOrdersReached)
-            @if($products->isNotEmpty())
-                <p>@lang('Please place an order from our selection of items:')</p>
-            @endif
             @if($basket->isNotEmpty())
-                <p class="text-end d-md-none">
+                <p class="d-md-none">
                     <a href="{{ route('checkout') }}"
                         class="btn btn-primary btn-block">
                         @lang('Go to checkout')
@@ -13,11 +10,14 @@
                 </p>
             @endif
             @if($products->isNotEmpty())
+                <p>@lang('Please place an order from our selection of items:')</p>
+            @endif
+            @if($products->isNotEmpty())
                 <div class="row">
                     <div class="col-md">
                         @foreach($categories as $category)
                             @if($products->where('category', $category)->isNotEmpty())
-                                <h4>{{ $category }}</h4>
+                                <h3 class="mb-3">{{ $category }}</h3>
                                 <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 row-cols-xxl-4">
                                     @foreach($products->where('category', $category) as $product)
                                         <div class="col mb-4">
@@ -92,7 +92,7 @@
                                     </table>
                                 </x-slot>
                                 <x-slot name="footer">
-                                    <div class="text-end">
+                                    <div class="d-flex justify-content-end">
                                         <a href="{{ route('checkout') }}"
                                             class="btn btn-primary">
                                             @lang('Go to checkout')
