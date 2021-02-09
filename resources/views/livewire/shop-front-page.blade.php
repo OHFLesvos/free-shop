@@ -45,9 +45,12 @@
                                                         wire:click="add({{ $product->id }})"
                                                         wire:loading.attr="disabled"
                                                         wire:target="add"
-                                                        @unless(($basket[$product->id] ?? 0) < $product->quantity_available_for_customer) disabled @endunless
-                                                        >
-                                                        @lang('Add')
+                                                        @unless(($basket[$product->id] ?? 0) < $product->quantity_available_for_customer) disabled @endunless>
+                                                        @unless(($basket[$product->id] ?? 0) < $product->quantity_available_for_customer)
+                                                            @lang('Maximum')
+                                                        @else
+                                                            @lang('Add')
+                                                        @endunless
                                                     </button>
                                                 </div>
                                             </div>
