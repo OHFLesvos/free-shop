@@ -17,7 +17,7 @@
                     <div class="col-md">
                         @foreach($categories as $category)
                             @if($products->where('category', $category)->isNotEmpty())
-                                <h4>{{ $category }}</h4>
+                                <h3 class="mb-3">{{ $category }}</h3>
                                 <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 row-cols-xxl-4">
                                     @foreach($products->where('category', $category) as $product)
                                         <div class="col mb-4">
