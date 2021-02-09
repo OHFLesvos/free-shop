@@ -4,7 +4,6 @@ namespace App\Http\Livewire\Backend;
 
 use Illuminate\Support\Collection;
 use Countries;
-use Illuminate\Support\Str;
 
 class SettingsPage extends BackendPage
 {
