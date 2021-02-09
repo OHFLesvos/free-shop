@@ -10,6 +10,8 @@ class OrderLookupPage extends Component
 {
     public Customer $customer;
 
+    public $requestCancel = 0;
+
     public function mount(CurrentCustomer $currentCustomer)
     {
         $this->customer = $currentCustomer->get();
@@ -25,5 +27,15 @@ class OrderLookupPage extends Component
                 'orders' => $orders,
             ])
             ->layout(null, ['title' => __('Find your order')]);
+    }
+
+    public function cancelOrder($id)
+    {
+        $order = $this->customer->orders()->find($id);
+        if ($order != null) {
+            // TODO notify admin
+            $order->status = 'cancelled';
+            $order->save();
+        }
     }
 }

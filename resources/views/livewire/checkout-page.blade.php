@@ -24,7 +24,7 @@
                     </tbody>
                 </table>
                 <p>
-                    <a href="{{ route('shop-front') }}" class="btn btn-secondary btn-sm">
+                    <a href="{{ route('shop-front') }}" class="btn btn-secondary">
                         @lang('Change')
                     </a>
                 </p>

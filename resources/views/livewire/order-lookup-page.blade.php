@@ -1,4 +1,4 @@
-<div class="medium-container">
+<div class="small-container">
     @forelse($orders as $order)
         <x-card :title="__('Order #:id', ['id' => $order->id])">
             <p class="card-text">
@@ -28,6 +28,39 @@
                     @lang('This order is in progress.')
                 @endif
             </p>
+            @if(in_array($order->status, ['new', 'ready']))
+            <x-slot name="footer">
+                <div class="d-flex justify-content-end align-items-center">
+                    @if($requestCancel == $order->id)
+                        <span class="me-2">
+                            @lang('Do you really want to cancel your order?')
+                        </span>
+                        <span>
+                            <button
+                                type="button"
+                                class="btn btn-danger"
+                                wire:click="cancelOrder({{ $order->id }})"
+                                wire:loading.attr="disabled">
+                                @lang('Yes')
+                            </button>
+                            <button
+                                type="button"
+                                class="btn btn-secondary"
+                                wire:click="$set('requestCancel', 0)">
+                                @lang('No')
+                            </button>
+                        </span>
+                    @else
+                        <button
+                            type="button"
+                            class="btn btn-outline-danger"
+                            wire:click="$set('requestCancel', {{ $order->id }})">
+                            @lang('Cancel order')
+                        </button>
+                    @endif
+                </div>
+            </x-slot>
+            @endif
         </x-card>
     @empty
         <x-alert type="info">@lang('No orders found.')</x-alert>
