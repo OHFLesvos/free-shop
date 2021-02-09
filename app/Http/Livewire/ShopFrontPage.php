@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire;
 
+use App;
 use App\Models\Customer;
 use App\Models\Order;
 use App\Models\Product;
@@ -36,7 +37,7 @@ class ShopFrontPage extends Component
         $this->products = Product::query()
             ->available()
             ->orderBy('sequence')
-            ->orderBy('name')
+            ->orderBy('name->' . App::getLocale())
             ->get()
             ->filter(fn ($product) => $product->quantity_available_for_customer > 0);
 
