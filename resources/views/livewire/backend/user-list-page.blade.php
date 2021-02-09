@@ -1,22 +1,25 @@
 <div>
-    <div class="d-md-flex justify-content-between align-items-center">
-        <h1 class="mb-3">Users</h1>
-    </div>
-    @if(session()->has('message'))
-        <x-alert type="success" dismissible>{{ session()->get('message') }}</x-alert>
-    @endif
-    <div class="form-group">
+    <div class="mb-3">
         <div class="input-group">
-        <input
-            type="search"
-            wire:model.debounce.500ms="search"
-            placeholder="Search users..."
-            wire:keydown.escape="$set('search', '')"
-            class="form-control"/>
+            <input
+                type="search"
+                wire:model.debounce.500ms="search"
+                placeholder="Search users..."
+                wire:keydown.escape="$set('search', '')"
+                class="form-control"/>
             <div class="input-group-append" >
                 <span class="input-group-text" wire:loading wire:target="search">
                     <x-spinner/>
                 </span>
+                @empty($search)
+                    <span class="input-group-text" wire:loading.remove wire:target="search">
+                        {{ $users->total() }} total
+                    </span>
+                @else
+                    <span class="input-group-text @if($users->isEmpty()) bg-warning @else bg-success text-light @endif" wire:loading.remove wire:target="search">
+                        {{ $users->total() }} results
+                    </span>
+                @endif
             </div>
         </div>
     </div>
@@ -33,7 +36,12 @@
                     <tr >
                         <td class="fit">
                             @isset($user->avatar)
-                                <img src="{{ $user->avatar }}" alt="Avatar" class="align-top rounded-circle" height="24">
+                                <img
+                                    src="{{ $user->avatar }}"
+                                    alt="Avatar"
+                                    class="align-top rounded-circle"
+                                    height="24"
+                                    width="24">
                             @endisset
                         </td>
                         <td>{{ $user->name }}</td>

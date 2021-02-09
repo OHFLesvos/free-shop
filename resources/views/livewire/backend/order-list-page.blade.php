@@ -1,8 +1,27 @@
 <div>
-    <div class="d-md-flex justify-content-between align-items-center">
-        <h1 class="mb-3">Orders</h1>
-        <div class="overflow-auto">
-            <div class="btn-group mb-3" role="group">
+    <div class="row g-3 mb-3">
+        <div class="col-sm">
+            <div class="input-group">
+                <input type="search" wire:model.debounce.500ms="search" placeholder="Search orders..."
+                    wire:keydown.escape="$set('search', '')" class="form-control" />
+                <div class="input-group-append">
+                    <span class="input-group-text" wire:loading wire:target="search">
+                        <x-spinner />
+                    </span>
+                    @empty($search)
+                        <span class="input-group-text" wire:loading.remove wire:target="search">
+                            {{ $orders->total() }} total
+                        </span>
+                    @else
+                        <span class="input-group-text @if($orders->isEmpty()) bg-warning @else bg-success text-light @endif" wire:loading.remove wire:target="search">
+                            {{ $orders->total() }} results
+                        </span>
+                    @endif
+                </div>
+            </div>
+        </div>
+        <div class="col-auto overflow-auto">
+            <div class="btn-group" role="group">
                 <button type="button" class="btn @if ($status=='new' ) btn-warning @else btn-outline-warning @endif"
                     wire:click="$set('status', 'new')" wire:loading.attr="disabled">New</button>
                 <button type="button" class="btn @if ($status=='ready' ) btn-info @else btn-outline-info @endif"
@@ -14,22 +33,11 @@
             </div>
         </div>
     </div>
-    <div class="form-group">
-        <div class="input-group">
-            <input type="search" wire:model.debounce.500ms="search" placeholder="Search orders..."
-                wire:keydown.escape="$set('search', '')" class="form-control" />
-            <div class="input-group-append">
-                <span class="input-group-text" wire:loading wire:target="search">
-                    <x-spinner />
-                </span>
-            </div>
-        </div>
-    </div>
     <div class="table-responsive">
-        <table class="table table-bordered table-hover bg-white shadow-sm">
+        <table class="table table-bordered bg-white shadow-sm table-hover">
             <caption>{{ $orders->total() }} orders found</caption>
             <thead>
-                <th>ID</th>
+                <th class="fit text-end">ID</th>
                 <th>
                     @if (in_array($status, ['completed', 'cancelled']))
                         Updated
@@ -43,7 +51,7 @@
             <tbody>
                 @forelse($orders as $order)
                     <tr onclick="window.location='{{ route('backend.orders.show', $order) }}'" class="cursor-pointer">
-                        <td>{{ $order->id }}</td>
+                        <td class="fit text-end">#{{ $order->id }}</td>
                         <td>
                             @if (in_array($order->status, ['new', 'ready']))
                                 {{ $order->created_at->toUserTimezone()->isoFormat('LLLL') }}<br>

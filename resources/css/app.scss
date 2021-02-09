@@ -1,6 +1,16 @@
 @import "custom";
 @import "~bootstrap/scss/bootstrap";
 
+.medium-container {
+    @include make-container();
+    max-width: 800px;
+}
+
+.small-container {
+    @include make-container();
+    max-width: 600px;
+}
+
 $fa-font-path: "../webfonts";
 @import "~@fortawesome/fontawesome-free/scss/fontawesome";
 @import "~@fortawesome/fontawesome-free/scss/solid";
@@ -21,9 +31,4 @@ div.sticky {
 
 .cursor-pointer {
     cursor: pointer;
-}
-
-.container-small {
-    max-width: 600px;
-    margin: 0px auto;
 }

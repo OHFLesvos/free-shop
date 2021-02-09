@@ -68,11 +68,4 @@ class CheckoutPage extends Component
 
         $basket->empty();
     }
-
-    public function restart(ShoppingBasket $basket)
-    {
-        $basket->empty();
-
-        return redirect()->route('shop-front');
-    }
 }

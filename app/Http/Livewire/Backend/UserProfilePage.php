@@ -74,7 +74,7 @@ class UserProfilePage extends BackendPage
 
         $this->user->save();
 
-        session()->flash('message', 'User profile information updated.');
+        session()->flash('submitMessage', 'User profile information updated.');
     }
 
     public function delete()

@@ -35,6 +35,7 @@ class CustomerManagePage extends BackendPage
     {
         if (! isset($this->customer)) {
             $this->customer = new Customer();
+            $this->customer->credit = setting()->get('customer.starting_credit', config('shop.customer.starting_credit'));
         }
 
         $this->customer_phone_country = setting()->get('order.default_phone_country', '');
@@ -60,7 +61,9 @@ class CustomerManagePage extends BackendPage
 
     public function render()
     {
-        return parent::view('livewire.backend.customer-form');
+        return parent::view('livewire.backend.customer-form', [
+            'title' => $this->customer->exists ? 'Edit Customer' : 'Register Customer',
+        ]);
     }
 
     public function submit()

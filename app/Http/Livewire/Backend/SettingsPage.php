@@ -3,7 +3,7 @@
 namespace App\Http\Livewire\Backend;
 
 use Illuminate\Support\Collection;
-use megastruktur\PhoneCountryCodes;
+use Countries;
 
 class SettingsPage extends BackendPage
 {
@@ -13,10 +13,39 @@ class SettingsPage extends BackendPage
     public string $welcomeText;
     public $customerStartingCredit;
     public bool $shopDisabled;
-    public array $phoneContryCodes;
     public $shopMaxOrdersPerDay;
 
+    public $countries;
+
     public ?string $selectedCountry = null;
+
+    protected $rules = [
+        'shopDisabled' => [
+            'boolean',
+        ],
+        'orderDefaultPhoneCountry' => [
+            'nullable',
+            'country_code',
+        ],
+        'shopMaxOrdersPerDay' => [
+            'nullable',
+            'integer',
+            'min:1',
+        ],
+        'timezone' => [
+            'nullable',
+            'timezone',
+        ],
+        'welcomeText' => [
+            'nullable',
+            'string',
+        ],
+        'customerStartingCredit' => [
+            'nullable',
+            'integer',
+            'min:0',
+        ],
+    ];
 
     public function mount()
     {
@@ -28,7 +57,7 @@ class SettingsPage extends BackendPage
         $this->customerStartingCredit = setting()->get('customer.starting_credit', config('shop.customer.starting_credit'));
         $this->shopMaxOrdersPerDay = setting()->get('shop.max_orders_per_day', '');
 
-        $this->phoneContryCodes = PhoneCountryCodes::getCodesList();
+        $this->countries = collect(Countries::getList());
     }
 
     protected $title = 'Settings';
@@ -53,6 +82,8 @@ class SettingsPage extends BackendPage
 
     public function submit()
     {
+        $this->validate();
+
         if ($this->shopDisabled) {
             setting()->set('shop.disabled', true);
         } else {
@@ -83,18 +114,18 @@ class SettingsPage extends BackendPage
             setting()->forget('content.welcome_text');
         }
 
-        if (is_numeric($this->customerStartingCredit) && $this->customerStartingCredit >= 0) {
+        if (filled($this->customerStartingCredit)) {
             setting()->set('customer.starting_credit', $this->customerStartingCredit);
         } else {
             setting()->forget('customer.starting_credit');
         }
 
-        if (filled($this->shopMaxOrdersPerDay) && is_numeric($this->shopMaxOrdersPerDay) && $this->shopMaxOrdersPerDay > 0) {
+        if (filled($this->shopMaxOrdersPerDay)) {
             setting()->set('shop.max_orders_per_day', $this->shopMaxOrdersPerDay);
         } else {
             setting()->forget('shop.max_orders_per_day');
         }
 
-        session()->flash('message', 'Settings saved.');
+        session()->flash('submitMessage', 'Settings saved.');
     }
 }

@@ -22,7 +22,7 @@ class DataImportExportPage extends BackendPage
         'delete_existing_data' => 'boolean',
     ];
 
-    protected $title = 'Data Export';
+    protected $title = 'Data Import & Export';
 
     public function render()
     {

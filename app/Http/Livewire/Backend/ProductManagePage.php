@@ -69,6 +69,7 @@ class ProductManagePage extends BackendPage
         if (! isset($this->product)) {
             $this->product = new Product();
             $this->product->is_available = true;
+            $this->product->sequence = Product::count();
         }
 
         $productCategories = Product::select('category')->get();
@@ -102,7 +103,9 @@ class ProductManagePage extends BackendPage
 
     public function render()
     {
-        return parent::view('livewire.backend.product-form');
+        return parent::view('livewire.backend.product-form', [
+            'title' => $this->product->exists ? 'Edit Product' : 'Register Product',
+        ]);
     }
 
     public function getDefaultLocaleProperty()
