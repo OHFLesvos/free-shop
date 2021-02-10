@@ -48,8 +48,8 @@
 
     {{-- Products --}}
     <h3>Products</h3>
-    <div class="table-responsive">
-        <table class="table table-bordered bg-white shadow-sm">
+    <div class="table-responsive mb-4">
+        <table class="table table-bordered bg-white shadow-sm mb-0">
             @php
                 $hasPictures = $order->products->whereNotNull('pictureUrl')->isNotEmpty();
             @endphp
@@ -115,15 +115,50 @@
         </ul>
     @endif
 
+    {{-- Change status --}}
+    @if($showChangeStatus)
+        <x-card title="Change order #{{ $order->id }}">
+            <p class="form-label">New status:</p>
+            @foreach($this->statuses as $key)
+                <div class="form-check">
+                    <input
+                        class="form-check-input"
+                        type="radio"
+                        id="newStatusInput_{{ $key }}"
+                        @if($key == $order->status) autofocus @endif
+                        value="{{ $key }}"
+                        wire:model="newStatus">
+                    <label class="form-check-label" for="newStatusInput_{{ $key }}">
+                        <x-order-status-label :value="$key" />
+                        @if($key == $order->status)
+                            (current)
+                        @endif
+                    </label>
+                </div>
+            @endforeach
+            <x-slot name="footer">
+                <button
+                    type="submit"
+                    class="btn btn-primary"
+                    wire:target="submit"
+                    wire:loading.attr="disabled"
+                    wire:click="submit">
+                    <x-spinner wire:loading wire:target="submit"/>
+                    Apply
+                </button>
+            </x-slot>
+        </x-card>
+    @endif
+
     {{-- Buttons --}}
     <div class="d-flex justify-content-between mb-3">
         <span>
-            @if (in_array($order->status, ['new', 'ready']))
-                <a
-                    href="{{ route('backend.orders.change', $order) }}"
+            @if(!$showChangeStatus && in_array($order->status, ['new', 'ready']))
+                <button
+                    wire:click="$set('showChangeStatus', true)"
                     class="btn btn-primary">
                     Change
-                </a>
+                </button>
             @endif
         </span>
         <a

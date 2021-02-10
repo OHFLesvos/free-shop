@@ -1,7 +1,6 @@
 # TODO
 
-* Change numerous order states at once
+* multi language welcome screen
 * Change SMS message (TBD)
-* Signed in brand
 * Contact form / ticket system
-* id number format
+* Change several order states at once

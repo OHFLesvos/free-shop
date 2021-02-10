@@ -19,6 +19,8 @@ class SettingsPage extends BackendPage
     public $customerStartingCredit;
     public bool $shopDisabled;
     public $shopMaxOrdersPerDay;
+    public $customerIdNumberPattern;
+    public $customerIdNumberExample;
 
     public $countries;
 
@@ -30,33 +32,53 @@ class SettingsPage extends BackendPage
     public $brandLogoUpload;
     public bool $brandLogoRemove = false;
 
-    protected $rules = [
-        'shopDisabled' => [
-            'boolean',
-        ],
-        'orderDefaultPhoneCountry' => [
-            'nullable',
-            'country_code',
-        ],
-        'shopMaxOrdersPerDay' => [
-            'nullable',
-            'integer',
-            'min:1',
-        ],
-        'timezone' => [
-            'nullable',
-            'timezone',
-        ],
-        'welcomeText' => [
-            'nullable',
-            'string',
-        ],
-        'customerStartingCredit' => [
-            'nullable',
-            'integer',
-            'min:0',
-        ],
-    ];
+    protected function rules() {
+        return [
+            'shopDisabled' => [
+                'boolean',
+            ],
+            'orderDefaultPhoneCountry' => [
+                'nullable',
+                'country_code',
+            ],
+            'shopMaxOrdersPerDay' => [
+                'nullable',
+                'integer',
+                'min:1',
+            ],
+            'timezone' => [
+                'nullable',
+                'timezone',
+            ],
+            'welcomeText' => [
+                'nullable',
+                'string',
+            ],
+            'customerStartingCredit' => [
+                'nullable',
+                'integer',
+                'min:0',
+            ],
+            'customerIdNumberPattern' => [
+                'nullable',
+                function ($attribute, $value, $fail) {
+                    if ((@preg_match($value, null) === false)) {
+                        $fail('The pattern is invalid.');
+                    }
+                }
+            ],
+            'customerIdNumberExample' => [
+                'nullable',
+                function ($attribute, $value, $fail) {
+                    if (filled($this->customerIdNumberPattern)) {
+                        if (!preg_match($this->customerIdNumberPattern, $value)) {
+                            $fail('The example is invalid.');
+                        }
+                    }
+                }
+            ]
+        ];
+    }
 
     public function mount()
     {
@@ -68,6 +90,8 @@ class SettingsPage extends BackendPage
         $this->customerStartingCredit = setting()->get('customer.starting_credit', config('shop.customer.starting_credit'));
         $this->shopMaxOrdersPerDay = setting()->get('shop.max_orders_per_day', '');
         $this->brandLogo = setting()->get('brand.logo');
+        $this->customerIdNumberPattern = setting()->get('customer.id_number_pattern', '');
+        $this->customerIdNumberExample = setting()->get('customer.id_number_example', '');
 
         $this->countries = collect(Countries::getList());
     }
@@ -154,6 +178,17 @@ class SettingsPage extends BackendPage
             setting()->set('brand.logo', $path);
             $this->brandLogo = $path;
             $this->brandLogoUpload = null;
+        }
+
+        if (filled($this->customerIdNumberPattern)) {
+            setting()->set('customer.id_number_pattern', $this->customerIdNumberPattern);
+        } else {
+            setting()->forget('customer.id_number_pattern');
+        }
+        if (filled($this->customerIdNumberExample)) {
+            setting()->set('customer.id_number_example', $this->customerIdNumberExample);
+        } else {
+            setting()->forget('customer.id_number_example');
         }
 
         session()->flash('submitMessage', 'Settings saved.');

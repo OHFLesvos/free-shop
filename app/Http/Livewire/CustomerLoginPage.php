@@ -15,15 +15,22 @@ class CustomerLoginPage extends Component
     public string $customer_phone_country;
     public bool $request_name = false;
 
-    protected $rules = [
-        'customer_name' => 'nullable',
-        'customer_id_number' => 'required',
-        'customer_phone' => [
-            'required',
-            'phone:customer_phone_country,mobile',
-        ],
-        'customer_phone_country' => 'required_with:customer_phone',
-    ];
+    protected function rules() {
+        return [
+            'customer_name' => 'nullable',
+            'customer_id_number' => [
+                'required',
+                setting()->has('customer.id_number_pattern')
+                    ? 'regex:' . setting()->get('customer.id_number_pattern')
+                    : null,
+            ],
+            'customer_phone' => [
+                'required',
+                'phone:customer_phone_country,mobile',
+            ],
+            'customer_phone_country' => 'required_with:customer_phone',
+        ];
+    }
 
     protected $validationAttributes = [
         'customer_name' => 'name',

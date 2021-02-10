@@ -43,8 +43,6 @@ class CustomerOrderReadyed extends Notification
         ]);
         $message .= "\n" . __('More information: ');
         $message .= route('order-lookup', [
-            'id_number' => $notifiable->id_number,
-            'phone' => $notifiable->phone,
             'lang' => $notifiable->locale,
         ]);
         return (new TwilioSmsMessage())
