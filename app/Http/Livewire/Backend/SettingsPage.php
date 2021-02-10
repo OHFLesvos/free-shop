@@ -4,10 +4,14 @@ namespace App\Http\Livewire\Backend;
 
 use Illuminate\Support\Collection;
 use Countries;
-use Illuminate\Support\Str;
+use Gumlet\ImageResize;
+use Illuminate\Support\Facades\Storage;
+use Livewire\WithFileUploads;
 
 class SettingsPage extends BackendPage
 {
+    use WithFileUploads;
+
     public Collection $geoblockWhitelist;
     public string $orderDefaultPhoneCountry;
     public string $timezone;
@@ -21,6 +25,10 @@ class SettingsPage extends BackendPage
     public ?string $selectedCountry = null;
 
     public bool $welcomeTextPreview = false;
+
+    public $brandLogo;
+    public $brandLogoUpload;
+    public bool $brandLogoRemove = false;
 
     protected $rules = [
         'shopDisabled' => [
@@ -59,6 +67,7 @@ class SettingsPage extends BackendPage
         $this->welcomeText = setting()->get('content.welcome_text', '');
         $this->customerStartingCredit = setting()->get('customer.starting_credit', config('shop.customer.starting_credit'));
         $this->shopMaxOrdersPerDay = setting()->get('shop.max_orders_per_day', '');
+        $this->brandLogo = setting()->get('brand.logo');
 
         $this->countries = collect(Countries::getList());
     }
@@ -129,6 +138,34 @@ class SettingsPage extends BackendPage
             setting()->forget('shop.max_orders_per_day');
         }
 
+        if (setting()->has('brand.logo') && ($this->brandLogoRemove) || isset($this->brandLogoUpload)) {
+            Storage::delete(setting()->get('brand.logo'));
+            setting()->forget('brand.logo');
+            $this->brandLogo = null;
+        }
+        if (isset($this->brandLogoUpload)) {
+            $name = 'brand-logo-' . now()->format('YmdHis') . '.' . $this->brandLogoUpload->getClientOriginalExtension();
+            $path = $this->brandLogoUpload->storePubliclyAs('public', $name);
+
+            $image = new ImageResize(Storage::path($path));
+            $image->resizeToHeight(24);
+            $image->save(Storage::path($path));
+
+            setting()->set('brand.logo', $path);
+            $this->brandLogo = $path;
+            $this->brandLogoUpload = null;
+        }
+
         session()->flash('submitMessage', 'Settings saved.');
+    }
+
+    public function updatedBrandLogoUpload()
+    {
+        $this->validate([
+            'brandLogoUpload' => [
+                'image',
+                'max:4096',
+            ],
+        ]);
     }
 }
