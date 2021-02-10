@@ -2,7 +2,10 @@
     <div class="row g-3 mb-3">
         <div class="col-sm">
             <div class="input-group">
-                <input type="search" wire:model.debounce.500ms="search" placeholder="Search orders..."
+                <input
+                    type="search"
+                    wire:model.debounce.500ms="search"
+                    placeholder="Search orders (ID, remarks, customer name/ID number/phone)..."
                     wire:keydown.escape="$set('search', '')" class="form-control" />
                 <div class="input-group-append">
                     <span class="input-group-text" wire:loading wire:target="search">

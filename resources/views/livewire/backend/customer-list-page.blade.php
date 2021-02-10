@@ -7,7 +7,7 @@
             <input
                 type="search"
                 wire:model.debounce.500ms="search"
-                placeholder="Search customers..."
+                placeholder="Search customers (Name, ID number, phone, remarks)..."
                 wire:keydown.escape="$set('search', '')"
                 class="form-control"/>
             <div class="input-group-append" >
