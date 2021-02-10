@@ -8,7 +8,6 @@ use App\Http\Livewire\Backend\CustomerDetailPage;
 use App\Http\Livewire\Backend\CustomerListPage;
 use App\Http\Livewire\Backend\CustomerManagePage;
 use App\Http\Livewire\Backend\DataImportExportPage;
-use App\Http\Livewire\Backend\OrderChangePage;
 use App\Http\Livewire\Backend\OrderDetailPage;
 use App\Http\Livewire\Backend\OrderListPage;
 use App\Http\Livewire\Backend\ProductManagePage;
@@ -91,8 +90,6 @@ Route::middleware('auth')
                     ->name('orders');
                 Route::get('orders/{order}', OrderDetailPage::class)
                     ->name('orders.show');
-                Route::get('orders/{order}/change', OrderChangePage::class)
-                    ->name('orders.change');
                 Route::get('customers', CustomerListPage::class)
                     ->name('customers');
                 Route::get('customers/_create', CustomerManagePage::class)
