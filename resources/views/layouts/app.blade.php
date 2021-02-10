@@ -1,4 +1,8 @@
 @php
+$readyOrders = 0;
+if (CurrentCustomer::exists()) {
+    $readyOrders = CurrentCustomer::get()->orders()->status('ready')->count();
+}
 $items = [
     [
         'label' => __('Shop'),
@@ -9,6 +13,7 @@ $items = [
         'label' => __('Your orders'),
         'route' => 'order-lookup',
         'icon' => 'list-alt',
+        'badge' => $readyOrders > 0 ? $readyOrders : null,
     ],
 ];
 $rtl = in_array(app()->getLocale(), config('app.rtl_languages', []));
@@ -35,9 +40,14 @@ $rtl = in_array(app()->getLocale(), config('app.rtl_languages', []));
                                 $active = Str::of(Request::route()->getName())->startsWith($item['route']);
                             @endphp
                             <li class="nav-item">
-                                <a class="nav-link @if($active) active @endif" href="{{ route($item['route']) }}" @if($active) aria-current="page" @endif>
+                                <a
+                                    class="nav-link @if($active) active @endif"
+                                    href="{{ route($item['route']) }}" @if($active) aria-current="page" @endif>
                                     @isset($item['icon']) <x-icon :icon="$item['icon']"/> @endisset
                                     {{ $item['label'] }}
+                                    @isset($item['badge'])
+                                        <span class="badge bg-info">{{ $item['badge'] }}</span>
+                                    @endisset
                                 </a>
                             </li>
                         @endforeach
@@ -45,7 +55,12 @@ $rtl = in_array(app()->getLocale(), config('app.rtl_languages', []));
                     <ul class="navbar-nav">
                         {{-- Language chooser --}}
                         <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <a
+                                class="nav-link dropdown-toggle"
+                                href="#" id="navbarDropdown"
+                                role="button"
+                                data-bs-toggle="dropdown"
+                                aria-expanded="false">
                                 <x-icon icon="language"/>
                                 @lang('Switch language')
                             </a>
@@ -71,7 +86,10 @@ $rtl = in_array(app()->getLocale(), config('app.rtl_languages', []));
                                 $active = Str::of(Request::route()->getName())->startsWith('customer.account');
                             @endphp
                             <li class="nav-item">
-                                <a class="nav-link @if($active) active @endif" href="{{ route('customer.account') }}" @if($active) aria-current="page" @endif>
+                                <a
+                                    class="nav-link @if($active) active @endif"
+                                    href="{{ route('customer.account') }}"
+                                    @if($active) aria-current="page" @endif>
                                     <x-icon icon="id-card"/>
                                     {{ CurrentCustomer::get()->name }}
                                 </a>

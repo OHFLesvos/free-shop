@@ -1,9 +1,10 @@
 @php
+$newOrders = App\Models\Order::status('new')->count();
 $items = [
     [
         'label' => 'Orders',
         'route' => 'backend.orders',
-        'badge' => App\Models\Order::status('new')->count(),
+        'badge' => $newOrders > 0 ? $newOrders : null,
     ],
     [
         'label' => 'Customers',
@@ -51,7 +52,7 @@ $items = [
                                     @if($active) aria-current="page" @endif>
                                     {{ $item['label'] }}
                                     @isset($item['badge'])
-                                    <span class="badge bg-info">{{ $item['badge'] }}</span>
+                                        <span class="badge bg-warning">{{ $item['badge'] }}</span>
                                     @endisset
                                 </a>
                             </li>
