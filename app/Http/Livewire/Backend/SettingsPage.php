@@ -4,6 +4,7 @@ namespace App\Http\Livewire\Backend;
 
 use Illuminate\Support\Collection;
 use Countries;
+use Gumlet\ImageResize;
 use Illuminate\Support\Facades\Storage;
 use Livewire\WithFileUploads;
 
@@ -143,7 +144,13 @@ class SettingsPage extends BackendPage
             $this->brandLogo = null;
         }
         if (isset($this->brandLogoUpload)) {
-            $path = $this->brandLogoUpload->storePubliclyAs('public', 'brand-logo.' . $this->brandLogoUpload->getClientOriginalExtension());
+            $name = 'brand-logo-' . now()->format('YmdHis') . '.' . $this->brandLogoUpload->getClientOriginalExtension();
+            $path = $this->brandLogoUpload->storePubliclyAs('public', $name);
+
+            $image = new ImageResize(Storage::path($path));
+            $image->resizeToHeight(24);
+            $image->save(Storage::path($path));
+
             setting()->set('brand.logo', $path);
             $this->brandLogo = $path;
             $this->brandLogoUpload = null;

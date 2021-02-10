@@ -30,6 +30,9 @@
                     accept="image/*"
                     id="brandLogoInput">
                 @error('brandLogoUpload') <span class="text-danger">{{ $message }}</span> @enderror
+                <div wire:loading wire:target="brandLogoUpload" class="mt-3">
+                    <x-spinner/> Uploading...
+                </div>
                 @if(isset($brandLogoUpload))
                     <div class="mt-3">
                         <img
