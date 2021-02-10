@@ -53,7 +53,7 @@
                     <tr onclick="window.location='{{ route('backend.orders.show', $order) }}'" class="cursor-pointer">
                         <td class="fit text-end">#{{ $order->id }}</td>
                         <td>
-                            @if (in_array($order->status, ['new', 'ready']))
+                            @if ($order->isOpen)
                                 {{ $order->created_at->toUserTimezone()->isoFormat('LLLL') }}<br>
                                 <small>{{ $order->created_at->diffForHumans() }}</small>
                             @else

@@ -153,7 +153,7 @@
     {{-- Buttons --}}
     <div class="d-flex justify-content-between mb-3">
         <span>
-            @if(!$showChangeStatus && in_array($order->status, ['new', 'ready']))
+            @if(!$showChangeStatus && $order->isOpen)
                 <button
                     wire:click="$set('showChangeStatus', true)"
                     class="btn btn-primary">
