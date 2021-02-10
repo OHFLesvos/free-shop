@@ -1,6 +1,9 @@
 # TODO
 
 * multi language welcome screen
-* Change SMS message (TBD)
-* Contact form / ticket system
-* Change several order states at once
+* Customer self-delete
+* Backend:
+  * Show all orders, search all orders
+  * Remember pagination
+  * Change several order states at once
+  * Change SMS message (TBD)

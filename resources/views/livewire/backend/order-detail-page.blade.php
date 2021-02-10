@@ -17,8 +17,12 @@
                 </li>
                 <li class="list-group-item">
                     <strong>Customer:</strong>
-                    <a href="{{ route('backend.customers.show', $order->customer) }}">{{ $order->customer->name }}</a>
-                    ({{ $order->customer->id_number }})
+                    @isset($order->customer)
+                        <a href="{{ route('backend.customers.show', $order->customer) }}">{{ $order->customer->name }}</a>
+                        ({{ $order->customer->id_number }})
+                    @else
+                        <em>Deleted</em>
+                    @endisset
                 </li>
                 <li class="list-group-item">
                     <strong>IP Address:</strong>

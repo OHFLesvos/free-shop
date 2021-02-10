@@ -61,10 +61,12 @@ class OrderDetailPage extends BackendPage
             $this->order->status = $this->newStatus;
             $this->order->save();
 
-            if ($this->order->status == 'ready') {
-                $this->order->customer->notify(new CustomerOrderReadyed($this->order));
-            } else if ($this->order->status == 'cancelled') {
-                $this->order->customer->notify(new CustomerOrderCancelled($this->order));
+            if ($this->order->customer != null) {
+                if ($this->order->status == 'ready') {
+                    $this->order->customer->notify(new CustomerOrderReadyed($this->order));
+                } else if ($this->order->status == 'cancelled') {
+                    $this->order->customer->notify(new CustomerOrderCancelled($this->order));
+                }
             }
             $this->order->save();
 

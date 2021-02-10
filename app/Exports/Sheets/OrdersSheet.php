@@ -49,8 +49,8 @@ class OrdersSheet implements FromQuery, WithMapping, WithHeadings, WithColumnFor
         return [
             $order->id,
             $order->status,
-            $order->customer->id,
-            $order->customer->name . ', ' . $order->customer->id_number . ', ' . $this->mapPhone($order->customer->phone),
+            isset($order->customer) ? $order->customer->id : null,
+            isset($order->customer) ? ($order->customer->name . ', ' . $order->customer->id_number . ', ' . $this->mapPhone($order->customer->phone)) : null,
             $order->ip_address,
             $this->mapBrowser($order->user_agent),
             $this->mapOS($order->user_agent),

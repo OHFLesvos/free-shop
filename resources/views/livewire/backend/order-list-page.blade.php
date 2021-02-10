@@ -62,9 +62,13 @@
                             @endif
                         </td>
                         <td>
-                            <strong>Name:</strong> {{ $order->customer->name }}<br>
-                            <strong>ID Number:</strong> {{ $order->customer->id_number }}<br>
-                            <strong>Phone:</strong> {{ $order->customer->phone }}
+                            @isset($order->customer)
+                                <strong>Name:</strong> {{ $order->customer->name }}<br>
+                                <strong>ID Number:</strong> {{ $order->customer->id_number }}<br>
+                                <strong>Phone:</strong> {{ $order->customer->phone }}
+                            @else
+                                <em>Deleted</em>
+                            @endisset
                         </td>
                         <td>
                             @foreach ($order->products->sortBy('name') as $product)
