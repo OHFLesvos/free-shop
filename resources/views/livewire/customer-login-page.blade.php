@@ -18,6 +18,9 @@
                 @error('customer_id_number') <div class="invalid-feedback">{{ $message }}</div> @enderror
                 <small id="customerIdNumberHelp" class="form-text text-muted">
                     @lang('Write your ID number according to your identification document.')
+                    @if(setting()->has('customer.id_number_example'))
+                        <br>@lang('Example: :value', ['value' => setting()->get('customer.id_number_example')])
+                    @endif
                 </small>
             </div>
 

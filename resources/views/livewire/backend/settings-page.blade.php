@@ -138,7 +138,7 @@
 
         <x-card title="Customer" no-footer-padding>
             <div class="row">
-                <div class="col-sm">
+                <div class="col-sm-6">
                     <div class="mb-3">
                         <label for="orderDefaultPhoneCountry" class="form-label">
                             Default country for phone number:
@@ -159,11 +159,10 @@
                                 </option>
                             @endforeach
                         </select>
-                        @error('orderDefaultPhoneCountry') <div class="invalid-feedback">{{ $message }}</div>
-                        @enderror
+                        @error('orderDefaultPhoneCountry') <div class="invalid-feedback">{{ $message }}</div>@enderror
                     </div>
                 </div>
-                <div class="col-sm">
+                <div class="col-sm-6">
                     <div class="mb-3">
                         <label for="customerStartingCredit" class="form-label">Starting credit:</label>
                         <input
@@ -177,7 +176,34 @@
                         @enderror
                     </div>
                 </div>
+                <div class="col-sm-6">
+                    <div class="mb-3">
+                        <label for="customerIdNumberPatternInput" class="form-label">Required pattern for ID number:</label>
+                        <input
+                            id="customerIdNumberPatternInput"
+                            wire:model.defer="customerIdNumberPattern"
+                            class="form-control @error('customerIdNumberPattern') is-invalid @enderror"
+                            aria-describedby="customerIdNumberPatternHelp">
+                        @error('customerIdNumberPattern') <div class="invalid-feedback">{{ $message }}</div>@enderror
+                        <small id="customerIdNumberPatternHelp" class="form-text">
+                            Define a regular expression pattern in PCRE syntax.<br>
+                            <a href="https://learnxinyminutes.com/docs/pcre/" target="_blank">Learn more</a> about regular expressions.<br>
+                            Leave empty to disable validation.
+                        </small>
+                    </div>
                 </div>
+                <div class="col-sm-6">
+                    <div class="mb-3">
+                        <label for="customerIdNumberExampleInput" class="form-label">ID number example:</label>
+                        <input
+                            id="customerIdNumberExampleInput"
+                            wire:model.defer="customerIdNumberExample"
+                            class="form-control @error('customerIdNumberExample') is-invalid @enderror">
+                        @error('customerIdNumberExample') <div class="invalid-feedback">{{ $message }}</div>@enderror
+                    </div>
+                </div>
+
+            </div>
         </x-card>
 
         <x-card title="Content">

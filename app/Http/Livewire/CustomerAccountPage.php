@@ -16,15 +16,22 @@ class CustomerAccountPage extends Component
     public string $customer_phone = '';
     public string $customer_phone_country;
 
-    protected $rules = [
-        'customer_name' => 'required',
-        'customer_id_number' => 'required',
-        'customer_phone' => [
-            'required',
-            'phone:customer_phone_country,mobile',
-        ],
-        'customer_phone_country' => 'required_with:customer_phone',
-    ];
+    protected function rules() {
+        return [
+            'customer_name' => 'required',
+            'customer_id_number' => [
+                'required',
+                setting()->has('customer.id_number_pattern')
+                    ? 'regex:' . setting()->get('customer.id_number_pattern')
+                    : null,
+            ],
+            'customer_phone' => [
+                'required',
+                'phone:customer_phone_country,mobile',
+            ],
+            'customer_phone_country' => 'required_with:customer_phone',
+        ];
+    }
 
     public function mount(CurrentCustomer $currentCustomer)
     {
