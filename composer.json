@@ -10,6 +10,7 @@
     "require": {
         "php": "^7.4|^8.0",
         "anlutro/l4-settings": "^1.0",
+        "doctrine/dbal": "^3.0",
         "donatj/phpuseragentparser": "^1.1",
         "dyrynda/laravel-nullable-fields": "^4.1",
         "fideloper/proxy": "^4.4",
