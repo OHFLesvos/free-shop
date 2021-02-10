@@ -59,7 +59,7 @@ class OrderRegistered extends Notification
 
     public function toTwilio($notifiable)
     {
-        $message = sprintf("Hello %, we have received a new order with ID #%s from %s.\nMore information: %s",
+        $message = sprintf("Hello %s, we have received a new order with ID #%s from %s.\nMore information: %s",
             $notifiable->name,
             $this->order->id,
             $this->order->customer->name,
