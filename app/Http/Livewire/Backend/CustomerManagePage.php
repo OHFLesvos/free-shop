@@ -52,7 +52,7 @@ class CustomerManagePage extends BackendPage
                 $phone = PhoneNumber::make($this->customer->phone);
                 $this->customer_phone_country = $phone->getCountry();
                 $this->customer_phone = $phone->formatNational();
-            } catch (NumberParseException $ignored) {
+            } catch (NumberParseException|\libphonenumber\NumberParseException $ignored) {
                 $this->customer_phone_country = '';
                 $this->customer_phone = $this->customer->phone;
             }
