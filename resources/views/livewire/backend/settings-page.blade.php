@@ -7,7 +7,7 @@
     <form wire:submit.prevent="submit" class="mb-4" autocomplete="off">
 
         <x-card title="General settings">
-            <div>
+            <div class="mb-3">
                 <label for="timezone" class="form-label">Default timezone:</label>
                 <select
                     id="timezone"
@@ -20,6 +20,42 @@
                     @endforeach
                 </select>
                 @error('timezone') <div class="invalid-feedback">{{ $message }}</div> @enderror
+            </div>
+            <div>
+                <label for="brandLogoInput" class="form-label">Brand Logo:</label>
+                <input
+                    type="file"
+                    class="form-control"
+                    wire:model="brandLogoUpload"
+                    accept="image/*"
+                    id="brandLogoInput">
+                @error('brandLogoUpload') <span class="text-danger">{{ $message }}</span> @enderror
+                @if(isset($brandLogoUpload))
+                    <div class="mt-3">
+                        <img
+                            src="{{ $brandLogoUpload->temporaryUrl() }}"
+                            alt="Preview"
+                            height="24"/>
+                    </div>
+                @elseif(isset($brandLogo))
+                    <div class="d-flex align-items-center mt-3">
+                    <div class="me-2">
+                        <img
+                            src="{{ url(Storage::url($brandLogo)) }}"
+                            alt="Current logo"
+                            height="24"/>
+                    </div>
+                    <div class="form-check form-switch">
+                        <input
+                            type="checkbox"
+                            class="form-check-input"
+                            id="brandLogoRemoveInput"
+                            value="1"
+                            wire:model.defer="brandLogoRemove">
+                        <label class="form-check-label" for="brandLogoRemoveInput">Remove existing logo</label>
+                    </div>
+                </div>
+                @endif
             </div>
         </x-card>
 
@@ -180,7 +216,9 @@
                     @if($welcomeText != null)
                         {!! Str::of($welcomeText)->markdown() !!}
                     @else
-                        <em>No preview available.</em>
+                        <x-alert type="info mb-0">
+                            No preview available.
+                        </x-alert>
                     @endif
                 @endunless
             </div>
