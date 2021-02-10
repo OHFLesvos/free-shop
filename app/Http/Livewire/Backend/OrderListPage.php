@@ -23,12 +23,18 @@ class OrderListPage extends BackendPage
     {
         $this->search = request()->input('search', session()->get('orders.search', '')) ?? '';
         $this->status = session()->get('orders.status', 'new');
+
+        if (session()->has('orders.page')) {
+            $this->setPage(session()->get('orders.page'));
+        }
     }
 
     protected $title = 'Orders';
 
     public function render()
     {
+        session()->put('orders.page', $this->resolvePage());
+
         return parent::view('livewire.backend.order-list-page', [
             'orders' => Order::query()
                 ->when(in_array($this->status, Order::STATUSES), fn ($qry) => $qry->status($this->status))

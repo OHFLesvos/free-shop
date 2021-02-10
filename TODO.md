@@ -4,6 +4,5 @@
 * Customer self-delete
 * Backend:
   * Show all orders, search all orders
-  * Remember pagination
   * Change several order states at once
   * Change SMS message (TBD)
