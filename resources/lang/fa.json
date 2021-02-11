@@ -40,7 +40,7 @@
     ":amount points": "مبلغ: :amount",
     "Logout": "خٌروج",
     "Login": "ورود",
-    "Order #:id": "Order #:id",
+    "Order #:id": "سفارشِ #:id",
     "Ordered on :date": "سفارش در :date",
     "This order has been cancelled.": "این سفارش لغو شده است",
     "This order has been completed.": "این سفارش تکمیل شده است",
