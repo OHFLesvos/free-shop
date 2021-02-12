@@ -15,7 +15,7 @@ class SettingsPage extends BackendPage
     public Collection $geoblockWhitelist;
     public string $orderDefaultPhoneCountry;
     public string $timezone;
-    public string $welcomeText;
+    public $welcomeText;
     public $customerStartingCredit;
     public bool $shopDisabled;
     public $shopMaxOrdersPerDay;
@@ -31,6 +31,8 @@ class SettingsPage extends BackendPage
     public $brandLogo;
     public $brandLogoUpload;
     public bool $brandLogoRemove = false;
+
+    public $contentLocale;
 
     protected function rules() {
         return [
@@ -52,6 +54,9 @@ class SettingsPage extends BackendPage
             ],
             'welcomeText' => [
                 'nullable',
+                'array',
+            ],
+            'welcomeText.*' => [
                 'string',
             ],
             'customerStartingCredit' => [
@@ -86,7 +91,7 @@ class SettingsPage extends BackendPage
         $this->geoblockWhitelist = collect(setting()->get('geoblock.whitelist', []));
         $this->orderDefaultPhoneCountry = setting()->get('order.default_phone_country', '');
         $this->timezone = setting()->get('timezone', '');
-        $this->welcomeText = setting()->get('content.welcome_text', '');
+        $this->welcomeText = setting()->get('content.welcome_text', []);
         $this->customerStartingCredit = setting()->get('customer.starting_credit', config('shop.customer.starting_credit'));
         $this->shopMaxOrdersPerDay = setting()->get('shop.max_orders_per_day', '');
         $this->brandLogo = setting()->get('brand.logo');
@@ -94,6 +99,8 @@ class SettingsPage extends BackendPage
         $this->customerIdNumberExample = setting()->get('customer.id_number_example', '');
 
         $this->countries = collect(Countries::getList());
+
+        $this->contentLocale = config('app.fallback_locale');
     }
 
     protected $title = 'Settings';
@@ -144,8 +151,11 @@ class SettingsPage extends BackendPage
             setting()->forget('timezone');
         }
 
-        if (filled($this->welcomeText)) {
-            setting()->set('content.welcome_text', $this->welcomeText);
+        $welcomeText = collect($this->welcomeText)
+            ->filter(fn ($t) => filled($t))
+            ->toArray();
+        if (count($welcomeText) > 0) {
+            setting()->set('content.welcome_text', $welcomeText);
         } else {
             setting()->forget('content.welcome_text');
         }
@@ -202,5 +212,10 @@ class SettingsPage extends BackendPage
                 'max:4096',
             ],
         ]);
+    }
+
+    public function getDefaultLocaleProperty()
+    {
+        return config('app.fallback_locale');
     }
 }

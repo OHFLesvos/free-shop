@@ -1,6 +1,5 @@
 # TODO
 
-* multi language welcome screen
 * check spending maximum in shop, subtract points, show points
 * Backend:
   * restore points on cancel
