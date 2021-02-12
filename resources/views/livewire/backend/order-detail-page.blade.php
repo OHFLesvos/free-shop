@@ -70,7 +70,7 @@
                             <td class="fit">
                                 @isset($product->pictureUrl)
                                     <img
-                                        src="{{ $product->pictureUrl }}"
+                                        src="{{ url($product->pictureUrl) }}"
                                         alt="Product Image"
                                         style="max-width: 100px; max-height: 75px" />
                                 @endisset
