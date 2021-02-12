@@ -75,19 +75,17 @@
                                     <option value="{{ $value }}">{{ $label }}</option>
                                 @endforeach
                             </select>
-                            <div class="input-group-append">
-                                <button
-                                    class="btn btn-outline-secondary"
-                                    type="button"
-                                    wire:click="detectTimezone">
-                                    <x-spinner wire:loading wire:target="detectTimezone"/>
-                                    <span
-                                        wire:loading.remove
-                                        wire:target="detectTimezone">
-                                        <x-icon icon="search-location"/>
-                                    </span>
-                                </button>
-                            </div>
+                            <button
+                                class="btn btn-outline-secondary"
+                                type="button"
+                                wire:click="detectTimezone">
+                                <x-spinner wire:loading wire:target="detectTimezone"/>
+                                <span
+                                    wire:loading.remove
+                                    wire:target="detectTimezone">
+                                    <x-icon icon="search-location"/>
+                                </span>
+                            </button>
                             @error('timezone') <div class="invalid-feedback">{{ $message }}</div> @enderror
                         </div>
                     </x-card>

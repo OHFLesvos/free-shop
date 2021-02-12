@@ -20,12 +20,18 @@ class CustomerListPage extends BackendPage
     public function mount()
     {
         $this->search = request()->input('search', session()->get('customers.search', '')) ?? '';
+
+        if (session()->has('customers.page')) {
+            $this->setPage(session()->get('customers.page'));
+        }
     }
 
     protected $title = 'Customers';
 
     public function render()
     {
+        session()->put('customers.page', $this->resolvePage());
+
         return parent::view('livewire.backend.customer-list-page', [
             'customers' => Customer::query()
                 ->when(filled($this->search), fn ($qry) => $qry->filter(trim($this->search)))

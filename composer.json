@@ -10,10 +10,12 @@
     "require": {
         "php": "^7.4|^8.0",
         "anlutro/l4-settings": "^1.0",
+        "doctrine/dbal": "^3.0",
         "donatj/phpuseragentparser": "^1.1",
         "dyrynda/laravel-nullable-fields": "^4.1",
         "fideloper/proxy": "^4.4",
         "fruitcake/laravel-cors": "^2.0",
+        "gumlet/php-image-resize": "^2.0",
         "guzzlehttp/guzzle": "^7.0.1",
         "kkomelin/laravel-translatable-string-exporter": "^1.11",
         "laravel-notification-channels/twilio": "^3.1",
@@ -33,6 +35,7 @@
         "torann/geoip": "^3.0"
     },
     "require-dev": {
+        "barryvdh/laravel-debugbar": "^3.5",
         "barryvdh/laravel-ide-helper": "^2.9",
         "facade/ignition": "^2.5",
         "fakerphp/faker": "^1.9.1",

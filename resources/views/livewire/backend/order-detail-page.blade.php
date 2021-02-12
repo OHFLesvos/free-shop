@@ -17,8 +17,12 @@
                 </li>
                 <li class="list-group-item">
                     <strong>Customer:</strong>
-                    <a href="{{ route('backend.customers.show', $order->customer) }}">{{ $order->customer->name }}</a>
-                    ({{ $order->customer->id_number }})
+                    @isset($order->customer)
+                        <a href="{{ route('backend.customers.show', $order->customer) }}">{{ $order->customer->name }}</a>
+                        ({{ $order->customer->id_number }})
+                    @else
+                        <em>Deleted</em>
+                    @endisset
                 </li>
                 <li class="list-group-item">
                     <strong>IP Address:</strong>
@@ -48,8 +52,8 @@
 
     {{-- Products --}}
     <h3>Products</h3>
-    <div class="table-responsive">
-        <table class="table table-bordered bg-white shadow-sm">
+    <div class="table-responsive mb-4">
+        <table class="table table-bordered bg-white shadow-sm mb-0">
             @php
                 $hasPictures = $order->products->whereNotNull('pictureUrl')->isNotEmpty();
             @endphp
@@ -66,7 +70,7 @@
                             <td class="fit">
                                 @isset($product->pictureUrl)
                                     <img
-                                        src="{{ $product->pictureUrl }}"
+                                        src="{{ url($product->pictureUrl) }}"
                                         alt="Product Image"
                                         style="max-width: 100px; max-height: 75px" />
                                 @endisset
@@ -115,15 +119,50 @@
         </ul>
     @endif
 
+    {{-- Change status --}}
+    @if($showChangeStatus)
+        <x-card title="Change order #{{ $order->id }}">
+            <p class="form-label">New status:</p>
+            @foreach($this->statuses as $key)
+                <div class="form-check">
+                    <input
+                        class="form-check-input"
+                        type="radio"
+                        id="newStatusInput_{{ $key }}"
+                        @if($key == $order->status) autofocus @endif
+                        value="{{ $key }}"
+                        wire:model="newStatus">
+                    <label class="form-check-label" for="newStatusInput_{{ $key }}">
+                        <x-order-status-label :value="$key" />
+                        @if($key == $order->status)
+                            (current)
+                        @endif
+                    </label>
+                </div>
+            @endforeach
+            <x-slot name="footer">
+                <button
+                    type="submit"
+                    class="btn btn-primary"
+                    wire:target="submit"
+                    wire:loading.attr="disabled"
+                    wire:click="submit">
+                    <x-spinner wire:loading wire:target="submit"/>
+                    Apply
+                </button>
+            </x-slot>
+        </x-card>
+    @endif
+
     {{-- Buttons --}}
     <div class="d-flex justify-content-between mb-3">
         <span>
-            @if (in_array($order->status, ['new', 'ready']))
-                <a
-                    href="{{ route('backend.orders.change', $order) }}"
+            @if(!$showChangeStatus && $order->isOpen)
+                <button
+                    wire:click="$set('showChangeStatus', true)"
                     class="btn btn-primary">
                     Change
-                </a>
+                </button>
             @endif
         </span>
         <a

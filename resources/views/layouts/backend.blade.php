@@ -1,8 +1,10 @@
 @php
+$newOrders = App\Models\Order::status('new')->count();
 $items = [
     [
         'label' => 'Orders',
-        'route' => 'backend.orders'
+        'route' => 'backend.orders',
+        'badge' => $newOrders > 0 ? $newOrders : null,
     ],
     [
         'label' => 'Customers',
@@ -44,7 +46,15 @@ $items = [
                                 $active = Str::of(Request::route()->getName())->startsWith($item['route']);
                             @endphp
                             <li class="nav-item">
-                                <a class="nav-link @if($active) active @endif" href="{{ route($item['route']) }}" @if($active) aria-current="page" @endif>{{ $item['label'] }}</a>
+                                <a
+                                    class="nav-link @if($active) active @endif"
+                                    href="{{ route($item['route']) }}"
+                                    @if($active) aria-current="page" @endif>
+                                    {{ $item['label'] }}
+                                    @isset($item['badge'])
+                                        <span class="badge bg-warning">{{ $item['badge'] }}</span>
+                                    @endisset
+                                </a>
                             </li>
                         @endforeach
                     </ul>
@@ -53,7 +63,13 @@ $items = [
                             @php
                                 $active = Str::of(Request::route()->getName())->startsWith('backend.user-profile');
                             @endphp
-                            <a class="nav-link @if($active) active @endif dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <a
+                                class="nav-link @if($active) active @endif dropdown-toggle"
+                                href="#"
+                                id="navbarDropdown"
+                                role="button"
+                                data-bs-toggle="dropdown"
+                                aria-expanded="false">
                                 @isset(Auth::user()->avatar)
                                     <img
                                         src="{{ Auth::user()->avatar }}"

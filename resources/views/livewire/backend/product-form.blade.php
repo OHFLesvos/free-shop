@@ -63,9 +63,7 @@
                     <div class="col-md-6">
                         <label for="inputName" class="form-label">Name</label>
                         <div class="input-group">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text">{{ strtoupper($locale) }}</span>
-                            </div>
+                            <span class="input-group-text">{{ strtoupper($locale) }}</span>
                             <input
                                 type="text"
                                 class="form-control @error('name.' . $locale) is-invalid @enderror"
@@ -81,9 +79,7 @@
                     <div class="col-md-6">
                         <label for="inputCategory" class="form-label">Category</label>
                         <div class="input-group">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text">{{ strtoupper($locale) }}</span>
-                            </div>
+                            <span class="input-group-text">{{ strtoupper($locale) }}</span>
                             <input
                                 type="text"
                                 class="form-control @error('category.' . $locale) is-invalid @enderror"
@@ -162,9 +158,7 @@
                     <div class="col-md-6">
                         <label for="inputDescription" class="form-label">Description</label>
                         <div class="input-group">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text">{{ strtoupper($locale) }}</span>
-                            </div>
+                            <span class="input-group-text">{{ strtoupper($locale) }}</span>
                             <textarea
                                 type="text"
                                 class="form-control @error('description') is-invalid @enderror"
@@ -207,7 +201,7 @@
                                 @unless($removePicture)
                                     <div>
                                         <img
-                                            src="{{ $product->pictureUrl }}"
+                                            src="{{ url($product->pictureUrl) }}"
                                             alt="Preview"
                                             class="mb-3 img-thumbnail img-fluid">
                                         <br>

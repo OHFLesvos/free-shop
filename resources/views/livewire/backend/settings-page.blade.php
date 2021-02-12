@@ -7,7 +7,7 @@
     <form wire:submit.prevent="submit" class="mb-4" autocomplete="off">
 
         <x-card title="General settings">
-            <div>
+            <div class="mb-3">
                 <label for="timezone" class="form-label">Default timezone:</label>
                 <select
                     id="timezone"
@@ -20,6 +20,45 @@
                     @endforeach
                 </select>
                 @error('timezone') <div class="invalid-feedback">{{ $message }}</div> @enderror
+            </div>
+            <div>
+                <label for="brandLogoInput" class="form-label">Brand Logo:</label>
+                <input
+                    type="file"
+                    class="form-control"
+                    wire:model="brandLogoUpload"
+                    accept="image/*"
+                    id="brandLogoInput">
+                @error('brandLogoUpload') <span class="text-danger">{{ $message }}</span> @enderror
+                <div wire:loading wire:target="brandLogoUpload" class="mt-3">
+                    <x-spinner/> Uploading...
+                </div>
+                @if(isset($brandLogoUpload))
+                    <div class="mt-3">
+                        <img
+                            src="{{ $brandLogoUpload->temporaryUrl() }}"
+                            alt="Preview"
+                            height="24"/>
+                    </div>
+                @elseif(isset($brandLogo))
+                    <div class="d-flex align-items-center mt-3">
+                    <div class="me-2">
+                        <img
+                            src="{{ url(Storage::url($brandLogo)) }}"
+                            alt="Current logo"
+                            height="24"/>
+                    </div>
+                    <div class="form-check form-switch">
+                        <input
+                            type="checkbox"
+                            class="form-check-input"
+                            id="brandLogoRemoveInput"
+                            value="1"
+                            wire:model.defer="brandLogoRemove">
+                        <label class="form-check-label" for="brandLogoRemoveInput">Remove existing logo</label>
+                    </div>
+                </div>
+                @endif
             </div>
         </x-card>
 
@@ -86,20 +125,18 @@
                         <option value="{{ $key }}">{{ $val }}</option>
                     @endforeach
                 </select>
-                <div class="input-group-append">
-                    <button
-                        class="btn btn-outline-secondary"
-                        type="button"
-                        wire:click="addToGeoblockWhitelist">
-                        Add
-                    </button>
-                </div>
+                <button
+                    class="btn btn-outline-secondary"
+                    type="button"
+                    wire:click="addToGeoblockWhitelist">
+                    Add
+                </button>
             </div>
         </x-card>
 
         <x-card title="Customer" no-footer-padding>
             <div class="row">
-                <div class="col-sm">
+                <div class="col-sm-6">
                     <div class="mb-3">
                         <label for="orderDefaultPhoneCountry" class="form-label">
                             Default country for phone number:
@@ -120,11 +157,10 @@
                                 </option>
                             @endforeach
                         </select>
-                        @error('orderDefaultPhoneCountry') <div class="invalid-feedback">{{ $message }}</div>
-                        @enderror
+                        @error('orderDefaultPhoneCountry') <div class="invalid-feedback">{{ $message }}</div>@enderror
                     </div>
                 </div>
-                <div class="col-sm">
+                <div class="col-sm-6">
                     <div class="mb-3">
                         <label for="customerStartingCredit" class="form-label">Starting credit:</label>
                         <input
@@ -138,10 +174,51 @@
                         @enderror
                     </div>
                 </div>
+                <div class="col-sm-6">
+                    <div class="mb-3">
+                        <label for="customerIdNumberPatternInput" class="form-label">Required pattern for ID number:</label>
+                        <input
+                            id="customerIdNumberPatternInput"
+                            wire:model.defer="customerIdNumberPattern"
+                            class="form-control @error('customerIdNumberPattern') is-invalid @enderror"
+                            aria-describedby="customerIdNumberPatternHelp">
+                        @error('customerIdNumberPattern') <div class="invalid-feedback">{{ $message }}</div>@enderror
+                        <small id="customerIdNumberPatternHelp" class="form-text">
+                            Define a regular expression pattern in PCRE syntax.<br>
+                            <a href="https://learnxinyminutes.com/docs/pcre/" target="_blank">Learn more</a> about regular expressions.<br>
+                            Leave empty to disable validation.
+                        </small>
+                    </div>
                 </div>
+                <div class="col-sm-6">
+                    <div class="mb-3">
+                        <label for="customerIdNumberExampleInput" class="form-label">ID number example:</label>
+                        <input
+                            id="customerIdNumberExampleInput"
+                            wire:model.defer="customerIdNumberExample"
+                            class="form-control @error('customerIdNumberExample') is-invalid @enderror">
+                        @error('customerIdNumberExample') <div class="invalid-feedback">{{ $message }}</div>@enderror
+                    </div>
+                </div>
+
+            </div>
         </x-card>
 
         <x-card title="Content">
+            <x-slot name="header">
+                <div class="d-flex justify-content-end">
+                    <select
+                        class="form-select w-auto"
+                        wire:model.lazy="contentLocale">
+                        @foreach(config('app.supported_languages') as $lang_key => $lang_name)
+                            <option
+                                value="{{ $lang_key }}">
+                                {{ $lang_name }} ({{ strtoupper($lang_key) }})
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
+            </x-slot>
             <div>
                 <label for="welcomeText" class="form-label">Welcome page text:</label>
                 <ul class="nav nav-tabs mb-2">
@@ -165,22 +242,30 @@
                     </li>
                 </ul>
                 @unless($welcomeTextPreview)
-                    <textarea
-                        id="welcomeText"
-                        wire:model.lazy="welcomeText"
-                        rows="5"
-                        class="form-control @error('welcomeText') is-invalid @enderror"
-                        aria-describedby="welcomeTextHelp">
-                    </textarea>
-                    @error('welcomeText') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                    <div class="input-group">
+                        <div class="input-group-text">
+                            {{ strtoupper($contentLocale) }}
+                        </div>
+                        <textarea
+                            id="welcomeText"
+                            wire:model.lazy="welcomeText.{{ $contentLocale }}"
+                            @if($this->defaultLocale != $contentLocale) placeholder="{{ $welcomeText[$this->defaultLocale] ?? '' }}" @endif
+                            rows="5"
+                            class="form-control @error('welcomeText') is-invalid @enderror"
+                            aria-describedby="welcomeTextHelp">
+                        </textarea>
+                        @error('welcomeText') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                    </div>
                     <small id="welcomeTextHelp" class="form-text">
                         You can use <a href="https://commonmark.org/help/" target="_blank">Markdown syntax</a> to format the text.
                     </small>
                 @else
-                    @if($welcomeText != null)
-                        {!! Str::of($welcomeText)->markdown() !!}
+                    @if(isset($welcomeText[$contentLocale]) && filled($welcomeText[$contentLocale]))
+                        {!! Str::of($welcomeText[$contentLocale])->markdown() !!}
                     @else
-                        <em>No preview available.</em>
+                        <x-alert type="info mb-0">
+                            No preview available.
+                        </x-alert>
                     @endif
                 @endunless
             </div>

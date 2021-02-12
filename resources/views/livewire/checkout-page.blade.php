@@ -4,6 +4,7 @@
             @lang('Your order has been submitted and your order number is <strong>#:id</strong>.', ['id' => $order->id])<br>
             @lang('We will contact you via your phone <strong>:phone</strong> when the order is ready.', ['phone' => $order->customer->phone])
         </x-alert>
+        <p><a href="{{ route('order-lookup') }}" class="btn btn-primary">@lang('Your orders')</a></p>
     @elseif ($basket->isNotEmpty())
         <form wire:submit.prevent="submit" autocomplete="off">
             <x-card :title="__('Your Order')">

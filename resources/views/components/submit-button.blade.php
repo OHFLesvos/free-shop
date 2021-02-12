@@ -1,4 +1,4 @@
-<span>
+<span class="d-flex align-items-center">
     <button
         type="submit"
         class="btn btn-primary">
@@ -6,9 +6,9 @@
         {{ $slot }}
     </button>
     @if(session()->has('submitMessage'))
-        <small class="text-success ms-2" wire:loading.remove wire:target="submit">
+        <small class="text-success ms-3" wire:loading.remove wire:target="submit">
             <x-icon icon="check"/>
-            <span class="d-none d-sm-inline">{{ session()->get('submitMessage') }}</span>
+            {{ session()->get('submitMessage') }}
         </small>
     @endif
 </span>

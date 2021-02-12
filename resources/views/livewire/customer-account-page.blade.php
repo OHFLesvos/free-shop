@@ -8,8 +8,12 @@
                     {{-- Name --}}
                     <div class="mb-3">
                         <label for="inputCustomerName" class="form-label">@lang('First & last name')</label>
-                        <input type="text" class="form-control @error('customer_name') is-invalid @enderror"
-                            id="inputCustomerName" wire:model.defer="customer_name" required autocomplete="off"
+                        <input type="text"
+                            class="form-control @error('customer_name') is-invalid @enderror"
+                            id="inputCustomerName"
+                            wire:model.defer="customer_name"
+                            required
+                            autocomplete="off"
                             aria-describedby="customerNameHelp">
                         @error('customer_name') <div class="invalid-feedback">{{ $message }}</div> @enderror
                         <small id="customerNameHelp" class="form-text text-muted">
@@ -20,12 +24,19 @@
                     {{-- ID number --}}
                     <div class="mb-3">
                         <label for="inputCustomerIdNumber" class="form-label">@lang('ID number')</label>
-                        <input type="text" class="form-control @error('customer_id_number') is-invalid @enderror"
-                            id="inputCustomerIdNumber" wire:model.defer="customer_id_number" required
-                            autocomplete="off" aria-describedby="customerIdNumberHelp">
+                        <input type="text"
+                            class="form-control @error('customer_id_number') is-invalid @enderror"
+                            id="inputCustomerIdNumber"
+                            wire:model.defer="customer_id_number"
+                            required
+                            autocomplete="off"
+                            aria-describedby="customerIdNumberHelp">
                         @error('customer_id_number') <div class="invalid-feedback">{{ $message }}</div> @enderror
                         <small id="customerIdNumberHelp" class="form-text text-muted">
                             @lang('Write your ID number according to your identification document.')
+                            @if(setting()->has('customer.id_number_example'))
+                                <br>@lang('Example: :value', ['value' => setting()->get('customer.id_number_example')])
+                            @endif
                         </small>
                     </div>
 
@@ -66,9 +77,7 @@
                     </div>
 
                     <x-slot name="footer">
-                        <div>
-                            <x-submit-button>@lang('Save')</x-submit-button>
-                        </div>
+                        <x-submit-button>@lang('Save')</x-submit-button>
                     </x-slot>
                 </x-card>
 

@@ -36,7 +36,11 @@ class Customer extends Model implements HasLocalePreference
     protected static function booted()
     {
         static::deleting(function (Customer $customer) {
-            $customer->orders()->delete();
+            $customer->orders()
+                ->whereIn('status', ['new', 'ready'])
+                ->update(['status' => 'cancelled']);
+            $customer->orders()
+                ->update(['customer_id' => null]);
         });
     }
 

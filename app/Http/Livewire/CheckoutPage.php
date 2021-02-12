@@ -62,7 +62,7 @@ class CheckoutPage extends Component
         // $customer->credit -= $totalPrice;
 
         $this->customer->notify(new CustomerOrderRegistered($order));
-        Notification::send(User::notifiable()->get(), new OrderRegistered($order));
+        Notification::locale(config('app.locale'))->send(User::notifiable()->get(), new OrderRegistered($order));
 
         $this->order = $order;
 

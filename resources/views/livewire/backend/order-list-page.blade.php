@@ -2,22 +2,23 @@
     <div class="row g-3 mb-3">
         <div class="col-sm">
             <div class="input-group">
-                <input type="search" wire:model.debounce.500ms="search" placeholder="Search orders..."
+                <input
+                    type="search"
+                    wire:model.debounce.500ms="search"
+                    placeholder="Search orders (ID, remarks, customer name/ID number/phone)..."
                     wire:keydown.escape="$set('search', '')" class="form-control" />
-                <div class="input-group-append">
-                    <span class="input-group-text" wire:loading wire:target="search">
-                        <x-spinner />
+                <span class="input-group-text" wire:loading wire:target="search">
+                    <x-spinner />
+                </span>
+                @empty($search)
+                    <span class="input-group-text" wire:loading.remove wire:target="search">
+                        {{ $orders->total() }} total
                     </span>
-                    @empty($search)
-                        <span class="input-group-text" wire:loading.remove wire:target="search">
-                            {{ $orders->total() }} total
-                        </span>
-                    @else
-                        <span class="input-group-text @if($orders->isEmpty()) bg-warning @else bg-success text-light @endif" wire:loading.remove wire:target="search">
-                            {{ $orders->total() }} results
-                        </span>
-                    @endif
-                </div>
+                @else
+                    <span class="input-group-text @if($orders->isEmpty()) bg-warning @else bg-success text-light @endif" wire:loading.remove wire:target="search">
+                        {{ $orders->total() }} results
+                    </span>
+                @endif
             </div>
         </div>
         <div class="col-auto overflow-auto">
@@ -53,7 +54,7 @@
                     <tr onclick="window.location='{{ route('backend.orders.show', $order) }}'" class="cursor-pointer">
                         <td class="fit text-end">#{{ $order->id }}</td>
                         <td>
-                            @if (in_array($order->status, ['new', 'ready']))
+                            @if ($order->isOpen)
                                 {{ $order->created_at->toUserTimezone()->isoFormat('LLLL') }}<br>
                                 <small>{{ $order->created_at->diffForHumans() }}</small>
                             @else
@@ -62,9 +63,13 @@
                             @endif
                         </td>
                         <td>
-                            <strong>Name:</strong> {{ $order->customer->name }}<br>
-                            <strong>ID Number:</strong> {{ $order->customer->id_number }}<br>
-                            <strong>Phone:</strong> {{ $order->customer->phone }}
+                            @isset($order->customer)
+                                <strong>Name:</strong> {{ $order->customer->name }}<br>
+                                <strong>ID Number:</strong> {{ $order->customer->id_number }}<br>
+                                <strong>Phone:</strong> {{ $order->customer->phone }}
+                            @else
+                                <em>Deleted</em>
+                            @endisset
                         </td>
                         <td>
                             @foreach ($order->products->sortBy('name') as $product)
