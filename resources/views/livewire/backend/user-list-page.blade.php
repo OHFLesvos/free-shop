@@ -7,20 +7,18 @@
                 placeholder="Search users..."
                 wire:keydown.escape="$set('search', '')"
                 class="form-control"/>
-            <div class="input-group-append" >
-                <span class="input-group-text" wire:loading wire:target="search">
-                    <x-spinner/>
+            <span class="input-group-text" wire:loading wire:target="search">
+                <x-spinner/>
+            </span>
+            @empty($search)
+                <span class="input-group-text" wire:loading.remove wire:target="search">
+                    {{ $users->total() }} total
                 </span>
-                @empty($search)
-                    <span class="input-group-text" wire:loading.remove wire:target="search">
-                        {{ $users->total() }} total
-                    </span>
-                @else
-                    <span class="input-group-text @if($users->isEmpty()) bg-warning @else bg-success text-light @endif" wire:loading.remove wire:target="search">
-                        {{ $users->total() }} results
-                    </span>
-                @endif
-            </div>
+            @else
+                <span class="input-group-text @if($users->isEmpty()) bg-warning @else bg-success text-light @endif" wire:loading.remove wire:target="search">
+                    {{ $users->total() }} results
+                </span>
+            @endif
         </div>
     </div>
     <div class="table-responsive">

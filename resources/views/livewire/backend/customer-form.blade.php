@@ -1,6 +1,6 @@
 @if($shouldDelete)
     <div class="small-container">
-        <x-card title="Delete product">
+        <x-card title="Delete customer">
             <p class="card-text">Really delete the customer <strong>{{ $customer->name }}</strong>?</p>
             <x-slot name="footer">
                 <div class="d-flex justify-content-end">

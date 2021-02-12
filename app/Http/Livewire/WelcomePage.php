@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire;
 
+use Illuminate\Support\Facades\App;
 use Livewire\Component;
 
 use Illuminate\Support\Str;
@@ -13,7 +14,8 @@ class WelcomePage extends Component
     public function mount()
     {
         if (setting()->has('content.welcome_text')) {
-            $this->content = Str::of(setting()->get('content.welcome_text'))->markdown();
+            $value = setting()->get('content.welcome_text.' . App::getLocale(), setting()->get('content.welcome_text.' . config('app.fallback_locale')));
+            $this->content = Str::of($value)->markdown();
         }
     }
 

@@ -26,6 +26,13 @@ class Order extends Model implements Auditable
         'remarks',
     ];
 
+    public const STATUSES = [
+        'new',
+        'ready',
+        'completed',
+        'cancelled',
+    ];
+
     public function products()
     {
         return $this->belongsToMany(Product::class)
@@ -37,9 +44,14 @@ class Order extends Model implements Auditable
         return $this->belongsTo(Customer::class);
     }
 
+    public function getIsOpenAttribute()
+    {
+        return in_array($this->status, ['new', 'ready']);
+    }
+
     public function scopeStatus(Builder $qry, string $status)
     {
-        assert(in_array($status, ['new', 'ready', 'completed', 'cancelled']));
+        assert(in_array($status, self::STATUSES));
 
         $qry->where('status', $status);
     }

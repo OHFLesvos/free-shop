@@ -16,6 +16,8 @@ class CustomerAccountPage extends Component
     public string $customer_phone = '';
     public string $customer_phone_country;
 
+    public bool $shouldDelete = false;
+
     protected function rules() {
         return [
             'customer_name' => 'required',
@@ -66,5 +68,12 @@ class CustomerAccountPage extends Component
         $this->customer->save();
 
         session()->flash('submitMessage', __('Customer profile saved.'));
+    }
+
+    public function delete()
+    {
+        $this->customer->delete();
+
+        return redirect(route('home'));
     }
 }

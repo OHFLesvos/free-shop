@@ -17,8 +17,12 @@
                 </li>
                 <li class="list-group-item">
                     <strong>Customer:</strong>
-                    <a href="{{ route('backend.customers.show', $order->customer) }}">{{ $order->customer->name }}</a>
-                    ({{ $order->customer->id_number }})
+                    @isset($order->customer)
+                        <a href="{{ route('backend.customers.show', $order->customer) }}">{{ $order->customer->name }}</a>
+                        ({{ $order->customer->id_number }})
+                    @else
+                        <em>Deleted</em>
+                    @endisset
                 </li>
                 <li class="list-group-item">
                     <strong>IP Address:</strong>
@@ -153,7 +157,7 @@
     {{-- Buttons --}}
     <div class="d-flex justify-content-between mb-3">
         <span>
-            @if(!$showChangeStatus && in_array($order->status, ['new', 'ready']))
+            @if(!$showChangeStatus && $order->isOpen)
                 <button
                     wire:click="$set('showChangeStatus', true)"
                     class="btn btn-primary">
