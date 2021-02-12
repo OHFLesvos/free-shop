@@ -24,7 +24,7 @@
                                             <div class="card shadow-sm">
                                                 @isset($product->pictureUrl)
                                                     <img
-                                                        src="{{ $product->pictureUrl }}"
+                                                        src="{{ url($product->pictureUrl) }}"
                                                         class="card-img-top"
                                                         alt="Product name">
                                                 @endisset

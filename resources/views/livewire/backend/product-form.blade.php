@@ -201,7 +201,7 @@
                                 @unless($removePicture)
                                     <div>
                                         <img
-                                            src="{{ $product->pictureUrl }}"
+                                            src="{{ url($product->pictureUrl) }}"
                                             alt="Preview"
                                             class="mb-3 img-thumbnail img-fluid">
                                         <br>
