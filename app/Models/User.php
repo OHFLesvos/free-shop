@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Events\UserCreated;
 use App\Events\UserDeleted;
 use Dyrynda\Database\Support\NullableFields;
 use Illuminate\Database\Eloquent\Builder;
@@ -63,6 +64,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $dispatchesEvents = [
+        'created' => UserCreated::class,
         'deleted' => UserDeleted::class,
     ];
 

@@ -1,5 +1,6 @@
 <?php
 
+use App\Logging\AddMetadata;
 use Inpsyde\LogzIoMonolog\Formatter\LogzIoFormatter;
 use Monolog\Formatter\LogglyFormatter;
 use Monolog\Handler\LogglyHandler;
@@ -79,6 +80,7 @@ return [
         'loggly' => [
             'driver' => 'monolog',
             'level' => env('LOG_LEVEL', 'debug'),
+            'tap' => [AddMetadata::class],
             'handler' => LogglyHandler::class,
             'handler_with' => [
                 'token' => env('LOGGLY_TOKEN'),
@@ -89,6 +91,7 @@ return [
         'logzio' => [
             'driver' => 'monolog',
             'level' => env('LOG_LEVEL', 'debug'),
+            'tap' => [AddMetadata::class],
             'handler' => LogzIoHandler::class,
             'handler_with' => [
                 'token' => env('LOGZIO_TOKEN'),

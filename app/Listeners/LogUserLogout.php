@@ -30,10 +30,10 @@ class LogUserLogout
      */
     public function handle(Logout $event)
     {
-        $this->writeToLog($event->user);
+        $this->writeLog($event->user);
     }
 
-    private function writeToLog(User $user)
+    private function writeLog(User $user)
     {
         Log::info('User logged out.', [
             'event.kind' => 'event',
@@ -42,11 +42,6 @@ class LogUserLogout
             'user.name' => $user->name,
             'user.email' => $user->email,
             'user.roles' => $user->getRoleNames(),
-            'client.ip' => $this->request->ip(),
-            'url.original' => $this->request->url(),
-            'url.domain' => $this->request->getHost(),
-            'client.session.id' => $this->request->session()->getId(),
-            'service.name' => config('app.name'),
         ]);
     }
 }

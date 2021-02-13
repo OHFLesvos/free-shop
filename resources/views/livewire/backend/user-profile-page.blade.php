@@ -66,9 +66,11 @@
             </li>
         </ul>
         <div class="tab-content" id="myTabContent">
-            <div class="tab-pane fade show active mt-3" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+            <div class="tab-pane fade show active p-3 mb-4 bg-white" id="profile" role="tabpanel" aria-labelledby="profile-tab">
                 <form wire:submit.prevent="submit" autocomplete="off">
-                    <x-card title="Profile settings">
+
+                    <h5>Profile settings</h5>
+                    <div class="mb-4">
                         <label for="timezone" class="form-label">Timezone:</label>
                         <div class="input-group">
                             <select
@@ -94,85 +96,84 @@
                             </button>
                             @error('timezone') <div class="invalid-feedback">{{ $message }}</div> @enderror
                         </div>
-                    </x-card>
+                    </div>
 
-                    <x-card title="Notifications">
-                        <div class="row g-3">
-                            <div class="col-md-6">
-                                <div class="form-check form-switch mb-3">
-                                    <input
-                                        type="checkbox"
-                                        class="form-check-input"
-                                        id="notifyViaEmailInput"
-                                        value="1"
-                                        wire:model.defer="user.notify_via_email">
-                                    <label class="form-check-label" for="notifyViaEmailInput">Receive notifications via e-mail</label>
-                                </div>
-                                <div class="form-check form-switch">
-                                    <input
-                                        type="checkbox"
-                                        class="form-check-input"
-                                        id="notifyViaPhoneInput"
-                                        value="1"
-                                        wire:model.defer="user.notify_via_phone">
-                                    <label class="form-check-label" for="notifyViaPhoneInput">Receive notifications via phone</label>
-                                </div>
+                    <h5>Notifications</h5>
+                    <div class="row g-3 mb-4">
+                        <div class="col-md-6">
+                            <div class="form-check form-switch mb-3">
+                                <input
+                                    type="checkbox"
+                                    class="form-check-input"
+                                    id="notifyViaEmailInput"
+                                    value="1"
+                                    wire:model.defer="user.notify_via_email">
+                                <label class="form-check-label" for="notifyViaEmailInput">Receive notifications via e-mail</label>
                             </div>
-                            <div class="col-md-6">
-                                <label for="inputPhone" class="form-label">Phone:</label>
-                                <div class="input-group">
-                                    @php
-                                        $phoneContryCodes = megastruktur\PhoneCountryCodes::getCodesList();
-                                    @endphp
-                                    <select
-                                        class="form-select"
-                                        style="max-width: 11em;"
-                                        wire:model.defer="phone_country">
-                                        <option value="" selected>-- Select country --</option>
-                                        @foreach(Countries::getList() as $key => $val)
-                                            <option value="{{ $key }}">
-                                                {{ $val }}
-                                                @isset($phoneContryCodes[$key] )({{ $phoneContryCodes[$key] }})@endisset
-                                            </option>
-                                        @endforeach
-                                    </select>
-                                    <input
-                                        type="tel"
-                                        class="form-control @error('phone') is-invalid @enderror"
-                                        id="inputPhone"
-                                        autocomplete="off"
-                                        wire:model.defer="phone">
-                                    @error('phone') <div class="invalid-feedback">{{ $message }}</div> @enderror
-                                </div>
+                            <div class="form-check form-switch">
+                                <input
+                                    type="checkbox"
+                                    class="form-check-input"
+                                    id="notifyViaPhoneInput"
+                                    value="1"
+                                    wire:model.defer="user.notify_via_phone">
+                                <label class="form-check-label" for="notifyViaPhoneInput">Receive notifications via phone</label>
                             </div>
                         </div>
-                    </x-card>
-                    <p class="mb-4">
-                        <x-submit-button>Save</x-submit-button>
-                    </p>
+                        <div class="col-md-6">
+                            <label for="inputPhone" class="form-label">Phone:</label>
+                            <div class="input-group">
+                                @php
+                                    $phoneContryCodes = megastruktur\PhoneCountryCodes::getCodesList();
+                                @endphp
+                                <select
+                                    class="form-select"
+                                    style="max-width: 11em;"
+                                    wire:model.defer="phone_country">
+                                    <option value="" selected>-- Select country --</option>
+                                    @foreach(Countries::getList() as $key => $val)
+                                        <option value="{{ $key }}">
+                                            {{ $val }}
+                                            @isset($phoneContryCodes[$key] )({{ $phoneContryCodes[$key] }})@endisset
+                                        </option>
+                                    @endforeach
+                                </select>
+                                <input
+                                    type="tel"
+                                    class="form-control @error('phone') is-invalid @enderror"
+                                    id="inputPhone"
+                                    autocomplete="off"
+                                    wire:model.defer="phone">
+                                @error('phone') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                            </div>
+                        </div>
+                    </div>
+
+                    <x-submit-button>Save</x-submit-button>
                 </form>
             </div>
 
-            <div class="tab-pane fade mt-3" id="security" role="tabpanel" aria-labelledby="security-tab">
+            <div class="tab-pane fade p-3 mb-4 bg-white" id="security" role="tabpanel" aria-labelledby="security-tab">
                 @isset($user->last_login_at)
-                    <x-card title="Last Login">
-                        <strong>Time:</strong>
-                        <x-date-time-info :value="$user->last_login_at"/>
-                        <br>
-                        <strong>IP Address:</strong>
-                        <x-ip-info :value="$user->last_login_ip"/>
-                        <br>
-                        <strong>Geo Location:</strong>
-                        <x-geo-location-info :value="$user->last_login_ip"/>
-                        <br>
-                        <strong>User Agent:</strong>
-                        <x-user-agent-info :value="$user->last_login_user_agent"/>
-                    </x-card>
+                    <h5>Last Login</h5>
+                    <div>
+                        <dl class="row mb-0">
+                            <dt class="col-sm-2">Time</dt>
+                            <dd class="col-sm-10"><x-date-time-info :value="$user->last_login_at"/></dd>
+                            <dt class="col-sm-2">IP Address</dt>
+                            <dd class="col-sm-10"><x-ip-info :value="$user->last_login_ip"/></dd>
+                            <dt class="col-sm-2">Geo Location</dt>
+                            <dd class="col-sm-10"><x-geo-location-info :value="$user->last_login_ip"/></dd>
+                            <dt class="col-sm-2">User Agent</dt>
+                            <dd class="col-sm-10"><x-user-agent-info :value="$user->last_login_user_agent"/></dd>
+                        </dl>
+                    </div>
                 @endisset
             </div>
 
-            <div class="tab-pane fade mt-3" id="account" role="tabpanel" aria-labelledby="account-tab">
-                <x-card title="Account settings">
+            <div class="tab-pane fade p-3 mb-4 bg-white" id="account" role="tabpanel" aria-labelledby="account-tab">
+                <h5>Account settings</h5>
+                <div>
                     <button
                         type="button"
                         class="btn btn-danger"
@@ -180,7 +181,7 @@
                         wire:click="$toggle('shouldDelete')">
                         Delete account
                     </button>
-                </x-card>
+                </div>
             </div>
         </div>
     </div>

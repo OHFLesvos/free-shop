@@ -2,11 +2,13 @@
 
 namespace App\Listeners;
 
-use App\Events\UserDeleted;
+use App\Events\UserCreated;
 use App\Models\User;
+use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Support\Facades\Log;
 
-class LogUserDeleted
+class LogUserCreated
 {
     /**
      * Handle the event.
@@ -14,20 +16,19 @@ class LogUserDeleted
      * @param  object  $event
      * @return void
      */
-    public function handle(UserDeleted $event)
+    public function handle(UserCreated $event)
     {
         $this->writeLog($event->user);
     }
 
     private function writeLog(User $user)
     {
-        Log::info('User has been deleted.', [
+        Log::info('User has been created.', [
             'event.kind' => 'event',
             'event.category' => 'iam',
-            'event.type' => 'deletion',
+            'event.type' => 'creation',
             'user.name' => $user->name,
             'user.email' => $user->email,
-            'user.roles' => $user->getRoleNames(),
         ]);
     }
 }
