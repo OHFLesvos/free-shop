@@ -28,7 +28,9 @@ class LogUserDeleted
             'user.email' => $user->email,
             'user.roles' => $user->getRoleNames(),
             'url.original' => optional(request())->url(),
+            'url.domain' => optional(request())->getHost(),
             'client.session.id' => optional(session())->getId(),
+            'service.name' => config('app.name'),
         ]);
     }
 }

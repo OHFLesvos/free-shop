@@ -44,7 +44,9 @@ class LogUserLogout
             'user.roles' => $user->getRoleNames(),
             'client.ip' => $this->request->ip(),
             'url.original' => $this->request->url(),
+            'url.domain' => $this->request->getHost(),
             'client.session.id' => $this->request->session()->getId(),
+            'service.name' => config('app.name'),
         ]);
     }
 }

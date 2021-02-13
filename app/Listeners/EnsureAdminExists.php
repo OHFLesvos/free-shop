@@ -28,6 +28,8 @@ class EnsureAdminExists
                 'user.name' => $event->user->name,
                 'user.email' => $event->user->email,
                 'client.session.id' => optional(session())->getId(),
+                'url.domain' => optional(request())->getHost(),
+                'service.name' => config('app.name'),
             ]);
         }
     }

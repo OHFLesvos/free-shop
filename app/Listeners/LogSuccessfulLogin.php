@@ -53,7 +53,9 @@ class LogSuccessfulLogin
             'user_agent.version' => $ua->browserVersion(),
             'user_agent.device.name' => $ua->platform(),
             'url.original' => $this->request->url(),
+            'url.domain' => $this->request->getHost(),
             'client.session.id' => $this->request->session()->getId(),
+            'service.name' => config('app.name'),
         ]);
     }
 
