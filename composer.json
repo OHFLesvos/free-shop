@@ -17,6 +17,7 @@
         "fruitcake/laravel-cors": "^2.0",
         "gumlet/php-image-resize": "^2.0",
         "guzzlehttp/guzzle": "^7.0.1",
+        "inpsyde/logzio-monolog": "^1.0",
         "kkomelin/laravel-translatable-string-exporter": "^1.11",
         "laravel-notification-channels/twilio": "^3.1",
         "laravel/framework": "^8.12",
