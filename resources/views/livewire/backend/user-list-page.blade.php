@@ -27,6 +27,7 @@
             <thead>
                 <th colspan="2">Name</th>
                 <th>E-Mail</th>
+                <th>Roles</th>
                 <th>Last login</th>
             </thead>
             <tbody>
@@ -45,6 +46,9 @@
                         <td>{{ $user->name }}</td>
                         <td>
                             <a href="mailto:{{ $user->email }}">{{ $user->email }}</a>
+                        </td>
+                        <td>
+                            {{ $user->getRoleNames()->join(', ') }}
                         </td>
                         <td><x-date-time-info :value="$user->last_login_at"/></td>
                     </tr>

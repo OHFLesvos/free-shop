@@ -28,23 +28,29 @@
     </div>
 @else
     <div class="medium-container">
-        <div class="row align-items-center mb-4">
+        <div class="row align-items-center mb-4 g-4">
             <div class="col-md-auto">
                 @isset($user->avatar)
-                <img src="{{ $user->avatar }}" alt="Avatar"/>
-            @endisset
+                    <img src="{{ $user->avatar }}" alt="Avatar" class="img-thumbnail" />
+                @endisset
             </div>
             <div class="col-md">
-                <strong>Name:</strong>
-                {{ $user->name }}<br>
-                <strong>E-Mail:</strong>
-                {{ $user->email }}<br>
-                @isset($user->phone)
-                    <strong>Phone:</strong>
-                    <x-phone-info :value="$user->phone"/><br>
-                @endisset
-                <strong>Registered:</strong>
-                <x-date-time-info :value="$user->created_at"/>
+                <dl class="row mb-0">
+                    <dt class="col-sm-3">Name</dt>
+                    <dd class="col-sm-9">{{ $user->name }}</dd>
+                    <dt class="col-sm-3">E-Mail</dt>
+                    <dd class="col-sm-9">{{ $user->email }}</dd>
+                    @isset($user->phone)
+                        <dt class="col-sm-3">Phone</dt>
+                        <dd class="col-sm-9"><x-phone-info :value="$user->phone"/></dd>
+                    @endisset
+                    @if($user->getRoleNames()->isNotEmpty())
+                        <dt class="col-sm-3">Roles</dt>
+                        <dd class="col-sm-9">{{ $user->getRoleNames()->join(', ') }}</dd>
+                    @endif
+                    <dt class="col-sm-3">Registered</dt>
+                    <dd class="col-sm-9"><x-date-time-info :value="$user->created_at"/></dd>
+                </dl>
             </div>
         </div>
 
