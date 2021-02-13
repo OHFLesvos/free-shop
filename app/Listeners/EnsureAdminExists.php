@@ -22,8 +22,11 @@ class EnsureAdminExists
         if ($administrators->isEmpty()) {
             $event->user->assignRole($adminRole);
             Log::warning('Assigned administrator role to user.', [
-                'user' => $event->user->name,
-                'email' => $event->user->email,
+                'event.category' => 'iam',
+                'event.type' => 'admin',
+                'user.name' => $event->user->name,
+                'user.email' => $event->user->email,
+                'group.name' => $adminRole->name,
             ]);
         }
     }
