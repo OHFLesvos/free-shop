@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Listeners\EnsureAdminExists;
 use App\Listeners\LogSuccessfulLogin;
 use App\Listeners\SetUserTimezone;
 use Illuminate\Auth\Events\Login;
@@ -23,6 +24,7 @@ class EventServiceProvider extends ServiceProvider
         ],
         Login::class => [
             LogSuccessfulLogin::class,
+            EnsureAdminExists::class,
         ],
     ];
 

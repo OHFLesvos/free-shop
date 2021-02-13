@@ -67,16 +67,13 @@ class SocialLoginController extends Controller
             event(new Registered($user));
         }
 
+        $user->name = $socialUser->getName();
+        $user->avatar = $socialUser->getAvatar();
         if ($user->email_verified_at == null) {
             $user->email_verified_at = now();
-            $user->save();
         }
-
-        // Check for missing administrator role
-        $adminRole = Role::firstOrCreate(['name' => AuthServiceProvider::ADMINISTRATOR_ROLE]);
-        $administrators = User::role($adminRole)->get();
-        if ($administrators->isEmpty()) {
-            $user->assignRole($adminRole);
+        if ($user->wasChanged()) {
+            $user->save();
         }
 
         Auth::login($user);
