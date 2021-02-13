@@ -5,12 +5,14 @@ namespace App\Http\Livewire\Backend;
 use Illuminate\Support\Collection;
 use Countries;
 use Gumlet\ImageResize;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Support\Facades\Storage;
 use Livewire\WithFileUploads;
 
 class SettingsPage extends BackendPage
 {
     use WithFileUploads;
+    use AuthorizesRequests;
 
     public Collection $geoblockWhitelist;
     public string $orderDefaultPhoneCountry;
@@ -107,6 +109,8 @@ class SettingsPage extends BackendPage
 
     public function render()
     {
+        $this->authorize('change settings');
+
         return parent::view('livewire.backend.settings-page');
     }
 

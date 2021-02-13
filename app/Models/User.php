@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Events\UserDeleted;
 use Dyrynda\Database\Support\NullableFields;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -54,6 +55,15 @@ class User extends Authenticatable
     protected $nullable = [
         'timezone',
         'phone',
+    ];
+
+    /**
+     * The event map for the model.
+     *
+     * @var array
+     */
+    protected $dispatchesEvents = [
+        'deleted' => UserDeleted::class,
     ];
 
     public function scopeNotifiable(Builder $query)
