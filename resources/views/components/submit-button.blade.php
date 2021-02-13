@@ -7,7 +7,7 @@
     </button>
     @if(session()->has('submitMessage'))
         <small class="text-success ms-3" wire:loading.remove wire:target="submit">
-            <x-icon icon="check"/>
+            <x-icon icon="check" class="me-1" />
             {{ session()->get('submitMessage') }}
         </small>
     @endif
