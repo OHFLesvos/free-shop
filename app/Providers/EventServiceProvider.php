@@ -4,12 +4,14 @@ namespace App\Providers;
 
 use App\Events\UserCreated;
 use App\Events\UserDeleted;
+use App\Events\UserRolesChanged;
 use App\Listeners\EnsureAdminExists;
 use App\Listeners\LogFailedLogin;
 use App\Listeners\LogSuccessfulLogin;
 use App\Listeners\LogUserCreated;
 use App\Listeners\LogUserDeleted;
 use App\Listeners\LogUserLogout;
+use App\Listeners\LogUserRolesChanged;
 use App\Listeners\SetUserTimezone;
 use App\Listeners\UpdateUserLastLogin;
 use Illuminate\Auth\Events\Failed;
@@ -47,7 +49,10 @@ class EventServiceProvider extends ServiceProvider
         ],
         UserDeleted::class => [
             LogUserDeleted::class,
-        ]
+        ],
+        UserRolesChanged::class => [
+            LogUserRolesChanged::class,
+        ],
     ];
 
     /**

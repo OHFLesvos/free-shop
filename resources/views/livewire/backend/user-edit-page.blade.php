@@ -6,11 +6,12 @@
                 <div class="form-check form-switch">
                     <input
                         type="checkbox"
-                        class="form-check-input"
+                        class="form-check-input @error('userRoles.*') is-invalid @enderror"
                         id="role_{{ $id }}"
                         value="{{ $id }}"
                         wire:model.defer="userRoles">
                     <label class="form-check-label" for="role_{{ $id }}">{{ $name }}</label>
+                    @error('userRoles.*') <div class="invalid-feedback">{{ $message }}</div> @enderror
                 </div>
             @endforeach
 
