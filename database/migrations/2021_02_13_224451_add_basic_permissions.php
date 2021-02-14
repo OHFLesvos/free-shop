@@ -33,7 +33,7 @@ class AddBasicPermissions extends Migration
             Permission::findOrCreate($name);
         }
 
-        Role::findOrCreate('Translator')->syncPermissions([
+        Role::findOrCreate('Editor')->syncPermissions([
             'update products',
             'manage text blocks',
         ]);
@@ -54,7 +54,7 @@ class AddBasicPermissions extends Migration
      */
     public function down()
     {
-        Role::findByName('Translator')->delete();
+        Role::findByName('Editor')->delete();
         Role::findByName('Dispatcher')->delete();
 
         foreach ($this->newPermissions as $name) {
