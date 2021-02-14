@@ -3,11 +3,13 @@
 namespace App\Http\Livewire\Backend;
 
 use App\Models\Customer;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Livewire\WithPagination;
 
 class CustomerListPage extends BackendPage
 {
     use WithPagination;
+    use AuthorizesRequests;
 
     protected $paginationTheme = 'bootstrap';
 
@@ -19,6 +21,8 @@ class CustomerListPage extends BackendPage
 
     public function mount()
     {
+        $this->authorize('viewAny', Customer::class);
+
         $this->search = request()->input('search', session()->get('customers.search', '')) ?? '';
 
         if (session()->has('customers.page')) {

@@ -110,24 +110,30 @@
                     <div class="d-flex justify-content-between">
                         <span>
                             @if($customer->exists)
-                                <button
-                                    type="button"
-                                    class="btn btn-danger"
-                                    wire:loading.attr="disabled"
-                                    wire:click="$toggle('shouldDelete')">
-                                    Delete
-                                </button>
+                                @can('delete', $customer)
+                                    <button
+                                        type="button"
+                                        class="btn btn-danger"
+                                        wire:loading.attr="disabled"
+                                        wire:click="$toggle('shouldDelete')">
+                                        Delete
+                                    </button>
+                                @endcan
                             @endif
                         </span>
                         <span>
                             @if($customer->exists)
-                                <a
-                                    href="{{ route('backend.customers.show', $customer) }}"
-                                    class="btn btn-link">Cancel</a>
+                                @can('view', $customer)
+                                    <a
+                                        href="{{ route('backend.customers.show', $customer) }}"
+                                        class="btn btn-link">Cancel</a>
+                                @endcan
                             @else
-                                <a
-                                    href="{{ route('backend.customers') }}"
-                                    class="btn btn-link">Cancel</a>
+                                @can('viewAny', App\Models\Customer::class)
+                                    <a
+                                        href="{{ route('backend.customers') }}"
+                                        class="btn btn-link">Cancel</a>
+                                @endcan
                             @endif
                             <button
                                 type="submit"

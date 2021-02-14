@@ -6,6 +6,8 @@ use App\Exports\DataExport;
 use App\Imports\DataImport;
 use App\Models\Customer;
 use App\Models\Product;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\Rule;
 use Livewire\WithFileUploads;
 use Maatwebsite\Excel\Facades\Excel;
@@ -13,6 +15,7 @@ use Maatwebsite\Excel\Facades\Excel;
 class DataImportExportPage extends BackendPage
 {
     use WithFileUploads;
+    use AuthorizesRequests;
 
     public $upload;
 
@@ -40,16 +43,28 @@ class DataImportExportPage extends BackendPage
 
     public function export()
     {
+        $this->authorize('export data');
+
         $this->validate([
             'format' => Rule::in(array_keys($this->formats)),
         ]);
 
         $filename = config('app.name') . ' Data Export '. now()->toDateString() . '.' . $this->format;
+
+        Log::info('Exported data to file.', [
+            'event.kind' => 'event',
+            'event.category' => 'database',
+            'event.types' => 'info',
+            'file.name' => $filename,
+        ]);
+
         return Excel::download(new DataExport, $filename);
     }
 
     public function import()
     {
+        $this->authorize('import data');
+
         $this->validate([
             'upload' => [
                 'file',
@@ -64,6 +79,13 @@ class DataImportExportPage extends BackendPage
 
         $import = new DataImport();
         $import->import($this->upload);
+
+        Log::info('Imported data from file.', [
+            'event.kind' => 'event',
+            'event.category' => 'database',
+            'event.types' => 'change',
+            'file.name' => $this->upload->getClientOriginalName(),
+        ]);
 
         session()->flash('message', 'Import successful.');
     }

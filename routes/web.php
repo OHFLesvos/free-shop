@@ -7,12 +7,16 @@ use App\Http\Controllers\SocialLoginController;
 use App\Http\Livewire\Backend\CustomerDetailPage;
 use App\Http\Livewire\Backend\CustomerListPage;
 use App\Http\Livewire\Backend\CustomerManagePage;
+use App\Http\Livewire\Backend\DashboardPage;
 use App\Http\Livewire\Backend\DataImportExportPage;
 use App\Http\Livewire\Backend\OrderDetailPage;
 use App\Http\Livewire\Backend\OrderListPage;
 use App\Http\Livewire\Backend\ProductManagePage;
 use App\Http\Livewire\Backend\ProductListPage;
 use App\Http\Livewire\Backend\SettingsPage;
+use App\Http\Livewire\Backend\TextBlockEditPage;
+use App\Http\Livewire\Backend\TextBlockListPage;
+use App\Http\Livewire\Backend\UserEditPage;
 use App\Http\Livewire\Backend\UserListPage;
 use App\Http\Livewire\Backend\UserProfilePage;
 use App\Http\Livewire\CheckoutPage;
@@ -22,7 +26,6 @@ use App\Http\Livewire\OrderLookupPage;
 use App\Http\Livewire\ShopFrontPage;
 use App\Http\Livewire\WelcomePage;
 use Illuminate\Support\Facades\App;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -40,6 +43,8 @@ Route::middleware(['geoblock.whitelist', 'set-language'])
     ->group(function () {
         Route::get('/', WelcomePage::class)
             ->name('home');
+        Route::view('privacy-policy', 'privacy-policy')
+            ->name('privacy-policy');
         Route::get('customer/login', CustomerLoginPage::class)
             ->name('customer.login');
         Route::middleware('auth-customer')
@@ -81,11 +86,13 @@ Route::prefix('backend')
 
 Route::middleware('auth')
     ->group(function () {
-        Route::redirect('backend', 'backend/orders')
+        Route::redirect('backend', 'backend')
             ->name('backend');
         Route::prefix('backend')
             ->name('backend.')
             ->group(function () {
+                Route::get('', DashboardPage::class)
+                    ->name('dashboard');
                 Route::get('orders', OrderListPage::class)
                     ->name('orders');
                 Route::get('orders/{order}', OrderDetailPage::class)
@@ -106,10 +113,16 @@ Route::middleware('auth')
                     ->name('products.edit');
                 Route::get('import-export', DataImportExportPage::class)
                     ->name('import-export');
+                Route::get('text-blocks', TextBlockListPage::class)
+                    ->name('text-blocks');
+                Route::get('text-blocks/{textBlock}/edit', TextBlockEditPage::class)
+                    ->name('text-blocks.edit');
                 Route::get('settings', SettingsPage::class)
                     ->name('settings');
                 Route::get('users', UserListPage::class)
                     ->name('users');
+                Route::get('users/{user}/edit', UserEditPage::class)
+                    ->name('users.edit');
                 Route::get('user-profile', UserProfilePage::class)
                     ->name('user-profile');
             });

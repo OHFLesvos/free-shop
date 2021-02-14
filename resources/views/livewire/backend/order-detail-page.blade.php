@@ -157,12 +157,14 @@
     {{-- Buttons --}}
     <div class="d-flex justify-content-between mb-3">
         <span>
-            @if(!$showChangeStatus && $order->isOpen)
-                <button
-                    wire:click="$set('showChangeStatus', true)"
-                    class="btn btn-primary">
-                    Change
-                </button>
+            @if(!$showChangeStatus)
+                @can('update', $order)
+                    <button
+                        wire:click="$set('showChangeStatus', true)"
+                        class="btn btn-primary">
+                        Change
+                    </button>
+                @endcan
             @endif
         </span>
         <a

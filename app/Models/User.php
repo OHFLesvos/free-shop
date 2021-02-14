@@ -2,16 +2,20 @@
 
 namespace App\Models;
 
+use App\Events\UserCreated;
+use App\Events\UserDeleted;
 use Dyrynda\Database\Support\NullableFields;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
 {
     use HasFactory, Notifiable;
     use NullableFields;
+    use HasRoles;
 
     /**
      * The attributes that are mass assignable.
@@ -52,6 +56,16 @@ class User extends Authenticatable
     protected $nullable = [
         'timezone',
         'phone',
+    ];
+
+    /**
+     * The event map for the model.
+     *
+     * @var array
+     */
+    protected $dispatchesEvents = [
+        'created' => UserCreated::class,
+        'deleted' => UserDeleted::class,
     ];
 
     public function scopeNotifiable(Builder $query)

@@ -15,6 +15,7 @@
     "Shop": "المتجر",
     "Your orders": "الطلبات",
     "Switch language": "تغيير اللغة",
+    "Privacy Policy": "Privacy Policy",
     "Your order has been submitted and your order number is <strong>#:id<\/strong>.": "لقد تم تلقي طلبك على رقم الهوية التالي <strong>#:id<\/strong>",
     "We will contact you via your phone <strong>:phone<\/strong> when the order is ready.": "سوف نقوم بالتواصل معك على الرقم التالي <strong>:phone<\/strong> عندما يكون طلبك جاهزا",
     "Your Order": "الطلبات الحالية",
@@ -62,5 +63,6 @@
     "There are no products available at the moment.": "لا يوجد منتجات متوفرة حاليا",
     "It is not possible to order something now because the maximum orders per day have been exceeded. Please visit us again another day.": "It is not possible to order something now because the maximum orders per day have been exceeded. Please visit us again another day.",
     "The shop is currently not available.": "The shop is currently not available.",
-    "Go to the shop": "الذهاب إلى المتجر"
+    "Go to the shop": "الذهاب إلى المتجر",
+    "This content is currently not available.": "This content is currently not available."
 }

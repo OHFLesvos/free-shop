@@ -168,6 +168,7 @@
                             min="0"
                             id="customerStartingCredit"
                             wire:model.defer="customerStartingCredit"
+                            placeholder="{{ config('shop.customer.starting_credit') }}"
                             class="form-control @error('customerStartingCredit') is-invalid @enderror"
                             style="max-width: 10em;">
                         @error('customerStartingCredit') <div class="invalid-feedback">{{ $message }}</div>
@@ -201,73 +202,6 @@
                     </div>
                 </div>
 
-            </div>
-        </x-card>
-
-        <x-card title="Content">
-            <x-slot name="header">
-                <div class="d-flex justify-content-end">
-                    <select
-                        class="form-select w-auto"
-                        wire:model.lazy="contentLocale">
-                        @foreach(config('app.supported_languages') as $lang_key => $lang_name)
-                            <option
-                                value="{{ $lang_key }}">
-                                {{ $lang_name }} ({{ strtoupper($lang_key) }})
-                            </option>
-                        @endforeach
-                    </select>
-                </div>
-            </x-slot>
-            <div>
-                <label for="welcomeText" class="form-label">Welcome page text:</label>
-                <ul class="nav nav-tabs mb-2">
-                    <li class="nav-item">
-                        <a
-                            class="nav-link @unless($welcomeTextPreview) active @endunless"
-                            @unless($welcomeTextPreview) aria-current="page" @endunless
-                            href="#editor"
-                            wire:click="$set('welcomeTextPreview', false)">
-                            Editor
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a
-                            class="nav-link @if($welcomeTextPreview) active @endif"
-                            @if($welcomeTextPreview) aria-current="page" @endif
-                            href="#preview"
-                            wire:click="$set('welcomeTextPreview', true)">
-                            Preview
-                        </a>
-                    </li>
-                </ul>
-                @unless($welcomeTextPreview)
-                    <div class="input-group">
-                        <div class="input-group-text">
-                            {{ strtoupper($contentLocale) }}
-                        </div>
-                        <textarea
-                            id="welcomeText"
-                            wire:model.lazy="welcomeText.{{ $contentLocale }}"
-                            @if($this->defaultLocale != $contentLocale) placeholder="{{ $welcomeText[$this->defaultLocale] ?? '' }}" @endif
-                            rows="5"
-                            class="form-control @error('welcomeText') is-invalid @enderror"
-                            aria-describedby="welcomeTextHelp">
-                        </textarea>
-                        @error('welcomeText') <div class="invalid-feedback">{{ $message }}</div> @enderror
-                    </div>
-                    <small id="welcomeTextHelp" class="form-text">
-                        You can use <a href="https://commonmark.org/help/" target="_blank">Markdown syntax</a> to format the text.
-                    </small>
-                @else
-                    @if(isset($welcomeText[$contentLocale]) && filled($welcomeText[$contentLocale]))
-                        {!! Str::of($welcomeText[$contentLocale])->markdown() !!}
-                    @else
-                        <x-alert type="info mb-0">
-                            No preview available.
-                        </x-alert>
-                    @endif
-                @endunless
             </div>
         </x-card>
 

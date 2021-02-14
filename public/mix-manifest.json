@@ -1,6 +1,21 @@
 {
-    "/js/app.js": "/js/app.js?id=ab7fe0991416adeda8bb",
+    "/js/app.js": "/js/app.js?id=1579fb0d07546d579222",
     "/js/manifest.js": "/js/manifest.js?id=4235363e553bfa7ad391",
-    "/css/app.css": "/css/app.css?id=4a0a13ce716ecce83de6",
-    "/js/vendor.js": "/js/vendor.js?id=09c41188909c88fc9213"
+    "/css/app.css": "/css/app.css?id=72c41a364605c7f636fe",
+    "/js/vendor.js": "/js/vendor.js?id=09c41188909c88fc9213",
+    "/webfonts/fa-brands-400.eot": "/webfonts/fa-brands-400.eot?id=bbe2aacff5cae36c47ab",
+    "/webfonts/fa-brands-400.svg": "/webfonts/fa-brands-400.svg?id=5d10d00980077f67990f",
+    "/webfonts/fa-brands-400.ttf": "/webfonts/fa-brands-400.ttf?id=a8753d38aa84257d28e5",
+    "/webfonts/fa-brands-400.woff": "/webfonts/fa-brands-400.woff?id=1f29c9c572d09fc29e9d",
+    "/webfonts/fa-brands-400.woff2": "/webfonts/fa-brands-400.woff2?id=e2f1276692217dffa465",
+    "/webfonts/fa-regular-400.eot": "/webfonts/fa-regular-400.eot?id=6cceaf301d4e7d25dc34",
+    "/webfonts/fa-regular-400.svg": "/webfonts/fa-regular-400.svg?id=d0fdc7c20b0b0b1aaf27",
+    "/webfonts/fa-regular-400.ttf": "/webfonts/fa-regular-400.ttf?id=26eb311de23d62b291c8",
+    "/webfonts/fa-regular-400.woff": "/webfonts/fa-regular-400.woff?id=34cd4747e7e3ffa5d939",
+    "/webfonts/fa-regular-400.woff2": "/webfonts/fa-regular-400.woff2?id=05ea06fb29e96dd2ede3",
+    "/webfonts/fa-solid-900.eot": "/webfonts/fa-solid-900.eot?id=61ff1818ad1d0c7d9670",
+    "/webfonts/fa-solid-900.svg": "/webfonts/fa-solid-900.svg?id=2306f642b31b774ba1d8",
+    "/webfonts/fa-solid-900.ttf": "/webfonts/fa-solid-900.ttf?id=9fa848bce71ef1dcd98e",
+    "/webfonts/fa-solid-900.woff": "/webfonts/fa-solid-900.woff?id=c537519aaad09a906ff4",
+    "/webfonts/fa-solid-900.woff2": "/webfonts/fa-solid-900.woff2?id=206340e947cfe3960c53"
 }
