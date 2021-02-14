@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "d5c17b56938fd91911dfa38191bb560c",
+    "content-hash": "e194a952236b3fd24a1bf4609bfdc4dd",
     "packages": [
         {
             "name": "anlutro/l4-settings",
@@ -1896,6 +1896,60 @@
                 "source": "https://github.com/http-interop/http-factory-guzzle/tree/master"
             },
             "time": "2018-07-31T19:32:56+00:00"
+        },
+        {
+            "name": "inpsyde/logzio-monolog",
+            "version": "1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/inpsyde/logzio-monolog.git",
+                "reference": "e19e4d3c4f6b68e86068f11e57b5df2943f399dd"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/inpsyde/logzio-monolog/zipball/e19e4d3c4f6b68e86068f11e57b5df2943f399dd",
+                "reference": "e19e4d3c4f6b68e86068f11e57b5df2943f399dd",
+                "shasum": ""
+            },
+            "require": {
+                "ext-curl": "*",
+                "monolog/monolog": "^2.0",
+                "php": ">=7.2"
+            },
+            "require-dev": {
+                "ext-json": "*",
+                "inpsyde/php-coding-standards": "^0.13",
+                "phpunit/phpunit": "^8"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Inpsyde\\LogzIoMonolog\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Christian Brückner",
+                    "email": "chris@chrico.info",
+                    "homepage": "https://www.chrico.info",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Logz.io integration for Monolog",
+            "keywords": [
+                "log",
+                "logging",
+                "monolog"
+            ],
+            "support": {
+                "issues": "https://github.com/inpsyde/logzio-monolog/issues",
+                "source": "https://github.com/inpsyde/logzio-monolog/tree/master"
+            },
+            "time": "2019-12-11T12:39:49+00:00"
         },
         {
             "name": "jean85/pretty-package-versions",
@@ -5454,6 +5508,84 @@
                 }
             ],
             "time": "2020-12-07T09:19:29+00:00"
+        },
+        {
+            "name": "spatie/laravel-permission",
+            "version": "4.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/spatie/laravel-permission.git",
+                "reference": "7936ea9ebbd0d91877109dfeda1659fc4570a6cc"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/spatie/laravel-permission/zipball/7936ea9ebbd0d91877109dfeda1659fc4570a6cc",
+                "reference": "7936ea9ebbd0d91877109dfeda1659fc4570a6cc",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/auth": "^6.0|^7.0|^8.0",
+                "illuminate/container": "^6.0|^7.0|^8.0",
+                "illuminate/contracts": "^6.0|^7.0|^8.0",
+                "illuminate/database": "^6.0|^7.0|^8.0",
+                "php": "^7.2.5|^8.0"
+            },
+            "require-dev": {
+                "orchestra/testbench": "^4.0|^5.0|^6.0",
+                "phpunit/phpunit": "^8.0|^9.0",
+                "predis/predis": "^1.1"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Spatie\\Permission\\PermissionServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Spatie\\Permission\\": "src"
+                },
+                "files": [
+                    "src/helpers.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Freek Van der Herten",
+                    "email": "freek@spatie.be",
+                    "homepage": "https://spatie.be",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Permission handling for Laravel 6.0 and up",
+            "homepage": "https://github.com/spatie/laravel-permission",
+            "keywords": [
+                "acl",
+                "laravel",
+                "permission",
+                "permissions",
+                "rbac",
+                "roles",
+                "security",
+                "spatie"
+            ],
+            "support": {
+                "issues": "https://github.com/spatie/laravel-permission/issues",
+                "source": "https://github.com/spatie/laravel-permission/tree/4.0.0"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/spatie",
+                    "type": "github"
+                }
+            ],
+            "time": "2021-01-27T23:03:34+00:00"
         },
         {
             "name": "spatie/laravel-translatable",

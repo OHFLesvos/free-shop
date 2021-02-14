@@ -7,4 +7,8 @@ return [
     'product' => [
         'max_picture_width' => 600,
     ],
+    'text-blocks' => [
+        'welcome',
+        'privacy-policy',
+    ]
 ];

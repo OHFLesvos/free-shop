@@ -1,8 +1,13 @@
 <?php
 
+use App\Logging\AddMetadata;
+use Inpsyde\LogzIoMonolog\Formatter\LogzIoFormatter;
+use Monolog\Formatter\LogglyFormatter;
+use Monolog\Handler\LogglyHandler;
 use Monolog\Handler\NullHandler;
 use Monolog\Handler\StreamHandler;
 use Monolog\Handler\SyslogUdpHandler;
+use Inpsyde\LogzIoMonolog\Handler\LogzIoHandler;
 
 return [
 
@@ -70,6 +75,30 @@ return [
                 'host' => env('PAPERTRAIL_URL'),
                 'port' => env('PAPERTRAIL_PORT'),
             ],
+        ],
+
+        'loggly' => [
+            'driver' => 'monolog',
+            'level' => env('LOG_LEVEL', 'debug'),
+            'tap' => [AddMetadata::class],
+            'handler' => LogglyHandler::class,
+            'handler_with' => [
+                'token' => env('LOGGLY_TOKEN'),
+            ],
+            'formatter' => LogglyFormatter::class,
+        ],
+
+        'logzio' => [
+            'driver' => 'monolog',
+            'level' => env('LOG_LEVEL', 'debug'),
+            'tap' => [AddMetadata::class],
+            'handler' => LogzIoHandler::class,
+            'handler_with' => [
+                'token' => env('LOGZIO_TOKEN'),
+                'host' => env('LOGZIO_HOST'),
+                'ssl' => false,
+            ],
+            'formatter' => LogzIoFormatter::class,
         ],
 
         'stderr' => [

@@ -101,9 +101,22 @@ $rtl = in_array(app()->getLocale(), config('app.rtl_languages', []));
         </nav>
         <main>
             <div class="container">
-                {{ $slot }}
+                @isset($slot)
+                    {{ $slot }}
+                @else
+                    @yield('content')
+                @endif
             </div>
         </main>
+        <footer class="mt-5">
+            <p class="text-center">
+                <small>
+                    &copy; {{ now()->format('Y') }}
+                    <a href="https://ohf-lesvos.org" target="_blank">OHF Lesvos</a>
+                    | <a href="{{ route('privacy-policy') }}">@lang('Privacy Policy')</a>
+                </small>
+            </p>
+        </footer>
         @include('layouts.includes.foot')
     </body>
 </html>

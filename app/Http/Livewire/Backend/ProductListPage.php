@@ -3,13 +3,18 @@
 namespace App\Http\Livewire\Backend;
 
 use App\Models\Product;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
 class ProductListPage extends BackendPage
 {
+    use AuthorizesRequests;
+
     public string $state;
 
     public function mount()
     {
+        $this->authorize('viewAny', Product::class);
+
         $this->state = session()->get('products.state', 'all');
     }
 

@@ -97,9 +97,13 @@
         </div>
     @endif
     <div class="d-flex justify-content-between mb-3">
-        <a
-            href="{{ route('backend.customers.edit', $customer) }}"
-            class="btn btn-primary">Edit</a>
+        <span>
+            @can('update', $customer)
+                <a
+                    href="{{ route('backend.customers.edit', $customer) }}"
+                    class="btn btn-primary">Edit</a>
+            @endcan
+        </span>
         <a
             href="{{ route('backend.customers') }}"
             class="btn btn-link">Back to overview</a>
