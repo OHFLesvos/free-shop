@@ -168,6 +168,7 @@
                             min="0"
                             id="customerStartingCredit"
                             wire:model.defer="customerStartingCredit"
+                            placeholder="{{ config('shop.customer.starting_credit') }}"
                             class="form-control @error('customerStartingCredit') is-invalid @enderror"
                             style="max-width: 10em;">
                         @error('customerStartingCredit') <div class="invalid-feedback">{{ $message }}</div>
