@@ -46,7 +46,7 @@
                             id="contentInput"
                             wire:model.lazy="content.{{ $locale }}"
                             @if($this->defaultLocale != $locale) placeholder="{{ $content[$this->defaultLocale] ?? '' }}" @endif
-                            rows="10"
+                            rows="13"
                             class="form-control font-monospace @error('content.' . $locale)  is-invalid @enderror"
                             aria-describedby="contentHelp"
                         ></textarea>
