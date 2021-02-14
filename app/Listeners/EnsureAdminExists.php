@@ -2,10 +2,10 @@
 
 namespace App\Listeners;
 
+use App\Events\UserRolesChanged;
 use App\Models\User;
 use App\Providers\AuthServiceProvider;
 use Illuminate\Auth\Events\Login;
-use Illuminate\Support\Facades\Log;
 use Spatie\Permission\Models\Role;
 
 class EnsureAdminExists
@@ -27,14 +27,8 @@ class EnsureAdminExists
 
     private function assignAdmin(User $user, Role $adminRole)
     {
+        $previousRoles = $user->getRoleNames()->toArray();
         $user->assignRole($adminRole);
-
-        Log::warning('Assigned administrator role to user.', [
-            'event.kind' => 'event',
-            'event.category' => 'iam',
-            'event.type' => 'admin',
-            'user.name' => $user->name,
-            'user.email' => $user->email,
-        ]);
+        UserRolesChanged::dispatch($user, $previousRoles);
     }
 }

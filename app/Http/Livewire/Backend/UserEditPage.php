@@ -4,8 +4,9 @@ namespace App\Http\Livewire\Backend;
 
 use App\Events\UserRolesChanged;
 use App\Models\User;
+use App\Providers\AuthServiceProvider;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
-use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
 use Spatie\Permission\Models\Role;
 
@@ -15,6 +16,8 @@ class UserEditPage extends BackendPage
 
     public User $user;
     public $userRoles;
+
+    public bool $shouldDelete = false;
 
     public function rules()
     {
@@ -43,12 +46,19 @@ class UserEditPage extends BackendPage
     public function render()
     {
         return parent::view('livewire.backend.user-edit-page', [
-            'roles' => Role::orderBy('name')->get()->pluck('name', 'id'),
+            'roles' => Role::orderBy('name')->get(),
         ]);
+    }
+
+    public function getAdminRoleNameProperty()
+    {
+        return AuthServiceProvider::ADMINISTRATOR_ROLE;
     }
 
     public function submit()
     {
+        $this->authorize('update', $this->user);
+
         $this->validate();
 
         $previousRoles = $this->user->getRoleNames()->toArray();
@@ -60,6 +70,21 @@ class UserEditPage extends BackendPage
         }
 
         session()->flash('message', 'User updated.');
+
+        if (Auth::user()->refresh()->cannot('manage users')) {
+            return redirect()->route('backend');
+        }
+
+        return redirect()->route('backend.users');
+    }
+
+    public function delete()
+    {
+        $this->authorize('delete', $this->user);
+
+        $this->user->delete();
+
+        session()->flash('message', 'User deleted.');
 
         return redirect()->route('backend.users');
     }

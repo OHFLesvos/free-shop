@@ -56,7 +56,7 @@
             <x-card>
                 <x-slot name="title">
                     @can('manage users')
-                        <a href="{{ route('backend.customers') }}" class="text-body text-decoration-none">Users</a>
+                        <a href="{{ route('backend.users') }}" class="text-body text-decoration-none">Users</a>
                     @else
                         Users
                     @endcan

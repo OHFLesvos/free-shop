@@ -3,7 +3,6 @@
 namespace App\Listeners;
 
 use App\Events\UserDeleted;
-use App\Models\User;
 use Illuminate\Support\Facades\Log;
 
 class LogUserDeleted
@@ -16,18 +15,13 @@ class LogUserDeleted
      */
     public function handle(UserDeleted $event)
     {
-        $this->writeLog($event->user);
-    }
-
-    private function writeLog(User $user)
-    {
         Log::info('User has been deleted.', [
             'event.kind' => 'event',
             'event.category' => 'iam',
             'event.type' => 'deletion',
-            'user.name' => $user->name,
-            'user.email' => $user->email,
-            'user.roles' => $user->getRoleNames()->toArray(),
+            'user.name' => $event->user->name,
+            'user.email' => $event->user->email,
+            'user.roles' => $event->user->getRoleNames()->toArray(),
         ]);
     }
 }
