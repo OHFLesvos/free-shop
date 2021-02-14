@@ -29,7 +29,12 @@ class TextBlockEditPage extends BackendPage
     {
         $this->authorize('update', $this->textBlock);
 
-        $this->locale = session()->get('text-block-form.locale', $this->defaultLocale);
+        if (blank($this->textBlock->getTranslation('content', $this->defaultLocale))) {
+            $this->locale = $this->defaultLocale;
+            session()->forget('text-block-form.locale');
+        } else {
+            $this->locale = session()->get('text-block-form.locale', $this->defaultLocale);
+        }
 
         $this->content = $this->textBlock->getTranslations('content');
     }
