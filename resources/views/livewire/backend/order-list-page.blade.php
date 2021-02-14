@@ -1,6 +1,6 @@
 <div>
     <div class="row g-3 mb-3">
-        <div class="col-sm">
+        <div class="col-md">
             <div class="input-group">
                 <input
                     type="search"
@@ -23,14 +23,16 @@
         </div>
         <div class="col-auto overflow-auto">
             <div class="btn-group" role="group">
-                <button type="button" class="btn @if ($status=='new' ) btn-warning @else btn-outline-warning @endif"
+                <button type="button" class="btn @if ($status == '' ) btn-secondary @else btn-outline-secondary @endif"
+                    wire:click="$set('status', '')" wire:loading.attr="disabled">Any</button>
+                <button type="button" class="btn @if ($status == 'new' ) btn-warning @else btn-outline-warning @endif"
                     wire:click="$set('status', 'new')" wire:loading.attr="disabled">New</button>
-                <button type="button" class="btn @if ($status=='ready' ) btn-info @else btn-outline-info @endif"
+                <button type="button" class="btn @if ($status == 'ready' ) btn-info @else btn-outline-info @endif"
                     wire:click="$set('status', 'ready')" wire:loading.attr="disabled">Ready</button>
-                <button type="button" class="btn @if ($status=='completed' ) btn-success @else btn-outline-success @endif"
+                <button type="button" class="btn @if ($status == 'completed' ) btn-success @else btn-outline-success @endif"
                     wire:click="$set('status', 'completed')" wire:loading.attr="disabled">Completed</button>
-                <button type="button" class="btn @if ($status=='cancelled' ) btn-danger @else btn-outline-danger @endif"
-                    wire:click="$set('status', 'cancelled')" wire:loading.attr="disabled">Canceled</button>
+                <button type="button" class="btn @if ($status == 'cancelled' ) btn-danger @else btn-outline-danger @endif"
+                    wire:click="$set('status', 'cancelled')" wire:loading.attr="disabled">Cancelled</button>
             </div>
         </div>
     </div>
@@ -39,6 +41,7 @@
             <caption>{{ $orders->total() }} orders found</caption>
             <thead>
                 <th class="fit text-end">ID</th>
+                <th class="fit">Status</th>
                 <th>
                     @if (in_array($status, ['completed', 'cancelled']))
                         Updated
@@ -55,6 +58,7 @@
                         @can('view', $order) onclick="window.location='{{ route('backend.orders.show', $order) }}'" @endcan
                         @can('view', $order) class="cursor-pointer" @endcan>
                         <td class="fit text-end">#{{ $order->id }}</td>
+                        <td class="fit"><x-order-status-label :order="$order" /></td>
                         <td>
                             @if ($order->isOpen)
                                 {{ $order->created_at->toUserTimezone()->isoFormat('LLLL') }}<br>

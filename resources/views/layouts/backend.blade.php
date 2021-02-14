@@ -45,7 +45,7 @@ $items = [
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
     @include('layouts.includes.head')
     <body class="bg-light">
-        <nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow-sm mb-4">
+        <nav class="navbar navbar-expand-xl navbar-dark bg-primary shadow-sm mb-4">
             <div class="container">
                 <span class="d-lg-none text-light">{{ $title }}</span>
                 <a class="navbar-brand d-none d-lg-inline" href="{{ route('backend') }}">{{ config('app.name') }}</a>

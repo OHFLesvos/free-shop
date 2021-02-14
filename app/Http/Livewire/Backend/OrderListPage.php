@@ -14,11 +14,11 @@ class OrderListPage extends BackendPage
     protected $paginationTheme = 'bootstrap';
 
     public string $search = '';
-
-    public string $status = 'new';
+    public string $status = '';
 
     protected $queryString = [
         'search' => ['except' => ''],
+        'status' => ['except' => ''],
     ];
 
     public function mount()
@@ -26,7 +26,7 @@ class OrderListPage extends BackendPage
         $this->authorize('viewAny', Order::class);
 
         $this->search = request()->input('search', session()->get('orders.search', '')) ?? '';
-        $this->status = session()->get('orders.status', 'new');
+        $this->status = request()->input('status', session()->get('orders.status', '')) ?? '';
 
         if (session()->has('orders.page')) {
             $this->setPage(session()->get('orders.page'));
@@ -63,6 +63,10 @@ class OrderListPage extends BackendPage
 
     public function updatedStatus($value)
     {
-        session()->put('orders.status', $value);
+        if (filled($value)) {
+            session()->put('orders.status', $value);
+        } else {
+            session()->forget('orders.status');
+        }
     }
 }
