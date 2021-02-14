@@ -34,7 +34,6 @@ class SetOrderCustomerContrainedNullInOrdersTable extends Migration
             $table->dropForeign(['customer_id']);
         });
         Schema::table('orders', function (Blueprint $table) {
-            $table->foreignId('customer_id')->nullable(false)->change();
             $table->foreign('customer_id')
                 ->references('id')
                 ->on('customers');
