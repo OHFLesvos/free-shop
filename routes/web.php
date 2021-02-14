@@ -86,12 +86,12 @@ Route::prefix('backend')
 
 Route::middleware('auth')
     ->group(function () {
-        Route::redirect('backend', 'backend')
+        Route::redirect('backend', 'backend/dashboard')
             ->name('backend');
         Route::prefix('backend')
             ->name('backend.')
             ->group(function () {
-                Route::get('', DashboardPage::class)
+                Route::get('dashboard', DashboardPage::class)
                     ->name('dashboard');
                 Route::get('orders', OrderListPage::class)
                     ->name('orders');
