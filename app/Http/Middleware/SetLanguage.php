@@ -22,6 +22,7 @@ class SetLanguage
             session()->put('lang', $lang);
         }
         if (!session()->has('lang')) {
+            session()->put('requested-url', $request->fullUrl());
             return redirect()->route('languages');
         }
         return $next($request);

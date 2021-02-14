@@ -6,10 +6,6 @@ class LanguageSelectController extends Controller
 {
     public function index()
     {
-        if (url()->previous() != route('languages')) {
-            session()->flash('previous-url', url()->previous());
-        }
-
         return view('language-select', [
             'languages' => config('app.supported_languages'),
         ]);
@@ -23,12 +19,8 @@ class LanguageSelectController extends Controller
 
         session()->put('lang', $lang);
 
-        if (session()->has('previous-url')) {
-            return redirect(session()->get('previous-url'));
-        }
-
-        if (url()->previous() != route('languages')) {
-            return redirect(url()->previous());
+        if (session()->has('requested-url')) {
+            return redirect(session()->pull('requested-url'));
         }
 
         return redirect()->route('home');
