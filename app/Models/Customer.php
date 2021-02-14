@@ -78,4 +78,18 @@ class Customer extends Model implements HasLocalePreference
         }
         return null;
     }
+
+    public function getNextOrderIn()
+    {
+        $days = intval(setting()->get('customer.waiting_time_between_orders', 0));
+        if ($days > 0) {
+            $lastOrder = $this->orders()->orderBy('created_at', 'desc')->first();
+            if ($lastOrder != null) {
+                if (now()->subDays($days)->lte($lastOrder->created_at)) {
+                    return $lastOrder->created_at->clone()->addDays($days)->diffForHumans();
+                }
+            }
+        }
+        return null;
+    }
 }

@@ -32,6 +32,7 @@ class SettingsPage extends BackendPage
     public $brandLogo;
     public $brandLogoUpload;
     public bool $brandLogoRemove = false;
+    public $customerWaitingTimeBetweenOrders;
 
     public $contentLocale;
 
@@ -75,7 +76,12 @@ class SettingsPage extends BackendPage
                         }
                     }
                 }
-            ]
+            ],
+            'customerWaitingTimeBetweenOrders' => [
+                'nullable',
+                'integer',
+                'min:1',
+            ],
         ];
     }
 
@@ -92,6 +98,7 @@ class SettingsPage extends BackendPage
         $this->brandLogo = setting()->get('brand.logo');
         $this->customerIdNumberPattern = setting()->get('customer.id_number_pattern', '');
         $this->customerIdNumberExample = setting()->get('customer.id_number_example', '');
+        $this->customerWaitingTimeBetweenOrders = setting()->get('customer.waiting_time_between_orders', '');
 
         $this->countries = collect(Countries::getList());
 
@@ -189,6 +196,12 @@ class SettingsPage extends BackendPage
             setting()->set('customer.id_number_example', $this->customerIdNumberExample);
         } else {
             setting()->forget('customer.id_number_example');
+        }
+
+        if (filled($this->customerWaitingTimeBetweenOrders)) {
+            setting()->set('customer.waiting_time_between_orders', $this->customerWaitingTimeBetweenOrders);
+        } else {
+            setting()->forget('customer.waiting_time_between_orders');
         }
 
         if ($checksum != md5(json_encode(Setting::all()))) {

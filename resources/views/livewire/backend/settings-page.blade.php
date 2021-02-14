@@ -202,6 +202,23 @@
                     </div>
                 </div>
 
+                <div class="col-sm-6">
+                    <div class="mb-3">
+                        <label for="customerWaitingTimeBetweenOrdersInput" class="form-label">Waiting time between orders:</label>
+                        <input
+                            type="number"
+                            min="1"
+                            id="customerWaitingTimeBetweenOrdersInput"
+                            wire:model.defer="customerWaitingTimeBetweenOrders"
+                            class="form-control @error('customerWaitingTimeBetweenOrders') is-invalid @enderror"
+                            style="max-width: 10em;"
+                            aria-describedby="customerWaitingTimeBetweenOrdersHelp">
+                        @error('customerWaitingTimeBetweenOrders') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                        <small id="customerWaitingTimeBetweenOrdersHelp" class="form-text">
+                            Time in days. Leave empty to disable the limit.
+                        </small>
+                    </div>
+                </div>
             </div>
         </x-card>
 
