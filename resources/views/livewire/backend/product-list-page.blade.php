@@ -22,7 +22,7 @@
             </div>
     </div>
     <div class="table-responsive">
-        <table class="table table-bordered bg-white shadow-sm @can('manage products') table-hover @endcan">
+        <table class="table table-bordered bg-white shadow-sm @canany(['manage products', 'update products']) table-hover @endcanany">
             <caption>{{ $products->count() }} products registered</caption>
             <thead>
                 <th>Picture</th>
@@ -72,7 +72,7 @@
             <a
                 href="{{ route('backend.products.create') }}"
                 class="btn btn-primary">
-                Register new user
+                Register
             </a>
         </p>
     @endcan

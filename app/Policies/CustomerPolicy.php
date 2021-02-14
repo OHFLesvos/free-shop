@@ -18,7 +18,7 @@ class CustomerPolicy
      */
     public function viewAny(User $user)
     {
-        if ($user->canAny(['view customers', 'manage customers'])) {
+        if ($user->canAny(['view customers', 'manage customers', 'update customers'])) {
             return true;
         }
     }
@@ -32,7 +32,7 @@ class CustomerPolicy
      */
     public function view(User $user, Customer $customer)
     {
-        if ($user->canAny(['view customers', 'manage customers'])) {
+        if ($user->canAny(['view customers', 'manage customers', 'update customers'])) {
             return true;
         }
     }
@@ -59,7 +59,7 @@ class CustomerPolicy
      */
     public function update(User $user, Customer $customer)
     {
-        if ($user->can('manage customers')) {
+        if ($user->canAny(['manage customers', 'update customers'])) {
             return true;
         }
     }

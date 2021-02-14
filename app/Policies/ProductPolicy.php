@@ -18,7 +18,7 @@ class ProductPolicy
      */
     public function viewAny(User $user)
     {
-        if ($user->can('manage products')) {
+        if ($user->canAny(['manage products', 'update products'])) {
             return true;
         }
     }
@@ -32,7 +32,7 @@ class ProductPolicy
      */
     public function view(User $user, Product $product)
     {
-        if ($user->can('manage products')) {
+        if ($user->canAny(['manage products', 'update products'])) {
             return true;
         }
     }
@@ -59,7 +59,7 @@ class ProductPolicy
      */
     public function update(User $user, Product $product)
     {
-        if ($user->can('manage products')) {
+        if ($user->canAny(['manage products', 'update products'])) {
             return true;
         }
     }

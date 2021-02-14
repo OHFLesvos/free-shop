@@ -62,11 +62,13 @@
         </table>
     </div>
     {{ $customers->links() }}
-    <p>
-        <a
-            href="{{ route('backend.customers.create') }}"
-            class="btn btn-primary">
-            Register
-        </a>
-    </p>
+    @can('create', App\Model\Customer::class)
+        <p>
+            <a
+                href="{{ route('backend.customers.create') }}"
+                class="btn btn-primary">
+                Register
+            </a>
+        </p>
+    @endcan
 </div>

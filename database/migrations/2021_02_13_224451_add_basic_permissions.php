@@ -11,7 +11,9 @@ class AddBasicPermissions extends Migration
         'view orders',
         'update orders',
         'view customers',
+        'update customers',
         'manage customers',
+        'update products',
         'manage products',
         'export data',
         'import data',
@@ -30,14 +32,15 @@ class AddBasicPermissions extends Migration
             Permission::findOrCreate($name);
         }
 
-        Role::findOrCreate('Editor')->syncPermissions([
-            'manage products',
+        Role::findOrCreate('Translator')->syncPermissions([
+            'update products',
         ]);
 
         Role::findOrCreate('Dispatcher')->syncPermissions([
             'view orders',
             'update orders',
             'view customers',
+            'update customers',
             'manage products',
         ]);
     }
