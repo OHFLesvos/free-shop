@@ -4,6 +4,7 @@ namespace App\Http\Livewire\Backend;
 
 use App\Events\UserRolesChanged;
 use App\Models\User;
+use App\Notifications\UserRolesUpdated;
 use App\Providers\AuthServiceProvider;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Support\Facades\Auth;
@@ -67,6 +68,7 @@ class UserEditPage extends BackendPage
 
         if ($previousRoles != $this->user->getRoleNames()->toArray()) {
             UserRolesChanged::dispatch($this->user, $previousRoles);
+            $this->user->notify(new UserRolesUpdated());
         }
 
         session()->flash('message', 'User updated.');
