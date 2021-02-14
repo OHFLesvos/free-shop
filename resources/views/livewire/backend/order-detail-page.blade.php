@@ -157,16 +157,15 @@
     {{-- Buttons --}}
     <div class="d-flex justify-content-between mb-3">
         <span>
-            @can('update', $order)
-            {{-- TODO --}}
-                @if(!$showChangeStatus && $order->isOpen)
+            @if(!$showChangeStatus)
+                @can('update', $order)
                     <button
                         wire:click="$set('showChangeStatus', true)"
                         class="btn btn-primary">
                         Change
                     </button>
-                @endif
-            @endcan
+                @endcan
+            @endif
         </span>
         <a
             href="{{ route('backend.orders') }}"

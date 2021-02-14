@@ -21,7 +21,7 @@ class CustomerListPage extends BackendPage
 
     public function mount()
     {
-        $this->authorize('view customers');
+        $this->authorize('viewAny', Customer::class);
 
         $this->search = request()->input('search', session()->get('customers.search', '')) ?? '';
 

@@ -23,7 +23,7 @@ class OrderListPage extends BackendPage
 
     public function mount()
     {
-        $this->authorize('view orders');
+        $this->authorize('viewAny', Order::class);
 
         $this->search = request()->input('search', session()->get('orders.search', '')) ?? '';
         $this->status = session()->get('orders.status', 'new');

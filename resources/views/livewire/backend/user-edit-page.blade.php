@@ -74,9 +74,11 @@
                             @endcan
                         </span>
                         <span>
-                            <a
-                                href="{{ route('backend.users') }}"
-                                class="btn btn-link">Cancel</a>
+                            @can('viewAny', App\Models\User::class)
+                                <a
+                                    href="{{ route('backend.users') }}"
+                                    class="btn btn-link">Cancel</a>
+                            @endcan
                             <button
                                 type="submit"
                                 class="btn btn-primary"

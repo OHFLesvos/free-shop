@@ -23,7 +23,7 @@ class OrderDetailPage extends BackendPage
 
     public function mount()
     {
-        $this->authorize('view orders');
+        $this->authorize('view', $this->order);
 
         $this->newStatus = $this->order->status;
     }
@@ -48,7 +48,7 @@ class OrderDetailPage extends BackendPage
 
     public function submit()
     {
-        $this->authorize('update orders');
+        $this->authorize('update', $this->order);
 
         if ($this->order->status != $this->newStatus) {
 

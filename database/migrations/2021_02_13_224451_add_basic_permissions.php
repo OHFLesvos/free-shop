@@ -30,7 +30,7 @@ class AddBasicPermissions extends Migration
             Permission::findOrCreate($name);
         }
 
-        Role::findOrCreate('Translator')->syncPermissions([
+        Role::findOrCreate('Editor')->syncPermissions([
             'manage products',
         ]);
 

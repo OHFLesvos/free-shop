@@ -18,7 +18,7 @@ class CustomerDetailPage extends BackendPage
 
     public function render()
     {
-        $this->authorize('view customers');
+        $this->authorize('view', $this->customer);
 
         return parent::view('livewire.backend.customer-detail-page');
     }

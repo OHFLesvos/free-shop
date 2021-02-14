@@ -37,8 +37,8 @@
             <tbody>
                 @forelse($customers as $customer)
                     <tr
-                        onclick="window.location='{{ route('backend.customers.show', $customer) }}'"
-                        class="cursor-pointer">
+                        @can('view', $customer) onclick="window.location='{{ route('backend.customers.show', $customer) }}'" @endcan
+                        @can('view', $customer) class="cursor-pointer" @endcan>
                         <td>{{ $customer->name }}</td>
                         <td>{{ $customer->id_number }}</td>
                         <td><x-phone-info :value="$customer->phone"/></td>

@@ -51,7 +51,9 @@
             </thead>
             <tbody>
                 @forelse($orders as $order)
-                    <tr onclick="window.location='{{ route('backend.orders.show', $order) }}'" class="cursor-pointer">
+                    <tr
+                        @can('view', $order) onclick="window.location='{{ route('backend.orders.show', $order) }}'" @endcan
+                        @can('view', $order) class="cursor-pointer" @endcan>
                         <td class="fit text-end">#{{ $order->id }}</td>
                         <td>
                             @if ($order->isOpen)

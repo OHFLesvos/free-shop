@@ -30,7 +30,7 @@ class UserEditPage extends BackendPage
 
     public function mount()
     {
-        $this->authorize('manage users');
+        $this->authorize('update', $this->user);
 
         $this->userRoles = $this->user->roles->pluck('id')
             ->values()
@@ -71,7 +71,7 @@ class UserEditPage extends BackendPage
 
         session()->flash('message', 'User updated.');
 
-        if (Auth::user()->refresh()->cannot('manage users')) {
+        if (Auth::user()->refresh()->cannot('viewAny', User::class)) {
             return redirect()->route('backend');
         }
 

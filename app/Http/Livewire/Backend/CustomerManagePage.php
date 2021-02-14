@@ -44,7 +44,11 @@ class CustomerManagePage extends BackendPage
 
     public function mount()
     {
-        $this->authorize('manage customers');
+        if (isset($this->customer)) {
+            $this->authorize('update', $this->customer);
+        } else {
+            $this->authorize('create', Customer::class);
+        }
 
         if (! isset($this->customer)) {
             $this->customer = new Customer();
@@ -81,6 +85,8 @@ class CustomerManagePage extends BackendPage
 
     public function submit()
     {
+        $this->authorize('update', $this->customer);
+
         $this->validate();
 
         $this->customer->phone = PhoneNumber::make($this->customer_phone, $this->customer_phone_country)
@@ -97,6 +103,8 @@ class CustomerManagePage extends BackendPage
 
     public function delete()
     {
+        $this->authorize('delete', $this->customer);
+
         $this->customer->delete();
 
         session()->flash('message', 'Customer deleted.');

@@ -46,6 +46,10 @@ class OrderPolicy
      */
     public function update(User $user, Order $order)
     {
+        if (!$order->isOpen) {
+            return false;
+        }
+
         if ($user->can('update orders')) {
             return true;
         }

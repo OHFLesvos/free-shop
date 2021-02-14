@@ -18,7 +18,9 @@ class ProductPolicy
      */
     public function viewAny(User $user)
     {
-        return true;
+        if ($user->can('manage products')) {
+            return true;
+        }
     }
 
     /**
@@ -30,7 +32,9 @@ class ProductPolicy
      */
     public function view(User $user, Product $product)
     {
-        return true;
+        if ($user->can('manage products')) {
+            return true;
+        }
     }
 
     /**
@@ -69,6 +73,10 @@ class ProductPolicy
      */
     public function delete(User $user, Product $product)
     {
+        if ($product->orders->isNotEmpty()) {
+            return false;
+        }
+
         if ($user->can('manage products')) {
             return true;
         }

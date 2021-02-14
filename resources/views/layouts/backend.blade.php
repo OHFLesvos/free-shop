@@ -7,16 +7,17 @@ $items = [
     [
         'label' => 'Orders',
         'route' => 'backend.orders',
-        'authorized' => auth()->user()->canAny(['view orders', 'update orders']),
+        'authorized' => auth()->user()->can('viewAny', App\Models\Order::class),
     ],
     [
         'label' => 'Customers',
         'route' => 'backend.customers',
-        'authorized' => auth()->user()->canAny(['view customers', 'manage customers']),
+        'authorized' => auth()->user()->can('viewAny', App\Models\Customer::class),
     ],
     [
         'label' => 'Products',
-        'route' => 'backend.products'
+        'route' => 'backend.products',
+        'authorized' => auth()->user()->can('viewAny', App\Models\Product::class),
     ],
     [
         'label' => 'Data Import & Export',
@@ -26,7 +27,7 @@ $items = [
     [
         'label' => 'Users',
         'route' => 'backend.users',
-        'authorized' => auth()->user()->canAny(['manage users']),
+        'authorized' => auth()->user()->can('viewAny', App\Models\User::class),
     ],
     [
         'label' => 'Settings',

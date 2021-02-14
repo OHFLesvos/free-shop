@@ -70,7 +70,11 @@ class ProductManagePage extends BackendPage
 
     public function mount()
     {
-        $this->authorize('manage products');
+        if (isset($this->product)) {
+            $this->authorize('update', $this->product);
+        } else {
+            $this->authorize('create', Product::class);
+        }
 
         if (! isset($this->product)) {
             $this->product = new Product();
@@ -137,6 +141,8 @@ class ProductManagePage extends BackendPage
 
     public function submit()
     {
+        $this->authorize('update', $this->product);
+
         $this->validate();
 
         $this->product->setTranslations('name', array_map(fn ($val) => trim($val), $this->name));
@@ -167,9 +173,7 @@ class ProductManagePage extends BackendPage
 
     public function delete()
     {
-        if ($this->product->orders->isNotEmpty()) {
-            return;
-        }
+        $this->authorize('delete', $this->product);
 
         if (isset($this->product->picture)) {
             Storage::delete($this->product->picture);

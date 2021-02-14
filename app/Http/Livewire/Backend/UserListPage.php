@@ -21,7 +21,7 @@ class UserListPage extends BackendPage
 
     public function mount()
     {
-        $this->authorize('manage users');
+        $this->authorize('viewAny', User::class);
 
         $this->search = request()->input('search', session()->get('users.search', '')) ?? '';
     }
