@@ -28,7 +28,7 @@ class AuthServiceProvider extends ServiceProvider
         $this->registerPolicies();
 
         Gate::after(function ($user, $ability) {
-            return $user->hasRole(self::ADMINISTRATOR_ROLE) /* TODO && Permission::findByName($ability)*/;
+            return $user->hasRole(self::ADMINISTRATOR_ROLE);
          });
     }
 }
