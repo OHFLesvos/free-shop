@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Gate;
+use Spatie\Permission\Models\Permission;
 
 class AuthServiceProvider extends ServiceProvider
 {
@@ -28,7 +29,7 @@ class AuthServiceProvider extends ServiceProvider
         $this->registerPolicies();
 
         Gate::after(function ($user, $ability) {
-            return $user->hasRole(self::ADMINISTRATOR_ROLE); // note this returns boolean
+            return $user->hasRole(self::ADMINISTRATOR_ROLE) /* TODO && Permission::findByName($ability)*/;
          });
     }
 }

@@ -3,11 +3,13 @@
 namespace App\Http\Livewire\Backend;
 
 use App\Models\Order;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Livewire\WithPagination;
 
 class OrderListPage extends BackendPage
 {
     use WithPagination;
+    use AuthorizesRequests;
 
     protected $paginationTheme = 'bootstrap';
 
@@ -21,6 +23,8 @@ class OrderListPage extends BackendPage
 
     public function mount()
     {
+        $this->authorize('view orders');
+
         $this->search = request()->input('search', session()->get('orders.search', '')) ?? '';
         $this->status = session()->get('orders.status', 'new');
 

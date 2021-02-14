@@ -7,12 +7,14 @@ use App\Http\Controllers\SocialLoginController;
 use App\Http\Livewire\Backend\CustomerDetailPage;
 use App\Http\Livewire\Backend\CustomerListPage;
 use App\Http\Livewire\Backend\CustomerManagePage;
+use App\Http\Livewire\Backend\DashboardPage;
 use App\Http\Livewire\Backend\DataImportExportPage;
 use App\Http\Livewire\Backend\OrderDetailPage;
 use App\Http\Livewire\Backend\OrderListPage;
 use App\Http\Livewire\Backend\ProductManagePage;
 use App\Http\Livewire\Backend\ProductListPage;
 use App\Http\Livewire\Backend\SettingsPage;
+use App\Http\Livewire\Backend\UserEditPage;
 use App\Http\Livewire\Backend\UserListPage;
 use App\Http\Livewire\Backend\UserProfilePage;
 use App\Http\Livewire\CheckoutPage;
@@ -81,11 +83,13 @@ Route::prefix('backend')
 
 Route::middleware('auth')
     ->group(function () {
-        Route::redirect('backend', 'backend/orders')
+        Route::redirect('backend', 'backend')
             ->name('backend');
         Route::prefix('backend')
             ->name('backend.')
             ->group(function () {
+                Route::get('', DashboardPage::class)
+                    ->name('dashboard');
                 Route::get('orders', OrderListPage::class)
                     ->name('orders');
                 Route::get('orders/{order}', OrderDetailPage::class)
@@ -110,6 +114,8 @@ Route::middleware('auth')
                     ->name('settings');
                 Route::get('users', UserListPage::class)
                     ->name('users');
+                Route::get('users/{user}/edit', UserEditPage::class)
+                    ->name('users.edit');
                 Route::get('user-profile', UserProfilePage::class)
                     ->name('user-profile');
             });

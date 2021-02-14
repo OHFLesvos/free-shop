@@ -3,11 +3,14 @@
 namespace App\Http\Livewire\Backend;
 
 use App\Models\Customer;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Propaganistas\LaravelPhone\Exceptions\NumberParseException;
 use Propaganistas\LaravelPhone\PhoneNumber;
 
 class CustomerManagePage extends BackendPage
 {
+    use AuthorizesRequests;
+
     public Customer $customer;
 
     public string $customer_phone;
@@ -15,7 +18,8 @@ class CustomerManagePage extends BackendPage
 
     public bool $shouldDelete = false;
 
-    protected function rules() {
+    protected function rules()
+    {
         return [
             'customer.name' => 'required',
             'customer.id_number' => [
@@ -40,6 +44,8 @@ class CustomerManagePage extends BackendPage
 
     public function mount()
     {
+        $this->authorize('manage customers');
+
         if (! isset($this->customer)) {
             $this->customer = new Customer();
             $this->customer->credit = setting()->get('customer.starting_credit', config('shop.customer.starting_credit'));

@@ -1,4 +1,7 @@
 <div>
+    @if(session()->has('message'))
+        <x-alert type="success" dismissible>{{ session()->get('message') }}</x-alert>
+    @endif
     <div class="mb-3">
         <div class="input-group">
             <input
@@ -22,7 +25,7 @@
         </div>
     </div>
     <div class="table-responsive">
-        <table class="table table-bordered bg-white shadow-sm">
+        <table class="table table-bordered bg-white shadow-sm @can('manage users') table-hover @endcan">
             <caption>{{ $users->total() }} users found</caption>
             <thead>
                 <th colspan="2">Name</th>
@@ -32,7 +35,9 @@
             </thead>
             <tbody>
                 @forelse($users as $user)
-                    <tr >
+                    <tr
+                        @can('update', $user) onclick="window.location='{{ route('backend.users.edit', $user) }}'" @endcan
+                        class="@can('update', $user) cursor-pointer @endcan ">
                         <td class="fit">
                             @isset($user->avatar)
                                 <img

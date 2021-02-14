@@ -5,9 +5,12 @@ namespace App\Http\Livewire\Backend;
 use App\Models\Order;
 use App\Notifications\CustomerOrderCancelled;
 use App\Notifications\CustomerOrderReadyed;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
 class OrderDetailPage extends BackendPage
 {
+    use AuthorizesRequests;
+
     public Order $order;
 
     public $newStatus;
@@ -20,6 +23,8 @@ class OrderDetailPage extends BackendPage
 
     public function mount()
     {
+        $this->authorize('view orders');
+
         $this->newStatus = $this->order->status;
     }
 
@@ -43,6 +48,8 @@ class OrderDetailPage extends BackendPage
 
     public function submit()
     {
+        $this->authorize('update orders');
+
         if ($this->order->status != $this->newStatus) {
 
             if ($this->newStatus == 'completed') {

@@ -6,6 +6,7 @@ use App\Exports\DataExport;
 use App\Imports\DataImport;
 use App\Models\Customer;
 use App\Models\Product;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Validation\Rule;
 use Livewire\WithFileUploads;
 use Maatwebsite\Excel\Facades\Excel;
@@ -13,6 +14,7 @@ use Maatwebsite\Excel\Facades\Excel;
 class DataImportExportPage extends BackendPage
 {
     use WithFileUploads;
+    use AuthorizesRequests;
 
     public $upload;
 
@@ -40,6 +42,8 @@ class DataImportExportPage extends BackendPage
 
     public function export()
     {
+        $this->authorize('export data');
+
         $this->validate([
             'format' => Rule::in(array_keys($this->formats)),
         ]);
@@ -50,6 +54,8 @@ class DataImportExportPage extends BackendPage
 
     public function import()
     {
+        $this->authorize('import data');
+
         $this->validate([
             'upload' => [
                 'file',

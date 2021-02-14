@@ -4,12 +4,14 @@ namespace App\Http\Livewire\Backend;
 
 use App\Models\Product;
 use Gumlet\ImageResize;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Storage;
 use Livewire\WithFileUploads;
 
 class ProductManagePage extends BackendPage
 {
+    use AuthorizesRequests;
     use WithFileUploads;
 
     public Product $product;
@@ -22,7 +24,8 @@ class ProductManagePage extends BackendPage
 
     public bool $shouldDelete = false;
 
-    protected function rules() {
+    protected function rules()
+    {
         $defaultLocale = config('app.fallback_locale');
         return [
             'name.*' => 'nullable',
@@ -67,6 +70,8 @@ class ProductManagePage extends BackendPage
 
     public function mount()
     {
+        $this->authorize('manage products');
+
         if (! isset($this->product)) {
             $this->product = new Product();
             $this->product->is_available = true;

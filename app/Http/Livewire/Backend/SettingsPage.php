@@ -89,6 +89,8 @@ class SettingsPage extends BackendPage
 
     public function mount()
     {
+        $this->authorize('update settings');
+
         $this->shopDisabled = setting()->has('shop.disabled');
         $this->geoblockWhitelist = collect(setting()->get('geoblock.whitelist', []));
         $this->orderDefaultPhoneCountry = setting()->get('order.default_phone_country', '');
@@ -109,8 +111,6 @@ class SettingsPage extends BackendPage
 
     public function render()
     {
-        $this->authorize('change settings');
-
         return parent::view('livewire.backend.settings-page');
     }
 
@@ -129,6 +129,8 @@ class SettingsPage extends BackendPage
 
     public function submit()
     {
+        $this->authorize('update settings');
+
         $this->validate();
 
         if ($this->shopDisabled) {
