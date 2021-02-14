@@ -32,6 +32,7 @@ class CheckoutPage extends Component
     {
         return view('livewire.checkout-page', [
                 'basket' => $basket->items(),
+                'nextOrderIn' => $this->customer->getNextOrderIn(),
             ])
             ->layout(null, ['title' => __('Checkout')]);
     }
