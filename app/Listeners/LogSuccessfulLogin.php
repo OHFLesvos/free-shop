@@ -42,7 +42,7 @@ class LogSuccessfulLogin
             'event.outcome' => 'success',
             'user.name' => $user->name,
             'user.email' => $user->email,
-            'user.roles' => $user->getRoleNames(),
+            'user.roles' => $user->getRoleNames()->toArray(),
         ]);
     }
 }

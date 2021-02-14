@@ -41,7 +41,7 @@ class LogUserLogout
             'event.type' => 'end',
             'user.name' => $user->name,
             'user.email' => $user->email,
-            'user.roles' => $user->getRoleNames(),
+            'user.roles' => $user->getRoleNames()->toArray(),
         ]);
     }
 }
