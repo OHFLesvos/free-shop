@@ -20,7 +20,6 @@
                         <td class="fit">
                             {{ collect(config('app.supported_languages'))
                                 ->keys()
-                                ->filter(fn ($key) => $key != config('app.fallback_locale'))
                                 ->filter(fn ($key) => $textBlock->hasTranslation('content', $key))
                                 ->map(fn ($key) => strtoupper($key))
                                 ->join(', ') }}

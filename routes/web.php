@@ -16,7 +16,6 @@ use App\Http\Livewire\Backend\ProductListPage;
 use App\Http\Livewire\Backend\SettingsPage;
 use App\Http\Livewire\Backend\TextBlockEditPage;
 use App\Http\Livewire\Backend\TextBlockListPage;
-use App\Http\Livewire\Backend\TextBlockPage;
 use App\Http\Livewire\Backend\UserEditPage;
 use App\Http\Livewire\Backend\UserListPage;
 use App\Http\Livewire\Backend\UserProfilePage;
@@ -44,6 +43,8 @@ Route::middleware(['geoblock.whitelist', 'set-language'])
     ->group(function () {
         Route::get('/', WelcomePage::class)
             ->name('home');
+        Route::view('privacy-policy', 'privacy-policy')
+            ->name('privacy-policy');
         Route::get('customer/login', CustomerLoginPage::class)
             ->name('customer.login');
         Route::middleware('auth-customer')
