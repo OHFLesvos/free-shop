@@ -44,9 +44,9 @@
                 <th class="fit">Status</th>
                 <th>
                     @if (in_array($status, ['completed', 'cancelled']))
-                        Updated
+                        Updated <x-icon icon="sort-numeric-up"/>
                     @else
-                        Registered
+                        Registered <x-icon icon="sort-numeric-down"/>
                     @endif
                 </th>
                 <th>Customer</th>
