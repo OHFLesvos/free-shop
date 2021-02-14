@@ -19,7 +19,6 @@ class SettingsPage extends BackendPage
     public Collection $geoblockWhitelist;
     public string $orderDefaultPhoneCountry;
     public string $timezone;
-    public $welcomeText;
     public $customerStartingCredit;
     public bool $shopDisabled;
     public $shopMaxOrdersPerDay;
@@ -29,8 +28,6 @@ class SettingsPage extends BackendPage
     public $countries;
 
     public ?string $selectedCountry = null;
-
-    public bool $welcomeTextPreview = false;
 
     public $brandLogo;
     public $brandLogoUpload;
@@ -55,13 +52,6 @@ class SettingsPage extends BackendPage
             'timezone' => [
                 'nullable',
                 'timezone',
-            ],
-            'welcomeText' => [
-                'nullable',
-                'array',
-            ],
-            'welcomeText.*' => [
-                'string',
             ],
             'customerStartingCredit' => [
                 'nullable',
@@ -97,7 +87,6 @@ class SettingsPage extends BackendPage
         $this->geoblockWhitelist = collect(setting()->get('geoblock.whitelist', []));
         $this->orderDefaultPhoneCountry = setting()->get('order.default_phone_country', '');
         $this->timezone = setting()->get('timezone', '');
-        $this->welcomeText = setting()->get('content.welcome_text', []);
         $this->customerStartingCredit = setting()->get('customer.starting_credit', '');
         $this->shopMaxOrdersPerDay = setting()->get('shop.max_orders_per_day', '');
         $this->brandLogo = setting()->get('brand.logo');
@@ -159,15 +148,6 @@ class SettingsPage extends BackendPage
             setting()->set('timezone', $this->timezone);
         } else {
             setting()->forget('timezone');
-        }
-
-        $welcomeText = collect($this->welcomeText)
-            ->filter(fn ($t) => filled($t))
-            ->toArray();
-        if (count($welcomeText) > 0) {
-            setting()->set('content.welcome_text', $welcomeText);
-        } else {
-            setting()->forget('content.welcome_text');
         }
 
         if (filled($this->customerStartingCredit)) {

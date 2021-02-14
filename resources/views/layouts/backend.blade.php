@@ -25,6 +25,11 @@ $items = [
         'authorized' => auth()->user()->canAny(['export data', 'import data']),
     ],
     [
+        'label' => 'Text Blocks',
+        'route' => 'backend.text-blocks',
+        'authorized' => auth()->user()->can('viewAny', App\Models\TextBlock::class),
+    ],
+    [
         'label' => 'Users',
         'route' => 'backend.users',
         'authorized' => auth()->user()->can('viewAny', App\Models\User::class),

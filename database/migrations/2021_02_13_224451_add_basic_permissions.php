@@ -19,6 +19,7 @@ class AddBasicPermissions extends Migration
         'import data',
         'manage users',
         'update settings',
+        'manage text blocks',
     ];
 
     /**
@@ -34,6 +35,7 @@ class AddBasicPermissions extends Migration
 
         Role::findOrCreate('Translator')->syncPermissions([
             'update products',
+            'manage text blocks',
         ]);
 
         Role::findOrCreate('Dispatcher')->syncPermissions([
