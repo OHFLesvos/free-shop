@@ -88,7 +88,11 @@
                         <td colspan="4" class="text-center">
                             <em>
                                 @if (filled($search))
-                                    No orders found for term '{{ $search }}'.
+                                    No
+                                    @isset($status)
+                                        <strong>{{ $status }}</strong>
+                                    @endisset
+                                    orders found for term '{{ $search }}'.
                                 @else
                                     No orders found.
                                 @endif
