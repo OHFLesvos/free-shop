@@ -10,5 +10,6 @@ return [
     'text-blocks' => [
         'welcome',
         'privacy-policy',
+        'post-checkout',
     ]
 ];

@@ -52,7 +52,9 @@ class Customer extends Model implements HasLocalePreference
     public function scopeFilter(Builder $qry, string $filter)
     {
         $qry->where('name', 'LIKE', '%' . $filter . '%')
+            ->orWhere('id_number', 'LIKE', $filter . '%')
             ->orWhere(fn ($inner) => $inner->whereNumberCompare('id_number', $filter))
+            ->orWhere('phone', 'LIKE', $filter . '%')
             ->orWhere(fn ($inner) => $inner->whereNumberCompare('phone', $filter))
             ->orWhere('remarks', 'LIKE', '%' . $filter . '%');
     }
