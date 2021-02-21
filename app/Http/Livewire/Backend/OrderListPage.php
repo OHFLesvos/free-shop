@@ -70,15 +70,10 @@ class OrderListPage extends BackendPage
         $this->selectedItems = [];
     }
 
-    public function updatingSelectedItems($value)
-    {
-        info('updating', $value);
-    }
-
     public function updatingSelectedAllItems($value)
     {
         if ($value) {
-
+            $this->selectedItems = explode(',', $value);
         } else {
             $this->selectedItems = [];
         }

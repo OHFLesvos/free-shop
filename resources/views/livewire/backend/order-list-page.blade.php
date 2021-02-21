@@ -1,4 +1,10 @@
 <div>
+    @if (session()->has('error'))
+        <x-alert type="danger" dismissible>{{ session()->get('error') }}</x-alert>
+    @endif
+    @if (session()->has('message'))
+        <x-alert type="success" dismissible>{{ session()->get('message') }}</x-alert>
+    @endif
     <div class="row g-3 mb-3">
         <div class="col-md">
             <div class="input-group">
@@ -83,7 +89,15 @@
             <caption>{{ $orders->total() }} orders found</caption>
             <thead>
                 @can('update orders')
-                    <th></th>
+                    <th class="fit text-center">
+                        <div class="form-check">
+                            <input
+                                type="checkbox"
+                                class="form-check-input"
+                                value="{{ $orders->pluck('id')->join(',') }}"
+                                wire:model="selectedAllItems">
+                        </div>
+                    </th>
                 @endcan
                 <th class="fit text-end">ID</th>
                 <th class="fit">Status</th>
