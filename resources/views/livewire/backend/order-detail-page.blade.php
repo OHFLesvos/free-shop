@@ -8,38 +8,28 @@
     @endif
 
     {{-- Order details --}}
-    <x-card title="Order #{{ $order->id }}">
-        <x-slot name="addon">
-            <ul class="list-group list-group-flush">
-                <li class="list-group-item">
-                    <strong>Status:</strong>
-                    <x-order-status-label :order="$order" />
-                </li>
-                <li class="list-group-item">
-                    <strong>Customer:</strong>
-                    @isset($order->customer)
-                        <a href="{{ route('backend.customers.show', $order->customer) }}">{{ $order->customer->name }}</a>
-                        ({{ $order->customer->id_number }})
-                    @else
-                        <em>Deleted</em>
-                    @endisset
-                </li>
-                <li class="list-group-item">
-                    <strong>IP Address:</strong>
-                    <x-ip-info :value="$order->ip_address" />
-                    <br>
-                    <strong>Geo Location:</strong>
-                    <x-geo-location-info :value="$order->ip_address" />
-                    <br>
-                    <strong>User Agent:</strong>
-                    <x-user-agent-info :value="$order->user_agent" />
-                </li>
-                <li class="list-group-item">
-                    <strong>Registered:</strong>
-                    <x-date-time-info :value="$order->created_at" />
-                </li>
-            </ul>
-        </x-slot>
+    <x-card title="Order #{{ $order->id }}" no-footer-padding>
+        <dl class="row mb-2 mt-3">
+            <dt class="col-sm-3">Status</dt>
+            <dd class="col-sm-9"><x-order-status-label :order="$order" /></dd>
+            <dt class="col-sm-3">Customer</dt>
+            <dd class="col-sm-9">
+                @isset($order->customer)
+                    <a href="{{ route('backend.customers.show', $order->customer) }}">{{ $order->customer->name }}</a>
+                    ({{ $order->customer->id_number }})
+                @else
+                    <em>Deleted</em>
+                @endisset
+            </dd>
+            <dt class="col-sm-3">IP Address</dt>
+            <dd class="col-sm-9"><x-ip-info :value="$order->ip_address" /></dd>
+            <dt class="col-sm-3">Geo Location</dt>
+            <dd class="col-sm-9"><x-geo-location-info :value="$order->ip_address" /></dd>
+            <dt class="col-sm-3">User Agent</dt>
+            <dd class="col-sm-9"><x-user-agent-info :value="$order->user_agent" /></dd>
+            <dt class="col-sm-3">Registered</dt>
+            <dd class="col-sm-9"><x-date-time-info :value="$order->created_at" /></dd>
+        </dl>
     </x-card>
 
     {{-- Remarks --}}
