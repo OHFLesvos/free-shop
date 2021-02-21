@@ -2,16 +2,16 @@
 
 namespace App\Http\Livewire;
 
-use App\Models\TextBlock;
+use App\Repository\TextBlockRepository;
 use Livewire\Component;
 
 class WelcomePage extends Component
 {
     public ?string $content = null;
 
-    public function mount()
+    public function mount(TextBlockRepository $textRepo)
     {
-        $this->content = TextBlock::getAsMarkdown('welcome');
+        $this->content = $textRepo->getMarkdown('welcome');
     }
 
     public function render()

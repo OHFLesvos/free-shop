@@ -4,6 +4,7 @@ namespace App\Http\Livewire\Backend;
 
 use App\Models\Customer;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Illuminate\Validation\Rule;
 use Propaganistas\LaravelPhone\Exceptions\NumberParseException;
 use Propaganistas\LaravelPhone\PhoneNumber;
 
@@ -36,6 +37,10 @@ class CustomerManagePage extends BackendPage
             'customer.credit' => [
                 'integer',
                 'min:0',
+            ],
+            'customer.locale' => [
+                'nullable',
+                Rule::in(array_keys(config('app.supported_languages'))),
             ],
             'customer.remarks' => 'nullable',
             'customer.locale' => 'nullable',

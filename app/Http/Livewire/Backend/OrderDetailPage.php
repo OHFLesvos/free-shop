@@ -3,9 +3,10 @@
 namespace App\Http\Livewire\Backend;
 
 use App\Models\Order;
-use App\Notifications\CustomerOrderCancelled;
-use App\Notifications\CustomerOrderReadyed;
+use App\Notifications\OrderReadyed;
+use App\Notifications\OrderCancelled;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Illuminate\Support\Facades\Log;
 
 class OrderDetailPage extends BackendPage
 {
@@ -69,10 +70,14 @@ class OrderDetailPage extends BackendPage
             $this->order->save();
 
             if ($this->order->customer != null) {
-                if ($this->order->status == 'ready') {
-                    $this->order->customer->notify(new CustomerOrderReadyed($this->order));
-                } else if ($this->order->status == 'cancelled') {
-                    $this->order->customer->notify(new CustomerOrderCancelled($this->order));
+                try {
+                    if ($this->order->status == 'ready') {
+                        $this->order->customer->notify(new OrderReadyed($this->order));
+                    } else if ($this->order->status == 'cancelled') {
+                        $this->order->customer->notify(new OrderCancelled($this->order));
+                    }
+                } catch (\Exception $ex) {
+                    Log::warning('[' . get_class($ex) . '] Cannot send notification: ' . $ex->getMessage());
                 }
             }
             $this->order->save();

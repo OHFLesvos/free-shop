@@ -94,6 +94,23 @@
                             wire:model.defer="customer.credit">
                         @error('customer.credit') <div class="invalid-feedback">{{ $message }}</div> @enderror
                     </div>
+                    <div class="col-md-6">
+                        <label for="inputLocale" class="form-label">Language</label>
+                        <select
+                            id="inputLocale"
+                            class="form-select @error('customer.locale') is-invalid @enderror"
+                            style="max-width: 11em;"
+                            wire:model.defer="customer.locale">
+                            <option value="" selected>-- Select language --</option>
+                            @foreach(config('app.supported_languages') as $key => $val)
+                                <option value="{{ $key }}">
+                                    {{ $val }} ({{ strtoupper($key) }})
+                                </option>
+                            @endforeach
+                        </select>
+                        @error('customer.locale') <div class="invalid-feedback">{{ $message }}</div> @enderror
+
+                    </div>
                     <div class="col-md-12">
                         <label for="inputRemarks" class="form-label">Remarks</label>
                         <textarea

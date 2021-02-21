@@ -4,6 +4,7 @@
         ".phpstorm.meta.php": true,
         "public/css": true,
         "public/js": true,
+        "public/vendor": true,
         "storage/framework/views": true,
         "bootstrap/cache": true
     }
