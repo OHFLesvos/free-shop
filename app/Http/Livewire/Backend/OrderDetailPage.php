@@ -65,6 +65,7 @@ class OrderDetailPage extends BackendPage
                     $product->save();
                 }
             }
+            // TODO handle cancelled calculations of credits
 
             $this->order->status = $this->newStatus;
             $this->order->save();
@@ -80,6 +81,7 @@ class OrderDetailPage extends BackendPage
                     Log::warning('[' . get_class($ex) . '] Cannot send notification: ' . $ex->getMessage());
                 }
             }
+
             $this->order->save();
 
             session()->flash('message', 'Order marked as ' . $this->newStatus . '.');

@@ -3,7 +3,11 @@
 namespace App\Http\Livewire\Backend;
 
 use App\Models\Order;
+use App\Notifications\OrderCancelled;
+use App\Notifications\OrderReadyed;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 use Livewire\WithPagination;
 
 class OrderListPage extends BackendPage
@@ -20,6 +24,8 @@ class OrderListPage extends BackendPage
         'search' => ['except' => ''],
         'status' => ['except' => ''],
     ];
+
+    public array $selectedItems = [];
 
     public function mount()
     {
@@ -54,6 +60,13 @@ class OrderListPage extends BackendPage
     public function updatingSearch()
     {
         $this->resetPage();
+        $this->selectedItems = [];
+    }
+
+    public function updatingStatus()
+    {
+        $this->resetPage();
+        $this->selectedItems = [];
     }
 
     public function updatedSearch($value)
@@ -68,5 +81,34 @@ class OrderListPage extends BackendPage
         } else {
             session()->forget('orders.status');
         }
+    }
+
+    public function bulkChange(string $newStatus)
+    {
+        $this->authorize('update orders');
+
+        foreach ($this->selectedItems as $id) {
+            $order = Order::find($id);
+            if (Auth::user()->can('update', $order)) {
+                $order->status = $newStatus;
+
+                // TODO handle cancelled / completed calculations of products/credits
+
+                if ($order->customer != null) {
+                    try {
+                        if ($order->status == 'ready') {
+                            $order->customer->notify(new OrderReadyed($order));
+                        } else if ($order->status == 'cancelled') {
+                            $order->customer->notify(new OrderCancelled($order));
+                        }
+                    } catch (\Exception $ex) {
+                        Log::warning('[' . get_class($ex) . '] Cannot send notification: ' . $ex->getMessage());
+                    }
+                }
+
+                $order->save();
+            }
+        }
+        $this->selectedItems = [];
     }
 }
