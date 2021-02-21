@@ -16,7 +16,10 @@
                         @can('update', $textBlock) onclick="window.location='{{ route('backend.text-blocks.edit', $textBlock) }}'" @endcan
                         class="@can('update', $textBlock) cursor-pointer @endcan"
                     >
-                        <td>{{ $textBlock->name }}</td>
+                        <td>
+                            <strong>{{ $textBlock->name }}</strong><br>
+                            {{ config('text-blocks.' . $textBlock->name . '.purpose') }}
+                        </td>
                         <td class="fit">
                             {{ collect(config('app.supported_languages'))
                                 ->keys()
@@ -25,7 +28,7 @@
                                 ->join(', ') }}
                         </td>
                         <td class="fit">
-                            <x-date-time-info :value="$textBlock->updated_at" />
+                            <x-date-time-info :value="$textBlock->updated_at" line-break />
                         </td>
                     </tr>
                 @empty

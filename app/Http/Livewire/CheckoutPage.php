@@ -5,11 +5,11 @@ namespace App\Http\Livewire;
 use App\Models\Customer;
 use App\Models\Order;
 use App\Models\User;
-use App\Notifications\CustomerOrderRegistered;
 use App\Notifications\OrderRegistered;
 use App\Services\CurrentCustomer;
 use App\Support\ShoppingBasket;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Livewire\Component;
 use Illuminate\Support\Facades\Notification;
 
@@ -62,8 +62,12 @@ class CheckoutPage extends Component
         // }
         // $customer->credit -= $totalPrice;
 
-        $this->customer->notify(new CustomerOrderRegistered($order));
-        Notification::locale(config('app.locale'))->send(User::notifiable()->get(), new OrderRegistered($order));
+        try {
+            $this->customer->notify(new OrderRegistered($order));
+            Notification::locale(config('app.locale'))->send(User::notifiable()->get(), new OrderRegistered($order));
+        } catch (\Exception $ex) {
+            Log::warning('[' . get_class($ex) . '] Cannot send notification: ' . $ex->getMessage());
+        }
 
         $this->order = $order;
 

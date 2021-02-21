@@ -21,7 +21,7 @@ class TextBlockEditPage extends BackendPage
         $defaultLocale = $this->defaultLocale;
         return [
             'content.*' => 'nullable',
-            'content.'. $defaultLocale => 'nullable',
+            'content.'. $defaultLocale => config('text-blocks.' . $this->textBlock->name . '.required') ? 'required' : 'nullable',
         ];
     }
 
@@ -71,5 +71,10 @@ class TextBlockEditPage extends BackendPage
     public function getDefaultLocaleProperty()
     {
         return config('app.fallback_locale');
+    }
+
+    public function getSupportsMarkdownProperty()
+    {
+        return config('text-blocks.' . $this->textBlock->name . '.type') == 'markdown';
     }
 }

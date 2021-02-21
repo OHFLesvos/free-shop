@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Str;
 use OwenIt\Auditing\Contracts\Auditable;
 use Spatie\Translatable\HasTranslations;
 
@@ -24,14 +23,5 @@ class TextBlock extends Model implements Auditable
     public function getRouteKeyName()
     {
         return 'name';
-    }
-
-    public static function getAsMarkdown(string $name)
-    {
-        $textBlock = TextBlock::whereName($name)->first();
-        if ($textBlock != null && filled($textBlock->content)) {
-            return Str::of($textBlock->content)->markdown();
-        }
-        return null;
     }
 }

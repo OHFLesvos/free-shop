@@ -2,8 +2,10 @@
 
 namespace App\Notifications;
 
+use App\Models\Customer;
 use App\Models\Order;
 use App\Models\User;
+use App\Repository\TextBlockRepository;
 use Illuminate\Notifications\Messages\MailMessage;
 use NotificationChannels\Twilio\TwilioChannel;
 use NotificationChannels\Twilio\TwilioSmsMessage;
@@ -12,10 +14,12 @@ use Illuminate\Notifications\Notification;
 class OrderRegistered extends Notification
 {
     private Order $order;
+    private TextBlockRepository $textRepo;
 
     public function __construct(Order $order)
     {
         $this->order = $order;
+        $this->textRepo = app()->make(TextBlockRepository::class);
     }
 
     /**
@@ -32,14 +36,14 @@ class OrderRegistered extends Notification
                 $channels[] = 'mail';
             }
             if ($notifiable->notify_via_phone && $notifiable->phone !== null) {
-                if (filled(config('twilio-notification-channel.account_sid'))) {
-                    $channels[] = TwilioChannel::class;
-                }
+                $channels[] = TwilioChannel::class;
             }
-            if (count($channels) > 0) {
-                return $channels;
-            }
+            return $channels;
         }
+        if ($notifiable instanceof Customer) {
+            return [TwilioChannel::class];
+        }
+        return [];
     }
 
     /**
@@ -51,7 +55,7 @@ class OrderRegistered extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
-            ->subject('Order #' . $this->order->id . ' registered')
+            ->subject('Order #' . $this->order->id . ' registered by customer')
             ->markdown('mail.order.registered_by_customer', [
                 'order' => $this->order,
             ]);
@@ -59,12 +63,30 @@ class OrderRegistered extends Notification
 
     public function toTwilio($notifiable)
     {
-        $message = sprintf("Hello %s, we have received a new order with ID #%s from %s.\nMore information: %s",
-            $notifiable->name,
-            $this->order->id,
-            $this->order->customer->name,
-            route('backend.orders.show', $this->order));
-        return (new TwilioSmsMessage())
-            ->content($message);
+        return (new TwilioSmsMessage)
+            ->content($this->twilioMessage($notifiable));
+    }
+
+    private function twilioMessage($notifiable): string
+    {
+        if ($notifiable instanceof User) {
+            return sprintf("Hello %s, we have received a new order with ID #%s from customer %s.\nMore information: %s",
+                $notifiable->name,
+                $this->order->id,
+                $this->order->customer->name,
+                route('backend.orders.show', $this->order));
+        }
+        if ($notifiable instanceof Customer) {
+            $message = __($this->textRepo->getPlain('message-order-registered'), [
+                'customer_name' => $notifiable->name,
+                'customer_id' => $notifiable->id_number,
+                'id' => $this->order->id,
+            ]);
+            $message .= "\n" . __('More information: ');
+            $message .= route('order-lookup', [
+                'lang' => $notifiable->locale,
+            ]);
+            return $message;
+        }
     }
 }

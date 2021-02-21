@@ -3,19 +3,18 @@
 namespace App\Http\Livewire\Backend;
 
 use App\Models\TextBlock;
+use App\Repository\TextBlockRepository;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
 class TextBlockListPage extends BackendPage
 {
     use AuthorizesRequests;
 
-    public function mount()
+    public function mount(TextBlockRepository $textRepo)
     {
         $this->authorize('viewAny', TextBlock::class);
 
-        foreach (config('shop.text-blocks') as $key) {
-            TextBlock::firstOrCreate(['name' => $key], ['name' => $key, 'content' => '']);
-        }
+        $textRepo->initialize();
     }
 
     protected $title = 'Text Blocks';
@@ -24,7 +23,7 @@ class TextBlockListPage extends BackendPage
     {
         return parent::view('livewire.backend.text-block-list-page', [
             'textBlocks' => TextBlock::query()
-                ->whereIn('name', config('shop.text-blocks'))
+                ->whereIn('name', array_keys(config('text-blocks')))
                 ->orderBy('name')
                 ->get(),
         ]);

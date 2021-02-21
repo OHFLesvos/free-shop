@@ -6,6 +6,7 @@ use App\Models\Customer;
 use App\Models\User;
 use App\Notifications\OrderCancelled;
 use App\Services\CurrentCustomer;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Notification;
 use Livewire\Component;
 
@@ -39,7 +40,11 @@ class OrderLookupPage extends Component
             $order->status = 'cancelled';
             $order->save();
 
-            Notification::send(User::notifiable()->get(), new OrderCancelled($order));
+            try {
+                Notification::send(User::notifiable()->get(), new OrderCancelled($order));
+            } catch (\Exception $ex) {
+                Log::warning('[' . get_class($ex) . '] Cannot send notification: ' . $ex->getMessage());
+            }
         }
     }
 }

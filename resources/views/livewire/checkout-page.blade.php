@@ -5,12 +5,10 @@
             @lang('We will contact you via your phone <strong>:phone</strong> when the order is ready.', ['phone' => $order->customer->phone])
         </x-alert>
         <p><a href="{{ route('order-lookup') }}" class="btn btn-primary">@lang('View your orders')</a></p>
-        @php
-            $content = App\Models\TextBlock::getAsMarkdown('post-checkout');
-        @endphp
-        @isset($content)
-            {!! $content !!}
-        @endisset
+        @inject('textRepo', 'App\Repository\TextBlockRepository')
+        @if($textRepo->exists('post-checkout'))
+            {!! $textRepo->getMarkdown('post-checkout') !!}
+        @endif
     @elseif(isset($nextOrderIn))
         <x-alert type="info">@lang('You can place a new order in :time.', ['time' => $nextOrderIn])</x-alert>
         <p><a href="{{ route('order-lookup') }}" class="btn btn-primary">@lang('View your orders')</a></p>

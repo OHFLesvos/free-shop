@@ -68,6 +68,8 @@ class CustomerLoginPage extends Component
             'credit' => setting()->get('customer.starting_credit', config('shop.customer.starting_credit')),
         ]);
 
+        $customer->locale = app()->getLocale();
+
         $name = trim($this->customer_name);
         if (blank($customer->name) && blank($name)) {
             $this->request_name = true;
@@ -76,8 +78,8 @@ class CustomerLoginPage extends Component
         }
         if (filled($name)) {
             $customer->name = $name;
-            $customer->save();
         }
+        $customer->save();
         $this->request_name = false;
 
         CurrentCustomer::set($customer);

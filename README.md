@@ -51,11 +51,11 @@ Access the backend via http://your-site.com/backend
 
 ## Export language strings from code
 
-Export translatable strings for any language (for example French = fr):
+Export translatable strings for any language:
 
-    php artisan translatable:export fr
+    php artisan translatable:export fr,ar,fa
 
-Find untranslated strings in a language file:
+Find untranslated strings in a language file (for example French = fr):
 
     php artisan translatable:inspect-translations fr
 

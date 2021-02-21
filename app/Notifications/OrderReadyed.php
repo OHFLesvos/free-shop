@@ -4,18 +4,20 @@ namespace App\Notifications;
 
 use App\Models\Customer;
 use App\Models\Order;
+use App\Repository\TextBlockRepository;
 use Illuminate\Notifications\Notification;
-use Illuminate\Support\Facades\Log;
 use NotificationChannels\Twilio\TwilioChannel;
 use NotificationChannels\Twilio\TwilioSmsMessage;
 
-class CustomerOrderCancelled extends Notification
+class OrderReadyed extends Notification
 {
     private Order $order;
+    private TextBlockRepository $textRepo;
 
     public function __construct(Order $order)
     {
         $this->order = $order;
+        $this->textRepo = app()->make(TextBlockRepository::class);
     }
 
     /**
@@ -27,16 +29,20 @@ class CustomerOrderCancelled extends Notification
     public function via($notifiable)
     {
         if ($notifiable instanceof Customer) {
-            if (filled(config('twilio-notification-channel.account_sid'))) {
-                return [TwilioChannel::class];
-            }
-            Log::warning('Cannot send notification, SMS provider not properly configured.');
+            return [TwilioChannel::class];
         }
+        return [];
     }
 
     public function toTwilio($notifiable)
     {
-        $message = __("Hello :customer_name (ID :customer_id). Your order with ID #:id has been cancelled.", [
+        return (new TwilioSmsMessage())
+            ->content($this->twilioMessage($notifiable));
+    }
+
+    private function twilioMessage($notifiable): string
+    {
+        $message = __($this->textRepo->getPlain('message-order-ready'), [
             'customer_name' => $notifiable->name,
             'customer_id' => $notifiable->id_number,
             'id' => $this->order->id,
@@ -45,7 +51,6 @@ class CustomerOrderCancelled extends Notification
         $message .= route('order-lookup', [
             'lang' => $notifiable->locale,
         ]);
-        return (new TwilioSmsMessage())
-            ->content($message);
+        return $message;
     }
 }

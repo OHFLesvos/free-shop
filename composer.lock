@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "e194a952236b3fd24a1bf4609bfdc4dd",
+    "content-hash": "f3e0022a55ac78cc3b5e9562225a6232",
     "packages": [
         {
             "name": "anlutro/l4-settings",
@@ -128,16 +128,16 @@
         },
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.173.9",
+            "version": "3.173.13",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "d15688cfe291767ba203c97d5833b963f544412f"
+                "reference": "b8ef72b8b335a1bb004505784f1a03ff5b37928f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/d15688cfe291767ba203c97d5833b963f544412f",
-                "reference": "d15688cfe291767ba203c97d5833b963f544412f",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/b8ef72b8b335a1bb004505784f1a03ff5b37928f",
+                "reference": "b8ef72b8b335a1bb004505784f1a03ff5b37928f",
                 "shasum": ""
             },
             "require": {
@@ -212,9 +212,9 @@
             "support": {
                 "forum": "https://forums.aws.amazon.com/forum.jspa?forumID=80",
                 "issues": "https://github.com/aws/aws-sdk-php/issues",
-                "source": "https://github.com/aws/aws-sdk-php/tree/3.173.9"
+                "source": "https://github.com/aws/aws-sdk-php/tree/3.173.13"
             },
-            "time": "2021-02-15T19:28:47+00:00"
+            "time": "2021-02-19T19:14:50+00:00"
         },
         {
             "name": "brick/math",
@@ -930,16 +930,16 @@
         },
         {
             "name": "donatj/phpuseragentparser",
-            "version": "v1.2.0",
+            "version": "v1.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/donatj/PhpUserAgent.git",
-                "reference": "978e66786bc392a09b24b152a8a695dadd230e60"
+                "reference": "f9a521726b2ce4c5173281ceaab5a02c05b691ef"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/donatj/PhpUserAgent/zipball/978e66786bc392a09b24b152a8a695dadd230e60",
-                "reference": "978e66786bc392a09b24b152a8a695dadd230e60",
+                "url": "https://api.github.com/repos/donatj/PhpUserAgent/zipball/f9a521726b2ce4c5173281ceaab5a02c05b691ef",
+                "reference": "f9a521726b2ce4c5173281ceaab5a02c05b691ef",
                 "shasum": ""
             },
             "require": {
@@ -982,11 +982,11 @@
             ],
             "support": {
                 "issues": "https://github.com/donatj/PhpUserAgent/issues",
-                "source": "https://github.com/donatj/PhpUserAgent/tree/v1.2.0"
+                "source": "https://github.com/donatj/PhpUserAgent/tree/v1.3.0"
             },
             "funding": [
                 {
-                    "url": "https://www.paypal.me/donatj/15",
+                    "url": "https://www.paypal.me/donatj/5",
                     "type": "custom"
                 },
                 {
@@ -994,7 +994,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2020-12-29T05:36:08+00:00"
+            "time": "2021-02-18T04:30:49+00:00"
         },
         {
             "name": "dragonmantank/cron-expression",
@@ -2011,67 +2011,6 @@
             "time": "2021-02-03T09:41:45+00:00"
         },
         {
-            "name": "kkomelin/laravel-translatable-string-exporter",
-            "version": "1.12.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/kkomelin/laravel-translatable-string-exporter.git",
-                "reference": "7aa082bd71127273affc47463dc4516e1d6b7f59"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/kkomelin/laravel-translatable-string-exporter/zipball/7aa082bd71127273affc47463dc4516e1d6b7f59",
-                "reference": "7aa082bd71127273affc47463dc4516e1d6b7f59",
-                "shasum": ""
-            },
-            "require": {
-                "ext-json": "*",
-                "illuminate/support": "^5.4|^6|^7|^8",
-                "illuminate/translation": "^5.4|^6|^7|^8",
-                "php": ">=5.4.0",
-                "symfony/finder": "^3.2|^4|^5"
-            },
-            "require-dev": {
-                "orchestra/testbench": "^3.4|^4.0|^5.0|^6.0"
-            },
-            "type": "library",
-            "extra": {
-                "laravel": {
-                    "providers": [
-                        "KKomelin\\TranslatableStringExporter\\Providers\\ExporterServiceProvider"
-                    ]
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "KKomelin\\TranslatableStringExporter\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Konstantin Komelin",
-                    "email": "konstantin.komelin@gmail.com"
-                }
-            ],
-            "description": "Translatable String Exporter for Laravel",
-            "keywords": [
-                "export",
-                "exporter",
-                "json",
-                "laravel",
-                "translations"
-            ],
-            "support": {
-                "issues": "https://github.com/kkomelin/laravel-translatable-string-exporter/issues",
-                "source": "https://github.com/kkomelin/laravel-translatable-string-exporter/tree/1.12.0"
-            },
-            "time": "2020-12-13T17:54:23+00:00"
-        },
-        {
             "name": "laravel-notification-channels/twilio",
             "version": "3.1.2",
             "source": {
@@ -2145,16 +2084,16 @@
         },
         {
             "name": "laravel/framework",
-            "version": "v8.28.0",
+            "version": "v8.28.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "c0e07808606b591e9591d52f22552ebf257f399c"
+                "reference": "73dd43d92fcde6c6abc00658ae33391397ca119d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/c0e07808606b591e9591d52f22552ebf257f399c",
-                "reference": "c0e07808606b591e9591d52f22552ebf257f399c",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/73dd43d92fcde6c6abc00658ae33391397ca119d",
+                "reference": "73dd43d92fcde6c6abc00658ae33391397ca119d",
                 "shasum": ""
             },
             "require": {
@@ -2309,7 +2248,7 @@
                 "issues": "https://github.com/laravel/framework/issues",
                 "source": "https://github.com/laravel/framework"
             },
-            "time": "2021-02-16T14:16:34+00:00"
+            "time": "2021-02-16T18:07:44+00:00"
         },
         {
             "name": "laravel/socialite",
@@ -2885,16 +2824,16 @@
         },
         {
             "name": "livewire/livewire",
-            "version": "v2.3.17",
+            "version": "v2.3.18",
             "source": {
                 "type": "git",
                 "url": "https://github.com/livewire/livewire.git",
-                "reference": "1a1d43ff365301ae99ed7f0ccf02c553d4eeba03"
+                "reference": "c0c78f430e4151fb6902bbb88c75e782d2549e1a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/livewire/livewire/zipball/1a1d43ff365301ae99ed7f0ccf02c553d4eeba03",
-                "reference": "1a1d43ff365301ae99ed7f0ccf02c553d4eeba03",
+                "url": "https://api.github.com/repos/livewire/livewire/zipball/c0c78f430e4151fb6902bbb88c75e782d2549e1a",
+                "reference": "c0c78f430e4151fb6902bbb88c75e782d2549e1a",
                 "shasum": ""
             },
             "require": {
@@ -2945,7 +2884,7 @@
             "description": "A front-end framework for Laravel.",
             "support": {
                 "issues": "https://github.com/livewire/livewire/issues",
-                "source": "https://github.com/livewire/livewire/tree/v2.3.17"
+                "source": "https://github.com/livewire/livewire/tree/v2.3.18"
             },
             "funding": [
                 {
@@ -2953,7 +2892,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2021-02-09T15:15:49+00:00"
+            "time": "2021-02-16T20:34:52+00:00"
         },
         {
             "name": "maatwebsite/excel",
@@ -5321,16 +5260,16 @@
         },
         {
             "name": "sentry/sentry",
-            "version": "3.1.4",
+            "version": "3.1.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/getsentry/sentry-php.git",
-                "reference": "5ff718099ac0050385c562b7c1da88dd215c48f9"
+                "reference": "62f6897e1e577de39b366b5c84e19a453da36016"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/getsentry/sentry-php/zipball/5ff718099ac0050385c562b7c1da88dd215c48f9",
-                "reference": "5ff718099ac0050385c562b7c1da88dd215c48f9",
+                "url": "https://api.github.com/repos/getsentry/sentry-php/zipball/62f6897e1e577de39b366b5c84e19a453da36016",
+                "reference": "62f6897e1e577de39b366b5c84e19a453da36016",
                 "shasum": ""
             },
             "require": {
@@ -5409,7 +5348,7 @@
             ],
             "support": {
                 "issues": "https://github.com/getsentry/sentry-php/issues",
-                "source": "https://github.com/getsentry/sentry-php/tree/3.1.4"
+                "source": "https://github.com/getsentry/sentry-php/tree/3.1.5"
             },
             "funding": [
                 {
@@ -5421,7 +5360,7 @@
                     "type": "custom"
                 }
             ],
-            "time": "2021-02-02T08:56:03+00:00"
+            "time": "2021-02-18T13:34:31+00:00"
         },
         {
             "name": "sentry/sentry-laravel",
@@ -9713,6 +9652,67 @@
                 "source": "https://github.com/justinrainbow/json-schema/tree/5.2.10"
             },
             "time": "2020-05-27T16:41:55+00:00"
+        },
+        {
+            "name": "kkomelin/laravel-translatable-string-exporter",
+            "version": "1.12.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/kkomelin/laravel-translatable-string-exporter.git",
+                "reference": "7aa082bd71127273affc47463dc4516e1d6b7f59"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/kkomelin/laravel-translatable-string-exporter/zipball/7aa082bd71127273affc47463dc4516e1d6b7f59",
+                "reference": "7aa082bd71127273affc47463dc4516e1d6b7f59",
+                "shasum": ""
+            },
+            "require": {
+                "ext-json": "*",
+                "illuminate/support": "^5.4|^6|^7|^8",
+                "illuminate/translation": "^5.4|^6|^7|^8",
+                "php": ">=5.4.0",
+                "symfony/finder": "^3.2|^4|^5"
+            },
+            "require-dev": {
+                "orchestra/testbench": "^3.4|^4.0|^5.0|^6.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "KKomelin\\TranslatableStringExporter\\Providers\\ExporterServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "KKomelin\\TranslatableStringExporter\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Konstantin Komelin",
+                    "email": "konstantin.komelin@gmail.com"
+                }
+            ],
+            "description": "Translatable String Exporter for Laravel",
+            "keywords": [
+                "export",
+                "exporter",
+                "json",
+                "laravel",
+                "translations"
+            ],
+            "support": {
+                "issues": "https://github.com/kkomelin/laravel-translatable-string-exporter/issues",
+                "source": "https://github.com/kkomelin/laravel-translatable-string-exporter/tree/1.12.0"
+            },
+            "time": "2020-12-13T17:54:23+00:00"
         },
         {
             "name": "laravel/sail",

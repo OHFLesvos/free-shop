@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Facades\CurrentCustomer;
+
 class LanguageSelectController extends Controller
 {
     public function index()
@@ -18,6 +20,12 @@ class LanguageSelectController extends Controller
         }
 
         session()->put('lang', $lang);
+
+        $customer = CurrentCustomer::get();
+        if ($customer != null) {
+            $customer->locale = $lang;
+            $customer->save();
+        }
 
         if (session()->has('requested-url')) {
             return redirect(session()->pull('requested-url'));
