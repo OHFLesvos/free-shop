@@ -65,7 +65,6 @@ class OrderDetailPage extends BackendPage
                     $product->save();
                 }
             }
-            // TODO handle cancelled calculations of credits
 
             $this->order->status = $this->newStatus;
             $this->order->save();
@@ -75,6 +74,7 @@ class OrderDetailPage extends BackendPage
                     if ($this->order->status == 'ready') {
                         $this->order->customer->notify(new OrderReadyed($this->order));
                     } else if ($this->order->status == 'cancelled') {
+                        // TODO handle cancelled calculations of credits
                         $this->order->customer->notify(new OrderCancelled($this->order));
                     }
                 } catch (\Exception $ex) {

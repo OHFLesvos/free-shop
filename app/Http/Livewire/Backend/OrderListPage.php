@@ -26,6 +26,7 @@ class OrderListPage extends BackendPage
     ];
 
     public array $selectedItems = [];
+    public bool $selectedAllItems = false;
 
     public function mount()
     {
@@ -69,6 +70,20 @@ class OrderListPage extends BackendPage
         $this->selectedItems = [];
     }
 
+    public function updatingSelectedItems($value)
+    {
+        info('updating', $value);
+    }
+
+    public function updatingSelectedAllItems($value)
+    {
+        if ($value) {
+
+        } else {
+            $this->selectedItems = [];
+        }
+    }
+
     public function updatedSearch($value)
     {
         session()->put('orders.search', $value);
@@ -87,18 +102,32 @@ class OrderListPage extends BackendPage
     {
         $this->authorize('update orders');
 
+        $updated = 0;
         foreach ($this->selectedItems as $id) {
             $order = Order::find($id);
-            if (Auth::user()->can('update', $order)) {
-                $order->status = $newStatus;
+            if (Auth::user()->can('update', $order) && $order->status != $newStatus) {
 
-                // TODO handle cancelled / completed calculations of products/credits
+                if ($newStatus == 'completed') {
+                    foreach ($order->products as $product) {
+                        if ($product->stock < $product->pivot->quantity) {
+                            session()->flash('error', 'Cannot complete order; missing ' . abs($product->pivot->quantity - $product->stock) . ' ' . $product->name . ' in stock.');
+                            return;
+                        }
+                    }
+                    foreach ($order->products as $product) {
+                        $product->stock -= $product->pivot->quantity;
+                        $product->save();
+                    }
+                }
+
+                $order->status = $newStatus;
 
                 if ($order->customer != null) {
                     try {
                         if ($order->status == 'ready') {
                             $order->customer->notify(new OrderReadyed($order));
                         } else if ($order->status == 'cancelled') {
+                            // TODO handle cancelled calculations of credits
                             $order->customer->notify(new OrderCancelled($order));
                         }
                     } catch (\Exception $ex) {
@@ -107,8 +136,11 @@ class OrderListPage extends BackendPage
                 }
 
                 $order->save();
+                $updated++;
             }
         }
+        session()->flash('message', 'Updated ' . $updated . ' orders.');
+
         $this->selectedItems = [];
     }
 }
