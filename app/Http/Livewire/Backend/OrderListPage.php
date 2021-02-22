@@ -14,6 +14,7 @@ class OrderListPage extends BackendPage
 {
     use WithPagination;
     use AuthorizesRequests;
+    use WithSorting;
 
     protected $paginationTheme = 'bootstrap';
 
@@ -27,6 +28,13 @@ class OrderListPage extends BackendPage
 
     public array $selectedItems = [];
     public bool $selectedAllItems = false;
+
+    public string $sortBy = 'created_at';
+    public string $sortDirection = 'asc';
+    protected $sortableFields = [
+        'id',
+        'created_at',
+    ];
 
     public function mount()
     {
@@ -50,10 +58,7 @@ class OrderListPage extends BackendPage
             'orders' => Order::query()
                 ->when(in_array($this->status, Order::STATUSES), fn ($qry) => $qry->status($this->status))
                 ->when(filled($this->search), fn ($qry) => $qry->filter(trim($this->search)))
-                ->when(in_array($this->status, ['completed', 'cancelled']),
-                    fn ($qry) => $qry->orderBy('updated_at', 'desc'),
-                    fn ($qry) => $qry->orderBy('created_at', 'asc')
-                )
+                ->orderBy($this->sortBy, $this->sortDirection)
                 ->paginate(10),
             ]);
     }

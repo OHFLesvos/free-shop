@@ -28,11 +28,18 @@
         <table class="table table-bordered bg-white shadow-sm table-hover">
             <caption>{{ $customers->total() }} customers found</caption>
             <thead>
-                <th>Name</th>
+                <th>
+                    Name
+                    <a href="#" wire:click="sortBy('name')"/><x-icon icon="sort"/></a>
+                </th>
                 <th>ID Number</th>
                 <th>Phone</th>
                 <th class="text-end">Orders</th>
                 <th class="text-end">Credit</th>
+                <th class="fit">
+                    Registered
+                    <a href="#" wire:click="sortBy('created_at')"/><x-icon icon="sort"/></a>
+                </th>
             </thead>
             <tbody>
                 @forelse($customers as $customer)
@@ -44,6 +51,10 @@
                         <td><x-phone-info :value="$customer->phone"/></td>
                         <td class="text-end">{{ $customer->orders()->count() }}</td>
                         <td class="text-end">{{ $customer->credit }}</td>
+                        <td class="fit">
+                            {{ $customer->created_at->toUserTimezone()->isoFormat('LLLL') }}<br>
+                            <small>{{ $customer->created_at->diffForHumans() }}</small>
+                        </td>
                     </tr>
                 @empty
                     <tr>
