@@ -99,17 +99,17 @@
                         </div>
                     </th>
                 @endcan
-                <th class="fit text-end">ID</th>
-                <th class="fit">Status</th>
-                <th>
-                    @if (in_array($status, ['completed', 'cancelled']))
-                        Updated <x-icon icon="sort-numeric-up"/>
-                    @else
-                        Registered <x-icon icon="sort-numeric-down"/>
-                    @endif
+                <th class="fit text-end">
+                    ID
+                    <a href="#" wire:click="sortBy('id')"/><x-icon icon="sort"/></a>
                 </th>
+                <th class="fit">Status</th>
                 <th>Customer</th>
                 <th>Products</th>
+                <th class="fit">
+                    Registered
+                    <a href="#" wire:click="sortBy('created_at')"/><x-icon icon="sort"/></a>
+                </th>
             </thead>
             <tbody>
                 @forelse($orders as $order)
@@ -138,17 +138,6 @@
                         <td
                             @can('view', $order) onclick="window.location='{{ route('backend.orders.show', $order) }}'" @endcan
                             @can('view', $order) class="cursor-pointer" @endcan>
-                            @if ($order->isOpen)
-                                {{ $order->created_at->toUserTimezone()->isoFormat('LLLL') }}<br>
-                                <small>{{ $order->created_at->diffForHumans() }}</small>
-                            @else
-                                {{ $order->updated_at->toUserTimezone()->isoFormat('LLLL') }}<br>
-                                <small>{{ $order->updated_at->diffForHumans() }}</small>
-                            @endif
-                        </td>
-                        <td
-                            @can('view', $order) onclick="window.location='{{ route('backend.orders.show', $order) }}'" @endcan
-                            @can('view', $order) class="cursor-pointer" @endcan>
                             @isset($order->customer)
                                 <strong>Name:</strong> {{ $order->customer->name }}<br>
                                 <strong>ID Number:</strong> {{ $order->customer->id_number }}<br>
@@ -163,6 +152,12 @@
                             @foreach ($order->products->sortBy('name') as $product)
                                 <strong>{{ $product->pivot->quantity }}</strong> {{ $product->name }}<br>
                             @endforeach
+                        </td>
+                        <td
+                            @can('view', $order) onclick="window.location='{{ route('backend.orders.show', $order) }}'" @endcan
+                            class="fit @can('view', $order) cursor-pointer @endcan">
+                            {{ $order->created_at->toUserTimezone()->isoFormat('LLLL') }}<br>
+                            <small>{{ $order->created_at->diffForHumans() }}</small>
                         </td>
                     </tr>
                 @empty
@@ -185,5 +180,5 @@
             </tbody>
         </table>
     </div>
-    {{ $orders->links() }}
+    {{ $orders->onEachSide(3)->links() }}
 </div>

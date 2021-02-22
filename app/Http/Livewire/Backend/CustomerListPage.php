@@ -10,6 +10,7 @@ class CustomerListPage extends BackendPage
 {
     use WithPagination;
     use AuthorizesRequests;
+    use WithSorting;
 
     protected $paginationTheme = 'bootstrap';
 
@@ -17,6 +18,13 @@ class CustomerListPage extends BackendPage
 
     protected $queryString = [
         'search' => ['except' => ''],
+    ];
+
+    public string $sortBy = 'name';
+    public string $sortDirection  = 'asc';
+    protected $sortableFields = [
+        'name',
+        'created_at',
     ];
 
     public function mount()
@@ -39,7 +47,7 @@ class CustomerListPage extends BackendPage
         return parent::view('livewire.backend.customer-list-page', [
             'customers' => Customer::query()
                 ->when(filled($this->search), fn ($qry) => $qry->filter(trim($this->search)))
-                ->orderBy('name')
+                ->orderBy($this->sortBy, $this->sortDirection)
                 ->paginate(10),
             ]);
     }

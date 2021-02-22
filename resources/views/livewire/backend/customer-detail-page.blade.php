@@ -81,7 +81,7 @@
                 </tbody>
             </table>
         </div>
-        {{ $orders->links() }}
+        {{ $orders->onEachSide(3)->links() }}
     @endif
     <div class="d-flex justify-content-between mb-3">
         <span>
