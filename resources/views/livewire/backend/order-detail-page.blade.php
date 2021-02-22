@@ -43,8 +43,8 @@
 
     {{-- Products --}}
     <h3>Products</h3>
-    <div class="table-responsive mb-4">
-        <table class="table table-bordered bg-white shadow-sm mb-0">
+    <div class="table-responsive">
+        <table class="table table-bordered bg-white shadow-sm">
             @php
                 $hasPictures = $order->products->whereNotNull('pictureUrl')->isNotEmpty();
             @endphp
