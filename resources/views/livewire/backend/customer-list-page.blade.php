@@ -61,7 +61,7 @@
             </tbody>
         </table>
     </div>
-    {{ $customers->links() }}
+    {{ $customers->onEachSide(3)->links() }}
     @can('create', App\Model\Customer::class)
         <p>
             <a

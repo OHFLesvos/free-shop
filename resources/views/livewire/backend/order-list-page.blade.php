@@ -185,5 +185,5 @@
             </tbody>
         </table>
     </div>
-    {{ $orders->links() }}
+    {{ $orders->onEachSide(3)->links() }}
 </div>
