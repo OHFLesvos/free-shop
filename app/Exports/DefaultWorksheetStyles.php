@@ -14,7 +14,7 @@ trait DefaultWorksheetStyles
         $sheet->setTitle($this->worksheetTitle);
 
         // Orientation
-        $sheet->getPageSetup()->setOrientation(PageSetup::ORIENTATION_LANDSCAPE);
+        $sheet->getPageSetup()->setOrientation($this->orientation ?? PageSetup::ORIENTATION_LANDSCAPE);
 
         // Paper size
         $sheet->getPageSetup()->setPaperSize(PageSetup::PAPERSIZE_A4);

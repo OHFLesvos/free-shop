@@ -59,6 +59,22 @@
             <div class="col-md">
                 <form wire:submit.prevent="export">
                     <x-card title="Export">
+                        <p class="form-label">Type:</p>
+                        <div class="mb-3">
+                            @foreach($this->types as $key => $value)
+                                <div class="form-check">
+                                    <input
+                                        class="form-check-input"
+                                        type="radio"
+                                        id="typeInput_{{ $key }}"
+                                        value="{{ $key }}"
+                                        wire:model="type">
+                                    <label class="form-check-label" for="typeInput_{{ $key }}">
+                                        {{ $value['label'] }}
+                                    </label>
+                                </div>
+                            @endforeach
+                        </div>
                         <div>
                             <label for="format" class="form-label">Please choose an export format:</label>
                             <select

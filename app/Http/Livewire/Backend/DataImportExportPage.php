@@ -3,6 +3,7 @@
 namespace App\Http\Livewire\Backend;
 
 use App\Exports\DataExport;
+use App\Exports\ReadyOrdersListExport;
 use App\Imports\DataImport;
 use App\Models\Customer;
 use App\Models\Product;
@@ -37,9 +38,27 @@ class DataImportExportPage extends BackendPage
         'ods' => 'OpenDocument Spreadsheet (ODS)',
         'csv' => 'Comma-separated values (CSV)',
         'html' => 'Web Page (HTML)',
+        'pdf' => 'Portable Document Format (PDF)',
     ];
 
     public $format = 'xlsx';
+
+    public string $type = 'complete';
+
+
+    public function getTypesProperty(): array
+    {
+        return [
+            'complete' => [
+                'label' => 'Data export',
+                'exportable' => new DataExport,
+            ],
+            'ready_orders' => [
+                'label' => 'List of ready orders',
+                'exportable' => new ReadyOrdersListExport,
+            ],
+        ];
+    }
 
     public function export()
     {
@@ -47,9 +66,11 @@ class DataImportExportPage extends BackendPage
 
         $this->validate([
             'format' => Rule::in(array_keys($this->formats)),
+            'type' => Rule::in(array_keys($this->types)),
         ]);
 
-        $filename = config('app.name') . ' Data Export '. now()->toDateString() . '.' . $this->format;
+        $name = $this->types[$this->type]['label'];
+        $filename = config('app.name') . ' - ' . $name .' '. now()->toDateString() . '.' . $this->format;
 
         Log::info('Exported data to file.', [
             'event.kind' => 'event',
@@ -58,7 +79,8 @@ class DataImportExportPage extends BackendPage
             'file.name' => $filename,
         ]);
 
-        return Excel::download(new DataExport, $filename);
+        $exportable = $this->types[$this->type]['exportable'];
+        return Excel::download($exportable, $filename);
     }
 
     public function import()
