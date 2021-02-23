@@ -14,11 +14,13 @@ use Illuminate\Notifications\Notification;
 class OrderCancelled extends Notification
 {
     private Order $order;
+    private ?string $overrideMessage;
     private TextBlockRepository $textRepo;
 
-    public function __construct(Order $order)
+    public function __construct(Order $order, ?string $overrideMessage = null)
     {
         $this->order = $order;
+        $this->overrideMessage = $overrideMessage;
         $this->textRepo = app()->make(TextBlockRepository::class);
     }
 
@@ -77,7 +79,7 @@ class OrderCancelled extends Notification
                 route('backend.orders.show', $this->order));
         }
         if ($notifiable instanceof Customer) {
-            $message = __($this->textRepo->getPlain('message-order-cancelled'), [
+            $message = __($this->overrideMessage ?? $this->textRepo->getPlain('message-order-cancelled'), [
                 'customer_name' => $notifiable->name,
                 'customer_id' => $notifiable->id_number,
                 'id' => $this->order->id,

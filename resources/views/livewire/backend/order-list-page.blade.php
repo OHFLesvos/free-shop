@@ -180,5 +180,5 @@
             </tbody>
         </table>
     </div>
-    {{ $orders->onEachSide(3)->links() }}
+    <div class="overflow-auto">{{ $orders->onEachSide(2)->links() }}</div>
 </div>

@@ -12,11 +12,13 @@ use NotificationChannels\Twilio\TwilioSmsMessage;
 class OrderReadyed extends Notification
 {
     private Order $order;
+    private ?string $overrideMessage;
     private TextBlockRepository $textRepo;
 
-    public function __construct(Order $order)
+    public function __construct(Order $order, ?string $overrideMessage = null)
     {
         $this->order = $order;
+        $this->overrideMessage = $overrideMessage;
         $this->textRepo = app()->make(TextBlockRepository::class);
     }
 
@@ -42,7 +44,7 @@ class OrderReadyed extends Notification
 
     private function twilioMessage($notifiable): string
     {
-        $message = __($this->textRepo->getPlain('message-order-ready'), [
+        $message = __($this->overrideMessage ?? $this->textRepo->getPlain('message-order-ready'), [
             'customer_name' => $notifiable->name,
             'customer_id' => $notifiable->id_number,
             'id' => $this->order->id,
