@@ -81,7 +81,7 @@
                 </tbody>
             </table>
         </div>
-        {{ $orders->onEachSide(3)->links() }}
+        <div class="overflow-auto">{{ $orders->onEachSide(2)->links() }}</div>
     @endif
     <div class="d-flex justify-content-between mb-3">
         <span>

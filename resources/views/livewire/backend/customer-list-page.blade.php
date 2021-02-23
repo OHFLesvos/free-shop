@@ -72,7 +72,7 @@
             </tbody>
         </table>
     </div>
-    {{ $customers->onEachSide(3)->links() }}
+    <div class="overflow-auto">{{ $customers->onEachSide(2)->links() }}</div>
     @can('create', App\Model\Customer::class)
         <p>
             <a
