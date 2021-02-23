@@ -62,7 +62,7 @@
                 <div class="row g-3">
                     <div class="col-md-6">
                         <label for="inputName" class="form-label">Name</label>
-                        <div class="input-group">
+                        <div class="input-group" @if(in_array($locale, config('app.rtl_languages', []))) dir="rtl" @endif>
                             <span class="input-group-text">{{ strtoupper($locale) }}</span>
                             <input
                                 type="text"
@@ -78,7 +78,7 @@
                     </div>
                     <div class="col-md-6">
                         <label for="inputCategory" class="form-label">Category</label>
-                        <div class="input-group">
+                        <div class="input-group" @if(in_array($locale, config('app.rtl_languages', []))) dir="rtl" @endif>
                             <span class="input-group-text">{{ strtoupper($locale) }}</span>
                             <input
                                 type="text"
@@ -157,7 +157,7 @@
                     </div>
                     <div class="col-md-6">
                         <label for="inputDescription" class="form-label">Description</label>
-                        <div class="input-group">
+                        <div class="input-group" @if(in_array($locale, config('app.rtl_languages', []))) dir="rtl" @endif>
                             <span class="input-group-text">{{ strtoupper($locale) }}</span>
                             <textarea
                                 type="text"

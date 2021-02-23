@@ -5,6 +5,7 @@ namespace App\Http\Livewire\Backend;
 use App\Models\Order;
 use App\Notifications\OrderReadyed;
 use App\Notifications\OrderCancelled;
+use App\Repository\TextBlockRepository;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Support\Facades\Log;
 
@@ -16,6 +17,7 @@ class OrderDetailPage extends BackendPage
 
     public $newStatus;
     public bool $showChangeStatus = false;
+    public string $message = '';
 
     protected function title()
     {
@@ -72,10 +74,10 @@ class OrderDetailPage extends BackendPage
             if ($this->order->customer != null) {
                 try {
                     if ($this->order->status == 'ready') {
-                        $this->order->customer->notify(new OrderReadyed($this->order));
+                        $this->order->customer->notify(new OrderReadyed($this->order, $this->message));
                     } else if ($this->order->status == 'cancelled') {
                         // TODO handle cancelled calculations of credits
-                        $this->order->customer->notify(new OrderCancelled($this->order));
+                        $this->order->customer->notify(new OrderCancelled($this->order, $this->message));
                     }
                 } catch (\Exception $ex) {
                     Log::warning('[' . get_class($ex) . '] Cannot send notification: ' . $ex->getMessage());
@@ -88,5 +90,32 @@ class OrderDetailPage extends BackendPage
         }
 
         $this->showChangeStatus = false;
+    }
+
+    public function getHasMessageProperty(): bool
+    {
+        return $this->newStatus != $this->order->status && in_array($this->newStatus, ['ready', 'cancelled']);
+    }
+
+    public function updatedNewStatus()
+    {
+        $textRepo = app()->make(TextBlockRepository::class);
+        if ($this->newStatus == 'ready') {
+            $this->message = $textRepo->getPlain($this->messageTextBlockName, optional($this->order->customer)->locale);
+        }
+        if ($this->newStatus == 'cancelled') {
+            $this->message = $textRepo->getPlain($this->messageTextBlockName, optional($this->order->customer)->locale);
+        }
+    }
+
+    public function getMessageTextBlockNameProperty(): ?string
+    {
+        if ($this->newStatus == 'ready') {
+            return 'message-order-ready';
+        }
+        if ($this->newStatus == 'cancelled') {
+            return 'message-order-cancelled';
+        }
+        return null;
     }
 }

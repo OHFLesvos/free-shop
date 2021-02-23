@@ -131,6 +131,28 @@
                     </label>
                 </div>
             @endforeach
+            @if($this->hasMessage)
+                <label for="messageInput" class="form-label">
+                    Message to customer
+                    @isset(optional($order->customer)->locale)
+                        ({{ config('app.supported_languages.' . $order->customer->locale) }} ({{ strtoupper($order->customer->locale) }}))
+                    @endisset
+                </label>
+                <textarea
+                    id="messageInput"
+                    wire:model.lazy="message"
+                    required
+                    rows="6"
+                    class="form-control font-monospace @error('message') is-invalid @enderror"
+                    wire:model.lazy="message"
+                    @if(in_array(optional($order->customer)->locale, config('app.rtl_languages', []))) dir="rtl" @endif
+                    aria-describedby="messageHelp"
+                ></textarea>
+                @error('message') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                <small id="contentHelp" class="form-text">
+                    {!! config('text-blocks.' . $this->messageTextBlockName . '.help') !!}
+                </small>
+            @endif
             <x-slot name="footer">
                 <button
                     type="submit"

@@ -1,11 +1,17 @@
 <div class="medium-container">
-    <x-card title="{{ $customer->name }}" no-footer-padding>
+    <x-card :title="$customer->name" no-footer-padding>
         <dl class="row mb-2 mt-3">
             <dt class="col-sm-3">ID number</dt>
             <dd class="col-sm-9">{{ $customer->id_number }}</dd>
             @isset($customer->locale)
                 <dt class="col-sm-3">Language</dt>
-                <dd class="col-sm-9">{{ config('app.supported_languages')[$customer->locale] ?? strtoupper($customer->locale) }}</dd>
+                <dd class="col-sm-9">
+                    @isset(config('app.supported_languages')[$customer->locale])
+                        {{  config('app.supported_languages')[$customer->locale] }} ({{ strtoupper($customer->locale) }})
+                    @else
+                        {{ strtoupper($customer->locale) }}
+                    @endisset
+                </dd>
             @endisset
             <dt class="col-sm-3">Phone</dt>
             <dd class="col-sm-9">
