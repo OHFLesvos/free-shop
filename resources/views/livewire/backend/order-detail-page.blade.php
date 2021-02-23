@@ -141,10 +141,10 @@
                 <textarea
                     id="messageInput"
                     wire:model.lazy="message"
-                    required
                     rows="6"
                     class="form-control font-monospace @error('message') is-invalid @enderror"
                     wire:model.lazy="message"
+                    placeholder="{{ $this->configuredMessage }}"
                     @if(in_array(optional($order->customer)->locale, config('app.rtl_languages', []))) dir="rtl" @endif
                     aria-describedby="messageHelp"
                 ></textarea>

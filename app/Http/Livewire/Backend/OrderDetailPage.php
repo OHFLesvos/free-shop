@@ -17,7 +17,7 @@ class OrderDetailPage extends BackendPage
 
     public $newStatus;
     public bool $showChangeStatus = false;
-    public string $message = '';
+    public ?string $message = '';
 
     protected function title()
     {
@@ -74,10 +74,10 @@ class OrderDetailPage extends BackendPage
             if ($this->order->customer != null) {
                 try {
                     if ($this->order->status == 'ready') {
-                        $this->order->customer->notify(new OrderReadyed($this->order, $this->message));
+                        $this->order->customer->notify(new OrderReadyed($this->order, filled($this->message) ? $this->message : null));
                     } else if ($this->order->status == 'cancelled') {
                         // TODO handle cancelled calculations of credits
-                        $this->order->customer->notify(new OrderCancelled($this->order, $this->message));
+                        $this->order->customer->notify(new OrderCancelled($this->order, filled($this->message) ? $this->message : null));
                     }
                 } catch (\Exception $ex) {
                     Log::warning('[' . get_class($ex) . '] Cannot send notification: ' . $ex->getMessage());
@@ -99,14 +99,21 @@ class OrderDetailPage extends BackendPage
 
     public function updatedNewStatus()
     {
+        $this->message = $this->configuredMessage;
+    }
+
+    public function getConfiguredMessageProperty()
+    {
         $textRepo = app()->make(TextBlockRepository::class);
         if ($this->newStatus == 'ready') {
-            $this->message = $textRepo->getPlain($this->messageTextBlockName, optional($this->order->customer)->locale);
+            return $textRepo->getPlain($this->messageTextBlockName, optional($this->order->customer)->locale);
         }
         if ($this->newStatus == 'cancelled') {
-            $this->message = $textRepo->getPlain($this->messageTextBlockName, optional($this->order->customer)->locale);
+            return $textRepo->getPlain($this->messageTextBlockName, optional($this->order->customer)->locale);
         }
+        return null;
     }
+
 
     public function getMessageTextBlockNameProperty(): ?string
     {
