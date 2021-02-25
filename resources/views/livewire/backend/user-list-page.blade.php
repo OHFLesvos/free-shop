@@ -1,4 +1,7 @@
 <div>
+    @if(session()->has('message'))
+        <x-alert type="success" dismissible>{{ session()->get('message') }}</x-alert>
+    @endif
     <div class="mb-3">
         <div class="input-group">
             <input
@@ -22,16 +25,19 @@
         </div>
     </div>
     <div class="table-responsive">
-        <table class="table table-bordered bg-white shadow-sm">
+        <table class="table table-bordered bg-white shadow-sm @can('manage users') table-hover @endcan">
             <caption>{{ $users->total() }} users found</caption>
             <thead>
                 <th colspan="2">Name</th>
                 <th>E-Mail</th>
+                <th>Roles</th>
                 <th>Last login</th>
             </thead>
             <tbody>
                 @forelse($users as $user)
-                    <tr >
+                    <tr
+                        @can('update', $user) onclick="window.location='{{ route('backend.users.edit', $user) }}'" @endcan
+                        class="@can('update', $user) cursor-pointer @endcan ">
                         <td class="fit">
                             @isset($user->avatar)
                                 <img
@@ -45,6 +51,9 @@
                         <td>{{ $user->name }}</td>
                         <td>
                             <a href="mailto:{{ $user->email }}">{{ $user->email }}</a>
+                        </td>
+                        <td>
+                            {{ $user->getRoleNames()->join(', ') }}
                         </td>
                         <td><x-date-time-info :value="$user->last_login_at"/></td>
                     </tr>

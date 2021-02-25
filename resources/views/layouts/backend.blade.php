@@ -1,30 +1,43 @@
 @php
-$newOrders = App\Models\Order::status('new')->count();
 $items = [
+    [
+        'label' => 'Dashboard',
+        'route' => 'backend.dashboard',
+    ],
     [
         'label' => 'Orders',
         'route' => 'backend.orders',
-        'badge' => $newOrders > 0 ? $newOrders : null,
+        'authorized' => auth()->user()->can('viewAny', App\Models\Order::class),
     ],
     [
         'label' => 'Customers',
-        'route' => 'backend.customers'
+        'route' => 'backend.customers',
+        'authorized' => auth()->user()->can('viewAny', App\Models\Customer::class),
     ],
     [
         'label' => 'Products',
-        'route' => 'backend.products'
+        'route' => 'backend.products',
+        'authorized' => auth()->user()->can('viewAny', App\Models\Product::class),
     ],
     [
         'label' => 'Data Import & Export',
-        'route' => 'backend.import-export'
+        'route' => 'backend.import-export',
+        'authorized' => auth()->user()->canAny(['export data', 'import data']),
+    ],
+    [
+        'label' => 'Text Blocks',
+        'route' => 'backend.text-blocks',
+        'authorized' => auth()->user()->can('viewAny', App\Models\TextBlock::class),
     ],
     [
         'label' => 'Users',
-        'route' => 'backend.users'
+        'route' => 'backend.users',
+        'authorized' => auth()->user()->can('viewAny', App\Models\User::class),
     ],
     [
         'label' => 'Settings',
-        'route' => 'backend.settings'
+        'route' => 'backend.settings',
+        'authorized' => auth()->user()->can('update settings'),
     ],
 ];
 @endphp
@@ -32,7 +45,7 @@ $items = [
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
     @include('layouts.includes.head')
     <body class="bg-light">
-        <nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow-sm mb-4">
+        <nav class="navbar navbar-expand-xl navbar-dark bg-primary shadow-sm mb-4">
             <div class="container">
                 <span class="d-lg-none text-light">{{ $title }}</span>
                 <a class="navbar-brand d-none d-lg-inline" href="{{ route('backend') }}">{{ config('app.name') }}</a>
@@ -41,7 +54,7 @@ $items = [
                 </button>
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                        @foreach ($items as $item)
+                        @foreach (collect($items)->filter(fn ($item) => !isset($item['authorized']) || $item['authorized']) as $item)
                             @php
                                 $active = Str::of(Request::route()->getName())->startsWith($item['route']);
                             @endphp
@@ -51,9 +64,6 @@ $items = [
                                     href="{{ route($item['route']) }}"
                                     @if($active) aria-current="page" @endif>
                                     {{ $item['label'] }}
-                                    @isset($item['badge'])
-                                        <span class="badge bg-warning">{{ $item['badge'] }}</span>
-                                    @endisset
                                 </a>
                             </li>
                         @endforeach

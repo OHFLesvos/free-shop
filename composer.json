@@ -17,7 +17,7 @@
         "fruitcake/laravel-cors": "^2.0",
         "gumlet/php-image-resize": "^2.0",
         "guzzlehttp/guzzle": "^7.0.1",
-        "kkomelin/laravel-translatable-string-exporter": "^1.11",
+        "inpsyde/logzio-monolog": "^1.0",
         "laravel-notification-channels/twilio": "^3.1",
         "laravel/framework": "^8.12",
         "laravel/socialite": "^5.1",
@@ -27,10 +27,12 @@
         "maatwebsite/excel": "^3.1",
         "megastruktur/phone-country-codes": "^0.4.0",
         "monarobase/country-list": "^3.2",
+        "mpdf/mpdf": "^8.0",
         "owen-it/laravel-auditing": "^12.0",
         "predis/predis": "^1.1",
         "propaganistas/laravel-phone": "^4.2",
         "sentry/sentry-laravel": "^2.3",
+        "spatie/laravel-permission": "^4.0",
         "spatie/laravel-translatable": "^4.6",
         "torann/geoip": "^3.0"
     },
@@ -39,6 +41,7 @@
         "barryvdh/laravel-ide-helper": "^2.9",
         "facade/ignition": "^2.5",
         "fakerphp/faker": "^1.9.1",
+        "kkomelin/laravel-translatable-string-exporter": "^1.11",
         "laravel/sail": "^0.0.5",
         "mockery/mockery": "^1.4.2",
         "nunomaduro/collision": "^5.0",
@@ -75,7 +78,8 @@
     "scripts": {
         "post-autoload-dump": [
             "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
-            "@php artisan package:discover --ansi"
+            "@php artisan package:discover --ansi",
+            "@php artisan vendor:publish --force --tag=livewire:assets --ansi"
         ],
         "post-root-package-install": [
             "@php -r \"file_exists('.env') || copy('.env.example', '.env');\""

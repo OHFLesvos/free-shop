@@ -3,11 +3,15 @@
 namespace App\Http\Livewire\Backend;
 
 use App\Models\Customer;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Illuminate\Validation\Rule;
 use Propaganistas\LaravelPhone\Exceptions\NumberParseException;
 use Propaganistas\LaravelPhone\PhoneNumber;
 
 class CustomerManagePage extends BackendPage
 {
+    use AuthorizesRequests;
+
     public Customer $customer;
 
     public string $customer_phone;
@@ -15,7 +19,8 @@ class CustomerManagePage extends BackendPage
 
     public bool $shouldDelete = false;
 
-    protected function rules() {
+    protected function rules()
+    {
         return [
             'customer.name' => 'required',
             'customer.id_number' => [
@@ -33,6 +38,10 @@ class CustomerManagePage extends BackendPage
                 'integer',
                 'min:0',
             ],
+            'customer.locale' => [
+                'nullable',
+                Rule::in(array_keys(config('app.supported_languages'))),
+            ],
             'customer.remarks' => 'nullable',
             'customer.locale' => 'nullable',
         ];
@@ -40,6 +49,12 @@ class CustomerManagePage extends BackendPage
 
     public function mount()
     {
+        if (isset($this->customer)) {
+            $this->authorize('update', $this->customer);
+        } else {
+            $this->authorize('create', Customer::class);
+        }
+
         if (! isset($this->customer)) {
             $this->customer = new Customer();
             $this->customer->credit = setting()->get('customer.starting_credit', config('shop.customer.starting_credit'));
@@ -75,6 +90,8 @@ class CustomerManagePage extends BackendPage
 
     public function submit()
     {
+        $this->authorize('update', $this->customer);
+
         $this->validate();
 
         $this->customer->phone = PhoneNumber::make($this->customer_phone, $this->customer_phone_country)
@@ -91,6 +108,8 @@ class CustomerManagePage extends BackendPage
 
     public function delete()
     {
+        $this->authorize('delete', $this->customer);
+
         $this->customer->delete();
 
         session()->flash('message', 'Customer deleted.');

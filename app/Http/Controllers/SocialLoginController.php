@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Providers\AuthServiceProvider;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
@@ -10,6 +11,7 @@ use Illuminate\Support\Facades\Auth;
 use Laravel\Socialite\Facades\Socialite;
 use Laravel\Socialite\Two\InvalidStateException;
 use Illuminate\Support\Str;
+use Spatie\Permission\Models\Role;
 
 class SocialLoginController extends Controller
 {
@@ -65,8 +67,12 @@ class SocialLoginController extends Controller
             event(new Registered($user));
         }
 
+        $user->name = $socialUser->getName();
+        $user->avatar = $socialUser->getAvatar();
         if ($user->email_verified_at == null) {
             $user->email_verified_at = now();
+        }
+        if ($user->wasChanged()) {
             $user->save();
         }
 

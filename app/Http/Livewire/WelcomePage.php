@@ -2,21 +2,16 @@
 
 namespace App\Http\Livewire;
 
-use Illuminate\Support\Facades\App;
+use App\Repository\TextBlockRepository;
 use Livewire\Component;
-
-use Illuminate\Support\Str;
 
 class WelcomePage extends Component
 {
     public ?string $content = null;
 
-    public function mount()
+    public function mount(TextBlockRepository $textRepo)
     {
-        if (setting()->has('content.welcome_text')) {
-            $value = setting()->get('content.welcome_text.' . App::getLocale(), setting()->get('content.welcome_text.' . config('app.fallback_locale')));
-            $this->content = Str::of($value)->markdown();
-        }
+        $this->content = $textRepo->getMarkdown('welcome');
     }
 
     public function render()

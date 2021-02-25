@@ -50,8 +50,11 @@ class ShopFrontPage extends Component
 
     public function render(ShoppingBasket $basket)
     {
+
+
         return view('livewire.shop-front-page', [
                 'basket' => $basket->items(),
+                'nextOrderIn' => $this->customer->getNextOrderIn(),
             ])
             ->layout(null, ['title' => __('Choose your items')]);
     }

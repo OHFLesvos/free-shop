@@ -5,10 +5,8 @@
     "Customer Login": "ورود مشتری",
     "Find your order": "جستجوی محصول شما",
     "Choose your items": "گزینه های خود را انتخاب کنید",
-    "Hello :customer_name (ID :customer_id). Your order with ID #:id has been cancelled.": "سلام :customer_name (ID :customer_id). سفارش شما با شماره ی #:id لغو شد",
     "More information: ": "اطلاعات بیشتر: ",
-    "Hello :customer_name (ID :customer_id). Your order with ID #:id is ready.": "سلام :customer_name (ID :customer_id). سفارش شما با شماره ی #:id آماده است",
-    "Hello :customer_name (ID :customer_id), we have received your order with ID #:id and will get back to you soon.": "سلام :customer_name (ID :customer_id), ما سفارش شما را به شماره ی #:id به زودی به شما پاسخ خواهیم داد",
+    "Privacy Policy": "Privacy Policy",
     "Unavailable for legal reasons": "به دلیل موارد قانونی در دسترس نیست",
     "This site is not available in :country": "این سایت در این کشور فعال نیست :country",
     "Choose your language": "زبان خود را انتخواب کنید",
@@ -17,6 +15,8 @@
     "Switch language": "عوض کردن زبان",
     "Your order has been submitted and your order number is <strong>#:id<\/strong>.": "سفارش شما ارسال شده و شماره سفارش شما <strong>#:id<\/strong> است.",
     "We will contact you via your phone <strong>:phone<\/strong> when the order is ready.": "وقتی سفارش شما آماده شد از طریق شماره تلفن<strong>:phone<\/strong> با شما تماس خواهیم گرفت",
+    "View your orders": "View your orders",
+    "You can place a new order in :time.": "You can place a new order in :time.",
     "Your Order": "محصول شما",
     "Selected products:": "محصولات انتخاب شده",
     "Change": "تعویض",
@@ -62,5 +62,6 @@
     "There are no products available at the moment.": "در حال حاظر هیچ محصولی موجود نیست",
     "It is not possible to order something now because the maximum orders per day have been exceeded. Please visit us again another day.": "امروز از پذیرش سفارشات بیشتر معذور هستیم به دلیل اینکه سقف سفارشات پر شده است لطفا یک روز دیگر مراجعه کنید",
     "The shop is currently not available.": "فروشگاه در حال حاظر فعال نیست",
-    "Go to the shop": "برو به فروشگاه"
+    "Go to the shop": "برو به فروشگاه",
+    "This content is currently not available.": "This content is currently not available."
 }

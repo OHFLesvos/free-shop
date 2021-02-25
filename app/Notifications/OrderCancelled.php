@@ -2,8 +2,10 @@
 
 namespace App\Notifications;
 
+use App\Models\Customer;
 use App\Models\Order;
 use App\Models\User;
+use App\Repository\TextBlockRepository;
 use Illuminate\Notifications\Messages\MailMessage;
 use NotificationChannels\Twilio\TwilioChannel;
 use NotificationChannels\Twilio\TwilioSmsMessage;
@@ -12,10 +14,14 @@ use Illuminate\Notifications\Notification;
 class OrderCancelled extends Notification
 {
     private Order $order;
+    private ?string $overrideMessage;
+    private TextBlockRepository $textRepo;
 
-    public function __construct(Order $order)
+    public function __construct(Order $order, ?string $overrideMessage = null)
     {
         $this->order = $order;
+        $this->overrideMessage = $overrideMessage;
+        $this->textRepo = app()->make(TextBlockRepository::class);
     }
 
     /**
@@ -32,14 +38,14 @@ class OrderCancelled extends Notification
                 $channels[] = 'mail';
             }
             if ($notifiable->notify_via_phone && $notifiable->phone !== null) {
-                if (filled(config('twilio-notification-channel.account_sid'))) {
-                    $channels[] = TwilioChannel::class;
-                }
+                $channels[] = TwilioChannel::class;
             }
-            if (count($channels) > 0) {
-                return $channels;
-            }
+            return $channels;
         }
+        if ($notifiable instanceof Customer) {
+            return [TwilioChannel::class];
+        }
+        return [];
     }
 
     /**
@@ -59,12 +65,30 @@ class OrderCancelled extends Notification
 
     public function toTwilio($notifiable)
     {
-        $message = sprintf("Hello %s, the order with ID #%d has been cancelled by customer %s.\nMore information: %s",
-            $notifiable->name,
-            $this->order->id,
-            $this->order->customer->name,
-            route('backend.orders.show', $this->order));
         return (new TwilioSmsMessage())
-            ->content($message);
+            ->content($this->twilioMessage($notifiable));
+    }
+
+    private function twilioMessage($notifiable): string
+    {
+        if ($notifiable instanceof User) {
+            return sprintf("Hello %s, the order with ID #%d has been cancelled by customer %s.\nMore information: %s",
+                $notifiable->name,
+                $this->order->id,
+                $this->order->customer->name,
+                route('backend.orders.show', $this->order));
+        }
+        if ($notifiable instanceof Customer) {
+            $message = __($this->overrideMessage ?? $this->textRepo->getPlain('message-order-cancelled'), [
+                'customer_name' => $notifiable->name,
+                'customer_id' => $notifiable->id_number,
+                'id' => $this->order->id,
+            ]);
+            $message .= "\n" . __('More information: ');
+            $message .= route('order-lookup', [
+                'lang' => $notifiable->locale,
+            ]);
+            return $message;
+        }
     }
 }

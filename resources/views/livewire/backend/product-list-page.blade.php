@@ -22,7 +22,7 @@
             </div>
     </div>
     <div class="table-responsive">
-        <table class="table table-bordered bg-white shadow-sm table-hover">
+        <table class="table table-bordered bg-white shadow-sm @canany(['manage products', 'update products']) table-hover @endcanany">
             <caption>{{ $products->count() }} products registered</caption>
             <thead>
                 <th>Picture</th>
@@ -36,8 +36,8 @@
             <tbody>
                 @forelse($products as $product)
                     <tr
-                        onclick="window.location='{{ route('backend.products.edit', $product) }}'"
-                        class="cursor-pointer @if(!$product->is_available) table-secondary @endif"
+                        @can('update', $product) onclick="window.location='{{ route('backend.products.edit', $product) }}'" @endcan
+                        class="@can('update', $product) cursor-pointer @endcan @if(!$product->is_available) table-secondary @endif"
                     >
                         <td class="fit">
                             @isset($product->pictureUrl)
@@ -67,11 +67,13 @@
             </tbody>
         </table>
     </div>
-    <p>
-        <a
-            href="{{ route('backend.products.create') }}"
-            class="btn btn-primary">
-            Register new user
-        </a>
-    </p>
+    @can('create', App\Model\Product::class)
+        <p>
+            <a
+                href="{{ route('backend.products.create') }}"
+                class="btn btn-primary">
+                Register
+            </a>
+        </p>
+    @endcan
 </div>

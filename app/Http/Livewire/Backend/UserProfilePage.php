@@ -81,6 +81,6 @@ class UserProfilePage extends BackendPage
     {
         $this->user->delete();
 
-        return redirect(route('home'));
+        return redirect(route('backend.login'));
     }
 }

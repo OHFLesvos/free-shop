@@ -52,7 +52,9 @@ class Customer extends Model implements HasLocalePreference
     public function scopeFilter(Builder $qry, string $filter)
     {
         $qry->where('name', 'LIKE', '%' . $filter . '%')
+            ->orWhere('id_number', 'LIKE', $filter . '%')
             ->orWhere(fn ($inner) => $inner->whereNumberCompare('id_number', $filter))
+            ->orWhere('phone', 'LIKE', $filter . '%')
             ->orWhere(fn ($inner) => $inner->whereNumberCompare('phone', $filter))
             ->orWhere('remarks', 'LIKE', '%' . $filter . '%');
     }
@@ -74,6 +76,23 @@ class Customer extends Model implements HasLocalePreference
                 return PhoneNumber::make($this->phone)->formatInternational();
             } catch (NumberParseException $ignored) {
                 return $this->phone;
+            }
+        }
+        return null;
+    }
+
+    public function getNextOrderIn()
+    {
+        $days = intval(setting()->get('customer.waiting_time_between_orders', 0));
+        if ($days > 0) {
+            $lastOrder = $this->orders()
+                ->where('status', '!=', 'cancelled')
+                ->orderBy('created_at', 'desc')
+                ->first();
+            if ($lastOrder != null) {
+                if (now()->subDays($days)->lte($lastOrder->created_at)) {
+                    return $lastOrder->created_at->clone()->addDays($days)->diffForHumans();
+                }
             }
         }
         return null;

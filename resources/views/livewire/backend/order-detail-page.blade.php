@@ -8,38 +8,29 @@
     @endif
 
     {{-- Order details --}}
-    <x-card title="Order #{{ $order->id }}">
-        <x-slot name="addon">
-            <ul class="list-group list-group-flush">
-                <li class="list-group-item">
-                    <strong>Status:</strong>
-                    <x-order-status-label :order="$order" />
-                </li>
-                <li class="list-group-item">
-                    <strong>Customer:</strong>
-                    @isset($order->customer)
-                        <a href="{{ route('backend.customers.show', $order->customer) }}">{{ $order->customer->name }}</a>
-                        ({{ $order->customer->id_number }})
-                    @else
-                        <em>Deleted</em>
-                    @endisset
-                </li>
-                <li class="list-group-item">
-                    <strong>IP Address:</strong>
-                    <x-ip-info :value="$order->ip_address" />
-                    <br>
-                    <strong>Geo Location:</strong>
-                    <x-geo-location-info :value="$order->ip_address" />
-                    <br>
-                    <strong>User Agent:</strong>
-                    <x-user-agent-info :value="$order->user_agent" />
-                </li>
-                <li class="list-group-item">
-                    <strong>Registered:</strong>
-                    <x-date-time-info :value="$order->created_at" />
-                </li>
-            </ul>
-        </x-slot>
+    <x-card title="Order #{{ $order->id }}" no-footer-padding>
+        <dl class="row mb-2 mt-3">
+            <dt class="col-sm-3">Status</dt>
+            <dd class="col-sm-9"><x-order-status-label :order="$order" /></dd>
+            <dt class="col-sm-3">Customer</dt>
+            <dd class="col-sm-9">
+                @isset($order->customer)
+                    <a href="{{ route('backend.customers.show', $order->customer) }}">{{ $order->customer->name }}</a><br>
+                    <strong>ID Number:</strong> {{ $order->customer->id_number }}<br>
+                    <strong>Phone:</strong> {{ $order->customer->phone }}
+                @else
+                    <em>Deleted</em>
+                @endisset
+            </dd>
+            <dt class="col-sm-3">IP Address</dt>
+            <dd class="col-sm-9"><x-ip-info :value="$order->ip_address" /></dd>
+            <dt class="col-sm-3">Geo Location</dt>
+            <dd class="col-sm-9"><x-geo-location-info :value="$order->ip_address" /></dd>
+            <dt class="col-sm-3">User Agent</dt>
+            <dd class="col-sm-9"><x-user-agent-info :value="$order->user_agent" /></dd>
+            <dt class="col-sm-3">Registered</dt>
+            <dd class="col-sm-9"><x-date-time-info :value="$order->created_at" /></dd>
+        </dl>
     </x-card>
 
     {{-- Remarks --}}
@@ -52,8 +43,8 @@
 
     {{-- Products --}}
     <h3>Products</h3>
-    <div class="table-responsive mb-4">
-        <table class="table table-bordered bg-white shadow-sm mb-0">
+    <div class="table-responsive">
+        <table class="table table-bordered bg-white shadow-sm">
             @php
                 $hasPictures = $order->products->whereNotNull('pictureUrl')->isNotEmpty();
             @endphp
@@ -140,6 +131,28 @@
                     </label>
                 </div>
             @endforeach
+            @if($this->hasMessage)
+                <label for="messageInput" class="form-label">
+                    Message to customer
+                    @isset(optional($order->customer)->locale)
+                        ({{ config('app.supported_languages.' . $order->customer->locale) }} ({{ strtoupper($order->customer->locale) }}))
+                    @endisset
+                </label>
+                <textarea
+                    id="messageInput"
+                    wire:model.lazy="message"
+                    rows="6"
+                    class="form-control font-monospace @error('message') is-invalid @enderror"
+                    wire:model.lazy="message"
+                    placeholder="{{ $this->configuredMessage }}"
+                    @if(in_array(optional($order->customer)->locale, config('app.rtl_languages', []))) dir="rtl" @endif
+                    aria-describedby="messageHelp"
+                ></textarea>
+                @error('message') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                <small id="contentHelp" class="form-text">
+                    {!! config('text-blocks.' . $this->messageTextBlockName . '.help') !!}
+                </small>
+            @endif
             <x-slot name="footer">
                 <button
                     type="submit"
@@ -157,12 +170,14 @@
     {{-- Buttons --}}
     <div class="d-flex justify-content-between mb-3">
         <span>
-            @if(!$showChangeStatus && $order->isOpen)
-                <button
-                    wire:click="$set('showChangeStatus', true)"
-                    class="btn btn-primary">
-                    Change
-                </button>
+            @if(!$showChangeStatus)
+                @can('update', $order)
+                    <button
+                        wire:click="$set('showChangeStatus', true)"
+                        class="btn btn-primary">
+                        Change
+                    </button>
+                @endcan
             @endif
         </span>
         <a
