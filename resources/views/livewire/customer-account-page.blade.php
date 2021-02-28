@@ -30,6 +30,7 @@
                             wire:model.defer="customer_id_number"
                             required
                             autocomplete="off"
+                            dir="ltr"
                             aria-describedby="customerIdNumberHelp">
                         @error('customer_id_number') <div class="invalid-feedback">{{ $message }}</div> @enderror
                         <small id="customerIdNumberHelp" class="form-text text-muted">

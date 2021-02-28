@@ -13,6 +13,7 @@
                     required
                     autofocus
                     autocomplete="off"
+                    dir="ltr"
                     @if($request_name) disabled @endif
                     aria-describedby="customerIdNumberHelp">
                 @error('customer_id_number') <div class="invalid-feedback">{{ $message }}</div> @enderror
