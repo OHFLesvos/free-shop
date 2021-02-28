@@ -5,6 +5,7 @@ namespace App\Support;
 use App\Models\Product;
 use ErrorException;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Log;
 
 class ShoppingBasket
 {
@@ -60,13 +61,21 @@ class ShoppingBasket
 
     public function set($productId, int $quantity)
     {
-        if ($quantity > 0 && $quantity <= $this->products->where('id', $productId)->first()->quantity_available_for_customer) {
-            $this->basket[$productId] = $quantity;
-            $this->save();
-        } else if ($quantity <= 0) {
-            $this->remove($productId);
+        $product = $this->products->where('id', $productId)->first();
+        if ($product !== null) {
+            if ($quantity > 0 && $quantity <= $product->quantity_available_for_customer) {
+                $this->basket[$productId] = $quantity;
+                $this->save();
+            } else if ($quantity <= 0) {
+                $this->remove($productId);
+            } else {
+                throw new ErrorException('Requested quantity is not available.');
+            }
         } else {
-            throw new ErrorException('Requested quantity is not available.');
+            Log::warning('Unable to set product in basket.', [
+                'productId' => $productId,
+                'quantity' => $quantity,
+            ]);
         }
     }
 
