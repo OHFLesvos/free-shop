@@ -62,5 +62,21 @@
                 </x-card>
             </div>
         @endcan
+
+        @isset($twilioBalance)
+            <div class="col">
+                <x-card>
+                    <x-slot name="title">
+                        <a
+                            href="https://www.twilio.com/console/billing"
+                            class="text-body text-decoration-none"
+                            target="_blank">
+                            Twilio Account
+                        </a>
+                    </x-slot>
+                    {{ round($twilioBalance->balance, 2) }} {{ $twilioBalance->currency }}
+                </x-card>
+            </div>
+        @endisset
     </div>
 </div>
