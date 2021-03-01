@@ -20,6 +20,18 @@ class DashboardPage extends BackendPage
             'registeredCustomers' => Customer::count(),
             'availableProducts' => Product::available()->count(),
             'registeredUsers' => User::count(),
+            'twilioBalance' => $this->getTwilioBalance(),
         ]);
+    }
+
+    private function getTwilioBalance()
+    {
+        $sid = config('twilio-notification-channel.account_sid');
+        $token = config('twilio-notification-channel.auth_token');
+        if (isset($sid) && isset($token)) {
+            $client = new \Twilio\Rest\Client($sid, $token);
+            return $client->balance->fetch();
+        }
+        return null;
     }
 }
