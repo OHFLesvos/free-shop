@@ -38,6 +38,22 @@
     <p>
         {{ $customersRegistered }} customers registered.<br>
         {{ $ordersCompleted }} orders completed from {{ $customersWithCompletedOrders }} customers.<br>
-        {{ $productsHandedOut }} products handed out.
+        {{ $totalProductsHandedOut }} products handed out.
+        @if($productsHandedOut->isNotEmpty())
+            <table class="table table-bordered bg-white shadow-sm">
+                <thead>
+                    <th>Product</th>
+                    <th class="fit text-right">Quantity</th>
+                </thead>
+                <tbody>
+                    @foreach($productsHandedOut as $product)
+                        <tr>
+                            <td>{{ $product['name'] }}</td>
+                            <td class="fit text-right">{{ $product['quantity'] }}</td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        @endif
     </p>
 </div>

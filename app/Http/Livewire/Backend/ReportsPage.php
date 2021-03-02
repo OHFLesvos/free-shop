@@ -4,6 +4,7 @@ namespace App\Http\Livewire\Backend;
 
 use App\Models\Customer;
 use App\Models\Order;
+use App\Models\Product;
 use Carbon\Carbon;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
@@ -42,6 +43,7 @@ class ReportsPage extends BackendPage
             'customersRegistered' => $this->customersRegistered(),
             'ordersCompleted' => $this->ordersCompleted(),
             'customersWithCompletedOrders' => $this->customersWithCompletedOrders(),
+            'totalProductsHandedOut' => $this->totalProductsHandedOut(),
             'productsHandedOut' => $this->productsHandedOut(),
         ]);
     }
@@ -111,7 +113,7 @@ class ReportsPage extends BackendPage
             ->count();
     }
 
-    private function productsHandedOut()
+    private function totalProductsHandedOut()
     {
         if (isset($this->date_start) && isset($this->date_end)) {
             return Order::completedInDateRange($this->date_start, $this->date_end)
@@ -123,6 +125,21 @@ class ReportsPage extends BackendPage
             ->get()
             ->map(fn ($order) => $order->numberOfProducts())
             ->sum();
+    }
+
+    private function productsHandedOut()
+    {
+        if (isset($this->date_start) && isset($this->date_end)) {
+            return Product::whereHas('orders', fn ($qry) => $qry->completedInDateRange($this->date_start, $this->date_end))
+                ->get()
+                ->map(fn ($product) => [
+                    'name' => $product->name,
+                    'quantity' => $product->orders()->completedInDateRange($this->date_start, $this->date_end)->sum('quantity')
+                ])
+                ->sortByDesc('quantity');
+        }
+        return Product::whereHas('orders', fn ($qry) => $qry->status('completed'))
+            ->get();
     }
 
     public function getDateRangeTitleProperty()
