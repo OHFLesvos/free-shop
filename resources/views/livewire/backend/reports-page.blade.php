@@ -1,35 +1,40 @@
 <div class="medium-container">
-    <div class="input-group mb-3" style="max-width: 40em">
-        <span class="input-group-text">Date range</span>
+    <div class="input-group mb-3" style="max-width: 30em">
+        <button
+            class="btn btn-outline-secondary dropdown-toggle"
+            type="button"
+            data-bs-toggle="dropdown"
+            aria-expanded="false">{{ $ranges[$range] ?? 'Date range' }}</button>
+        <ul class="dropdown-menu">
+            @foreach($ranges as $key => $label)
+                <li>
+                    <button
+                        class="dropdown-item @if($range == $key) active @endif"
+                        type="button"
+                        wire:click="$set('range', '{{ $key }}')">
+                        {{ $label }}
+                    </button>
+                </li>
+            @endforeach
+        </ul>
         <input
             type="date"
             wire:model.lazy="date_start"
             class="form-control w-auto"
-            @if($all_time) disabled @endif
-            max="{{ $date_end }}"/>
+            @isset($date_end) max="{{ $date_end }}" @endisset
+        />
         <input
             type="date"
             wire:model.lazy="date_end"
             class="form-control w-auto"
-            @if($all_time) disabled @endif
-            min="{{ $date_start }}"
-            max="{{ now()->toDateString() }}"/>
-        <div class="input-group-text">
-            <input
-                class="form-check-input mt-0"
-                wire:model="all_time"
-                type="checkbox"
-                value="1"
-                id="allTimeInput">
-            <label class="form-check-label ms-2" for="allTimeInput">All time</label>
-        </div>
+            @isset($date_start) min="{{ $date_start }}" @endisset
+            max="{{ now()->toDateString() }}"
+        />
     </div>
 
-    @unless($all_time)
-        <h2 class="display-6">Between {{ $this->startDateFormatted }} and {{ $this->endDateFormatted }}</h2>
-    @else
-        <h2 class="display-6">All time</h2>
-    @endunless
+    <h2 class="display-6">
+        {{ $this->dateRangeTitle }}
+    </h2>
     <p>
         {{ $customersRegistered }} customers registered.<br>
         {{ $ordersCompleted }} orders completed from {{ $customersWithCompletedOrders }} customers.<br>

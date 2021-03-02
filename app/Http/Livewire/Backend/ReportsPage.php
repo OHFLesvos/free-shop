@@ -13,17 +13,27 @@ class ReportsPage extends BackendPage
 
     protected $title = 'Reports';
 
-    public string $date_start;
-    public string $date_end;
+    public ?string $date_start = null;
+    public ?string $date_end = null;
 
-    public bool $all_time = false;
+    public array $ranges = [
+        'today' => 'Today',
+        'yesterday' => 'Yesterday',
+        'this_month' => 'This month',
+        'last_month' => 'Last month',
+        'this_year' => 'This year',
+        'last_year' => 'Last year',
+        'all_time' => 'All time',
+        'custom' => 'Custom',
+    ];
+
+    public $range = 'this_month';
 
     public function mount()
     {
         $this->authorize('view reports');
 
-        $this->date_start = now()->subDays(30)->toDateString();
-        $this->date_end = now()->toDateString();
+        $this->updatedRange($this->range);
     }
 
     public function render()
@@ -36,9 +46,45 @@ class ReportsPage extends BackendPage
         ]);
     }
 
+    public function updatedDateStart($value)
+    {
+        $this->range = 'custom';
+    }
+
+    public function updatedDateEnd($value)
+    {
+        $this->range = 'custom';
+    }
+
+    public function updatedRange($value)
+    {
+        if ($value == 'today') {
+            $this->date_start = now()->toDateString();
+            $this->date_end = now()->toDateString();
+        } else if ($value == 'yesterday') {
+            $this->date_start = now()->subDay()->toDateString();
+            $this->date_end = now()->subDay()->toDateString();
+        } else if ($value == 'this_month') {
+            $this->date_start = now()->startOfMonth()->toDateString();
+            $this->date_end = now()->toDateString();
+        } else if ($value == 'last_month') {
+            $this->date_start = now()->subMonth()->startOfMonth()->toDateString();
+            $this->date_end = now()->subMonth()->endOfMonth()->toDateString();
+        } else if ($value == 'this_year') {
+            $this->date_start = now()->startOfYear()->toDateString();
+            $this->date_end = now()->toDateString();
+        } else if ($value == 'last_year') {
+            $this->date_start = now()->subYear()->startOfYear()->toDateString();
+            $this->date_end = now()->subYear()->endOfYear()->toDateString();
+        } else if ($value == 'all_time') {
+            $this->date_start = null;
+            $this->date_end = null;
+        }
+    }
+
     private function customersRegistered()
     {
-        if (!$this->all_time) {
+        if (isset($this->date_start) && isset($this->date_end)) {
             return Customer::registeredInDateRange($this->date_start, $this->date_end)
                 ->count();
         }
@@ -47,7 +93,7 @@ class ReportsPage extends BackendPage
 
     private function ordersCompleted()
     {
-        if (!$this->all_time) {
+        if (isset($this->date_start) && isset($this->date_end)) {
             return Order::completedInDateRange($this->date_start, $this->date_end)
                 ->count();
         }
@@ -57,7 +103,7 @@ class ReportsPage extends BackendPage
 
     private function customersWithCompletedOrders()
     {
-        if (!$this->all_time) {
+        if (isset($this->date_start) && isset($this->date_end)) {
             return Customer::whereHas('orders', fn ($qry) => $qry->completedInDateRange($this->date_start, $this->date_end))
                 ->count();
         }
@@ -67,7 +113,7 @@ class ReportsPage extends BackendPage
 
     private function productsHandedOut()
     {
-        if (!$this->all_time) {
+        if (isset($this->date_start) && isset($this->date_end)) {
             return Order::completedInDateRange($this->date_start, $this->date_end)
                 ->get()
                 ->map(fn ($order) => $order->numberOfProducts())
@@ -79,13 +125,16 @@ class ReportsPage extends BackendPage
             ->sum();
     }
 
-    public function getStartDateFormattedProperty()
+    public function getDateRangeTitleProperty()
     {
-        return (new Carbon($this->date_start))->isoFormat('LL');
-    }
-
-    public function getEndDateFormattedProperty()
-    {
-        return (new Carbon($this->date_end))->isoFormat('LL');
+        if (isset($this->date_start) && isset($this->date_end)) {
+            $date_start = (new Carbon($this->date_start))->isoFormat('LL');
+            $date_end = (new Carbon($this->date_end))->isoFormat('LL');
+            if ($date_start != $date_end) {
+                return "Between $date_start and $date_end";
+            }
+            return $date_start;
+        }
+        return 'All time';
     }
 }
