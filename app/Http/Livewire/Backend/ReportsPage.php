@@ -14,53 +14,144 @@ class ReportsPage extends BackendPage
 
     protected $title = 'Reports';
 
-    public string $date_start;
-    public string $date_end;
+    public ?string $date_start = null;
+    public ?string $date_end = null;
+
+    public array $ranges = [
+        'today' => 'Today',
+        'yesterday' => 'Yesterday',
+        'this_month' => 'This month',
+        'last_month' => 'Last month',
+        'this_year' => 'This year',
+        'last_year' => 'Last year',
+        'all_time' => 'All time',
+        'custom' => 'Custom',
+    ];
+
+    public $range = 'this_month';
 
     public function mount()
     {
         $this->authorize('view reports');
 
-        $this->date_start = now()->subDays(30)->toDateString();
-        $this->date_end = now()->toDateString();
+        $this->updatedRange($this->range);
     }
 
     public function render()
     {
         return parent::view('livewire.backend.reports-page', [
-            'ordersCompletedInDateRange' => Order::completedInDateRange($this->date_start, $this->date_end)
-                ->count(),
-            'customersRegisteredInDateRange' => Customer::registeredInDateRange($this->date_start, $this->date_end)
-                ->count(),
-            'productsHandedOutInDateRange' => Order::completedInDateRange($this->date_start, $this->date_end)
-                ->get()
-                ->map(fn ($order) => $order->numberOfProducts())
-                ->sum(),
-
-            'productsAvailableCurrently' => Product::available()
-                ->count(),
-            'ordersInProgress' => Order::open()
-                ->count(),
-
-            'customersRegistered' => Customer::count(),
-            'ordersCompletedInTotal' => Order::status('completed')
-                ->count(),
-            'customersWithCompletedOrdersInTotal' => Customer::whereHas('orders', fn ($qry) => $qry->status('completed'))
-                ->count(),
-            'productsHandedOut' => Order::status('completed')
-                ->get()
-                ->map(fn ($order) => $order->numberOfProducts())
-                ->sum(),
+            'customersRegistered' => $this->customersRegistered(),
+            'ordersCompleted' => $this->ordersCompleted(),
+            'customersWithCompletedOrders' => $this->customersWithCompletedOrders(),
+            'totalProductsHandedOut' => $this->totalProductsHandedOut(),
+            'productsHandedOut' => $this->productsHandedOut(),
         ]);
     }
 
-    public function getStartDateFormattedProperty()
+    public function updatedDateStart($value)
     {
-        return (new Carbon($this->date_start))->isoFormat('LL');
+        $this->range = 'custom';
     }
 
-    public function getEndDateFormattedProperty()
+    public function updatedDateEnd($value)
     {
-        return (new Carbon($this->date_end))->isoFormat('LL');
+        $this->range = 'custom';
+    }
+
+    public function updatedRange($value)
+    {
+        if ($value == 'today') {
+            $this->date_start = now()->toDateString();
+            $this->date_end = now()->toDateString();
+        } else if ($value == 'yesterday') {
+            $this->date_start = now()->subDay()->toDateString();
+            $this->date_end = now()->subDay()->toDateString();
+        } else if ($value == 'this_month') {
+            $this->date_start = now()->startOfMonth()->toDateString();
+            $this->date_end = now()->toDateString();
+        } else if ($value == 'last_month') {
+            $this->date_start = now()->subMonth()->startOfMonth()->toDateString();
+            $this->date_end = now()->subMonth()->endOfMonth()->toDateString();
+        } else if ($value == 'this_year') {
+            $this->date_start = now()->startOfYear()->toDateString();
+            $this->date_end = now()->toDateString();
+        } else if ($value == 'last_year') {
+            $this->date_start = now()->subYear()->startOfYear()->toDateString();
+            $this->date_end = now()->subYear()->endOfYear()->toDateString();
+        } else if ($value == 'all_time') {
+            $this->date_start = null;
+            $this->date_end = null;
+        }
+    }
+
+    private function customersRegistered()
+    {
+        if (isset($this->date_start) && isset($this->date_end)) {
+            return Customer::registeredInDateRange($this->date_start, $this->date_end)
+                ->count();
+        }
+        return Customer::count();
+    }
+
+    private function ordersCompleted()
+    {
+        if (isset($this->date_start) && isset($this->date_end)) {
+            return Order::completedInDateRange($this->date_start, $this->date_end)
+                ->count();
+        }
+        return Order::status('completed')
+            ->count();
+    }
+
+    private function customersWithCompletedOrders()
+    {
+        if (isset($this->date_start) && isset($this->date_end)) {
+            return Customer::whereHas('orders', fn ($qry) => $qry->completedInDateRange($this->date_start, $this->date_end))
+                ->count();
+        }
+        return Customer::whereHas('orders', fn ($qry) => $qry->status('completed'))
+            ->count();
+    }
+
+    private function totalProductsHandedOut()
+    {
+        if (isset($this->date_start) && isset($this->date_end)) {
+            return Order::completedInDateRange($this->date_start, $this->date_end)
+                ->get()
+                ->map(fn ($order) => $order->numberOfProducts())
+                ->sum();
+        }
+        return Order::status('completed')
+            ->get()
+            ->map(fn ($order) => $order->numberOfProducts())
+            ->sum();
+    }
+
+    private function productsHandedOut()
+    {
+        if (isset($this->date_start) && isset($this->date_end)) {
+            return Product::whereHas('orders', fn ($qry) => $qry->completedInDateRange($this->date_start, $this->date_end))
+                ->get()
+                ->map(fn ($product) => [
+                    'name' => $product->name,
+                    'quantity' => $product->orders()->completedInDateRange($this->date_start, $this->date_end)->sum('quantity')
+                ])
+                ->sortByDesc('quantity');
+        }
+        return Product::whereHas('orders', fn ($qry) => $qry->status('completed'))
+            ->get();
+    }
+
+    public function getDateRangeTitleProperty()
+    {
+        if (isset($this->date_start) && isset($this->date_end)) {
+            $date_start = (new Carbon($this->date_start))->isoFormat('LL');
+            $date_end = (new Carbon($this->date_end))->isoFormat('LL');
+            if ($date_start != $date_end) {
+                return "Between $date_start and $date_end";
+            }
+            return $date_start;
+        }
+        return 'All time';
     }
 }
