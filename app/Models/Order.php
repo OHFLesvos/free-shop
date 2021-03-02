@@ -7,6 +7,7 @@ use Dyrynda\Database\Support\NullableFields;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Log;
 use OwenIt\Auditing\Contracts\Auditable;
 
 class Order extends Model implements Auditable
@@ -15,6 +16,15 @@ class Order extends Model implements Auditable
     use NullableFields;
     use NumberCompareScope;
     use \OwenIt\Auditing\Auditable;
+
+    protected static function booted()
+    {
+        static::updating(function (Order $order) {
+            if ($order->status == 'completed' && $order->completed_at == null) {
+                $order->completed_at = now();
+            }
+        });
+    }
 
     protected $fillable = [
         'ip_address',
@@ -39,6 +49,11 @@ class Order extends Model implements Auditable
             ->withPivot('quantity');
     }
 
+    public function numberOfProducts()
+    {
+        return $this->products()->sum('quantity');
+    }
+
     public function customer()
     {
         return $this->belongsTo(Customer::class);
@@ -47,6 +62,18 @@ class Order extends Model implements Auditable
     public function getIsOpenAttribute()
     {
         return in_array($this->status, ['new', 'ready']);
+    }
+
+    public function scopeCompletedInDateRange(Builder $qry, string $start, string $end)
+    {
+        $qry->status('completed')
+            ->whereDate('completed_at', '>=', $start)
+            ->whereDate('completed_at', '<=', $end);
+    }
+
+    public function scopeOpen(Builder $qry)
+    {
+        $qry->whereIn('status', ['new', 'ready']);
     }
 
     public function scopeStatus(Builder $qry, string $status)

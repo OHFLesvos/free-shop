@@ -13,6 +13,7 @@ use App\Http\Livewire\Backend\OrderDetailPage;
 use App\Http\Livewire\Backend\OrderListPage;
 use App\Http\Livewire\Backend\ProductManagePage;
 use App\Http\Livewire\Backend\ProductListPage;
+use App\Http\Livewire\Backend\ReportsPage;
 use App\Http\Livewire\Backend\SettingsPage;
 use App\Http\Livewire\Backend\TextBlockEditPage;
 use App\Http\Livewire\Backend\TextBlockListPage;
@@ -117,6 +118,8 @@ Route::middleware('auth')
                     ->name('text-blocks');
                 Route::get('text-blocks/{textBlock}/edit', TextBlockEditPage::class)
                     ->name('text-blocks.edit');
+                Route::get('reports', ReportsPage::class)
+                    ->name('reports');
                 Route::get('settings', SettingsPage::class)
                     ->name('settings');
                 Route::get('users', UserListPage::class)
