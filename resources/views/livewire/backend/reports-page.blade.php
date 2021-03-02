@@ -1,37 +1,38 @@
 <div class="medium-container">
-    <div class="input-group mb-3" style="max-width: 30em">
+    <div class="input-group mb-3" style="max-width: 40em">
         <span class="input-group-text">Date range</span>
         <input
             type="date"
             wire:model.lazy="date_start"
             class="form-control w-auto"
+            @if($all_time) disabled @endif
             max="{{ $date_end }}"/>
         <input
             type="date"
             wire:model.lazy="date_end"
             class="form-control w-auto"
+            @if($all_time) disabled @endif
             min="{{ $date_start }}"
             max="{{ now()->toDateString() }}"/>
+        <div class="input-group-text">
+            <input
+                class="form-check-input mt-0"
+                wire:model="all_time"
+                type="checkbox"
+                value="1"
+                id="allTimeInput">
+            <label class="form-check-label ms-2" for="allTimeInput">All time</label>
+        </div>
     </div>
 
-    <h2 class="display-6">Between {{ $this->startDateFormatted }} and {{ $this->endDateFormatted }}</h2>
-    <p>
-        {{ $ordersCompletedInDateRange }} orders completed.<br>
-        {{ $customersRegisteredInDateRange }} new customers registered.<br>
-        {{ $productsHandedOutInDateRange }} products handed out.
-    </p>
-
-    <h2 class="display-6">Currently</h2>
-    <p>
-        {{ $productsAvailableCurrently }} different products available.<br>
-        {{ $ordersInProgress }} orders in progress.
-    </p>
-
-    <h2 class="display-6">All time</h2>
+    @unless($all_time)
+        <h2 class="display-6">Between {{ $this->startDateFormatted }} and {{ $this->endDateFormatted }}</h2>
+    @else
+        <h2 class="display-6">All time</h2>
+    @endunless
     <p>
         {{ $customersRegistered }} customers registered.<br>
-        {{ $ordersCompletedInTotal }} orders completed
-        from {{ $customersWithCompletedOrdersInTotal }} customers.<br>
+        {{ $ordersCompleted }} orders completed from {{ $customersWithCompletedOrders }} customers.<br>
         {{ $productsHandedOut }} products handed out.
     </p>
 </div>
