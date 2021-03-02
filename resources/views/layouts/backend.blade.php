@@ -32,7 +32,7 @@ $items = [
     [
         'label' => 'Reports',
         'route' => 'backend.reports',
-        'authorized' => true, // TODO
+        'authorized' => auth()->user()->can('view reports'),
     ],
     [
         'label' => 'Users',

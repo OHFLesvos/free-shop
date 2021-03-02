@@ -2,6 +2,7 @@
 
 namespace App\View\Components\Backend\Dashboard;
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\View\Component;
 
 class TwilioWidget extends Component
@@ -23,16 +24,18 @@ class TwilioWidget extends Component
      */
     public function render()
     {
-        $sid = config('twilio-notification-channel.account_sid');
-        $token = config('twilio-notification-channel.auth_token');
-        if (isset($sid) && isset($token)) {
-            $data = [];
-            try {
-                $data['twilioBalance'] = $this->getTwilioBalance($sid, $token);
-            } catch (\Twilio\Exceptions\TwilioException $ex) {
-                $data['error'] = $ex->getMessage();
+        if (Auth::user()->can('view twilio balance')) {
+            $sid = config('twilio-notification-channel.account_sid');
+            $token = config('twilio-notification-channel.auth_token');
+            if (isset($sid) && isset($token)) {
+                $data = [];
+                try {
+                    $data['twilioBalance'] = $this->getTwilioBalance($sid, $token);
+                } catch (\Twilio\Exceptions\TwilioException $ex) {
+                    $data['error'] = $ex->getMessage();
+                }
+                return view('components.backend.dashboard.twilio-widget', $data);
             }
-            return view('components.backend.dashboard.twilio-widget', $data);
         }
         return null;
     }

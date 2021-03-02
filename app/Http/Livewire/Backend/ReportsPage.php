@@ -6,9 +6,12 @@ use App\Models\Customer;
 use App\Models\Order;
 use App\Models\Product;
 use Carbon\Carbon;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
 class ReportsPage extends BackendPage
 {
+    use AuthorizesRequests;
+
     protected $title = 'Reports';
 
     public string $date_start;
@@ -16,6 +19,8 @@ class ReportsPage extends BackendPage
 
     public function mount()
     {
+        $this->authorize('view reports');
+
         $this->date_start = now()->subDays(30)->toDateString();
         $this->date_end = now()->toDateString();
     }
