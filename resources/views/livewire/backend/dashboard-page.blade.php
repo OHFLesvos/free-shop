@@ -74,7 +74,9 @@
                             Twilio Account
                         </a>
                     </x-slot>
-                    {{ round($twilioBalance->balance, 2) }} {{ $twilioBalance->currency }}
+                    <span class="@if($twilioBalance->balance < 10) text-danger @endif">
+                        {{ round($twilioBalance->balance, 2) }} {{ $twilioBalance->currency }} balance
+                    </span>
                 </x-card>
             </div>
         @endisset
