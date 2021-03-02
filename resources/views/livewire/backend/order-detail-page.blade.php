@@ -101,8 +101,9 @@
                         $modified = $audit->getModified();
                         @endphp
                         @foreach ($modified as $key => $val)
-                            <em>{{ $key }}</em> from <code>{{ $val['old'] }}</code> to
-                            <code>{{ $val['new'] }}</code>@if ($loop->last).@else,@endif
+                            <em>{{ $key }}</em>
+                            @isset($val['old']) from <code>{{ $val['old'] }}</code> @endisset
+                            to <code>{{ $val['new'] }}</code>@if ($loop->last).@else,@endif
                         @endforeach
                     @endif
                 </li>

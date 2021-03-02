@@ -49,6 +49,12 @@ class Customer extends Model implements HasLocalePreference
         return $this->hasMany(Order::class);
     }
 
+    public function scopeRegisteredInDateRange(Builder $qry, string $start, string $end)
+    {
+        $qry->whereDate('created_at', '>=', $start)
+            ->whereDate('created_at', '<=', $end);
+    }
+
     public function scopeFilter(Builder $qry, string $filter)
     {
         $qry->where('name', 'LIKE', '%' . $filter . '%')

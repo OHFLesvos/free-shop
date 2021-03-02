@@ -20,7 +20,7 @@ $items = [
         'authorized' => auth()->user()->can('viewAny', App\Models\Product::class),
     ],
     [
-        'label' => 'Data Import & Export',
+        'label' => 'Import & Export',
         'route' => 'backend.import-export',
         'authorized' => auth()->user()->canAny(['export data', 'import data']),
     ],
@@ -28,6 +28,11 @@ $items = [
         'label' => 'Text Blocks',
         'route' => 'backend.text-blocks',
         'authorized' => auth()->user()->can('viewAny', App\Models\TextBlock::class),
+    ],
+    [
+        'label' => 'Reports',
+        'route' => 'backend.reports',
+        'authorized' => auth()->user()->can('view reports'),
     ],
     [
         'label' => 'Users',

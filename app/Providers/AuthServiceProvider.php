@@ -29,6 +29,6 @@ class AuthServiceProvider extends ServiceProvider
 
         Gate::after(function ($user, $ability) {
             return $user->hasRole(self::ADMINISTRATOR_ROLE);
-         });
+        });
     }
 }
