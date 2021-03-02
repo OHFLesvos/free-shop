@@ -2,7 +2,9 @@
     'type',
     'dismissible' => false
 ])
-<div class="alert alert-{{ $type }} shadow-sm @if($dismissible) alert-dismissible fade show @endif" role="alert">
+<div
+    {{ $attributes->merge(['class' => 'alert alert-' . $type . ' shadow-sm'.($dismissible ? ' alert-dismissible fade show' : '')]) }}
+    role="alert">
     @if($type == 'success')<x-icon icon="check-circle" fixed-width/>
     @elseif($type == 'info')<x-icon icon="info-circle" fixed-width/>
     @elseif($type == 'warning')<x-icon icon="exclamation-circle" fixed-width/>

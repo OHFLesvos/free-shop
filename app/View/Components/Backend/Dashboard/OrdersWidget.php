@@ -3,6 +3,7 @@
 namespace App\View\Components\Backend\Dashboard;
 
 use App\Models\Order;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\View\Component;
 
 class OrdersWidget extends Component
@@ -24,10 +25,13 @@ class OrdersWidget extends Component
      */
     public function render()
     {
-        return view('components.backend.dashboard.orders-widget', [
-            'newOrders' => Order::status('new')->count(),
-            'readyOrders' => Order::status('ready')->count(),
-            'completedOrders' => Order::status('completed')->count(),
-        ]);
+        if (Auth::user()->can('viewAny', App\Models\Order::class)) {
+            return view('components.backend.dashboard.orders-widget', [
+                'newOrders' => Order::status('new')->count(),
+                'readyOrders' => Order::status('ready')->count(),
+                'completedOrders' => Order::status('completed')->count(),
+            ]);
+        }
+        return null;
     }
 }

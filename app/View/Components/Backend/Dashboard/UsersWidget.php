@@ -3,6 +3,7 @@
 namespace App\View\Components\Backend\Dashboard;
 
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\View\Component;
 
 class UsersWidget extends Component
@@ -24,8 +25,11 @@ class UsersWidget extends Component
      */
     public function render()
     {
-        return view('components.backend.dashboard.users-widget', [
-            'registeredUsers' => User::count(),
-        ]);
+        if (Auth::user()->can('viewAny', App\Models\User::class)) {
+            return view('components.backend.dashboard.users-widget', [
+                'registeredUsers' => User::count(),
+            ]);
+        }
+        return null;
     }
 }

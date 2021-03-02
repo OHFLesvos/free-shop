@@ -1,10 +1,9 @@
-@can('viewAny', App\Models\Customer::class)
-    <div class="col">
-        <x-card>
-            <x-slot name="title">
-                <a href="{{ route('backend.customers') }}" class="text-body text-decoration-none">Customers</a>
-            </x-slot>
-            {{ $registeredCustomers }} registered customers
-        </x-card>
-    </div>
-@endcan
+@extends('components.backend.dashboard.base-widget')
+
+@section('title')
+    <a href="{{ route('backend.customers') }}" class="text-body text-decoration-none">Customers</a>
+@overwrite
+
+@section('content')
+    {{ $registeredCustomers }} registered customers
+@overwrite

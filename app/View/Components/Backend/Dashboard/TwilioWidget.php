@@ -23,19 +23,23 @@ class TwilioWidget extends Component
      */
     public function render()
     {
-        return view('components.backend.dashboard.twilio-widget', [
-            'twilioBalance' => $this->getTwilioBalance(),
-        ]);
-    }
-
-    private function getTwilioBalance()
-    {
         $sid = config('twilio-notification-channel.account_sid');
         $token = config('twilio-notification-channel.auth_token');
         if (isset($sid) && isset($token)) {
-            $client = new \Twilio\Rest\Client($sid, $token);
-            return $client->balance->fetch();
+            $data = [];
+            try {
+                $data['twilioBalance'] = $this->getTwilioBalance($sid, $token);
+            } catch (\Twilio\Exceptions\TwilioException $ex) {
+                $data['error'] = $ex->getMessage();
+            }
+            return view('components.backend.dashboard.twilio-widget', $data);
         }
         return null;
+    }
+
+    private function getTwilioBalance($sid, $token)
+    {
+        $client = new \Twilio\Rest\Client($sid, $token);
+        return $client->balance->fetch();
     }
 }

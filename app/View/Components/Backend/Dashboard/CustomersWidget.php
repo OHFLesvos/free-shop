@@ -3,6 +3,7 @@
 namespace App\View\Components\Backend\Dashboard;
 
 use App\Models\Customer;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\View\Component;
 
 class CustomersWidget extends Component
@@ -24,8 +25,11 @@ class CustomersWidget extends Component
      */
     public function render()
     {
-        return view('components.backend.dashboard.customers-widget', [
-            'registeredCustomers' => Customer::count(),
-        ]);
+        if (Auth::user()->can('viewAny', App\Models\Customer::class)) {
+            return view('components.backend.dashboard.customers-widget', [
+                'registeredCustomers' => Customer::count(),
+            ]);
+        }
+        return null;
     }
 }

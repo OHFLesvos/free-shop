@@ -3,6 +3,7 @@
 namespace App\View\Components\Backend\Dashboard;
 
 use App\Models\Product;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\View\Component;
 
 class ProductsWidget extends Component
@@ -24,8 +25,11 @@ class ProductsWidget extends Component
      */
     public function render()
     {
-        return view('components.backend.dashboard.products-widget', [
-            'availableProducts' => Product::available()->count(),
-        ]);
+        if (Auth::user()->can('viewAny', App\Models\Product::class)) {
+            return view('components.backend.dashboard.products-widget', [
+                'availableProducts' => Product::available()->count(),
+            ]);
+        }
+        return null;
     }
 }
