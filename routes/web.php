@@ -27,7 +27,6 @@ use App\Http\Livewire\CustomerLoginPage;
 use App\Http\Livewire\MyOrdersPage;
 use App\Http\Livewire\ShopFrontPage;
 use App\Http\Livewire\WelcomePage;
-use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -59,7 +58,7 @@ Route::middleware(['geoblock.whitelist', 'set-language'])
                     ->name('checkout');
                 Route::get('my-orders', MyOrdersPage::class)
                     ->name('my-orders');
-                Route::redirect('order-lookup', 'my-orders');   
+                Route::redirect('order-lookup', 'my-orders');
                 Route::get('customer/account', CustomerAccountPage::class)
                     ->name('customer.account');
                 Route::get('customer/logout', function () {
@@ -134,7 +133,3 @@ Route::middleware('auth')
                     ->name('user-profile');
             });
     });
-
-if (App::environment() == 'local') {
-    Route::get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index');
-}

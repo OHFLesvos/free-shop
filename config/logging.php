@@ -46,12 +46,6 @@ return [
             'ignore_exceptions' => false,
         ],
 
-        'stack_daily_and_loggly' => [
-            'driver' => 'stack',
-            'channels' => ['daily', 'loggly'],
-            'ignore_exceptions' => false,
-        ],
-
         'single' => [
             'driver' => 'single',
             'path' => storage_path('logs/laravel.log'),
