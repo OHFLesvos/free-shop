@@ -5,19 +5,23 @@
     <h2>@lang('Statistics')</h2>
     @foreach($stats as $key => $values)
         <x-card :title="$key">
-            In <strong>{{ $values['month_start']->isoFormat('MMMM YYYY') }}</strong> we completed 
-            <strong>{{ number_format($values['ordersCompleted']) }} orders</strong> 
-            for <strong>{{ number_format($values['customersWithCompletedOrders']) }} customers</strong>
-            and handed out <strong>{{ number_format($values['totalProductsHandedOut']) }} products</strong> in total.
+            @lang('In <strong>:month</strong> we completed <strong>:orders orders</strong> for <strong>:customers customers</strong> and handed out <strong>:products products</strong> in total.', [
+                'month' => $values['month_start']->isoFormat('MMMM YYYY'),
+                'orders' => number_format($values['ordersCompleted']),
+                'customers' => number_format($values['customersWithCompletedOrders']),
+                'products' => number_format($values['totalProductsHandedOut']),
+            ])
             @if($values['totalProductsHandedOut'] > 0)
-                <br><strong>{{ round($values['averageOrderDuration'], 1) }} days</strong> were needed on average to complete an order.
+                <br>@lang('<strong>:days days</strong> were needed on average to complete an order.', [
+                    'days' => round($values['averageOrderDuration'], 1),
+                ])
             @endif
             @if($values['productsHandedOut']->isNotEmpty())
                 <x-slot name="addon">
                     <table class="table mb-0">
                         <thead>
-                            <th>Product</th>
-                            <th class="fit text-end">Quantity</th>
+                            <th>@lang('Product')</th>
+                            <th class="fit text-end">@lang('Quantity')</th>
                         </thead>                        
                         <tbody>
                             @foreach($values['productsHandedOut'] as $product)
