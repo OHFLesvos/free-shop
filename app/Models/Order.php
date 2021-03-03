@@ -97,7 +97,6 @@ class Order extends Model implements Auditable
         $qry->where('id', is_numeric($filter) ? $filter : 0)
             ->orWhereHas('customer', function ($cqry) use ($filter) {
                 $cqry->where(DB::raw('LOWER(name)'), 'LIKE', '%' . strtolower($filter) . '%')
-                    ->where('name', 'LIKE', '%' . $filter . '%')
                     ->orWhere('id_number', 'LIKE', $filter . '%')
                     ->orWhere(fn ($inner) => $inner->whereNumberCompare('id_number', $filter))
                     ->orWhere('phone', 'LIKE', $filter . '%')
