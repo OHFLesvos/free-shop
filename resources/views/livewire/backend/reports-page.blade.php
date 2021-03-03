@@ -54,7 +54,7 @@
                         <tr>
                             <td>{{ $product['name'] }}</td>
                             <td class="fit text-end">
-                                {{ $product['quantity'] }}
+                                {{ number_format($product['quantity']) }}
                             </td>
                             <td class="fit text-end">
                                 {{ round($product['quantity'] / $totalProductsHandedOut * 100, 1) }}%
