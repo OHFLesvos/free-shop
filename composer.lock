@@ -128,16 +128,16 @@
         },
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.173.18",
+            "version": "3.173.21",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "0ac9f1d2778034a2ef0a2bb8e098818d7b1a76e8"
+                "reference": "914c68fb45bd4d1141d6c48ca9c88e0e9f426611"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/0ac9f1d2778034a2ef0a2bb8e098818d7b1a76e8",
-                "reference": "0ac9f1d2778034a2ef0a2bb8e098818d7b1a76e8",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/914c68fb45bd4d1141d6c48ca9c88e0e9f426611",
+                "reference": "914c68fb45bd4d1141d6c48ca9c88e0e9f426611",
                 "shasum": ""
             },
             "require": {
@@ -145,9 +145,9 @@
                 "ext-pcre": "*",
                 "ext-simplexml": "*",
                 "guzzlehttp/guzzle": "^5.3.3|^6.2.1|^7.0",
-                "guzzlehttp/promises": "^1.0",
-                "guzzlehttp/psr7": "^1.4.1",
-                "mtdowling/jmespath.php": "^2.5",
+                "guzzlehttp/promises": "^1.4.0",
+                "guzzlehttp/psr7": "^1.7.0",
+                "mtdowling/jmespath.php": "^2.6",
                 "php": ">=5.5"
             },
             "require-dev": {
@@ -212,9 +212,9 @@
             "support": {
                 "forum": "https://forums.aws.amazon.com/forum.jspa?forumID=80",
                 "issues": "https://github.com/aws/aws-sdk-php/issues",
-                "source": "https://github.com/aws/aws-sdk-php/tree/3.173.18"
+                "source": "https://github.com/aws/aws-sdk-php/tree/3.173.21"
             },
-            "time": "2021-02-26T19:12:35+00:00"
+            "time": "2021-03-03T19:19:53+00:00"
         },
         {
             "name": "brick/math",
@@ -1362,16 +1362,16 @@
         },
         {
             "name": "giggsey/libphonenumber-for-php",
-            "version": "8.12.18",
+            "version": "8.12.19",
             "source": {
                 "type": "git",
                 "url": "https://github.com/giggsey/libphonenumber-for-php.git",
-                "reference": "2d50e0aea1f70508b39a3d22c62d24d66d532ed2"
+                "reference": "f3c196dcb3e76e456783a38bab87d99b4d727918"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/giggsey/libphonenumber-for-php/zipball/2d50e0aea1f70508b39a3d22c62d24d66d532ed2",
-                "reference": "2d50e0aea1f70508b39a3d22c62d24d66d532ed2",
+                "url": "https://api.github.com/repos/giggsey/libphonenumber-for-php/zipball/f3c196dcb3e76e456783a38bab87d99b4d727918",
+                "reference": "f3c196dcb3e76e456783a38bab87d99b4d727918",
                 "shasum": ""
             },
             "require": {
@@ -1431,7 +1431,7 @@
                 "issues": "https://github.com/giggsey/libphonenumber-for-php/issues",
                 "source": "https://github.com/giggsey/libphonenumber-for-php"
             },
-            "time": "2021-02-08T10:31:32+00:00"
+            "time": "2021-03-01T16:07:56+00:00"
         },
         {
             "name": "giggsey/locale",
@@ -2084,16 +2084,16 @@
         },
         {
             "name": "laravel/framework",
-            "version": "v8.29.0",
+            "version": "v8.30.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "d2eba352b3b3a3c515b18c5726b373fe5026733e"
+                "reference": "ab7e1c19ee0403e15fc59983b7ccb86d85db45e6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/d2eba352b3b3a3c515b18c5726b373fe5026733e",
-                "reference": "d2eba352b3b3a3c515b18c5726b373fe5026733e",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/ab7e1c19ee0403e15fc59983b7ccb86d85db45e6",
+                "reference": "ab7e1c19ee0403e15fc59983b7ccb86d85db45e6",
                 "shasum": ""
             },
             "require": {
@@ -2248,20 +2248,20 @@
                 "issues": "https://github.com/laravel/framework/issues",
                 "source": "https://github.com/laravel/framework"
             },
-            "time": "2021-02-23T14:27:41+00:00"
+            "time": "2021-03-03T14:59:13+00:00"
         },
         {
             "name": "laravel/socialite",
-            "version": "v5.2.1",
+            "version": "v5.2.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/socialite.git",
-                "reference": "8aa705d771f127317f60887515cfb2f777653ce5"
+                "reference": "8d25d574b4f2005411c0b9cb527ef5e745c1b07d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/socialite/zipball/8aa705d771f127317f60887515cfb2f777653ce5",
-                "reference": "8aa705d771f127317f60887515cfb2f777653ce5",
+                "url": "https://api.github.com/repos/laravel/socialite/zipball/8d25d574b4f2005411c0b9cb527ef5e745c1b07d",
+                "reference": "8d25d574b4f2005411c0b9cb527ef5e745c1b07d",
                 "shasum": ""
             },
             "require": {
@@ -2317,20 +2317,20 @@
                 "issues": "https://github.com/laravel/socialite/issues",
                 "source": "https://github.com/laravel/socialite"
             },
-            "time": "2021-02-22T14:22:51+00:00"
+            "time": "2021-03-02T16:50:47+00:00"
         },
         {
             "name": "laravel/tinker",
-            "version": "v2.6.0",
+            "version": "v2.6.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/tinker.git",
-                "reference": "daae1c43f1300fe88c05d83db6f3d8f76677ad88"
+                "reference": "04ad32c1a3328081097a181875733fa51f402083"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/tinker/zipball/daae1c43f1300fe88c05d83db6f3d8f76677ad88",
-                "reference": "daae1c43f1300fe88c05d83db6f3d8f76677ad88",
+                "url": "https://api.github.com/repos/laravel/tinker/zipball/04ad32c1a3328081097a181875733fa51f402083",
+                "reference": "04ad32c1a3328081097a181875733fa51f402083",
                 "shasum": ""
             },
             "require": {
@@ -2383,9 +2383,9 @@
             ],
             "support": {
                 "issues": "https://github.com/laravel/tinker/issues",
-                "source": "https://github.com/laravel/tinker/tree/v2.6.0"
+                "source": "https://github.com/laravel/tinker/tree/v2.6.1"
             },
-            "time": "2021-01-26T20:35:18+00:00"
+            "time": "2021-03-02T16:53:12+00:00"
         },
         {
             "name": "league/commonmark",
@@ -4419,16 +4419,16 @@
         },
         {
             "name": "phpoffice/phpspreadsheet",
-            "version": "1.16.0",
+            "version": "1.17.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/PHPOffice/PhpSpreadsheet.git",
-                "reference": "76d4323b85129d0c368149c831a07a3e258b2b50"
+                "reference": "c55269cb06911575a126dc225a05c0e4626e5fb4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/PHPOffice/PhpSpreadsheet/zipball/76d4323b85129d0c368149c831a07a3e258b2b50",
-                "reference": "76d4323b85129d0c368149c831a07a3e258b2b50",
+                "url": "https://api.github.com/repos/PHPOffice/PhpSpreadsheet/zipball/c55269cb06911575a126dc225a05c0e4626e5fb4",
+                "reference": "c55269cb06911575a126dc225a05c0e4626e5fb4",
                 "shasum": ""
             },
             "require": {
@@ -4456,7 +4456,7 @@
             },
             "require-dev": {
                 "dompdf/dompdf": "^0.8.5",
-                "friendsofphp/php-cs-fixer": "^2.16",
+                "friendsofphp/php-cs-fixer": "^2.18",
                 "jpgraph/jpgraph": "^4.0",
                 "mpdf/mpdf": "^8.0",
                 "phpcompatibility/php-compatibility": "^9.3",
@@ -4514,9 +4514,9 @@
             ],
             "support": {
                 "issues": "https://github.com/PHPOffice/PhpSpreadsheet/issues",
-                "source": "https://github.com/PHPOffice/PhpSpreadsheet/tree/1.16.0"
+                "source": "https://github.com/PHPOffice/PhpSpreadsheet/tree/1.17.1"
             },
-            "time": "2020-12-31T18:03:49+00:00"
+            "time": "2021-03-02T17:54:11+00:00"
         },
         {
             "name": "phpoption/phpoption",
