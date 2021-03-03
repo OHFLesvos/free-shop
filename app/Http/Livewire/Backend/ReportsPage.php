@@ -125,9 +125,9 @@ class ReportsPage extends BackendPage
     private function averageOrderDuration()
     {
         return Order::completedInDateRange($this->date_start, $this->date_end)
-            ->selectRaw('DATEDIFF(`completed_at`, `created_at`) AS duration')
+            ->select('completed_at', 'created_at')
             ->get()
-            ->pluck('duration')
+            ->map(fn ($order) => $order->completed_at->diffInDays($order->created_at))
             ->avg();
     }
 

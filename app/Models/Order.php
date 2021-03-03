@@ -17,6 +17,10 @@ class Order extends Model implements Auditable
     use NumberCompareScope;
     use \OwenIt\Auditing\Auditable;
 
+    protected $casts = [
+        'completed_at' => 'datetime',
+    ];
+
     protected static function booted()
     {
         static::updating(function (Order $order) {
