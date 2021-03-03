@@ -86,42 +86,25 @@ class ReportsPage extends BackendPage
 
     private function customersRegistered()
     {
-        if (isset($this->date_start) && isset($this->date_end)) {
-            return Customer::registeredInDateRange($this->date_start, $this->date_end)
-                ->count();
-        }
-        return Customer::count();
+        return Customer::registeredInDateRange($this->date_start, $this->date_end)
+            ->count();
     }
 
     private function ordersCompleted()
     {
-        if (isset($this->date_start) && isset($this->date_end)) {
-            return Order::completedInDateRange($this->date_start, $this->date_end)
-                ->count();
-        }
-        return Order::status('completed')
+        return Order::completedInDateRange($this->date_start, $this->date_end)
             ->count();
     }
 
     private function customersWithCompletedOrders()
     {
-        if (isset($this->date_start) && isset($this->date_end)) {
-            return Customer::whereHas('orders', fn ($qry) => $qry->completedInDateRange($this->date_start, $this->date_end))
-                ->count();
-        }
-        return Customer::whereHas('orders', fn ($qry) => $qry->status('completed'))
+        return Customer::whereHas('orders', fn ($qry) => $qry->completedInDateRange($this->date_start, $this->date_end))
             ->count();
     }
 
     private function totalProductsHandedOut()
     {
-        if (isset($this->date_start) && isset($this->date_end)) {
-            return Order::completedInDateRange($this->date_start, $this->date_end)
-                ->get()
-                ->map(fn ($order) => $order->numberOfProducts())
-                ->sum();
-        }
-        return Order::status('completed')
+        return Order::completedInDateRange($this->date_start, $this->date_end)
             ->get()
             ->map(fn ($order) => $order->numberOfProducts())
             ->sum();
@@ -129,17 +112,13 @@ class ReportsPage extends BackendPage
 
     private function productsHandedOut()
     {
-        if (isset($this->date_start) && isset($this->date_end)) {
-            return Product::whereHas('orders', fn ($qry) => $qry->completedInDateRange($this->date_start, $this->date_end))
-                ->get()
-                ->map(fn ($product) => [
-                    'name' => $product->name,
-                    'quantity' => $product->orders()->completedInDateRange($this->date_start, $this->date_end)->sum('quantity')
-                ])
-                ->sortByDesc('quantity');
-        }
-        return Product::whereHas('orders', fn ($qry) => $qry->status('completed'))
-            ->get();
+        return Product::whereHas('orders', fn ($qry) => $qry->completedInDateRange($this->date_start, $this->date_end))
+            ->get()
+            ->map(fn ($product) => [
+                'name' => $product->name,
+                'quantity' => $product->orders()->completedInDateRange($this->date_start, $this->date_end)->sum('quantity')
+            ])
+            ->sortByDesc('quantity');
     }
 
     public function getDateRangeTitleProperty()

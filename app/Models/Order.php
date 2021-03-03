@@ -64,11 +64,15 @@ class Order extends Model implements Auditable
         return in_array($this->status, ['new', 'ready']);
     }
 
-    public function scopeCompletedInDateRange(Builder $qry, string $start, string $end)
+    public function scopeCompletedInDateRange(Builder $qry, ?string $start, ?string $end)
     {
-        $qry->status('completed')
-            ->whereDate('completed_at', '>=', $start)
-            ->whereDate('completed_at', '<=', $end);
+        if (filled($start) && filled($end)) {
+            $qry->status('completed')
+                ->whereDate('completed_at', '>=', $start)
+                ->whereDate('completed_at', '<=', $end);
+        } else {
+            $qry->status('completed');
+        }
     }
 
     public function scopeOpen(Builder $qry)

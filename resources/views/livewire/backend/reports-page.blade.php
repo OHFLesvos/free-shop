@@ -43,13 +43,13 @@
             <table class="table table-bordered bg-white shadow-sm">
                 <thead>
                     <th>Product</th>
-                    <th class="fit text-right">Quantity</th>
+                    <th class="fit text-end">Quantity</th>
                 </thead>
                 <tbody>
                     @foreach($productsHandedOut as $product)
                         <tr>
                             <td>{{ $product['name'] }}</td>
-                            <td class="fit text-right">{{ $product['quantity'] }}</td>
+                            <td class="fit text-end">{{ $product['quantity'] }}</td>
                         </tr>
                     @endforeach
                 </tbody>
