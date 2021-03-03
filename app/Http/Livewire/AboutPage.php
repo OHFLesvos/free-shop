@@ -35,6 +35,7 @@ class AboutPage extends Component
             'customersWithCompletedOrders' => $aggregator->customersWithCompletedOrders(),
             'totalProductsHandedOut' => $aggregator->totalProductsHandedOut(),
             'productsHandedOut' => $aggregator->productsHandedOut(),
+            'averageOrderDuration' => $aggregator->averageOrderDuration(),
         ];
     }
 }
