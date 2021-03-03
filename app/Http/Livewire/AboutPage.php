@@ -28,12 +28,13 @@ class AboutPage extends Component
 
     private function monthlyStats(Carbon $month_start)
     {
-        $aggregator = new MetricsAggregator($month_start, $month_start->endOfMonth());
+        $aggregator = new MetricsAggregator($month_start, $month_start->clone()->endOfMonth());
         return [
             'month_start' => $month_start,
             'ordersCompleted' => $aggregator->ordersCompleted(),
             'customersWithCompletedOrders' => $aggregator->customersWithCompletedOrders(),
             'totalProductsHandedOut' => $aggregator->totalProductsHandedOut(),
+            'productsHandedOut' => $aggregator->productsHandedOut(),
         ];
     }
 }
