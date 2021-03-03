@@ -38,18 +38,25 @@
     <p>
         {{ $customersRegistered }} customers registered.<br>
         {{ $ordersCompleted }} orders completed from {{ $customersWithCompletedOrders }} customers.<br>
-        {{ $totalProductsHandedOut }} products handed out.
+        {{ $totalProductsHandedOut }} products handed out.<br>
+        {{ round($averageOrderDuration, 1) }} days needed on average to complete an order.
         @if($productsHandedOut->isNotEmpty())
             <table class="table table-bordered bg-white shadow-sm">
                 <thead>
                     <th>Product</th>
                     <th class="fit text-end">Quantity</th>
+                    <th class="fit text-end">Percent</th>
                 </thead>
                 <tbody>
                     @foreach($productsHandedOut as $product)
                         <tr>
                             <td>{{ $product['name'] }}</td>
-                            <td class="fit text-end">{{ $product['quantity'] }}</td>
+                            <td class="fit text-end">
+                                {{ $product['quantity'] }}
+                            </td>
+                            <td class="fit text-end">
+                                {{ round($product['quantity'] / $totalProductsHandedOut * 100, 1) }}%
+                            </td>
                         </tr>
                     @endforeach
                 </tbody>
