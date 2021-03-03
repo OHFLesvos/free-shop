@@ -23,7 +23,7 @@ use App\Http\Livewire\Backend\UserProfilePage;
 use App\Http\Livewire\CheckoutPage;
 use App\Http\Livewire\CustomerAccountPage;
 use App\Http\Livewire\CustomerLoginPage;
-use App\Http\Livewire\OrderLookupPage;
+use App\Http\Livewire\MyOrdersPage;
 use App\Http\Livewire\ShopFrontPage;
 use App\Http\Livewire\WelcomePage;
 use Illuminate\Support\Facades\App;
@@ -54,8 +54,9 @@ Route::middleware(['geoblock.whitelist', 'set-language'])
                     ->name('shop-front');
                 Route::get('checkout', CheckoutPage::class)
                     ->name('checkout');
-                Route::get('order-lookup', OrderLookupPage::class)
-                    ->name('order-lookup');
+                Route::get('my-orders', MyOrdersPage::class)
+                    ->name('my-orders');
+                Route::redirect('order-lookup', 'my-orders');   
                 Route::get('customer/account', CustomerAccountPage::class)
                     ->name('customer.account');
                 Route::get('customer/logout', function () {

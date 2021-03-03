@@ -83,9 +83,7 @@ class OrderRegistered extends Notification
                 'id' => $this->order->id,
             ]);
             $message .= "\n" . __('More information: ');
-            $message .= route('order-lookup', [
-                'lang' => $notifiable->locale,
-            ]);
+            $message .= route('my-orders');
             return $message;
         }
     }

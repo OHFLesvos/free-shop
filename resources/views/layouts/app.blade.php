@@ -11,7 +11,7 @@ $items = [
     ],
     [
         'label' => __('Your orders'),
-        'route' => 'order-lookup',
+        'route' => 'my-orders',
         'icon' => 'list-alt',
         'badge' => $readyOrders > 0 ? $readyOrders : null,
     ],
