@@ -5,6 +5,10 @@ return [
         'type' => 'markdown',
         'purpose' => 'Text displayed on the shop welcome page',
     ],
+    'about' => [
+        'type' => 'markdown',
+        'purpose' => 'Text displayed on the about page',
+    ],    
     'privacy-policy' => [
         'type' => 'markdown',
         'purpose' => 'Text of the privacy policy page',

@@ -4,6 +4,7 @@ use App\Facades\CurrentCustomer;
 use App\Http\Controllers\LanguageSelectController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\SocialLoginController;
+use App\Http\Livewire\AboutPage;
 use App\Http\Livewire\Backend\CustomerDetailPage;
 use App\Http\Livewire\Backend\CustomerListPage;
 use App\Http\Livewire\Backend\CustomerManagePage;
@@ -46,6 +47,8 @@ Route::middleware(['geoblock.whitelist', 'set-language'])
             ->name('home');
         Route::view('privacy-policy', 'privacy-policy')
             ->name('privacy-policy');
+        Route::get('about', AboutPage::class)
+            ->name('about');
         Route::get('customer/login', CustomerLoginPage::class)
             ->name('customer.login');
         Route::middleware('auth-customer')

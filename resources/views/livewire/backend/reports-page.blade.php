@@ -36,9 +36,9 @@
         {{ $this->dateRangeTitle }}
     </h2>
     <p>
-        {{ $customersRegistered }} customers registered.<br>
-        {{ $ordersCompleted }} orders completed for {{ $customersWithCompletedOrders }} customers.<br>
-        {{ $totalProductsHandedOut }} products handed out.<br>
+        {{ number_format($customersRegistered) }} customers registered.<br>
+        {{ number_format($ordersCompleted) }} orders completed for {{ number_format($customersWithCompletedOrders) }} customers.<br>
+        {{ number_format($totalProductsHandedOut) }} products handed out.<br>
         @if($totalProductsHandedOut > 0)
             {{ round($averageOrderDuration, 1) }} days needed on average to complete an order.
         @endif
