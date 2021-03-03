@@ -2,9 +2,7 @@
 
 namespace App\Http\Livewire\Backend;
 
-use App\Models\Customer;
-use App\Models\Order;
-use App\Models\Product;
+use App\Services\MetricsAggregator;
 use Carbon\Carbon;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
@@ -39,13 +37,15 @@ class ReportsPage extends BackendPage
 
     public function render()
     {
+        $aggregator = new MetricsAggregator($this->date_start, $this->date_end);
+
         return parent::view('livewire.backend.reports-page', [
-            'customersRegistered' => $this->customersRegistered(),
-            'ordersCompleted' => $this->ordersCompleted(),
-            'customersWithCompletedOrders' => $this->customersWithCompletedOrders(),
-            'totalProductsHandedOut' => $this->totalProductsHandedOut(),
-            'productsHandedOut' => $this->productsHandedOut(),
-            'averageOrderDuration' => $this->averageOrderDuration(),
+            'customersRegistered' => $aggregator->customersRegistered(),
+            'ordersCompleted' => $aggregator->ordersCompleted(),
+            'customersWithCompletedOrders' => $aggregator->customersWithCompletedOrders(),
+            'totalProductsHandedOut' => $aggregator->totalProductsHandedOut(),
+            'productsHandedOut' => $aggregator->productsHandedOut(),
+            'averageOrderDuration' => $aggregator->averageOrderDuration(),
         ]);
     }
 
@@ -83,52 +83,6 @@ class ReportsPage extends BackendPage
             $this->date_start = null;
             $this->date_end = null;
         }
-    }
-
-    private function customersRegistered()
-    {
-        return Customer::registeredInDateRange($this->date_start, $this->date_end)
-            ->count();
-    }
-
-    private function ordersCompleted()
-    {
-        return Order::completedInDateRange($this->date_start, $this->date_end)
-            ->count();
-    }
-
-    private function customersWithCompletedOrders()
-    {
-        return Customer::whereHas('orders', fn ($qry) => $qry->completedInDateRange($this->date_start, $this->date_end))
-            ->count();
-    }
-
-    private function totalProductsHandedOut()
-    {
-        return Order::completedInDateRange($this->date_start, $this->date_end)
-            ->get()
-            ->map(fn ($order) => $order->numberOfProducts())
-            ->sum();
-    }
-
-    private function productsHandedOut()
-    {
-        return Product::whereHas('orders', fn ($qry) => $qry->completedInDateRange($this->date_start, $this->date_end))
-            ->get()
-            ->map(fn ($product) => [
-                'name' => $product->name,
-                'quantity' => $product->orders()->completedInDateRange($this->date_start, $this->date_end)->sum('quantity')
-            ])
-            ->sortByDesc('quantity');
-    }
-
-    private function averageOrderDuration()
-    {
-        return Order::completedInDateRange($this->date_start, $this->date_end)
-            ->select('completed_at', 'created_at')
-            ->get()
-            ->map(fn ($order) => $order->completed_at->diffInDays($order->created_at))
-            ->avg();
     }
 
     public function getDateRangeTitleProperty()
