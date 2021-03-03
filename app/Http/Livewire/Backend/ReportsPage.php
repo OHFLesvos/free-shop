@@ -45,6 +45,7 @@ class ReportsPage extends BackendPage
             'customersWithCompletedOrders' => $this->customersWithCompletedOrders(),
             'totalProductsHandedOut' => $this->totalProductsHandedOut(),
             'productsHandedOut' => $this->productsHandedOut(),
+            'averageOrderDuration' => $this->averageOrderDuration(),
         ]);
     }
 
@@ -119,6 +120,15 @@ class ReportsPage extends BackendPage
                 'quantity' => $product->orders()->completedInDateRange($this->date_start, $this->date_end)->sum('quantity')
             ])
             ->sortByDesc('quantity');
+    }
+
+    private function averageOrderDuration()
+    {
+        return Order::completedInDateRange($this->date_start, $this->date_end)
+            ->selectRaw('DATEDIFF(`completed_at`, `created_at`) AS duration')
+            ->get()
+            ->pluck('duration')
+            ->avg();
     }
 
     public function getDateRangeTitleProperty()

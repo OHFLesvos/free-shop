@@ -38,7 +38,8 @@
     <p>
         {{ $customersRegistered }} customers registered.<br>
         {{ $ordersCompleted }} orders completed from {{ $customersWithCompletedOrders }} customers.<br>
-        {{ $totalProductsHandedOut }} products handed out.
+        {{ $totalProductsHandedOut }} products handed out.<br>
+        {{ round($averageOrderDuration, 1) }} days needed on average to complete an order.
         @if($productsHandedOut->isNotEmpty())
             <table class="table table-bordered bg-white shadow-sm">
                 <thead>
