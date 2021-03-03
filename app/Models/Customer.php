@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\DB;
 use Propaganistas\LaravelPhone\Exceptions\NumberParseException;
 use Propaganistas\LaravelPhone\PhoneNumber;
 
@@ -59,7 +60,7 @@ class Customer extends Model implements HasLocalePreference
 
     public function scopeFilter(Builder $qry, string $filter)
     {
-        $qry->where('name', 'LIKE', '%' . $filter . '%')
+        $qry->where(DB::raw('LOWER(name)'), 'LIKE', '%' . strtolower($filter) . '%')
             ->orWhere('id_number', 'LIKE', $filter . '%')
             ->orWhere(fn ($inner) => $inner->whereNumberCompare('id_number', $filter))
             ->orWhere('phone', 'LIKE', $filter . '%')
