@@ -44,12 +44,18 @@
                 <thead>
                     <th>Product</th>
                     <th class="fit text-end">Quantity</th>
+                    <th class="fit text-end">Percent</th>
                 </thead>
                 <tbody>
                     @foreach($productsHandedOut as $product)
                         <tr>
                             <td>{{ $product['name'] }}</td>
-                            <td class="fit text-end">{{ $product['quantity'] }}</td>
+                            <td class="fit text-end">
+                                {{ $product['quantity'] }}
+                            </td>
+                            <td class="fit text-end">
+                                {{ round($product['quantity'] / $totalProductsHandedOut * 100, 1) }}%
+                            </td>
                         </tr>
                     @endforeach
                 </tbody>
