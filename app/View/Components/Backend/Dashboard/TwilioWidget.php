@@ -8,16 +8,6 @@ use Illuminate\View\Component;
 class TwilioWidget extends Component
 {
     /**
-     * Create a new component instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        //
-    }
-
-    /**
      * Get the view / contents that represent the component.
      *
      * @return \Illuminate\Contracts\View\View|string
@@ -27,7 +17,7 @@ class TwilioWidget extends Component
         if (Auth::user()->can('view twilio balance')) {
             $sid = config('twilio-notification-channel.account_sid');
             $token = config('twilio-notification-channel.auth_token');
-            if (isset($sid) && isset($token)) {
+            if (filled($sid) && filled($token)) {
                 $data = [];
                 try {
                     $data['twilioBalance'] = $this->getTwilioBalance($sid, $token);

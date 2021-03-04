@@ -2,15 +2,14 @@
 
 namespace App\Http\Livewire\Backend;
 
-use App\Models\Customer;
-use App\Models\Order;
-use App\Models\Product;
+use App\Services\MetricsAggregator;
 use Carbon\Carbon;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
 class ReportsPage extends BackendPage
 {
     use AuthorizesRequests;
+    use WithSorting;
 
     protected $title = 'Reports';
 
@@ -30,6 +29,13 @@ class ReportsPage extends BackendPage
 
     public $range = 'this_month';
 
+    public string $sortBy = 'product';
+    public string $sortDirection = 'asc';
+    protected $sortableFields = [
+        'product',
+        'quantity',
+    ];
+
     public function mount()
     {
         $this->authorize('view reports');
@@ -39,12 +45,15 @@ class ReportsPage extends BackendPage
 
     public function render()
     {
+        $aggregator = new MetricsAggregator($this->date_start, $this->date_end);
+
         return parent::view('livewire.backend.reports-page', [
-            'customersRegistered' => $this->customersRegistered(),
-            'ordersCompleted' => $this->ordersCompleted(),
-            'customersWithCompletedOrders' => $this->customersWithCompletedOrders(),
-            'totalProductsHandedOut' => $this->totalProductsHandedOut(),
-            'productsHandedOut' => $this->productsHandedOut(),
+            'customersRegistered' => $aggregator->customersRegistered(),
+            'ordersCompleted' => $aggregator->ordersCompleted(),
+            'customersWithCompletedOrders' => $aggregator->customersWithCompletedOrders(),
+            'totalProductsHandedOut' => $aggregator->totalProductsHandedOut(),
+            'productsHandedOut' => $aggregator->productsHandedOut($this->sortBy == 'quantity', $this->sortDirection == 'desc'),
+            'averageOrderDuration' => $aggregator->averageOrderDuration(),
         ]);
     }
 
@@ -82,64 +91,6 @@ class ReportsPage extends BackendPage
             $this->date_start = null;
             $this->date_end = null;
         }
-    }
-
-    private function customersRegistered()
-    {
-        if (isset($this->date_start) && isset($this->date_end)) {
-            return Customer::registeredInDateRange($this->date_start, $this->date_end)
-                ->count();
-        }
-        return Customer::count();
-    }
-
-    private function ordersCompleted()
-    {
-        if (isset($this->date_start) && isset($this->date_end)) {
-            return Order::completedInDateRange($this->date_start, $this->date_end)
-                ->count();
-        }
-        return Order::status('completed')
-            ->count();
-    }
-
-    private function customersWithCompletedOrders()
-    {
-        if (isset($this->date_start) && isset($this->date_end)) {
-            return Customer::whereHas('orders', fn ($qry) => $qry->completedInDateRange($this->date_start, $this->date_end))
-                ->count();
-        }
-        return Customer::whereHas('orders', fn ($qry) => $qry->status('completed'))
-            ->count();
-    }
-
-    private function totalProductsHandedOut()
-    {
-        if (isset($this->date_start) && isset($this->date_end)) {
-            return Order::completedInDateRange($this->date_start, $this->date_end)
-                ->get()
-                ->map(fn ($order) => $order->numberOfProducts())
-                ->sum();
-        }
-        return Order::status('completed')
-            ->get()
-            ->map(fn ($order) => $order->numberOfProducts())
-            ->sum();
-    }
-
-    private function productsHandedOut()
-    {
-        if (isset($this->date_start) && isset($this->date_end)) {
-            return Product::whereHas('orders', fn ($qry) => $qry->completedInDateRange($this->date_start, $this->date_end))
-                ->get()
-                ->map(fn ($product) => [
-                    'name' => $product->name,
-                    'quantity' => $product->orders()->completedInDateRange($this->date_start, $this->date_end)->sum('quantity')
-                ])
-                ->sortByDesc('quantity');
-        }
-        return Product::whereHas('orders', fn ($qry) => $qry->status('completed'))
-            ->get();
     }
 
     public function getDateRangeTitleProperty()

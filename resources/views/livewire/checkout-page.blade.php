@@ -4,14 +4,14 @@
             @lang('Your order has been submitted and your order number is <strong>#:id</strong>.', ['id' => $order->id])<br>
             @lang('We will contact you via your phone <strong>:phone</strong> when the order is ready.', ['phone' => $order->customer->phone])
         </x-alert>
-        <p><a href="{{ route('order-lookup') }}" class="btn btn-primary">@lang('View your orders')</a></p>
+        <p><a href="{{ route('my-orders') }}" class="btn btn-primary">@lang('View your orders')</a></p>
         @inject('textRepo', 'App\Repository\TextBlockRepository')
         @if($textRepo->exists('post-checkout'))
             {!! $textRepo->getMarkdown('post-checkout') !!}
         @endif
     @elseif(isset($nextOrderIn))
         <x-alert type="info">@lang('You can place a new order in :time.', ['time' => $nextOrderIn])</x-alert>
-        <p><a href="{{ route('order-lookup') }}" class="btn btn-primary">@lang('View your orders')</a></p>
+        <p><a href="{{ route('my-orders') }}" class="btn btn-primary">@lang('View your orders')</a></p>
     @elseif ($basket->isNotEmpty())
         <form wire:submit.prevent="submit" autocomplete="off">
             <x-card :title="__('Your Order')">

@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Notification;
 use Livewire\Component;
 
-class OrderLookupPage extends Component
+class MyOrdersPage extends Component
 {
     public Customer $customer;
 
@@ -27,7 +27,7 @@ class OrderLookupPage extends Component
             ->orderBy('created_at', 'desc')
             ->get();
 
-        return view('livewire.order-lookup-page', [
+        return view('livewire.my-orders-page', [
                 'orders' => $orders,
             ])
             ->layout(null, ['title' => __('Find your order')]);

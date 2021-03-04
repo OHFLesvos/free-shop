@@ -4,6 +4,7 @@ use App\Facades\CurrentCustomer;
 use App\Http\Controllers\LanguageSelectController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\SocialLoginController;
+use App\Http\Livewire\AboutPage;
 use App\Http\Livewire\Backend\CustomerDetailPage;
 use App\Http\Livewire\Backend\CustomerListPage;
 use App\Http\Livewire\Backend\CustomerManagePage;
@@ -23,10 +24,9 @@ use App\Http\Livewire\Backend\UserProfilePage;
 use App\Http\Livewire\CheckoutPage;
 use App\Http\Livewire\CustomerAccountPage;
 use App\Http\Livewire\CustomerLoginPage;
-use App\Http\Livewire\OrderLookupPage;
+use App\Http\Livewire\MyOrdersPage;
 use App\Http\Livewire\ShopFrontPage;
 use App\Http\Livewire\WelcomePage;
-use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -46,6 +46,8 @@ Route::middleware(['geoblock.whitelist', 'set-language'])
             ->name('home');
         Route::view('privacy-policy', 'privacy-policy')
             ->name('privacy-policy');
+        Route::get('about', AboutPage::class)
+            ->name('about');
         Route::get('customer/login', CustomerLoginPage::class)
             ->name('customer.login');
         Route::middleware('auth-customer')
@@ -54,8 +56,9 @@ Route::middleware(['geoblock.whitelist', 'set-language'])
                     ->name('shop-front');
                 Route::get('checkout', CheckoutPage::class)
                     ->name('checkout');
-                Route::get('order-lookup', OrderLookupPage::class)
-                    ->name('order-lookup');
+                Route::get('my-orders', MyOrdersPage::class)
+                    ->name('my-orders');
+                Route::redirect('order-lookup', 'my-orders');
                 Route::get('customer/account', CustomerAccountPage::class)
                     ->name('customer.account');
                 Route::get('customer/logout', function () {
@@ -130,7 +133,3 @@ Route::middleware('auth')
                     ->name('user-profile');
             });
     });
-
-if (App::environment() == 'local') {
-    Route::get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index');
-}

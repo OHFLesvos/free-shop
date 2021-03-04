@@ -11,10 +11,15 @@ $items = [
     ],
     [
         'label' => __('Your orders'),
-        'route' => 'order-lookup',
+        'route' => 'my-orders',
         'icon' => 'list-alt',
         'badge' => $readyOrders > 0 ? $readyOrders : null,
     ],
+    [
+        'label' => __('About'),
+        'route' => 'about',
+        'icon' => 'info-circle',
+    ],    
 ];
 $rtl = in_array(app()->getLocale(), config('app.rtl_languages', []));
 @endphp

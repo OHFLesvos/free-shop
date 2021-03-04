@@ -7,6 +7,7 @@ use Dyrynda\Database\Support\NullableFields;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use OwenIt\Auditing\Contracts\Auditable;
 
@@ -16,6 +17,10 @@ class Order extends Model implements Auditable
     use NullableFields;
     use NumberCompareScope;
     use \OwenIt\Auditing\Auditable;
+
+    protected $casts = [
+        'completed_at' => 'datetime',
+    ];
 
     protected static function booted()
     {
@@ -64,11 +69,15 @@ class Order extends Model implements Auditable
         return in_array($this->status, ['new', 'ready']);
     }
 
-    public function scopeCompletedInDateRange(Builder $qry, string $start, string $end)
+    public function scopeCompletedInDateRange(Builder $qry, ?string $start, ?string $end)
     {
-        $qry->status('completed')
-            ->whereDate('completed_at', '>=', $start)
-            ->whereDate('completed_at', '<=', $end);
+        if (filled($start) && filled($end)) {
+            $qry->status('completed')
+                ->whereDate('completed_at', '>=', $start)
+                ->whereDate('completed_at', '<=', $end);
+        } else {
+            $qry->status('completed');
+        }
     }
 
     public function scopeOpen(Builder $qry)
@@ -87,7 +96,7 @@ class Order extends Model implements Auditable
     {
         $qry->where('id', is_numeric($filter) ? $filter : 0)
             ->orWhereHas('customer', function ($cqry) use ($filter) {
-                $cqry->where('name', 'LIKE', '%' . $filter . '%')
+                $cqry->where(DB::raw('LOWER(name)'), 'LIKE', '%' . strtolower($filter) . '%')
                     ->orWhere('id_number', 'LIKE', $filter . '%')
                     ->orWhere(fn ($inner) => $inner->whereNumberCompare('id_number', $filter))
                     ->orWhere('phone', 'LIKE', $filter . '%')
