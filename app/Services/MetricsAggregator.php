@@ -58,7 +58,7 @@ class MetricsAggregator
             ]
             : [
                 ['category', $sortDesc ? 'desc' : 'asc'],
-                ['order', $sortDesc ? 'desc' : 'asc'],
+                ['sequence', $sortDesc ? 'desc' : 'asc'],
                 ['name', $sortDesc ? 'desc' : 'asc'],
             ])
             ->values();
