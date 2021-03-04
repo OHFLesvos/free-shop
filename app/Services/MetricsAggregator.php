@@ -50,6 +50,7 @@ class MetricsAggregator
             ->map(fn ($product) => [
                 'name' => $product->name,
                 'category' => $product->category,
+                'sequence' => $product->sequence,
                 'quantity' => $product->orders()->completedInDateRange($this->date_start, $this->date_end)->sum('quantity')
             ])
             ->sortBy($sortByQuantity
