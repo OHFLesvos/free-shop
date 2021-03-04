@@ -49,9 +49,15 @@ class MetricsAggregator
             ->get()
             ->map(fn ($product) => [
                 'name' => $product->name,
+                'category' => $product->category,
                 'quantity' => $product->orders()->completedInDateRange($this->date_start, $this->date_end)->sum('quantity')
             ])
-            ->sortByDesc('quantity');
+            ->sortBy([
+                ['category', 'asc'],
+                ['order', 'asc'],
+                ['name', 'asc'],
+            ])
+            ->values();
     }
 
     public function averageOrderDuration()
