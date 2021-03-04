@@ -43,7 +43,7 @@ class MetricsAggregator
             ->sum();
     }
 
-    public function productsHandedOut()
+    public function productsHandedOut(bool $sortByQuantity = false, bool $sortDesc = false)
     {
         return Product::whereHas('orders', fn ($qry) => $qry->completedInDateRange($this->date_start, $this->date_end))
             ->get()
@@ -52,10 +52,14 @@ class MetricsAggregator
                 'category' => $product->category,
                 'quantity' => $product->orders()->completedInDateRange($this->date_start, $this->date_end)->sum('quantity')
             ])
-            ->sortBy([
-                ['category', 'asc'],
-                ['order', 'asc'],
-                ['name', 'asc'],
+            ->sortBy($sortByQuantity
+            ? [
+                ['quantity', $sortDesc ? 'desc' : 'asc'],
+            ]
+            : [
+                ['category', $sortDesc ? 'desc' : 'asc'],
+                ['order', $sortDesc ? 'desc' : 'asc'],
+                ['name', $sortDesc ? 'desc' : 'asc'],
             ])
             ->values();
     }

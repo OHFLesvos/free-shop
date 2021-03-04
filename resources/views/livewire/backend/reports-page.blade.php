@@ -45,8 +45,14 @@
         @if($productsHandedOut->isNotEmpty())
             <table class="table table-bordered bg-white shadow-sm">
                 <thead>
-                    <th>Product</th>
-                    <th class="fit text-end">Quantity</th>
+                    <th>
+                        Product
+                        <a href="#" wire:click="sortBy('product')"/><x-icon icon="sort"/></a>
+                    </th>
+                    <th class="fit text-end">
+                        Quantity
+                        <a href="#" wire:click="sortBy('quantity')"/><x-icon icon="sort"/></a>
+                    </th>
                     <th class="fit text-end">Percent</th>
                 </thead>
                 <tbody>

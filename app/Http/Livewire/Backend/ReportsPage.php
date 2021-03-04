@@ -9,6 +9,7 @@ use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 class ReportsPage extends BackendPage
 {
     use AuthorizesRequests;
+    use WithSorting;
 
     protected $title = 'Reports';
 
@@ -28,6 +29,13 @@ class ReportsPage extends BackendPage
 
     public $range = 'this_month';
 
+    public string $sortBy = 'product';
+    public string $sortDirection = 'asc';
+    protected $sortableFields = [
+        'product',
+        'quantity',
+    ];
+
     public function mount()
     {
         $this->authorize('view reports');
@@ -44,7 +52,7 @@ class ReportsPage extends BackendPage
             'ordersCompleted' => $aggregator->ordersCompleted(),
             'customersWithCompletedOrders' => $aggregator->customersWithCompletedOrders(),
             'totalProductsHandedOut' => $aggregator->totalProductsHandedOut(),
-            'productsHandedOut' => $aggregator->productsHandedOut(),
+            'productsHandedOut' => $aggregator->productsHandedOut($this->sortBy == 'quantity', $this->sortDirection == 'desc'),
             'averageOrderDuration' => $aggregator->averageOrderDuration(),
         ]);
     }
