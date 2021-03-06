@@ -15,11 +15,11 @@
         <thead>
             <th>
                 Product
-                <a href="#" wire:click="sortBy('product')"/><x-icon icon="sort"/></a>
+                <a href="#" wire:click="sortBy('product')"><x-icon icon="sort"/></a>
             </th>
             <th class="fit text-end">
                 Quantity
-                <a href="#" wire:click="sortBy('quantity')"/><x-icon icon="sort"/></a>
+                <a href="#" wire:click="sortBy('quantity')"><x-icon icon="sort"/></a>
             </th>
             <th class="fit text-end">Percent</th>
         </thead>
