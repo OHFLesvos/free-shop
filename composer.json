@@ -10,6 +10,7 @@
     "require": {
         "php": "^7.4|^8.0",
         "anlutro/l4-settings": "^1.0",
+        "carlos-meneses/laravel-mpdf": "^2.1",
         "doctrine/dbal": "^3.0",
         "donatj/phpuseragentparser": "^1.1",
         "dyrynda/laravel-nullable-fields": "^4.1",

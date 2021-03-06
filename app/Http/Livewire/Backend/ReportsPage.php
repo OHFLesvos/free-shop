@@ -5,6 +5,7 @@ namespace App\Http\Livewire\Backend;
 use App\Services\MetricsAggregator;
 use Carbon\Carbon;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use PDF;
 
 class ReportsPage extends BackendPage
 {
@@ -47,17 +48,7 @@ class ReportsPage extends BackendPage
 
     public function render()
     {
-        $aggregator = new MetricsAggregator($this->date_start, $this->date_end);
-
-        return parent::view('livewire.backend.reports-page', [
-            'customersRegistered' => $aggregator->customersRegistered(),
-            'ordersRegistered' => $aggregator->ordersRegistered(),
-            'ordersCompleted' => $aggregator->ordersCompleted(),
-            'customersWithCompletedOrders' => $aggregator->customersWithCompletedOrders(),
-            'totalProductsHandedOut' => $aggregator->totalProductsHandedOut(),
-            'productsHandedOut' => $aggregator->productsHandedOut($this->sortBy == 'quantity', $this->sortDirection == 'desc'),
-            'averageOrderDuration' => $aggregator->averageOrderDuration(),
-        ]);
+        return parent::view('livewire.backend.reports-page', $this->getData());
     }
 
     public function updatedDateStart($value)
@@ -113,5 +104,42 @@ class ReportsPage extends BackendPage
             return $date_start;
         }
         return 'All time';
+    }
+
+    private function getData()
+    {
+        $aggregator = new MetricsAggregator($this->date_start, $this->date_end);
+        return [
+            'customersRegistered' => $aggregator->customersRegistered(),
+            'ordersRegistered' => $aggregator->ordersRegistered(),
+            'ordersCompleted' => $aggregator->ordersCompleted(),
+            'customersWithCompletedOrders' => $aggregator->customersWithCompletedOrders(),
+            'totalProductsHandedOut' => $aggregator->totalProductsHandedOut(),
+            'productsHandedOut' => $aggregator->productsHandedOut($this->sortBy == 'quantity', $this->sortDirection == 'desc'),
+            'averageOrderDuration' => $aggregator->averageOrderDuration(),
+        ];
+    }
+
+    public function generatePdf()
+    {
+        $name = 'Report - ' . $this->ranges[$this->range] . ' ('. now()->toDateString() . ')';
+
+        $data = $this->getData();
+        $mergeData = [
+            'dateRangeTitle' => $this->dateRangeTitle,
+        ];
+        $config = [
+            'title' => $name,
+            'author' => config('app.name'),
+            'margin_left' => 20,
+            'margin_right' => 20,
+            'margin_top' => 20,
+            'margin_bottom' => 20,
+            'margin_header' => 10,
+            'margin_footer' => 10,
+        ];
+
+        $pdf = PDF::loadView('backend.pdf-report', $data, $mergeData, $config);
+        return response()->streamDownload(fn () => $pdf->stream(), $name . '.pdf');
     }
 }
