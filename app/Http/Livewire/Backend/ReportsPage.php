@@ -51,6 +51,7 @@ class ReportsPage extends BackendPage
 
         return parent::view('livewire.backend.reports-page', [
             'customersRegistered' => $aggregator->customersRegistered(),
+            'ordersRegistered' => $aggregator->ordersRegistered(),
             'ordersCompleted' => $aggregator->ordersCompleted(),
             'customersWithCompletedOrders' => $aggregator->customersWithCompletedOrders(),
             'totalProductsHandedOut' => $aggregator->totalProductsHandedOut(),

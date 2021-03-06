@@ -69,6 +69,14 @@ class Order extends Model implements Auditable
         return in_array($this->status, ['new', 'ready']);
     }
 
+    public function scopeRegisteredInDateRange(Builder $qry, ?string $start, ?string $end)
+    {
+        if (filled($start) && filled($end)) {
+            $qry->whereDate('created_at', '>=', $start)
+                ->whereDate('created_at', '<=', $end);
+        }
+    }
+
     public function scopeCompletedInDateRange(Builder $qry, ?string $start, ?string $end)
     {
         if (filled($start) && filled($end)) {

@@ -23,6 +23,12 @@ class MetricsAggregator
             ->count();
     }
 
+    public function ordersRegistered()
+    {
+        return Order::registeredInDateRange($this->date_start, $this->date_end)
+            ->count();
+    }
+
     public function ordersCompleted()
     {
         return Order::completedInDateRange($this->date_start, $this->date_end)
