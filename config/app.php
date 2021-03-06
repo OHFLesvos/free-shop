@@ -239,6 +239,7 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
         'CurrentCustomer' => App\Facades\CurrentCustomer::class,
+        'PDF' => Meneses\LaravelMpdf\Facades\LaravelMpdf::class
     ],
 
 ];

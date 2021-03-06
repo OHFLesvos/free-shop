@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "8600db1510d01d977ac4f96318311d4f",
+    "content-hash": "3d54100998a7f2f3d8aff8befb65f85f",
     "packages": [
         {
             "name": "anlutro/l4-settings",
@@ -271,6 +271,56 @@
                 }
             ],
             "time": "2021-01-20T22:51:39+00:00"
+        },
+        {
+            "name": "carlos-meneses/laravel-mpdf",
+            "version": "2.1.4",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/mccarlosen/laravel-mpdf.git",
+                "reference": "d4528c6f2b8f5bbdea8638c3963c57e240cfc422"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/mccarlosen/laravel-mpdf/zipball/d4528c6f2b8f5bbdea8638c3963c57e240cfc422",
+                "reference": "d4528c6f2b8f5bbdea8638c3963c57e240cfc422",
+                "shasum": ""
+            },
+            "require": {
+                "mpdf/mpdf": "^8.0",
+                "php": ">=7.0.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Meneses\\LaravelMpdf\\LaravelMpdfServiceProvider"
+                    ],
+                    "aliases": {
+                        "PDF": "Meneses\\LaravelMpdf\\Facades\\LaravelMpdf"
+                    }
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Meneses\\LaravelMpdf\\": "src/LaravelMpdf"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "Laravel Mpdf: Using Mpdf in Laravel 5 for generate Pdfs.",
+            "keywords": [
+                "laravel",
+                "mpdf",
+                "pdf"
+            ],
+            "support": {
+                "issues": "https://github.com/mccarlosen/laravel-mpdf/issues",
+                "source": "https://github.com/mccarlosen/laravel-mpdf/tree/2.1.4"
+            },
+            "time": "2021-02-05T10:35:35+00:00"
         },
         {
             "name": "clue/stream-filter",

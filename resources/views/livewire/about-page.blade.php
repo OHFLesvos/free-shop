@@ -1,4 +1,4 @@
-<div class="medium-container">
+<div class="small-container">
     @isset($content)
         {!! $content !!}
     @endisset
