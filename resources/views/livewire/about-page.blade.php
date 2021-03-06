@@ -1,9 +1,11 @@
-<div class="small-container">
+<div class="medium-container">
     @isset($content)
         {!! $content !!}
     @endisset
     <h2>@lang('Statistics')</h2>
+    <div class="row row-cols-1 row-cols-md-2 gx-4 gy-2">
     @foreach($stats as $key => $values)
+    <div class="col">
         <x-card :title="$key">
             @lang('In <strong>:month</strong> we completed <strong>:orders orders</strong> for <strong>:customers customers</strong> and handed out <strong>:products products</strong> in total.', [
                 'month' => $values['month_start']->isoFormat('MMMM YYYY'),
@@ -12,7 +14,7 @@
                 'products' => number_format($values['totalProductsHandedOut']),
             ])
             @if($values['totalProductsHandedOut'] > 0)
-                <br>@lang('<strong>:days days</strong> were needed on average to complete an order.', [
+                @lang('<strong>:days days</strong> were needed on average to complete an order.', [
                     'days' => round($values['averageOrderDuration'], 1),
                 ])
             @endif
@@ -37,5 +39,6 @@
                 </x-slot>
             @endif
         </x-card>
+    </div>
     @endforeach
 </div>
