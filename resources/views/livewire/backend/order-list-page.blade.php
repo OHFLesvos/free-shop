@@ -101,14 +101,14 @@
                 @endcan
                 <th class="fit text-end">
                     ID
-                    <a href="#" wire:click="sortBy('id')"/><x-icon icon="sort"/></a>
+                    <a href="#" wire:click="sortBy('id')"><x-icon icon="sort"/></a>
                 </th>
                 <th class="fit">Status</th>
                 <th>Customer</th>
                 <th>Products</th>
                 <th class="fit">
                     Registered
-                    <a href="#" wire:click="sortBy('created_at')"/><x-icon icon="sort"/></a>
+                    <a href="#" wire:click="sortBy('created_at')"><x-icon icon="sort"/></a>
                 </th>
             </thead>
             <tbody>

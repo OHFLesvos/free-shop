@@ -30,7 +30,7 @@
             <thead>
                 <th>
                     Name
-                    <a href="#" wire:click="sortBy('name')"/><x-icon icon="sort"/></a>
+                    <a href="#" wire:click="sortBy('name')"><x-icon icon="sort"/></a>
                 </th>
                 <th>ID Number</th>
                 <th>Phone</th>
@@ -38,7 +38,7 @@
                 <th class="text-end">Credit</th>
                 <th class="fit">
                     Registered
-                    <a href="#" wire:click="sortBy('created_at')"/><x-icon icon="sort"/></a>
+                    <a href="#" wire:click="sortBy('created_at')"><x-icon icon="sort"/></a>
                 </th>
             </thead>
             <tbody>
