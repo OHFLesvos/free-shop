@@ -49,7 +49,7 @@ class OrderReadyed extends Notification
             'customer_id' => $notifiable->id_number,
             'id' => $this->order->id,
         ]);
-        $message .= "\n" . __('More information: ');
+        $message .= "\n";
         $message .= route('my-orders');
         return $message;
     }

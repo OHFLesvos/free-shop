@@ -72,7 +72,7 @@ class OrderCancelled extends Notification
     private function twilioMessage($notifiable): string
     {
         if ($notifiable instanceof User) {
-            return sprintf("Hello %s, the order with ID #%d has been cancelled by customer %s.\nMore information: %s",
+            return sprintf("Hello %s, the order with ID #%d has been cancelled by customer %s.\n%s",
                 $notifiable->name,
                 $this->order->id,
                 $this->order->customer->name,
@@ -84,7 +84,7 @@ class OrderCancelled extends Notification
                 'customer_id' => $notifiable->id_number,
                 'id' => $this->order->id,
             ]);
-            $message .= "\n" . __('More information: ');
+            $message .= "\n";
             $message .= route('my-orders');
             return $message;
         }

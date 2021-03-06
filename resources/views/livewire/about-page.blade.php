@@ -22,7 +22,7 @@
                         <thead>
                             <th>@lang('Product')</th>
                             <th class="fit text-end">@lang('Quantity')</th>
-                        </thead>                        
+                        </thead>
                         <tbody>
                             @foreach($values['productsHandedOut'] as $product)
                                 <tr>
@@ -35,7 +35,7 @@
                         </tbody>
                     </table>
                 </x-slot>
-            @endif            
+            @endif
         </x-card>
     @endforeach
 </div>
