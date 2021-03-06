@@ -19,6 +19,8 @@ class ReportsPage extends BackendPage
     public array $ranges = [
         'today' => 'Today',
         'yesterday' => 'Yesterday',
+        'this_week' => 'This week',
+        'last_week' => 'Last week',
         'this_month' => 'This month',
         'last_month' => 'Last month',
         'this_year' => 'This year',
@@ -75,6 +77,12 @@ class ReportsPage extends BackendPage
         } else if ($value == 'yesterday') {
             $this->date_start = now()->subDay()->toDateString();
             $this->date_end = now()->subDay()->toDateString();
+        } else if ($value == 'this_week') {
+            $this->date_start = now()->startOfWeek()->toDateString();
+            $this->date_end = now()->toDateString();
+        } else if ($value == 'last_week') {
+            $this->date_start = now()->subWeek()->startOfWeek()->toDateString();
+            $this->date_end = now()->subWeek()->endOfWeek()->toDateString();
         } else if ($value == 'this_month') {
             $this->date_start = now()->startOfMonth()->toDateString();
             $this->date_end = now()->toDateString();
