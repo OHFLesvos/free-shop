@@ -15,7 +15,7 @@ class ShopFrontPage extends Component
 {
     public Collection $products;
     public Collection $categories;
-    public Customer $customer;
+    public ?Customer $customer = null;
     public bool $shopDisabled;
     public bool $maxOrdersReached = false;
 
@@ -50,11 +50,9 @@ class ShopFrontPage extends Component
 
     public function render(ShoppingBasket $basket)
     {
-
-
         return view('livewire.shop-front-page', [
                 'basket' => $basket->items(),
-                'nextOrderIn' => $this->customer->getNextOrderIn(),
+                'nextOrderIn' => optional($this->customer)->getNextOrderIn(),
             ])
             ->layout(null, ['title' => __('Choose your items')]);
     }

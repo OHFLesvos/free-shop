@@ -50,10 +50,10 @@ Route::middleware(['geoblock.whitelist', 'set-language'])
             ->name('about');
         Route::get('customer/login', CustomerLoginPage::class)
             ->name('customer.login');
+        Route::get('shop', ShopFrontPage::class)
+            ->name('shop-front');
         Route::middleware('auth-customer')
             ->group(function () {
-                Route::get('shop', ShopFrontPage::class)
-                    ->name('shop-front');
                 Route::get('checkout', CheckoutPage::class)
                     ->name('checkout');
                 Route::get('my-orders', MyOrdersPage::class)
