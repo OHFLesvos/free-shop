@@ -4,8 +4,8 @@ namespace App\Http\Livewire;
 
 use App\Models\Customer;
 use App\Services\CurrentCustomer;
+use libphonenumber\NumberParseException;
 use Livewire\Component;
-use Propaganistas\LaravelPhone\Exceptions\NumberParseException;
 use Propaganistas\LaravelPhone\PhoneNumber;
 
 class CustomerAccountPage extends Component
@@ -15,6 +15,8 @@ class CustomerAccountPage extends Component
     public string $customer_id_number = '';
     public string $customer_phone = '';
     public string $customer_phone_country;
+
+    public bool $shouldDelete = false;
 
     protected function rules() {
         return [
@@ -66,5 +68,19 @@ class CustomerAccountPage extends Component
         $this->customer->save();
 
         session()->flash('submitMessage', __('Customer profile saved.'));
+    }
+
+    public function getCanDeleteProperty(): bool
+    {
+        return !$this->customer->orders()->exists();
+    }
+
+    public function delete()
+    {
+        if ($this->canDelete) {
+            $this->customer->delete();
+
+            return redirect(route('home'));
+        }
     }
 }

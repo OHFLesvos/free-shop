@@ -4,7 +4,7 @@ namespace App\Http\Livewire\Backend;
 
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
-use Propaganistas\LaravelPhone\Exceptions\NumberParseException;
+use libphonenumber\NumberParseException;
 use Propaganistas\LaravelPhone\PhoneNumber;
 
 class UserProfilePage extends BackendPage
