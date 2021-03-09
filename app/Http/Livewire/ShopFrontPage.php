@@ -18,10 +18,12 @@ class ShopFrontPage extends Component
     public ?Customer $customer = null;
     public bool $shopDisabled;
     public bool $maxOrdersReached = false;
+    public bool $useCategories = false;
 
     public function mount(CurrentCustomer $currentCustomer)
     {
         $this->shopDisabled = setting()->has('shop.disabled');
+        $this->useCategories = setting()->has('shop.group_products_by_categories');
 
         if (setting()->has('shop.max_orders_per_day') && setting()->get('shop.max_orders_per_day') > 0) {
             $currentOrderCount = Order::whereDate('created_at', today())

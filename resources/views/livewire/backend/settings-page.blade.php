@@ -74,6 +74,15 @@
                             wire:model.defer="shopDisabled">
                         <label class="form-check-label" for="shopDisabledInput">Disable shop</label>
                     </div>
+                    <div class="form-check form-switch mb-3">
+                        <input
+                            type="checkbox"
+                            class="form-check-input"
+                            id="groupProductsByCategoriesInput"
+                            value="1"
+                            wire:model.defer="groupProductsByCategories">
+                        <label class="form-check-label" for="groupProductsByCategoriesInput">Group products by categories</label>
+                    </div>
                 </div>
                 <div class="col-sm">
                     <div>

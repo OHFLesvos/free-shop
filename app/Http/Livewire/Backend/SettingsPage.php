@@ -21,6 +21,7 @@ class SettingsPage extends BackendPage
     public string $timezone;
     public $customerStartingCredit;
     public bool $shopDisabled;
+    public bool $groupProductsByCategories;
     public $shopMaxOrdersPerDay;
     public $customerIdNumberPattern;
     public $customerIdNumberExample;
@@ -39,6 +40,9 @@ class SettingsPage extends BackendPage
     protected function rules() {
         return [
             'shopDisabled' => [
+                'boolean',
+            ],
+            'groupProductsByCategories' => [
                 'boolean',
             ],
             'orderDefaultPhoneCountry' => [
@@ -90,6 +94,7 @@ class SettingsPage extends BackendPage
         $this->authorize('update settings');
 
         $this->shopDisabled = setting()->has('shop.disabled');
+        $this->groupProductsByCategories = setting()->has('shop.group_products_by_categories');
         $this->geoblockWhitelist = collect(setting()->get('geoblock.whitelist', []));
         $this->orderDefaultPhoneCountry = setting()->get('order.default_phone_country', '');
         $this->timezone = setting()->get('timezone', '');
@@ -137,6 +142,11 @@ class SettingsPage extends BackendPage
             setting()->set('shop.disabled', true);
         } else {
             setting()->forget('shop.disabled');
+        }
+        if ($this->groupProductsByCategories) {
+            setting()->set('shop.group_products_by_categories', true);
+        } else {
+            setting()->forget('shop.group_products_by_categories');
         }
 
         if ($this->geoblockWhitelist->isNotEmpty()) {
