@@ -12,19 +12,19 @@
             @isset($nextOrderIn)
                 <x-alert type="info">@lang('You can place a new order in :time.', ['time' => $nextOrderIn])</x-alert>
             @endisset
-            @if($products->isNotEmpty() && isset($customer))
-                <p>@lang('Please place an order from our selection of items:')</p>
-            @endif
             @if($products->isNotEmpty())
                 <div class="row">
                     <div class="col-md">
-                        @foreach($categories as $category)
+                        @if($products->isNotEmpty())
+                            <p>@lang('Please place an order from our selection of items:')</p>
+                        @endif
+                        {{-- @foreach($categories as $category)
                             @if($products->where('category', $category)->isNotEmpty())
-                                <h3 class="mb-3">{{ $category }}</h3>
+                                <h3 class="mb-3">{{ $category }}</h3> --}}
                                 <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 row-cols-xxl-4">
-                                    @foreach($products->where('category', $category) as $product)
+                                    @foreach($products as $product)
                                         <div class="col mb-4">
-                                            <div class="card shadow-sm">
+                                            <div class="card h-100 shadow-sm">
                                                 @isset($product->pictureUrl)
                                                     <img
                                                         src="{{ url($product->pictureUrl) }}"
@@ -32,7 +32,10 @@
                                                         alt="Product name">
                                                 @endisset
                                                 <div class="card-body">
-                                                    <h5 class="card-title">{{ $product->name }}</h5>
+                                                    <h5 class="card-title">
+                                                        {{ $product->name }}
+                                                    </h5>
+                                                    <p class="card-text mb-2"><span class="badge bg-secondary">{{ $product->category }}</span></p>
                                                     <p class="card-text">{{ $product->description }}</p>
                                                 </div>
                                                 <div class="card-footer d-flex justify-content-between align-items-center">
@@ -70,8 +73,8 @@
                                         </div>
                                     @endforeach
                                 </div>
-                            @endif
-                        @endforeach
+                            {{-- @endif
+                        @endforeach --}}
                     </div>
                     <div class="col-md-4">
                         @unless(isset($nextOrderIn))

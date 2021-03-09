@@ -36,6 +36,7 @@ class ShopFrontPage extends Component
 
         $this->products = Product::query()
             ->available()
+            ->orderBy('category->' . App::getLocale())
             ->orderBy('sequence')
             ->orderBy('name->' . App::getLocale())
             ->get()
