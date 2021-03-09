@@ -118,7 +118,7 @@ class CustomerLoginPage extends Component
             }
 
             CurrentCustomer::set($this->customer);
-            return redirect()->route('shop-front');
+            return redirect()->route('shop-front'); // TODO redirect to requested page
 
         }
     }
