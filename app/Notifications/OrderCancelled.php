@@ -37,9 +37,6 @@ class OrderCancelled extends Notification
             if ($notifiable->notify_via_email) {
                 $channels[] = 'mail';
             }
-            if ($notifiable->notify_via_phone && $notifiable->phone !== null) {
-                $channels[] = TwilioChannel::class;
-            }
             return $channels;
         }
         if ($notifiable instanceof Customer) {
@@ -69,24 +66,15 @@ class OrderCancelled extends Notification
             ->content($this->twilioMessage($notifiable));
     }
 
-    private function twilioMessage($notifiable): string
+    private function twilioMessage(Customer $notifiable): string
     {
-        if ($notifiable instanceof User) {
-            return sprintf("Hello %s, the order with ID #%d has been cancelled by customer %s.\n%s",
-                $notifiable->name,
-                $this->order->id,
-                $this->order->customer->name,
-                route('backend.orders.show', $this->order));
-        }
-        if ($notifiable instanceof Customer) {
-            $message = __($this->overrideMessage ?? $this->textRepo->getPlain('message-order-cancelled'), [
-                'customer_name' => $notifiable->name,
-                'customer_id' => $notifiable->id_number,
-                'id' => $this->order->id,
-            ]);
-            $message .= "\n";
-            $message .= route('my-orders');
-            return $message;
-        }
+        $message = __($this->overrideMessage ?? $this->textRepo->getPlain('message-order-cancelled'), [
+            'customer_name' => $notifiable->name,
+            'customer_id' => $notifiable->id_number,
+            'id' => $this->order->id,
+        ]);
+        $message .= "\n";
+        $message .= route('my-orders');
+        return $message;
     }
 }

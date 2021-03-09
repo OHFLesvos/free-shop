@@ -35,9 +35,6 @@ class OrderRegistered extends Notification
             if ($notifiable->notify_via_email) {
                 $channels[] = 'mail';
             }
-            if ($notifiable->notify_via_phone && $notifiable->phone !== null) {
-                $channels[] = TwilioChannel::class;
-            }
             return $channels;
         }
         if ($notifiable instanceof Customer) {
@@ -67,24 +64,15 @@ class OrderRegistered extends Notification
             ->content($this->twilioMessage($notifiable));
     }
 
-    private function twilioMessage($notifiable): string
+    private function twilioMessage(Customer $notifiable): string
     {
-        if ($notifiable instanceof User) {
-            return sprintf("Hello %s, we have received a new order with ID #%s from customer %s.\n%s",
-                $notifiable->name,
-                $this->order->id,
-                $this->order->customer->name,
-                route('backend.orders.show', $this->order));
-        }
-        if ($notifiable instanceof Customer) {
-            $message = __($this->textRepo->getPlain('message-order-registered'), [
-                'customer_name' => $notifiable->name,
-                'customer_id' => $notifiable->id_number,
-                'id' => $this->order->id,
-            ]);
-            $message .= "\n";
-            $message .= route('my-orders');
-            return $message;
-        }
+        $message = __($this->textRepo->getPlain('message-order-registered'), [
+            'customer_name' => $notifiable->name,
+            'customer_id' => $notifiable->id_number,
+            'id' => $this->order->id,
+        ]);
+        $message .= "\n";
+        $message .= route('my-orders');
+        return $message;
     }
 }

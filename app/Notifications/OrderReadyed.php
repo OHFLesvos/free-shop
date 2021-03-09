@@ -42,7 +42,7 @@ class OrderReadyed extends Notification
             ->content($this->twilioMessage($notifiable));
     }
 
-    private function twilioMessage($notifiable): string
+    private function twilioMessage(Customer $notifiable): string
     {
         $message = __($this->overrideMessage ?? $this->textRepo->getPlain('message-order-ready'), [
             'customer_name' => $notifiable->name,
