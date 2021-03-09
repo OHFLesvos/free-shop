@@ -24,15 +24,7 @@ class ShopFrontPage extends Component
     {
         $this->shopDisabled = setting()->has('shop.disabled');
         $this->useCategories = setting()->has('shop.group_products_by_categories');
-
-        if (setting()->has('shop.max_orders_per_day') && setting()->get('shop.max_orders_per_day') > 0) {
-            $currentOrderCount = Order::whereDate('created_at', today())
-                ->where('status', '!=', 'cancelled')
-                ->count();
-            if (setting()->get('shop.max_orders_per_day') <= $currentOrderCount) {
-                $this->maxOrdersReached = true;
-            }
-        }
+        $this->maxOrdersReached = $this->areMaxOrdersReached();
 
         $this->customer = $currentCustomer->get();
 
@@ -44,11 +36,26 @@ class ShopFrontPage extends Component
             ->get()
             ->filter(fn ($product) => $product->quantity_available_for_customer > 0);
 
-        $this->categories = $this->products->values()
-            ->sortBy('category')
-            ->pluck('category')
-            ->unique()
-            ->values();
+        if ($this->useCategories) {
+            $this->categories = $this->products->values()
+                ->sortBy('category')
+                ->pluck('category')
+                ->unique()
+                ->values();
+        }
+    }
+
+    private function areMaxOrdersReached(): bool
+    {
+        if (setting()->has('shop.max_orders_per_day') && setting()->get('shop.max_orders_per_day') > 0) {
+            $currentOrderCount = Order::whereDate('created_at', today())
+                ->where('status', '!=', 'cancelled')
+                ->count();
+            if (setting()->get('shop.max_orders_per_day') <= $currentOrderCount) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public function render(ShoppingBasket $basket)
