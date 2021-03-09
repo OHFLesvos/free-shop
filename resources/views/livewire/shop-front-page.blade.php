@@ -35,7 +35,9 @@
                                                     <h5 class="card-title">
                                                         {{ $product->name }}
                                                     </h5>
-                                                    <p class="card-text mb-2"><span class="badge bg-secondary">{{ $product->category }}</span></p>
+                                                    <p class="card-text">
+                                                        <span class="badge bg-secondary">{{ $product->category }}</span>
+                                                    </p>
                                                     @if(filled($product->description))
                                                         <p class="card-text">{{ $product->description }}</p>
                                                     @endif
