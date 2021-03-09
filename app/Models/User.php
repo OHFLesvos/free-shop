@@ -49,7 +49,6 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
         'last_login_at' => 'datetime',
-        'notify_via_email' => 'boolean',
     ];
 
     protected $nullable = [
@@ -65,11 +64,6 @@ class User extends Authenticatable
         'created' => UserCreated::class,
         'deleted' => UserDeleted::class,
     ];
-
-    public function scopeNotifiable(Builder $query)
-    {
-        $query->where('notify_via_email', true);
-    }
 
     public function scopeFilter(Builder $qry, string $filter)
     {

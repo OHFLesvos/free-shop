@@ -4,12 +4,10 @@ namespace App\Notifications;
 
 use App\Models\Customer;
 use App\Models\Order;
-use App\Models\User;
 use App\Repository\TextBlockRepository;
-use Illuminate\Notifications\Messages\MailMessage;
+use Illuminate\Notifications\Notification;
 use NotificationChannels\Twilio\TwilioChannel;
 use NotificationChannels\Twilio\TwilioSmsMessage;
-use Illuminate\Notifications\Notification;
 
 class OrderCancelled extends Notification
 {
@@ -32,32 +30,10 @@ class OrderCancelled extends Notification
      */
     public function via($notifiable)
     {
-        if ($notifiable instanceof User) {
-            $channels = [];
-            if ($notifiable->notify_via_email) {
-                $channels[] = 'mail';
-            }
-            return $channels;
-        }
         if ($notifiable instanceof Customer) {
             return [TwilioChannel::class];
         }
         return [];
-    }
-
-    /**
-     * Get the mail representation of the notification.
-     *
-     * @param  mixed  $notifiable
-     * @return \Illuminate\Notifications\Messages\MailMessage
-     */
-    public function toMail($notifiable)
-    {
-        return (new MailMessage)
-            ->subject('Order #' . $this->order->id . ' cancelled by customer')
-            ->markdown('mail.order.cancelled_by_customer', [
-                'order' => $this->order,
-            ]);
     }
 
     public function toTwilio($notifiable)

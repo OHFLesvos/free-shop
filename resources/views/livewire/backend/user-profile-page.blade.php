@@ -94,17 +94,6 @@
                         </div>
                     </div>
 
-                    <h5>Notifications</h5>
-                    <div class="form-check form-switch mb-4">
-                        <input
-                            type="checkbox"
-                            class="form-check-input"
-                            id="notifyViaEmailInput"
-                            value="1"
-                            wire:model.defer="user.notify_via_email">
-                        <label class="form-check-label" for="notifyViaEmailInput">Receive notifications via e-mail</label>
-                    </div>
-
                     <x-submit-button>Save</x-submit-button>
                 </form>
             </div>

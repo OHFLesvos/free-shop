@@ -16,7 +16,6 @@ class UserProfilePage extends BackendPage
             'nullable',
             'timezone',
         ],
-        'user.notify_via_email' => 'boolean',
     ];
 
     public function mount()

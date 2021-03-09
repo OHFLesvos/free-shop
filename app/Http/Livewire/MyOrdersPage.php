@@ -3,11 +3,7 @@
 namespace App\Http\Livewire;
 
 use App\Models\Customer;
-use App\Models\User;
-use App\Notifications\OrderCancelled;
 use App\Services\CurrentCustomer;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Notification;
 use Livewire\Component;
 
 class MyOrdersPage extends Component
@@ -39,12 +35,6 @@ class MyOrdersPage extends Component
         if ($order != null) {
             $order->status = 'cancelled';
             $order->save();
-
-            try {
-                Notification::send(User::notifiable()->get(), new OrderCancelled($order));
-            } catch (\Exception $ex) {
-                Log::warning('[' . get_class($ex) . '] Cannot send notification: ' . $ex->getMessage());
-            }
         }
     }
 }
