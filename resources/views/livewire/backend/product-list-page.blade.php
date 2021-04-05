@@ -29,9 +29,8 @@
                 <th>Name</th>
                 <th>Category</th>
                 <th>Description</th>
-                <th class="text-end">Stock<br><small>(Free/Reserved)</small></th>
-                <th class="text-end">Limit</th>
                 <th class="text-end">Price</th>
+                <th class="text-end">Limit/Order</th>
             </thead>
             <tbody>
                 @forelse($products as $product)
@@ -50,12 +49,8 @@
                         <td>{{ $product->name }}</td>
                         <td>{{ $product->category }}</td>
                         <td>{{ $product->description }}</td>
-                        <td class="text-end">
-                            {{ $product->stock }}<br>
-                            <small>{{ $product->free_quantity }} / {{ $product->reserved_quantity }}</small>
-                        </td>
-                        <td class="text-end">{{ $product->limit_per_order }}</td>
                         <td class="text-end">{{ $product->price }}</td>
+                        <td class="text-end">{{ $product->limit_per_order }}</td>
                     </tr>
                 @empty
                     <tr>
