@@ -40,9 +40,11 @@ class StockPage extends BackendPage
 
     public function startEdit($id, $quantity)
     {
-        $this->productId = $id;
-        $this->quantity = $quantity;
-        $this->emit('startEdit');
+        if ($this->productId != $id) {
+            $this->productId = $id;
+            $this->quantity = $quantity;
+            $this->emit('startEdit');
+        }
     }
 
     public function cancelEdit()
@@ -54,9 +56,15 @@ class StockPage extends BackendPage
     {
         $this->validate();
 
-        Product::where('id', $this->productId )->update([
-            'stock' => $this->quantity,
-        ]);
+        $product = Product::find($this->productId);
+        if (isset($product)) {
+            $product->stock = $this->quantity;
+            if ($product->isDirty()) {
+                $product->save();
+                $this->emit('finishEdit', "Stock of '$product->name' set to $product->stock.");
+            }
+        }
+
         $this->reset(['productId', 'quantity']);
     }
 }

@@ -7,9 +7,9 @@
         <table class="table table-bordered bg-white shadow-sm @can('manage text blocks') table-hover @endcan">
             <thead>
                 <th>Name</th>
-                <th class="text-end">Stock</th>
-                <th class="text-end">Free</th>
-                <th class="text-end">Reserved</th>
+                <th class="text-end fit">Stock</th>
+                <th class="text-end fit">Free</th>
+                <th class="text-end fit">Reserved</th>
             </thead>
             <tbody>
                 @forelse($products as $product)
@@ -18,8 +18,8 @@
                             {{ $product->name }}
                             <br><small class="text-muted">{{ $product->category }}</small>
                         </td>
-                        <td class="align-middle text-end @unless($productId == $product->id) cursor-pointer @endunless"
-                            @unless($productId == $product->id) wire:click="startEdit({{ $product->id }},{{ $product->stock }})" @endunless
+                        <td class="align-middle fit text-end @unless($productId == $product->id) cursor-pointer @endunless" 
+                            wire:click="startEdit({{ $product->id }},{{ $product->stock }})"
                         >
                             @if($productId == $product->id)
                                 <input
@@ -33,15 +33,16 @@
                                 wire:model.defer="quantity"
                                 wire:keydown.escape="cancelEdit"
                                 wire:keydown.enter="submitEdit"
-                                wire:loading.attr="disabled">
+                                wire:loading.attr="disabled"
+                                >
                                 @error('quantity') <div class="invalid-feedback">{{ $message }}</div> @enderror
                             @else
                                 <x-spinner wire:loading wire:target="startEdit({{ $product->id }},{{ $product->stock }})"/>
-                                <span wire:loading.remove wire:target="startEdit({{ $product->id }},{{ $product->stock }})">{{ $product->stock }}</span>
+                                {{ $product->stock }}
                             @endif
                         </td>
-                        <td class="text-end align-middle">{{ $product->free_quantity }}</td>
-                        <td class="text-end align-middle">{{ $product->reserved_quantity }}</td>
+                        <td class="text-end fit align-middle">{{ $product->free_quantity }}</td>
+                        <td class="text-end fit align-middle">{{ $product->reserved_quantity }}</td>
                     </tr>
                 @empty
                     <tr>
@@ -59,6 +60,9 @@
 <script>
     Livewire.on('startEdit', () => {
         document.getElementById('quantityInput').focus();
+    })
+    Livewire.on('finishEdit', (message) => {
+        showSnackbar(message);
     })
 </script>
 @endpush
