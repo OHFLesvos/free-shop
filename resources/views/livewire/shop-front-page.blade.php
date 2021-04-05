@@ -1,4 +1,9 @@
+@inject('textRepo', 'App\Repository\TextBlockRepository')
+
 <div>
+    @if($textRepo->exists('welcome'))
+        {!! $textRepo->getMarkdown('welcome') !!}
+    @endif
     @unless($shopDisabled)
         @unless($maxOrdersReached)
             @isset($nextOrderIn)
@@ -12,9 +17,6 @@
                         @endunless
                     </div>
                     <div class="col-md order-md-1">
-                        @if($products->isNotEmpty())
-                            <p>@lang('Please place an order from our selection of items:')</p>
-                        @endif
                         @if($useCategories)
                             @foreach($categories as $category)
                                 @if($products->where('category', $category)->isNotEmpty())

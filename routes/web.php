@@ -26,7 +26,6 @@ use App\Http\Livewire\CustomerAccountPage;
 use App\Http\Livewire\CustomerLoginPage;
 use App\Http\Livewire\MyOrdersPage;
 use App\Http\Livewire\ShopFrontPage;
-use App\Http\Livewire\WelcomePage;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -42,7 +41,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware(['geoblock.whitelist', 'set-language'])
     ->group(function () {
-        Route::get('/', WelcomePage::class)
+        Route::redirect('/', 'shop')
             ->name('home');
         Route::view('privacy-policy', 'privacy-policy')
             ->name('privacy-policy');

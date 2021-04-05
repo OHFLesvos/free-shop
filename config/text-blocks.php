@@ -3,7 +3,7 @@
 return [
     'welcome' => [
         'type' => 'markdown',
-        'purpose' => 'Text displayed on the shop welcome page',
+        'purpose' => 'Text displayed on the top of the shop front page',
     ],
     'about' => [
         'type' => 'markdown',
