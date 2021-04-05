@@ -81,10 +81,8 @@
     "Price: :amount": "Prix: :amount",
     "Maximum": "Maximum",
     "Add": "Ajouter",
-    "Please place an order from our selection of items:": "Veuillez passer une commande parmi notre sélection d'articles :",
     "There are no products available at the moment.": "Il n'y a pas de produits disponibles actuellement.",
     "It is not possible to order something now because the maximum orders per day have been exceeded. Please visit us again another day.": "Il n'est pas possible de commander quelque chose maintenant parce que les commandes maximales par jour ont été dépassées. Veuillez nous rendre visite un autre jour.",
     "The shop is currently not available.": "La boutique n'est pas disponible actuellement.",
-    "Go to the shop": "Aller à la boutique",
     "This content is currently not available.": "Ce contenu n'est pas disponible actuellement."
 }

@@ -81,10 +81,8 @@
     "Price: :amount": "السعر: :amount",
     "Maximum": "الحد الأقصى",
     "Add": "إضافة",
-    "Please place an order from our selection of items:": "يرجى إختيار طلب من المنتجات المدرجة لدينا",
     "There are no products available at the moment.": "لا يوجد منتجات متوفرة حاليا",
     "It is not possible to order something now because the maximum orders per day have been exceeded. Please visit us again another day.": "لا يمكن طلب المزيد لأنك تجاوزت الحد الأقصى للطلب اليومي .. يرجى زيارتنا لاحقا",
     "The shop is currently not available.": "المتجر غير متاح حاليا",
-    "Go to the shop": "الذهاب إلى المتجر",
     "This content is currently not available.": "This content is currently not available."
 }
