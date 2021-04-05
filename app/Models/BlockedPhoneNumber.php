@@ -10,4 +10,9 @@ class BlockedPhoneNumber extends Model implements Auditable
 {
     use HasFactory;
     use \OwenIt\Auditing\Auditable;
+
+    protected $fillable = [
+        'phone',
+        'reason',
+    ];
 }

@@ -3,6 +3,7 @@
 namespace App\Http\Livewire\Backend;
 
 use App\Http\Livewire\CurrentRouteName;
+use App\Http\Livewire\TrimEmptyStrings;
 use App\Models\BlockedPhoneNumber;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Livewire\WithPagination;
@@ -13,10 +14,25 @@ class BlockedPhoneNumbersPage extends BackendPage
     use WithPagination;
     use AuthorizesRequests;
     use CurrentRouteName;
+    use TrimEmptyStrings;
 
     protected $paginationTheme = 'bootstrap';
 
     public $shouldDelete = null;
+
+    public $phone = '';
+    public $reason = '';
+
+    protected $rules = [
+        'phone' => [
+            'required',
+            'phone:AUTO,mobile',
+            'unique:blocked_phone_numbers,phone',
+        ],
+        'reason' => [
+            'required',
+        ],
+    ];
 
     public function mount()
     {
@@ -34,6 +50,22 @@ class BlockedPhoneNumbersPage extends BackendPage
         ]);
     }
 
+    public function submit()
+    {
+        $this->authorize('create', BlockedPhoneNumber::class);
+
+        $this->validate();
+        
+        $entry = BlockedPhoneNumber::create([
+            'phone' => $this->phone,
+            'reason' => $this->reason,
+        ]);
+
+        $this->reset(['phone', 'reason']);
+
+        session()->flash('message', "Phone number $entry->phone added.");
+    }
+
     public function delete()
     {
         if (isset($this->shouldDelete)) {
@@ -42,7 +74,7 @@ class BlockedPhoneNumbersPage extends BackendPage
                 $this->authorize('delete', $entry);
 
                 $entry->delete();
-        
+
                 session()->flash('message', "Phone number $entry->phone removed.");
             }
             $this->shouldDelete = null;

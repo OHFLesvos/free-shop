@@ -22,7 +22,7 @@ class CreateBlockedPhoneNumbersTable extends Migration
     {
         Schema::create('blocked_phone_numbers', function (Blueprint $table) {
             $table->id();
-            $table->string('phone');
+            $table->string('phone')->unique();
             $table->text('reason');
             $table->timestamps();
         });
