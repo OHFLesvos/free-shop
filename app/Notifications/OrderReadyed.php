@@ -5,12 +5,15 @@ namespace App\Notifications;
 use App\Models\Customer;
 use App\Models\Order;
 use App\Repository\TextBlockRepository;
+use App\Support\CheckBlockedPhoneNumber;
 use Illuminate\Notifications\Notification;
 use NotificationChannels\Twilio\TwilioChannel;
 use NotificationChannels\Twilio\TwilioSmsMessage;
 
 class OrderReadyed extends Notification
 {
+    use CheckBlockedPhoneNumber;
+    
     private Order $order;
     private ?string $overrideMessage;
     private TextBlockRepository $textRepo;
@@ -31,6 +34,7 @@ class OrderReadyed extends Notification
     public function via($notifiable)
     {
         if ($notifiable instanceof Customer) {
+            $this->checkBlockedPhoneNumber($notifiable->phone);
             return [TwilioChannel::class];
         }
         return [];

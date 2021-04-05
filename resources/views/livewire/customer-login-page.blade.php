@@ -103,6 +103,9 @@
                     @if(session()->has('otpDelay'))
                         <x-alert type="warning">{{ session()->get('otpDelay') }}</x-alert>
                     @endif
+                    @if(session()->has('error'))
+                        <x-alert type="danger">{{ session()->get('error') }}</x-alert>
+                    @endif                    
                     @if($state == 'ask_for_tfa')
                         @if(session()->has('otpDelay'))
                             @lang("Please check the code we've sent to <strong>:phone</strong>", ['phone' => maskString($customer->phone, 6, 2)])

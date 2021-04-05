@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire;
 
+use App\Exceptions\PhoneNumberBlockedByAdminException;
 use App\Models\Customer;
 use App\Models\Order;
 use App\Notifications\OrderRegistered;
@@ -62,6 +63,8 @@ class CheckoutPage extends Component
 
         try {
             $this->customer->notify(new OrderRegistered($order));
+        } catch (PhoneNumberBlockedByAdminException $ex) {
+            session()->flash('error', __('The phone number :phone has been blocked by an administrator.', ['phone' => $ex->getPhone()]));
         } catch (\Exception $ex) {
             Log::warning('[' . get_class($ex) . '] Cannot send notification: ' . $ex->getMessage());
         }

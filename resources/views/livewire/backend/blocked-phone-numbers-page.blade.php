@@ -36,7 +36,7 @@
                     <form wire:submit.prevent="submit" class="mb-4" autocomplete="off">
                         <x-card title="Add new number">
                             <div class="row g-3">
-                                <div class="col-md-6">
+                                <div class="col-md-4">
                                     <div>
                                         <label for="inputPhone" class="form-label">Phone</label>
                                         <input
@@ -49,7 +49,7 @@
                                         @error('phone') <div class="invalid-feedback">{{ $message }}</div> @enderror
                                     </div>
                                 </div>
-                                <div class="col-md-6">
+                                <div class="col-md-8">
                                     <div>
                                         <label for="inputReason" class="form-label">Reason</label>
                                         <input
