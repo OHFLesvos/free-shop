@@ -1,4 +1,5 @@
 <div>
+    @include('livewire.backend.configuration-nav')
     @if (session()->has('message'))
         <x-alert type="success" dismissible>{{ session()->get('message') }}</x-alert>
     @endif
