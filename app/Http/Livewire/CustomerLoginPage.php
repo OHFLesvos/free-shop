@@ -3,6 +3,7 @@
 namespace App\Http\Livewire;
 
 use App\Exceptions\OtpTokenThrottledException;
+use App\Exceptions\PhoneNumberBlockedByAdminException;
 use App\Facades\CurrentCustomer;
 use App\Models\Customer;
 use App\Notifications\OtpRequired;
@@ -200,6 +201,8 @@ class CustomerLoginPage extends Component
             session()->flash('otpDelay', __('You can get a new code in :time.', ['time' => $ex->getReadyIn()->diffForHumans()]));
         } catch (CouldNotSendNotification|InvalidConfigException $ex) {
             Log::warning('[' . get_class($ex) . '] Unable to send OTP: ' . $ex->getMessage());
+        } catch (PhoneNumberBlockedByAdminException $ex) {
+            session()->flash('blocked', __('The phone number :phone has been blocked by an administrator.', ['phone' => $ex->getPhone()]));
         }
     }
 }

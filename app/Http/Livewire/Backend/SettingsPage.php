@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Backend;
 
+use App\Http\Livewire\CurrentRouteName;
 use Illuminate\Support\Collection;
 use Countries;
 use Gumlet\ImageResize;
@@ -15,6 +16,7 @@ class SettingsPage extends BackendPage
 {
     use WithFileUploads;
     use AuthorizesRequests;
+    use CurrentRouteName;
 
     public Collection $geoblockWhitelist;
     public string $orderDefaultPhoneCountry;

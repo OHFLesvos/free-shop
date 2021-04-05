@@ -5,6 +5,7 @@ use App\Http\Controllers\LanguageSelectController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\SocialLoginController;
 use App\Http\Livewire\AboutPage;
+use App\Http\Livewire\Backend\BlockedPhoneNumbersPage;
 use App\Http\Livewire\Backend\CustomerDetailPage;
 use App\Http\Livewire\Backend\CustomerListPage;
 use App\Http\Livewire\Backend\CustomerManagePage;
@@ -26,6 +27,9 @@ use App\Http\Livewire\CustomerAccountPage;
 use App\Http\Livewire\CustomerLoginPage;
 use App\Http\Livewire\MyOrdersPage;
 use App\Http\Livewire\ShopFrontPage;
+use App\Models\BlockedPhoneNumber;
+use App\Models\TextBlock;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -85,7 +89,7 @@ Route::prefix('backend')
             ->name('login.google.callback');
         Route::post('logout', [LoginController::class, 'logout'])
             ->name('logout');
-});
+    });
 
 Route::middleware('auth')
     ->group(function () {
@@ -116,14 +120,29 @@ Route::middleware('auth')
                     ->name('products.edit');
                 Route::get('import-export', DataImportExportPage::class)
                     ->name('import-export');
-                Route::get('text-blocks', TextBlockListPage::class)
-                    ->name('text-blocks');
-                Route::get('text-blocks/{textBlock}/edit', TextBlockEditPage::class)
-                    ->name('text-blocks.edit');
                 Route::get('reports', ReportsPage::class)
                     ->name('reports');
-                Route::get('settings', SettingsPage::class)
-                    ->name('settings');
+                Route::get('configuration', function () {
+                    if (auth()->user()->can('update settings')) {
+                        return redirect()->route('backend.configuration.settings');
+                    }
+                    if (auth()->user()->can('viewAny', TextBlock::class)) {
+                        return redirect()->route('backend.configuration.text-blocks');
+                    }
+                    if (auth()->user()->can('viewAny', BlockedPhoneNumber::class)) {
+                        return redirect()->route('backend.configuration.blocked-phone-numbers');
+                    }
+                    return abort(Response::HTTP_FORBIDDEN);
+                })
+                    ->name('configuration');
+                Route::get('configuration/settings', SettingsPage::class)
+                    ->name('configuration.settings');
+                Route::get('configuration/text-blocks', TextBlockListPage::class)
+                    ->name('configuration.text-blocks');
+                Route::get('configuration/text-blocks/{textBlock}/edit', TextBlockEditPage::class)
+                    ->name('configuration.text-blocks.edit');
+                Route::get('configuration/blocked-phone-numbers', BlockedPhoneNumbersPage::class)
+                    ->name('configuration.blocked-phone-numbers');
                 Route::get('users', UserListPage::class)
                     ->name('users');
                 Route::get('users/{user}/edit', UserEditPage::class)

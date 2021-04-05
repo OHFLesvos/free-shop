@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Backend;
 
+use App\Http\Livewire\CurrentRouteName;
 use App\Models\TextBlock;
 use App\Repository\TextBlockRepository;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
@@ -9,6 +10,7 @@ use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 class TextBlockListPage extends BackendPage
 {
     use AuthorizesRequests;
+    use CurrentRouteName;
 
     public function mount(TextBlockRepository $textRepo)
     {

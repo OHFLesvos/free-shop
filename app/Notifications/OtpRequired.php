@@ -2,12 +2,15 @@
 
 namespace App\Notifications;
 
+use App\Support\CheckBlockedPhoneNumber;
 use Illuminate\Notifications\Notification;
 use NotificationChannels\Twilio\TwilioChannel;
 use NotificationChannels\Twilio\TwilioSmsMessage;
 
 class OtpRequired extends Notification
 {
+    use CheckBlockedPhoneNumber;
+    
     private $code;
 
     /**
@@ -28,6 +31,7 @@ class OtpRequired extends Notification
      */
     public function via($notifiable)
     {
+        $this->checkBlockedPhoneNumber($notifiable->phone);
         return [TwilioChannel::class];
     }
 
