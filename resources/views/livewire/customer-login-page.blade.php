@@ -100,10 +100,21 @@
             {{-- OTP verification --}}
             @if(in_array($state, ['ask_for_tfa', 'validate_phone']))
                 <p>
+                    @if(session()->has('otpDelay'))
+                        <x-alert type="warning">{{ session()->get('otpDelay') }}</x-alert>
+                    @endif
                     @if($state == 'ask_for_tfa')
-                        @lang("We've sent a login code to your phone <strong>:phone</strong>", ['phone' => maskString($customer->phone, 6, 2)])
+                        @if(session()->has('otpDelay'))
+                            @lang("Please check the code we've sent to <strong>:phone</strong>", ['phone' => maskString($customer->phone, 6, 2)])
+                        @else
+                            @lang("We've sent a login code to your phone <strong>:phone</strong>", ['phone' => maskString($customer->phone, 6, 2)])
+                        @endif
                     @elseif($state == 'validate_phone')
-                        @lang("We've sent a validation code to <strong>:phone</strong>", ['phone' => $this->customerPhoneE164])
+                        @if(session()->has('otpDelay'))
+                            @lang("Please check the code we've sent to <strong>:phone</strong>", ['phone' => $this->customerPhoneE164])
+                        @else
+                            @lang("We've sent a validation code to <strong>:phone</strong>", ['phone' => $this->customerPhoneE164])
+                        @endif
                         <span class="ms-2">
                             [<a href="#" wire:click="changeState('enter_phone')">@lang('Change')</a>]
                         </span>
