@@ -39,6 +39,8 @@ class SettingsPage extends BackendPage
 
     public $contentLocale;
 
+    public bool $skipOrderRegisteredNotification;
+
     protected function rules() {
         return [
             'shopDisabled' => [
@@ -88,6 +90,9 @@ class SettingsPage extends BackendPage
                 'integer',
                 'min:1',
             ],
+            'skipOrderRegisteredNotification' => [
+                'boolean',
+            ],            
         ];
     }
 
@@ -106,6 +111,7 @@ class SettingsPage extends BackendPage
         $this->customerIdNumberPattern = setting()->get('customer.id_number_pattern', '');
         $this->customerIdNumberExample = setting()->get('customer.id_number_example', '');
         $this->customerWaitingTimeBetweenOrders = setting()->get('customer.waiting_time_between_orders', '');
+        $this->skipOrderRegisteredNotification = setting()->has('customer.skip_order_registered_notification');
 
         $this->countries = collect(Countries::getList());
 
@@ -214,6 +220,12 @@ class SettingsPage extends BackendPage
             setting()->set('customer.waiting_time_between_orders', $this->customerWaitingTimeBetweenOrders);
         } else {
             setting()->forget('customer.waiting_time_between_orders');
+        }
+
+        if ($this->skipOrderRegisteredNotification) {
+            setting()->set('customer.skip_order_registered_notification', true);
+        } else {
+            setting()->forget('customer.skip_order_registered_notification');
         }
 
         if ($checksum != md5(json_encode(Setting::all()))) {

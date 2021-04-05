@@ -61,12 +61,14 @@ class CheckoutPage extends Component
         // }
         // $customer->credit -= $totalPrice;
 
-        try {
-            $this->customer->notify(new OrderRegistered($order));
-        } catch (PhoneNumberBlockedByAdminException $ex) {
-            session()->flash('error', __('The phone number :phone has been blocked by an administrator.', ['phone' => $ex->getPhone()]));
-        } catch (\Exception $ex) {
-            Log::warning('[' . get_class($ex) . '] Cannot send notification: ' . $ex->getMessage());
+        if (!setting()->has('customer.skip_order_registered_notification')) {
+            try {
+                $this->customer->notify(new OrderRegistered($order));
+            } catch (PhoneNumberBlockedByAdminException $ex) {
+                session()->flash('error', __('The phone number :phone has been blocked by an administrator.', ['phone' => $ex->getPhone()]));
+            } catch (\Exception $ex) {
+                Log::warning('[' . get_class($ex) . '] Cannot send notification: ' . $ex->getMessage());
+            }
         }
 
         $this->order = $order;

@@ -200,6 +200,15 @@
                         </small>
                     </div>
                 </div>
+
+                <div class="col-sm-6">
+                    <div class="form-check form-switch mb-3">
+                        <input type="checkbox" class="form-check-input" id="skipOrderRegisteredNotificationInput" value="1"
+                            wire:model.defer="skipOrderRegisteredNotification">
+                        <label class="form-check-label" for="skipOrderRegisteredNotificationInput">Don't send a notification to the customer when an order has been registered.</label>
+                    </div>
+                </div>
+
             </div>
         </x-card>
 
