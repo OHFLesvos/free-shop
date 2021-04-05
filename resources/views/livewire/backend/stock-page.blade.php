@@ -3,7 +3,6 @@
     @if (session()->has('message'))
         <x-alert type="success" dismissible>{{ session()->get('message') }}</x-alert>
     @endif
-
     <div class="table-responsive">
         <table class="table table-bordered bg-white shadow-sm @can('manage text blocks') table-hover @endcan">
             <thead>
@@ -11,18 +10,38 @@
                 <th class="text-end">Stock</th>
                 <th class="text-end">Free</th>
                 <th class="text-end">Reserved</th>
-                <th>Last updated</th>
             </thead>
             <tbody>
                 @forelse($products as $product)
                     <tr>
-                        <td>{{ $product->name }}<br><small class="text-muted">{{ $product->category }}</small></td>
-                        <td class="text-end">{{ $product->stock }}</td>
-                        <td class="text-end">{{ $product->free_quantity }}</td>
-                        <td class="text-end">{{ $product->reserved_quantity }}</td>
-                        <td class="fit">
-                            <x-date-time-info :value="$product->updated_at" line-break />
+                        <td class="align-middle">
+                            {{ $product->name }}
+                            <br><small class="text-muted">{{ $product->category }}</small>
                         </td>
+                        <td class="align-middle text-end @unless($productId == $product->id) cursor-pointer @endunless"
+                            @unless($productId == $product->id) wire:click="startEdit({{ $product->id }},{{ $product->stock }})" @endunless
+                        >
+                            @if($productId == $product->id)
+                                <input
+                                type="number"
+                                min="0"
+                                class="form-control @error('quantity') is-invalid @enderror"  
+                                style="width: 6em"
+                                required
+                                id="quantityInput"
+                                autocomplete="off"
+                                wire:model.defer="quantity"
+                                wire:keydown.escape="cancelEdit"
+                                wire:keydown.enter="submitEdit"
+                                wire:loading.attr="disabled">
+                                @error('quantity') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                            @else
+                                <x-spinner wire:loading wire:target="startEdit({{ $product->id }},{{ $product->stock }})"/>
+                                <span wire:loading.remove wire:target="startEdit({{ $product->id }},{{ $product->stock }})">{{ $product->stock }}</span>
+                            @endif
+                        </td>
+                        <td class="text-end align-middle">{{ $product->free_quantity }}</td>
+                        <td class="text-end align-middle">{{ $product->reserved_quantity }}</td>
                     </tr>
                 @empty
                     <tr>
@@ -35,3 +54,11 @@
         </table>
     </div>
 </div>
+
+@push('scripts')
+<script>
+    Livewire.on('startEdit', () => {
+        document.getElementById('quantityInput').focus();
+    })
+</script>
+@endpush
