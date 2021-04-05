@@ -15,7 +15,7 @@ class BlockedPhoneNumberSeeder extends Seeder
     public function run()
     {
         BlockedPhoneNumber::factory()
-            ->count(10)
+            ->count(25)
             ->create();
     }
 }

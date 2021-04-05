@@ -30,6 +30,11 @@ $items = [
         'authorized' => auth()->user()->can('viewAny', App\Models\TextBlock::class),
     ],
     [
+        'label' => 'Blocked Phone Numbhers',
+        'route' => 'backend.blocked-phone-numbers',
+        'authorized' => auth()->user()->can('viewAny', App\Models\BlockedPhoneNumber::class),
+    ],    
+    [
         'label' => 'Reports',
         'route' => 'backend.reports',
         'authorized' => auth()->user()->can('view reports'),

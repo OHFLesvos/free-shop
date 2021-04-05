@@ -17,11 +17,6 @@ class CreateBlockedPhoneNumbersTable extends Migration
             $table->id();
             $table->string('phone');
             $table->text('reason');
-            $table->foreignId('user_id')->nullable();
-            $table->foreign('user_id')
-                ->references('id')
-                ->on('users')
-                ->onDelete('set null');
             $table->timestamps();
         });
     }

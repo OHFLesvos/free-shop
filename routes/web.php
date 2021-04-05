@@ -5,6 +5,7 @@ use App\Http\Controllers\LanguageSelectController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\SocialLoginController;
 use App\Http\Livewire\AboutPage;
+use App\Http\Livewire\Backend\BlockedPhoneNumbersPage;
 use App\Http\Livewire\Backend\CustomerDetailPage;
 use App\Http\Livewire\Backend\CustomerListPage;
 use App\Http\Livewire\Backend\CustomerManagePage;
@@ -124,6 +125,8 @@ Route::middleware('auth')
                     ->name('reports');
                 Route::get('settings', SettingsPage::class)
                     ->name('settings');
+                Route::get('blocked-phone-numbers', BlockedPhoneNumbersPage::class)
+                    ->name('blocked-phone-numbers');
                 Route::get('users', UserListPage::class)
                     ->name('users');
                 Route::get('users/{user}/edit', UserEditPage::class)
