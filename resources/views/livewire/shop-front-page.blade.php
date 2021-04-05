@@ -2,7 +2,9 @@
 
 <div>
     @if($textRepo->exists('welcome'))
-        {!! $textRepo->getMarkdown('welcome') !!}
+        <div class="mb-4">
+            {!! $textRepo->getMarkdown('welcome') !!}
+        </div>
     @endif
     @unless($shopDisabled)
         @unless($maxOrdersReached)
