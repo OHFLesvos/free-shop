@@ -71,8 +71,16 @@
                             class="form-check-input"
                             id="shopDisabledInput"
                             value="1"
-                            wire:model.defer="shopDisabled">
+                            wire:model="shopDisabled">
                         <label class="form-check-label" for="shopDisabledInput">Disable shop</label>
+                        @if($shopDisabled)
+                            <p>
+                                <small>
+                                    Edit the text which is shown when the shop is disabled 
+                                    <a href="{{ route('backend.text-blocks.edit', 'shop-disabled') }}" target="_blank">here</a>.
+                                </small>
+                            </p>               
+                        @endif
                     </div>
                     <div class="form-check form-switch mb-3">
                         <input

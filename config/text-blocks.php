@@ -13,6 +13,10 @@ return [
         'type' => 'markdown',
         'purpose' => 'Text of the privacy policy page',
     ],
+    'shop-disabled' => [
+        'type' => 'plain',
+        'purpose' => 'Text displayed when the shop is disbaled',
+    ],    
     'post-checkout' => [
         'type' => 'markdown',
         'purpose' => 'Text shown after the customer completes his order',

@@ -21,11 +21,15 @@ class TextBlockListPage extends BackendPage
 
     public function render()
     {
+        $blocks = TextBlock::query()
+            ->whereIn('name', array_keys(config('text-blocks')))
+            ->orderBy('name')
+            ->get();
         return parent::view('livewire.backend.text-block-list-page', [
-            'textBlocks' => TextBlock::query()
-                ->whereIn('name', array_keys(config('text-blocks')))
-                ->orderBy('name')
-                ->get(),
+            'textBlocks' => collect(config('text-blocks'))
+                ->keys()
+                ->map(fn ($key) => $blocks->firstWhere('name', $key))
+                ->filter(),
         ]);
     }
 }

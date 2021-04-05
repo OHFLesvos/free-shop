@@ -46,6 +46,9 @@
             <x-alert type="info">@lang('It is not possible to order something now because the maximum orders per day have been exceeded. Please visit us again another day.')</x-alert>
         @endunless
     @else
-        <x-alert type="info">@lang('The shop is currently not available.')</x-alert>
+        <x-alert type="info">
+            <strong>@lang('The shop is currently not available.')</strong>
+            {!! $textRepo->getPlain('shop-disabled') !!}
+        </x-alert>
     @endunless
 </div>
