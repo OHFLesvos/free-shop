@@ -132,7 +132,7 @@ Route::middleware('auth')
                     if (auth()->user()->can('viewAny', BlockedPhoneNumber::class)) {
                         return redirect()->route('backend.configuration.blocked-phone-numbers');
                     }
-                    return response(Response::HTTP_FORBIDDEN);
+                    return abort(Response::HTTP_FORBIDDEN);
                 })
                     ->name('configuration');
                 Route::get('configuration/settings', SettingsPage::class)

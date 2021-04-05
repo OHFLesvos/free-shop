@@ -3,9 +3,16 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use Spatie\Permission\Exceptions\PermissionDoesNotExist;
+use Spatie\Permission\Models\Permission;
+use Spatie\Permission\Models\Role;
 
 class CreateBlockedPhoneNumbersTable extends Migration
 {
+    private $newPermissions = [
+        'manage blocked numbers',
+    ];
+
     /**
      * Run the migrations.
      *
@@ -19,6 +26,12 @@ class CreateBlockedPhoneNumbersTable extends Migration
             $table->text('reason');
             $table->timestamps();
         });
+
+        foreach ($this->newPermissions as $name) {
+            Permission::findOrCreate($name);
+        }
+        
+        Role::findOrCreate('Dispatcher')->givePermissionTo($this->newPermissions);
     }
 
     /**
@@ -28,6 +41,12 @@ class CreateBlockedPhoneNumbersTable extends Migration
      */
     public function down()
     {
+        foreach ($this->newPermissions as $name) {
+            try {
+                Permission::findByName($name)->delete();
+            } catch (PermissionDoesNotExist $ignored) { }
+        }
+        
         Schema::dropIfExists('blocked_phone_numbers');
     }
 }
