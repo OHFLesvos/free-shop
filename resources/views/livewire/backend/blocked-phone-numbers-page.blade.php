@@ -1,38 +1,74 @@
-<div>
-    @include('livewire.backend.configuration-nav')
-    @if (session()->has('message'))
-        <x-alert type="success" dismissible>{{ session()->get('message') }}</x-alert>
-    @endif
-    <div class="table-responsive">
-        <table class="table table-bordered bg-white shadow-sm">
-            <caption>{{ $entries->total() }} blocked phone numbers found</caption>
-            <thead>
-                <th>Number</th>
-                <th>Reason</th>
-                <th>Added</th>
-            </thead>
-            <tbody>
-                @forelse($entries as $entry)
-                    <tr>
-                        <td class="fit">
-                            {{ $entry->phone }}
-                        </td>
-                        <td>
-                            {{ $entry->reason }}
-                        </td>
-                        <td class="fit">
-                            <x-date-time-info :value="$entry->created_at" line-break />
-                        </td>
-                    </tr>
-                @empty
-                    <tr>
-                        <td colspan="6" class="text-center">
-                            <em>No blocked phone numbers registered.</em>
-                        </td>
-                    </tr>
-                @endforelse
-            </tbody>
-        </table>
+@if($shouldDelete)
+    <div class="small-container">
+        <x-card title="Remove blocked phone number">
+            <p class="card-text">Do you really want to unblock the phone number <strong>{{ $shouldDelete['phone'] }}</strong>?</p>
+            <x-slot name="footer">
+                <div class="d-flex justify-content-end">
+                    <span>
+                        <button
+                            type="button"
+                            class="btn btn-link"
+                            wire:loading.attr="disabled"
+                            wire:click="$set('shouldDelete', null)">
+                            @lang('Cancel')
+                        </button>
+                        <button
+                            type="button"
+                            class="btn btn-danger"
+                            wire:target="delete"
+                            wire:loading.attr="disabled"
+                            wire:click="delete">
+                            <x-spinner wire:loading wire:target="delete"/>
+                            @lang('Delete')
+                        </button>
+                    </span>
+                </div>
+            </x-slot>
+        </x-card>
     </div>
-    <div class="overflow-auto">{{ $entries->links() }}</div>
-</div>
+@else
+    <div>
+        @include('livewire.backend.configuration-nav')
+        @if (session()->has('message'))
+            <x-alert type="success" dismissible>{{ session()->get('message') }}</x-alert>
+        @endif
+        <div class="table-responsive">
+            <table class="table table-bordered bg-white shadow-sm">
+                <caption>{{ $entries->total() }} blocked phone numbers found</caption>
+                <thead>
+                    <th>Number</th>
+                    <th>Reason</th>
+                    <th>Added</th>
+                    <th></th>
+                </thead>
+                <tbody>
+                    @forelse($entries as $entry)
+                        <tr>
+                            <td class="fit">
+                                {{ $entry->phone }}
+                            </td>
+                            <td>
+                                {{ $entry->reason }}
+                            </td>
+                            <td class="fit">
+                                <x-date-time-info :value="$entry->created_at" line-break />
+                            </td>
+                            <td class="align-middle">
+                                <button type="button" class="btn btn-outline-danger" wire:click="$set('shouldDelete', {{ $entry }})">
+                                    <x-icon icon="trash" aria-label="Delete"/>
+                                </button>
+                            </td>
+                        </tr>
+                    @empty
+                        <tr>
+                            <td colspan="6" class="text-center">
+                                <em>No blocked phone numbers registered.</em>
+                            </td>
+                        </tr>
+                    @endforelse
+                </tbody>
+            </table>
+        </div>
+        <div class="overflow-auto">{{ $entries->links() }}</div>
+    </div>
+@endif

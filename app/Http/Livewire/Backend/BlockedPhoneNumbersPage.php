@@ -16,6 +16,8 @@ class BlockedPhoneNumbersPage extends BackendPage
 
     protected $paginationTheme = 'bootstrap';
 
+    public $shouldDelete = null;
+
     public function mount()
     {
         $this->authorize('viewAny', BlockedPhoneNumber::class);
@@ -30,5 +32,20 @@ class BlockedPhoneNumbersPage extends BackendPage
                 ->orderBy('created_at', 'desc')
                 ->paginate(10),
         ]);
+    }
+
+    public function delete()
+    {
+        if (isset($this->shouldDelete)) {
+            $entry = BlockedPhoneNumber::find($this->shouldDelete['id']);
+            if (isset($entry)) {
+                $this->authorize('delete', $entry);
+
+                $entry->delete();
+        
+                session()->flash('message', "Phone number $entry->phone removed.");
+            }
+            $this->shouldDelete = null;
+        }
     }
 }
