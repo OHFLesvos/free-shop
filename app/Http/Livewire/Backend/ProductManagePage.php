@@ -38,11 +38,6 @@ class ProductManagePage extends BackendPage
                 'integer',
                 'min:0',
             ],
-            'product.stock' => [
-                'required',
-                'integer',
-                'min:0',
-            ],
             'product.price' => [
                 'required',
                 'integer',

@@ -110,18 +110,6 @@
                         @error('product.sequence') <div class="invalid-feedback">{{ $message }}</div> @enderror
                     </div>
                     <div class="col-md-3">
-                        <label for="inputStock" class="form-label">Stock</label>
-                        <input
-                            type="number"
-                            min="0"
-                            class="form-control @error('product.stock') is-invalid @enderror"
-                            id="inputStock"
-                            required
-                            autocomplete="off"
-                            wire:model.defer="product.stock">
-                        @error('product.stock') <div class="invalid-feedback">{{ $message }}</div> @enderror
-                    </div>
-                    <div class="col-md-3">
                         <label for="inputPrice" class="form-label">Price</label>
                         <input
                             type="number"

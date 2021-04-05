@@ -26,6 +26,13 @@ $items = [
             ->can('viewAny', App\Models\Product::class),
     ],
     [
+        'label' => 'Stock',
+        'route' => 'backend.stock',
+        'authorized' => auth()
+            ->user()
+            ->can('manage stock'),
+    ],    
+    [
         'label' => 'Import & Export',
         'route' => 'backend.import-export',
         'authorized' => auth()

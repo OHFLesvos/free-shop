@@ -1,1 +1,2 @@
-(self.webpackChunk=self.webpackChunk||[]).push([[773],{80:(s,e,u)=>{"use strict";u(169)},678:()=>{}},s=>{"use strict";var e=e=>s(s.s=e);s.O(0,[170,898],(()=>(e(80),e(678))));s.O()}]);
+(self.webpackChunk=self.webpackChunk||[]).push([[773],{80:(t,o,e)=>{"use strict";e(169);var c=e(85),r=e.n(c);window.showSnackbar=function(t){return r().show({text:t,pos:"bottom-right",textColor:"#ffffff",backgroundColor:getComputedStyle(document.documentElement).getPropertyValue("--bs-primary"),actionTextColor:"#cccccc",customClass:"shadow"})}},678:()=>{}},t=>{"use strict";var o=o=>t(t.s=o);t.O(0,[170,898],(()=>(o(80),o(678))));t.O()}]);
+//# sourceMappingURL=app.js.map
