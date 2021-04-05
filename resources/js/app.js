@@ -5,7 +5,7 @@ window.showSnackbar = (message) => Snackbar.show({
     text: message,
     pos: 'bottom-right',
     textColor: '#ffffff',
-    backgroundColor: '#064477',
+    backgroundColor: getComputedStyle(document.documentElement).getPropertyValue('--bs-primary'),
     actionTextColor: '#cccccc',    
     customClass: 'shadow'
 });
