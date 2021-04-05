@@ -202,7 +202,7 @@ class CustomerLoginPage extends Component
         } catch (CouldNotSendNotification|InvalidConfigException $ex) {
             Log::warning('[' . get_class($ex) . '] Unable to send OTP: ' . $ex->getMessage());
         } catch (PhoneNumberBlockedByAdminException $ex) {
-            session()->flash('error', __('The phone number :phone has been blocked by an administrator.', ['phone' => $ex->getPhone()]));
+            session()->flash('blocked', __('The phone number :phone has been blocked by an administrator.', ['phone' => $ex->getPhone()]));
         }
     }
 }

@@ -103,25 +103,27 @@
                     @if(session()->has('otpDelay'))
                         <x-alert type="warning">{{ session()->get('otpDelay') }}</x-alert>
                     @endif
-                    @if(session()->has('error'))
+                    @if(session()->has('blocked'))
                         <x-alert type="danger">{{ session()->get('error') }}</x-alert>
+                        <a href="#" wire:click="changeState('enter_phone')">@lang('Change')</a>
+                    @else
+                        @if($state == 'ask_for_tfa')
+                            @if(session()->has('otpDelay'))
+                                @lang("Please check the code we've sent to <strong>:phone</strong>", ['phone' => maskString($customer->phone, 6, 2)])
+                            @else
+                                @lang("We've sent a login code to your phone <strong>:phone</strong>", ['phone' => maskString($customer->phone, 6, 2)])
+                            @endif
+                        @elseif($state == 'validate_phone')
+                            @if(session()->has('otpDelay'))
+                                @lang("Please check the code we've sent to <strong>:phone</strong>", ['phone' => $this->customerPhoneE164])
+                            @else
+                                @lang("We've sent a validation code to <strong>:phone</strong>", ['phone' => $this->customerPhoneE164])
+                            @endif
+                            <span class="ms-2">
+                                [<a href="#" wire:click="changeState('enter_phone')">@lang('Change')</a>]
+                            </span>
+                        @endif
                     @endif                    
-                    @if($state == 'ask_for_tfa')
-                        @if(session()->has('otpDelay'))
-                            @lang("Please check the code we've sent to <strong>:phone</strong>", ['phone' => maskString($customer->phone, 6, 2)])
-                        @else
-                            @lang("We've sent a login code to your phone <strong>:phone</strong>", ['phone' => maskString($customer->phone, 6, 2)])
-                        @endif
-                    @elseif($state == 'validate_phone')
-                        @if(session()->has('otpDelay'))
-                            @lang("Please check the code we've sent to <strong>:phone</strong>", ['phone' => $this->customerPhoneE164])
-                        @else
-                            @lang("We've sent a validation code to <strong>:phone</strong>", ['phone' => $this->customerPhoneE164])
-                        @endif
-                        <span class="ms-2">
-                            [<a href="#" wire:click="changeState('enter_phone')">@lang('Change')</a>]
-                        </span>
-                    @endif
                 </p>
                 <div>
                     <label for="inputOtpValue" class="form-label">@lang('Please enter the code:')</label>
