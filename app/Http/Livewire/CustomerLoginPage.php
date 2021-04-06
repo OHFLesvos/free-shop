@@ -10,11 +10,11 @@ class CustomerLoginPage extends Component
 {
     use TrimEmptyStrings;
 
-    public String $customerIdNumber = '';
+    public String $idNumber = '';
 
     protected function rules() {
         return [
-            'customerIdNumber' => [
+            'idNumber' => [
                 'required',
                 setting()->has('customer.id_number_pattern')
                     ? 'regex:' . setting()->get('customer.id_number_pattern')
@@ -26,19 +26,21 @@ class CustomerLoginPage extends Component
     public function render()
     {
         return view('livewire.customer-login-page', [])
-            ->layout(null, ['title' => __('Customer Login')]);
+            ->layout(null, ['title' => __('Customer Registration & Login')]);
     }
 
     public function submit()
     {
         $this->validate();
 
-        $customer = Customer::where('id_number', $this->customerIdNumber)->first();
+        $customer = Customer::where('id_number', $this->idNumber)->first();
         if ($customer !== null) {
             Auth::guard('customer')->login($customer);
             return redirect()->route('shop-front');
         } else {
-            session()->flash('error', __('Unknown ID number.'));
+            return redirect()->route('customer.registration', [
+                'idNumber' => $this->idNumber,
+            ]);
         }
     }
 }

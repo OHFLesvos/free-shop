@@ -25,6 +25,7 @@ use App\Http\Livewire\Backend\UserProfilePage;
 use App\Http\Livewire\CheckoutPage;
 use App\Http\Livewire\CustomerAccountPage;
 use App\Http\Livewire\CustomerLoginPage;
+use App\Http\Livewire\CustomerRegistrationPage;
 use App\Http\Livewire\MyOrdersPage;
 use App\Http\Livewire\ShopFrontPage;
 use App\Models\BlockedPhoneNumber;
@@ -54,9 +55,13 @@ Route::middleware(['geoblock.whitelist', 'set-language'])
             ->name('about');
         Route::get('shop', ShopFrontPage::class)
             ->name('shop-front');
-        Route::get('customer/login', CustomerLoginPage::class)
-            ->name('customer.login')
-            ->middleware('guest:customer');
+        Route::middleware('guest:customer')
+            ->group(function () {            
+                Route::get('customer/login', CustomerLoginPage::class)
+                    ->name('customer.login');
+                Route::get('customer/registration', CustomerRegistrationPage::class)
+                    ->name('customer.registration');
+            });
         Route::middleware('auth:customer')
             ->group(function () {
                 Route::get('checkout', CheckoutPage::class)
