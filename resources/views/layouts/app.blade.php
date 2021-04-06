@@ -39,17 +39,7 @@ $rtl = in_array(app()->getLocale(), config('app.rtl_languages', []));
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav me-auto">
                         @foreach (collect($navItems)->filter(fn($item) => !isset($item['authorized']) || $item['authorized']) as $item)
-                            @php
-                                $active = Str::of(Request::route()->getName())->startsWith($item['route']);
-                            @endphp
-                            <li class="nav-item">
-                                <a
-                                    class="nav-link @if($active) active @endif"
-                                    href="{{ route($item['route']) }}" @if($active) aria-current="page" @endif>
-                                    @isset($item['icon']) <x-icon :icon="$item['icon']"/> @endisset
-                                    {{ $item['label'] }}
-                                </a>
-                            </li>
+                            <x-nav-item :item="$item"/>
                         @endforeach
                     </ul>
                     <ul class="navbar-nav">
