@@ -2,7 +2,8 @@
 
 @section('content')
     <div class="mx-auto" style="max-width: 600px">
-        <h1 class="mb-4 display-4 text-center">Login</h1>
+        <h1 class="display-4 text-center">{{ config('app.name') }}</h1>
+        <h2 class="mb-4 display-6 text-center">Backend Login</h2>
 
         @if ($errors->any())
             @if ($errors->has('email'))
