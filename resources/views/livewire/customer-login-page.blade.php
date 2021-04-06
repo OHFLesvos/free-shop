@@ -4,7 +4,6 @@
     @endif
     <form wire:submit.prevent="submit" class="mb-4" autocomplete="off">
         <x-card :title="__('Customer Registration & Login')">
-            
             <div>
                 <label for="customerIdNumberInput" class="form-label">@lang('ID number')</label>
                 <input
@@ -25,7 +24,10 @@
                     @endif
                 </small>
             </div>
-
+            <p class="card-text mt-3 d-flex align-items-center">
+                <x-icon icon="info-circle" class="fa-2x me-2"/>
+                <span>@lang("If you don't have an account yet, we will ask you to register a new account in the next step.")</span>
+            </p>
             <x-slot name="footer">
                 <div class="d-flex justify-content-end">
                     <button
