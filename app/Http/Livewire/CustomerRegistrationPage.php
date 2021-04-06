@@ -3,7 +3,9 @@
 namespace App\Http\Livewire;
 
 use App\Models\Customer;
+use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
+use Propaganistas\LaravelPhone\PhoneNumber;
 
 class CustomerRegistrationPage extends Component
 {
@@ -51,12 +53,16 @@ class CustomerRegistrationPage extends Component
     {
         $this->validate();
 
-        // $customer = Customer::where('id_number', $this->customerIdNumber)->first();
-        // if ($customer !== null) {
-        //     Auth::guard('customer')->login($customer);
-        //     return redirect()->route('shop-front');
-        // } else {
-        //     session()->flash('error', __('Unknown ID number.'));
-        // }
+        $customer = Customer::create([
+            'name' => $this->name,
+            'id_number' => $this->idNumber,
+            'phone' => PhoneNumber::make($this->phone, $this->phoneCountry)->formatE164(),
+            'locale' => app()->getLocale(),
+            'credit' => setting()->get('customer.starting_credit', config('shop.customer.starting_credit')),
+        ]);
+
+        Auth::guard('customer')->login($customer);
+
+        return redirect()->route('shop-front');
     }
 }
