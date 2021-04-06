@@ -19,6 +19,26 @@ $navItems = [
         'authorized' => true,
     ],    
 ];
+$rNavItems = [
+    [
+        'label' => __('Login'),
+        'route' => 'customer.login',
+        'icon' => 'sign-in-alt',
+        'authorized' => !auth('customer')->check(),
+    ],
+    [
+        'label' => optional(Auth::guard('customer')->user())->name,
+        'route' => 'customer.account',
+        'icon' => 'id-card',
+        'authorized' => auth('customer')->check(),
+    ],
+    [
+        'label' => __('Logout'),
+        'route' => 'customer.logout',
+        'icon' => 'sign-out-alt',
+        'authorized' => auth('customer')->check(),
+    ],
+];
 $rtl = in_array(app()->getLocale(), config('app.rtl_languages', []));
 @endphp
 <!DOCTYPE html>
@@ -70,36 +90,9 @@ $rtl = in_array(app()->getLocale(), config('app.rtl_languages', []));
                                 @endforeach
                             </ul>
                         </li>
-                        {{-- Customer --}}
-                        @auth('customer')
-                            @php
-                                $active = Str::of(Request::route()->getName())->startsWith('customer.account');
-                            @endphp
-                            <li class="nav-item">
-                                <a
-                                    class="nav-link @if($active) active @endif"
-                                    href="{{ route('customer.account') }}"
-                                    @if($active) aria-current="page" @endif>
-                                    <x-icon icon="id-card"/>
-                                    {{ Auth::guard('customer')->user()->name }}
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a
-                                    class="nav-link" href="{{ route('customer.logout') }}">
-                                    <x-icon icon="sign-out-alt"/>
-                                    @lang('Logout')
-                                </a>
-                            </li>                                 
-                        @else
-                            <li class="nav-item">
-                                <a
-                                    class="nav-link" href="{{ route('customer.login') }}">
-                                    <x-icon icon="sign-in-alt"/>
-                                    @lang('Login')
-                                </a>
-                            </li>                        
-                        @endauth
+                        @foreach (collect($rNavItems)->filter(fn($item) => !isset($item['authorized']) || $item['authorized']) as $item)
+                            <x-nav-item :item="$item"/>
+                        @endforeach
                     </ul>
                 </div>
             </div>
