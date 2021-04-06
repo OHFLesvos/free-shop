@@ -27,7 +27,7 @@ $rNavItems = [
         'authorized' => !auth('customer')->check(),
     ],
     [
-        'label' => optional(Auth::guard('customer')->user())->name,
+        'label' => optional(auth('customer')->user())->name,
         'route' => 'customer.account',
         'icon' => 'id-card',
         'authorized' => auth('customer')->check(),

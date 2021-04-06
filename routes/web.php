@@ -52,10 +52,11 @@ Route::middleware(['geoblock.whitelist', 'set-language'])
             ->name('privacy-policy');
         Route::get('about', AboutPage::class)
             ->name('about');
-        Route::get('customer/login', NewCustomerLoginPage::class)
-            ->name('customer.login');
         Route::get('shop', ShopFrontPage::class)
             ->name('shop-front');
+        Route::get('customer/login', NewCustomerLoginPage::class)
+            ->name('customer.login')
+            ->middleware('guest:customer');
         Route::middleware('auth:customer')
             ->group(function () {
                 Route::get('checkout', CheckoutPage::class)
