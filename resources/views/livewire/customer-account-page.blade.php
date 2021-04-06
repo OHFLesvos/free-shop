@@ -130,12 +130,6 @@
                         <span class="display-6">@lang(':amount points', ['amount' => $customer->credit])</span>
                     </x-card>
 
-                    {{-- Logout --}}
-                    <a
-                        href="{{ route('customer.logout') }}"
-                        class="btn btn-outline-danger d-block">
-                        @lang('Logout')
-                    </a>
                 </div>
             </div>
         </form>

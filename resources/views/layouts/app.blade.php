@@ -1,19 +1,22 @@
 @php
-$items = [
+$navItems = [
     [
         'label' => __('Shop'),
         'route' => 'shop-front',
         'icon' => 'shopping-bag',
+        'authorized' => true,
     ],
     [
         'label' => __('Your orders'),
         'route' => 'my-orders',
         'icon' => 'list-alt',
+        'authorized' => auth('customer')->check(),
     ],
     [
         'label' => __('About'),
         'route' => 'about',
         'icon' => 'info-circle',
+        'authorized' => true,
     ],    
 ];
 $rtl = in_array(app()->getLocale(), config('app.rtl_languages', []));
@@ -35,7 +38,7 @@ $rtl = in_array(app()->getLocale(), config('app.rtl_languages', []));
                 </button>
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav me-auto">
-                        @foreach ($items as $item)
+                        @foreach (collect($navItems)->filter(fn($item) => !isset($item['authorized']) || $item['authorized']) as $item)
                             @php
                                 $active = Str::of(Request::route()->getName())->startsWith($item['route']);
                             @endphp
@@ -91,6 +94,13 @@ $rtl = in_array(app()->getLocale(), config('app.rtl_languages', []));
                                     {{ Auth::guard('customer')->user()->name }}
                                 </a>
                             </li>
+                            <li class="nav-item">
+                                <a
+                                    class="nav-link" href="{{ route('customer.logout') }}">
+                                    <x-icon icon="sign-out-alt"/>
+                                    @lang('Logout')
+                                </a>
+                            </li>                                 
                         @else
                             <li class="nav-item">
                                 <a

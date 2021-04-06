@@ -1,5 +1,5 @@
 @php
-$items = [
+$navItems = [
     [
         'label' => 'Dashboard',
         'route' => 'backend.dashboard',
@@ -85,7 +85,7 @@ $items = [
             </button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                    @foreach (collect($items)->filter(fn($item) => !isset($item['authorized']) || $item['authorized']) as $item)
+                    @foreach (collect($navItems)->filter(fn($item) => !isset($item['authorized']) || $item['authorized']) as $item)
                         @php
                             $active = Str::of(Request::route()->getName())->startsWith($item['route']);
                         @endphp
