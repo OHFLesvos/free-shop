@@ -25,7 +25,7 @@
                 </small>
             </div>
             <p class="card-text mt-3 d-flex align-items-center">
-                <x-icon icon="info-circle" class="fa-2x me-2"/>
+                <x-icon icon="info-circle" class="fa-2x me-3"/>
                 <span>@lang("If you don't have an account yet, we will ask you to register a new account in the next step.")</span>
             </p>
             <x-slot name="footer">

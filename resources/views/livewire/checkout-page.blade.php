@@ -50,7 +50,12 @@
                         @lang('Please write if we need to know anything more regarding your order.')
                     </small>
                 </div>
-                <p class="card-text">@lang('We will send you updates about your order via SMS to <strong>:phone</strong>.', ['phone' => $customer->phoneFormattedInternational])</p>
+                <p class="card-text d-flex align-items-center">
+                    <x-icon icon="info-circle" class="fa-2x me-3"/>
+                    <span>
+                        @lang('We will send you updates about your order via SMS to <strong>:phone</strong>.', ['phone' => $customer->phoneFormattedInternational])
+                    </span>
+                </p>
                 <x-slot name="footer">
                     <div class="d-flex justify-content-end">
                         <button
