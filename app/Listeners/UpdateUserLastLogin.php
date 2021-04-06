@@ -29,7 +29,9 @@ class UpdateUserLastLogin
      */
     public function handle(Login $event)
     {
-        $this->updateUser($event->user);
+        if ($event->user instanceof User) {
+            $this->updateUser($event->user);
+        }
     }
 
     private function updateUser(User $user)

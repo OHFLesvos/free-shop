@@ -1,8 +1,4 @@
 @php
-$readyOrders = 0;
-if (CurrentCustomer::exists()) {
-    $readyOrders = CurrentCustomer::get()->orders()->status('ready')->count();
-}
 $items = [
     [
         'label' => __('Shop'),
@@ -13,7 +9,6 @@ $items = [
         'label' => __('Your orders'),
         'route' => 'my-orders',
         'icon' => 'list-alt',
-        'badge' => $readyOrders > 0 ? $readyOrders : null,
     ],
     [
         'label' => __('About'),
@@ -50,9 +45,6 @@ $rtl = in_array(app()->getLocale(), config('app.rtl_languages', []));
                                     href="{{ route($item['route']) }}" @if($active) aria-current="page" @endif>
                                     @isset($item['icon']) <x-icon :icon="$item['icon']"/> @endisset
                                     {{ $item['label'] }}
-                                    @isset($item['badge'])
-                                        <span class="badge bg-info">{{ $item['badge'] }}</span>
-                                    @endisset
                                 </a>
                             </li>
                         @endforeach
@@ -86,7 +78,7 @@ $rtl = in_array(app()->getLocale(), config('app.rtl_languages', []));
                             </ul>
                         </li>
                         {{-- Customer --}}
-                        @if(CurrentCustomer::exists())
+                        @auth('customer')
                             @php
                                 $active = Str::of(Request::route()->getName())->startsWith('customer.account');
                             @endphp
@@ -96,10 +88,18 @@ $rtl = in_array(app()->getLocale(), config('app.rtl_languages', []));
                                     href="{{ route('customer.account') }}"
                                     @if($active) aria-current="page" @endif>
                                     <x-icon icon="id-card"/>
-                                    {{ CurrentCustomer::get()->name }}
+                                    {{ Auth::guard('customer')->user()->name }}
                                 </a>
                             </li>
-                        @endif
+                        @else
+                            <li class="nav-item">
+                                <a
+                                    class="nav-link" href="{{ route('customer.login') }}">
+                                    <x-icon icon="sign-in-alt"/>
+                                    @lang('Login')
+                                </a>
+                            </li>                        
+                        @endauth
                     </ul>
                 </div>
             </div>

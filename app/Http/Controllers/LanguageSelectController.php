@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Facades\CurrentCustomer;
+use Illuminate\Support\Facades\Auth;
 
 class LanguageSelectController extends Controller
 {
@@ -21,7 +21,7 @@ class LanguageSelectController extends Controller
 
         session()->put('lang', $lang);
 
-        $customer = CurrentCustomer::get();
+        $customer = Auth::guard('customer')->user();
         if ($customer != null) {
             $customer->locale = $lang;
             $customer->save();

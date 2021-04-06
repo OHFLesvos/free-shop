@@ -6,9 +6,9 @@ use App\Exceptions\PhoneNumberBlockedByAdminException;
 use App\Models\Customer;
 use App\Models\Order;
 use App\Notifications\OrderRegistered;
-use App\Services\CurrentCustomer;
 use App\Support\ShoppingBasket;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Livewire\Component;
 
@@ -22,9 +22,9 @@ class CheckoutPage extends Component
         'remarks' => 'nullable',
     ];
 
-    public function mount(CurrentCustomer $currentCustomer)
+    public function mount()
     {
-        $this->customer = $currentCustomer->get();
+        $this->customer = Auth::guard('customer')->user();
     }
 
     public function render(ShoppingBasket $basket)

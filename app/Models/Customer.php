@@ -10,15 +10,28 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Auth\Authenticatable;
+use Illuminate\Auth\Passwords\CanResetPassword;
+use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
+use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
+use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
+use Illuminate\Foundation\Auth\Access\Authorizable;
 use libphonenumber\NumberParseException;
 use Propaganistas\LaravelPhone\PhoneNumber;
 
-class Customer extends Model implements HasLocalePreference
+class Customer extends Model implements
+    HasLocalePreference,
+    AuthenticatableContract,
+    AuthorizableContract,
+    CanResetPasswordContract
 {
     use HasFactory;
     use Notifiable;
     use NullableFields;
     use NumberCompareScope;
+    use Authenticatable;
+    use Authorizable;
+    use CanResetPassword;
 
     protected $fillable = [
         'name',
