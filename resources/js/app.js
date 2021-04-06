@@ -9,3 +9,5 @@ window.showSnackbar = (message) => Snackbar.show({
     actionTextColor: '#cccccc',    
     customClass: 'shadow'
 });
+
+import 'alpinejs';
