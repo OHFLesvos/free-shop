@@ -23,10 +23,6 @@ class NewCustomerLoginPage extends Component
         ];
     }
 
-    public function mount()
-    {
-    }
-
     public function render()
     {
         return view('livewire.new-customer-login-page', [])
@@ -35,6 +31,8 @@ class NewCustomerLoginPage extends Component
 
     public function submit()
     {
+        $this->validate();
+
         $customer = Customer::where('id_number', $this->customerIdNumber)->first();
         if ($customer !== null) {
             Auth::guard('customer')->login($customer);

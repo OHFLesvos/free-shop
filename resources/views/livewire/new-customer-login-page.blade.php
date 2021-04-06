@@ -3,7 +3,8 @@
         <x-alert type="warning" dismissible>{{ session()->get('error') }}</x-alert>
     @endif
     <form wire:submit.prevent="submit" class="mb-4" autocomplete="off">
-        <x-card :title="__('Customer Login')">
+        <x-card :title="__('Customer Registration & Login')">
+            
             <div>
                 <label for="customerIdNumberInput" class="form-label">@lang('ID number')</label>
                 <input
