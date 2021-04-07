@@ -128,7 +128,8 @@ class OrderListPage extends BackendPage
                         if ($order->status == 'ready') {
                             $order->customer->notify(new OrderReadyed($order));
                         } else if ($order->status == 'cancelled') {
-                            // TODO handle cancelled calculations of credits
+                            $order->customer->credit += $order->costs;
+                            $order->customer->save();
                             $order->customer->notify(new OrderCancelled($order));
                         }
                     } catch (PhoneNumberBlockedByAdminException $ex) {
