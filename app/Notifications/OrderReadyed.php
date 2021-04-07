@@ -4,8 +4,8 @@ namespace App\Notifications;
 
 use App\Models\Customer;
 use App\Models\Order;
+use App\Notifications\Traits\CheckBlockedPhoneNumber;
 use App\Repository\TextBlockRepository;
-use App\Support\CheckBlockedPhoneNumber;
 use Illuminate\Notifications\Notification;
 use NotificationChannels\Twilio\TwilioChannel;
 use NotificationChannels\Twilio\TwilioSmsMessage;
@@ -13,7 +13,7 @@ use NotificationChannels\Twilio\TwilioSmsMessage;
 class OrderReadyed extends Notification
 {
     use CheckBlockedPhoneNumber;
-    
+
     private Order $order;
     private ?string $overrideMessage;
     private TextBlockRepository $textRepo;

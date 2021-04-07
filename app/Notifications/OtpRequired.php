@@ -2,7 +2,7 @@
 
 namespace App\Notifications;
 
-use App\Support\CheckBlockedPhoneNumber;
+use App\Notifications\Traits\CheckBlockedPhoneNumber;
 use Illuminate\Notifications\Notification;
 use NotificationChannels\Twilio\TwilioChannel;
 use NotificationChannels\Twilio\TwilioSmsMessage;
@@ -10,7 +10,7 @@ use NotificationChannels\Twilio\TwilioSmsMessage;
 class OtpRequired extends Notification
 {
     use CheckBlockedPhoneNumber;
-    
+
     private $code;
 
     /**
