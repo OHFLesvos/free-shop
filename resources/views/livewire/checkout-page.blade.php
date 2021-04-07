@@ -7,7 +7,10 @@
             @lang('Your order has been submitted and your order number is <strong>#:id</strong>.', ['id' => $order->id])<br>
             @lang('We will contact you via your phone <strong>:phone</strong> when the order is ready.', ['phone' => $order->customer->phone])
         </x-alert>
-        <p><a href="{{ route('my-orders') }}" class="btn btn-primary">@lang('View your orders')</a></p>
+        <p class="d-flex justify-content-between">
+            <a href="{{ route('my-orders') }}" class="btn btn-primary">@lang('View your orders')</a>
+            <a href="{{ route('customer.logout') }}" class="btn btn-secondary">@lang('Logout')</a>
+        </p>
         @inject('textRepo', 'App\Repository\TextBlockRepository')
         @if($textRepo->exists('post-checkout'))
             {!! $textRepo->getMarkdown('post-checkout') !!}
