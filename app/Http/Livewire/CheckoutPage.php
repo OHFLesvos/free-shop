@@ -63,7 +63,7 @@ class CheckoutPage extends Component
                 'quantity' => $quantity,
             ]]));
 
-        $this->customer->credit -= $totalPrice;
+        $this->customer->credit = max(0, $this->customer->credit - $totalPrice);
         $this->customer->save();
 
         if (!setting()->has('customer.skip_order_registered_notification')) {

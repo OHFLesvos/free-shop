@@ -49,7 +49,15 @@
                                 <strong>@lang('Total')</strong>
                             </td>
                             <td class="text-end fit">
-                                <u><strong>{{ $total }} / {{ $customer->credit }}</strong></u>
+                                <u><strong>{{ $total }}</strong></u>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2" class="text-end">
+                                @lang('Remaining credit')
+                            </td>
+                            <td class="text-end fit">
+                                {{ max(0, $customer->credit - $total) }}
                             </td>
                         </tr>
                     </tfoot>
