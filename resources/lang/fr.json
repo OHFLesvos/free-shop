@@ -40,7 +40,7 @@
     "Total": "Total",
     "Remarks": "Remarques",
     "Please write if we need to know anything more regarding your order.": "Veuillez nous écrire si nous avons besoin d'en savoir plus sur votre commande.",
-    "We will send you updates about your order via SMS to <strong>:phone<\/strong>.": "Nous vous enverrons des mises à jour sur votre commande par SMS à <strong>:phone<\/strong>.",
+    "We will send you updates about your order via SMS to <strong dir=\"ltr\" class=\"text-nowrap\">:phone<\/strong>.": "Nous vous enverrons des mises à jour sur votre commande par SMS à <strong dir=\"ltr\" class=\"text-nowrap\">:phone<\/strong>.",
     "You can update your phone number <a href=\":url\">here<\/a>.": "Vous pouvez mettre à jour votre numéro de téléphone <a href=\":url\">ici<\/a>.",
     "Change": "Modifier",
     "Send order": "Envoyer la commande",

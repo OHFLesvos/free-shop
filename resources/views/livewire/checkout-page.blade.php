@@ -68,7 +68,7 @@
                 <p class="card-text d-flex align-items-center">
                     <x-icon icon="info-circle" class="fa-2x me-3"/>
                     <span>
-                        @lang('We will send you updates about your order via SMS to <strong>:phone</strong>.', ['phone' => $customer->phoneFormattedInternational])
+                        @lang('We will send you updates about your order via SMS to <strong dir="ltr" class="text-nowrap">:phone</strong>.', ['phone' => $customer->phoneFormattedInternational])
                         @lang('You can update your phone number <a href=":url">here</a>.', ['url' => route('customer.account')])</a>
                     </span>
                 </p>

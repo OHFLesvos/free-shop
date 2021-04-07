@@ -40,7 +40,7 @@
     "Total": "Total",
     "Remarks": "ملاحضات",
     "Please write if we need to know anything more regarding your order.": "درصورت نیاز , می توانیداطلاعات بیشتری درباره ی سفارشتان بنویسید",
-    "We will send you updates about your order via SMS to <strong>:phone<\/strong>.": "ما بروز رسانی های مربوط به سفارش شما را به شماره ی <strong>:phone<\/strong> ارسال می کنیم.",
+    "We will send you updates about your order via SMS to <strong dir=\"ltr\" class=\"text-nowrap\">:phone<\/strong>.": "ما بروز رسانی های مربوط به سفارش شما را به شماره ی <strong dir=\"ltr\" class=\"text-nowrap\">:phone<\/strong> ارسال می کنیم.",
     "You can update your phone number <a href=\":url\">here<\/a>.": "You can update your phone number <a href=\":url\">here<\/a>.",
     "Change": "تعویض",
     "Send order": "ارسال سفارش",
