@@ -26,7 +26,7 @@
                         @if($product->price > 0)
                             @lang('Price: :amount', ['amount' => $product->price])
                         @else
-                            Free
+                            @lang('Free')
                         @endif
                     </strong>
                     @unless(isset($nextOrderIn))
