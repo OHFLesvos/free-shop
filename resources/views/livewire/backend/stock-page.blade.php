@@ -1,5 +1,5 @@
 <div class="medium-container">
-    
+
     @if (session()->has('message'))
         <x-alert type="success" dismissible>{{ session()->get('message') }}</x-alert>
     @endif
@@ -18,14 +18,14 @@
                             {{ $product->name }}
                             <br><small class="text-muted">{{ $product->category }}</small>
                         </td>
-                        <td class="align-middle fit text-end @unless($productId == $product->id) cursor-pointer @endunless" 
+                        <td class="align-middle fit text-end @unless($productId == $product->id) cursor-pointer @endunless"
                             wire:click="startEdit({{ $product->id }},{{ $product->stock }})"
                         >
                             @if($productId == $product->id)
                                 <input
                                 type="number"
                                 min="0"
-                                class="form-control @error('quantity') is-invalid @enderror"  
+                                class="form-control @error('quantity') is-invalid @enderror"
                                 style="width: 6em"
                                 required
                                 id="quantityInput"
@@ -38,7 +38,7 @@
                                 @error('quantity') <div class="invalid-feedback">{{ $message }}</div> @enderror
                             @else
                                 <x-spinner wire:loading wire:target="startEdit({{ $product->id }},{{ $product->stock }})"/>
-                                {{ $product->stock }}
+                                <strong class="text-primary">{{ $product->stock }}</strong>
                             @endif
                         </td>
                         <td class="text-end fit align-middle">{{ $product->free_quantity }}</td>
