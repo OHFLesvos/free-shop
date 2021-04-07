@@ -3,7 +3,11 @@
     @include('layouts.includes.head')
     <body class="bg-light h-100 d-flex">
         <main class="container align-self-center">
-            @yield('content')
+            @isset($slot)
+                {{ $slot }}
+            @else
+                @yield('content')
+            @endif
         </main>
         @include('layouts.includes.foot')
     </body>

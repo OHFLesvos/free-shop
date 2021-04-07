@@ -6,9 +6,9 @@ use App;
 use App\Models\Customer;
 use App\Models\Order;
 use App\Models\Product;
-use App\Services\CurrentCustomer;
 use App\Support\ShoppingBasket;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 
 class ShopFrontPage extends Component
@@ -20,13 +20,13 @@ class ShopFrontPage extends Component
     public bool $maxOrdersReached = false;
     public bool $useCategories = false;
 
-    public function mount(CurrentCustomer $currentCustomer)
+    public function mount()
     {
         $this->shopDisabled = setting()->has('shop.disabled');
         $this->useCategories = setting()->has('shop.group_products_by_categories');
         $this->maxOrdersReached = $this->areMaxOrdersReached();
 
-        $this->customer = $currentCustomer->get();
+        $this->customer = Auth::guard('customer')->user();
 
         $this->products = Product::query()
             ->available()

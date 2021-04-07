@@ -1,25 +1,43 @@
 @php
-$readyOrders = 0;
-if (CurrentCustomer::exists()) {
-    $readyOrders = CurrentCustomer::get()->orders()->status('ready')->count();
-}
-$items = [
+$navItems = [
     [
         'label' => __('Shop'),
         'route' => 'shop-front',
         'icon' => 'shopping-bag',
+        'authorized' => true,
     ],
     [
         'label' => __('Your orders'),
         'route' => 'my-orders',
         'icon' => 'list-alt',
-        'badge' => $readyOrders > 0 ? $readyOrders : null,
+        'authorized' => auth('customer')->check(),
     ],
     [
         'label' => __('About'),
         'route' => 'about',
         'icon' => 'info-circle',
+        'authorized' => true,
     ],    
+];
+$rNavItems = [
+    [
+        'label' => __('Login'),
+        'route' => 'customer.login',
+        'icon' => 'sign-in-alt',
+        'authorized' => !auth('customer')->check(),
+    ],
+    [
+        'label' => optional(auth('customer')->user())->name,
+        'route' => 'customer.account',
+        'icon' => 'id-card',
+        'authorized' => auth('customer')->check(),
+    ],
+    [
+        'label' => __('Logout'),
+        'route' => 'customer.logout',
+        'icon' => 'sign-out-alt',
+        'authorized' => auth('customer')->check(),
+    ],
 ];
 $rtl = in_array(app()->getLocale(), config('app.rtl_languages', []));
 @endphp
@@ -40,21 +58,8 @@ $rtl = in_array(app()->getLocale(), config('app.rtl_languages', []));
                 </button>
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav me-auto">
-                        @foreach ($items as $item)
-                            @php
-                                $active = Str::of(Request::route()->getName())->startsWith($item['route']);
-                            @endphp
-                            <li class="nav-item">
-                                <a
-                                    class="nav-link @if($active) active @endif"
-                                    href="{{ route($item['route']) }}" @if($active) aria-current="page" @endif>
-                                    @isset($item['icon']) <x-icon :icon="$item['icon']"/> @endisset
-                                    {{ $item['label'] }}
-                                    @isset($item['badge'])
-                                        <span class="badge bg-info">{{ $item['badge'] }}</span>
-                                    @endisset
-                                </a>
-                            </li>
+                        @foreach (collect($navItems)->filter(fn($item) => !isset($item['authorized']) || $item['authorized']) as $item)
+                            <x-nav-item :item="$item"/>
                         @endforeach
                     </ul>
                     <ul class="navbar-nav">
@@ -85,21 +90,9 @@ $rtl = in_array(app()->getLocale(), config('app.rtl_languages', []));
                                 @endforeach
                             </ul>
                         </li>
-                        {{-- Customer --}}
-                        @if(CurrentCustomer::exists())
-                            @php
-                                $active = Str::of(Request::route()->getName())->startsWith('customer.account');
-                            @endphp
-                            <li class="nav-item">
-                                <a
-                                    class="nav-link @if($active) active @endif"
-                                    href="{{ route('customer.account') }}"
-                                    @if($active) aria-current="page" @endif>
-                                    <x-icon icon="id-card"/>
-                                    {{ CurrentCustomer::get()->name }}
-                                </a>
-                            </li>
-                        @endif
+                        @foreach (collect($rNavItems)->filter(fn($item) => !isset($item['authorized']) || $item['authorized']) as $item)
+                            <x-nav-item :item="$item"/>
+                        @endforeach
                     </ul>
                 </div>
             </div>

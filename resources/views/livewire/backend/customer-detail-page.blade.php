@@ -51,6 +51,10 @@
                 <dt class="col-sm-3">Remarks</dt>
                 <dd class="col-sm-9">{!! nl2br(e($customer->remarks)) !!}</dd>
             @endisset
+            @if($customer->is_disabled)
+                <dt class="col-sm-3">Disabled</dt>
+                <dd class="col-sm-9">{{ $customer->disabled_reason ?? 'Yes' }}</dd>
+            @endif
             <dt class="col-sm-3">Registered</dt>
             <dd class="col-sm-9"><x-date-time-info :value="$customer->created_at"/></dd>
         </dl>

@@ -1,6 +1,5 @@
 <?php
 
-use App\Facades\CurrentCustomer;
 use App\Http\Controllers\LanguageSelectController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\SocialLoginController;
@@ -26,10 +25,12 @@ use App\Http\Livewire\Backend\UserProfilePage;
 use App\Http\Livewire\CheckoutPage;
 use App\Http\Livewire\CustomerAccountPage;
 use App\Http\Livewire\CustomerLoginPage;
+use App\Http\Livewire\CustomerRegistrationPage;
 use App\Http\Livewire\MyOrdersPage;
 use App\Http\Livewire\ShopFrontPage;
 use App\Models\BlockedPhoneNumber;
 use App\Models\TextBlock;
+use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Route;
 
@@ -52,11 +53,17 @@ Route::middleware(['geoblock.whitelist', 'set-language'])
             ->name('privacy-policy');
         Route::get('about', AboutPage::class)
             ->name('about');
-        Route::get('customer/login', CustomerLoginPage::class)
-            ->name('customer.login');
         Route::get('shop', ShopFrontPage::class)
-            ->name('shop-front');
-        Route::middleware('auth-customer')
+            ->name('shop-front')
+            ->middleware('customer-disabled-check');
+        Route::middleware('guest:customer')
+            ->group(function () {
+                Route::get('customer/login', CustomerLoginPage::class)
+                    ->name('customer.login');
+                Route::get('customer/registration', CustomerRegistrationPage::class)
+                    ->name('customer.registration');
+            });
+        Route::middleware(['auth:customer', 'customer-disabled-check'])
             ->group(function () {
                 Route::get('checkout', CheckoutPage::class)
                     ->name('checkout');
@@ -65,8 +72,10 @@ Route::middleware(['geoblock.whitelist', 'set-language'])
                 Route::redirect('order-lookup', 'my-orders');
                 Route::get('customer/account', CustomerAccountPage::class)
                     ->name('customer.account');
-                Route::get('customer/logout', function () {
-                    CurrentCustomer::forget();
+                Route::get('customer/logout', function (Request $request) {
+                    Auth::guard('customer')->logout();
+                    $request->session()->invalidate();
+                    $request->session()->regenerateToken();
                     return redirect()->route('home');
                 })
                     ->name('customer.logout');
@@ -120,7 +129,7 @@ Route::middleware('auth')
                 Route::get('products/{product}/edit', ProductManagePage::class)
                     ->name('products.edit');
                 Route::get('stock', StockPage::class)
-                    ->name('stock');                    
+                    ->name('stock');
                 Route::get('import-export', DataImportExportPage::class)
                     ->name('import-export');
                 Route::get('reports', ReportsPage::class)

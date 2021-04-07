@@ -3,7 +3,7 @@
 namespace App\Http\Livewire;
 
 use App\Models\Customer;
-use App\Services\CurrentCustomer;
+use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 
 class MyOrdersPage extends Component
@@ -12,9 +12,9 @@ class MyOrdersPage extends Component
 
     public $requestCancel = 0;
 
-    public function mount(CurrentCustomer $currentCustomer)
+    public function mount()
     {
-        $this->customer = $currentCustomer->get();
+        $this->customer = Auth::guard('customer')->user();
     }
 
     public function render()

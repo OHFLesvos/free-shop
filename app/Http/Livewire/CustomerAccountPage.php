@@ -3,7 +3,7 @@
 namespace App\Http\Livewire;
 
 use App\Models\Customer;
-use App\Services\CurrentCustomer;
+use Illuminate\Support\Facades\Auth;
 use libphonenumber\NumberParseException;
 use Livewire\Component;
 use Propaganistas\LaravelPhone\PhoneNumber;
@@ -35,9 +35,9 @@ class CustomerAccountPage extends Component
         ];
     }
 
-    public function mount(CurrentCustomer $currentCustomer)
+    public function mount()
     {
-        $this->customer = $currentCustomer->get();
+        $this->customer = Auth::guard('customer')->user();
 
         $this->customer_name = $this->customer->name;
         $this->customer_id_number = $this->customer->id_number;
