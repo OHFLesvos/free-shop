@@ -69,6 +69,18 @@ class ShopFrontPage extends Component
 
     public function add(ShoppingBasket $basket, $productId, $quantity = 1)
     {
-        $basket->add($productId, $quantity);
+        $price = $this->products->firstWhere('id', $productId)->price * $quantity;
+        if ($price <= $this->AvailableCredit) {
+            $basket->add($productId, $quantity);
+        }
+    }
+
+    public function getAvailableCreditProperty(ShoppingBasket $basket)
+    {
+        $credit = $this->customer->credit;
+        $credit -= $basket->items()
+            ->map(fn ($quantity, $productId) => $this->products->firstWhere('id', $productId)->price * $quantity)
+            ->sum();
+        return $credit;
     }
 }
