@@ -67,13 +67,11 @@ class Product extends Model
 
     public function getQuantityAvailableForCustomerAttribute()
     {
-        return $this->limit_per_order ?? 10;
-
         // TODO fix calculation of free and available orders
-        // if ($this->limit_per_order !== null) {
-        //     return min($this->limit_per_order, $this->free_quantity);
-        // }
-        // return max(0, $this->free_quantity);
+        if ($this->limit_per_order !== null) {
+            return min($this->limit_per_order, $this->stock);
+        }
+        return $this->stock;
     }
 
     public function scopeAvailable(Builder $qry)
