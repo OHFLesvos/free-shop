@@ -4,7 +4,7 @@
         href="{{ route($item['route']) }}"
         @if($isActive()) aria-current="page" @endif
     >
-        @isset($item['icon']) 
+        @isset($item['icon'])
             <x-icon :icon="$item['icon']"/>
         @endisset
         {{ $item['label'] }}
