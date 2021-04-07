@@ -31,6 +31,7 @@ class Order extends Model implements Auditable
     }
 
     protected $fillable = [
+        'costs',
         'ip_address',
         'user_agent',
         'remarks',

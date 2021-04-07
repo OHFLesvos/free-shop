@@ -35,6 +35,8 @@ class MyOrdersPage extends Component
         if ($order != null) {
             $order->status = 'cancelled';
             $order->save();
+            $order->customer->credit += $order->costs;
+            $order->customer->save();
         }
     }
 }

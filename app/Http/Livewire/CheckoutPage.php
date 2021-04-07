@@ -51,6 +51,7 @@ class CheckoutPage extends Component
 
         $order = new Order();
         $order->fill([
+            'costs' => $totalPrice,
             'remarks' => trim($this->remarks),
             'ip_address' => $request->ip(),
             'user_agent' => $request->userAgent(),
