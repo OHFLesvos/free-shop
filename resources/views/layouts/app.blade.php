@@ -7,6 +7,12 @@ $navItems = [
         'authorized' => true,
     ],
     [
+        'label' => __('Checkout'),
+        'route' => 'checkout',
+        'icon' => 'shopping-basket',
+        'authorized' => auth('customer')->check(),
+    ],
+    [
         'label' => __('Your orders'),
         'route' => 'my-orders',
         'icon' => 'list-alt',
@@ -17,7 +23,7 @@ $navItems = [
         'route' => 'about',
         'icon' => 'info-circle',
         'authorized' => true,
-    ],    
+    ],
 ];
 $rNavItems = [
     [
