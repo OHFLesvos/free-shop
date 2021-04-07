@@ -1,8 +1,10 @@
 <div class="medium-container">
-
+    @include('livewire.backend.configuration-nav')
+    
     @if (session()->has('message'))
         <x-alert type="success" dismissible>{{ session()->get('message') }}</x-alert>
     @endif
+
     <div class="table-responsive">
         <table class="table table-bordered bg-white shadow-sm @can('manage text blocks') table-hover @endcan">
             <thead>
@@ -12,20 +14,15 @@
             </thead>
             <tbody>
                 @forelse($textBlocks as $textBlock)
-                    <tr
-                        @can('update', $textBlock) onclick="window.location='{{ route('backend.text-blocks.edit', $textBlock) }}'" @endcan
-                        class="@can('update', $textBlock) cursor-pointer @endcan"
-                    >
+                    <tr @can('update', $textBlock)
+                        onclick="window.location='{{ route('backend.configuration.text-blocks.edit', $textBlock) }}'" @endcan
+                        class="@can('update', $textBlock) cursor-pointer @endcan">
                         <td>
                             <strong>{{ $textBlock->name }}</strong><br>
                             {{ config('text-blocks.' . $textBlock->name . '.purpose') }}
                         </td>
                         <td class="fit">
-                            {{ collect(config('app.supported_languages'))
-                                ->keys()
-                                ->filter(fn ($key) => $textBlock->hasTranslation('content', $key))
-                                ->map(fn ($key) => strtoupper($key))
-                                ->join(', ') }}
+                            {{ collect(config('app.supported_languages'))->keys()->filter(fn($key) => $textBlock->hasTranslation('content', $key))->map(fn($key) => strtoupper($key))->join(', ') }}
                         </td>
                         <td class="fit">
                             <x-date-time-info :value="$textBlock->updated_at" line-break />

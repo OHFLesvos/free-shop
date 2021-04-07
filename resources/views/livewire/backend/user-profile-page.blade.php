@@ -40,10 +40,6 @@
                     <dd class="col-sm-9">{{ $user->name }}</dd>
                     <dt class="col-sm-3">E-Mail</dt>
                     <dd class="col-sm-9">{{ $user->email }}</dd>
-                    @isset($user->phone)
-                        <dt class="col-sm-3">Phone</dt>
-                        <dd class="col-sm-9"><x-phone-info :value="$user->phone"/></dd>
-                    @endisset
                     @if($user->getRoleNames()->isNotEmpty())
                         <dt class="col-sm-3">Roles</dt>
                         <dd class="col-sm-9">{{ $user->getRoleNames()->join(', ') }}</dd>
@@ -95,57 +91,6 @@
                                 </span>
                             </button>
                             @error('timezone') <div class="invalid-feedback">{{ $message }}</div> @enderror
-                        </div>
-                    </div>
-
-                    <h5>Notifications</h5>
-                    <div class="row g-3 mb-4">
-                        <div class="col-md-6">
-                            <div class="form-check form-switch mb-3">
-                                <input
-                                    type="checkbox"
-                                    class="form-check-input"
-                                    id="notifyViaEmailInput"
-                                    value="1"
-                                    wire:model.defer="user.notify_via_email">
-                                <label class="form-check-label" for="notifyViaEmailInput">Receive notifications via e-mail</label>
-                            </div>
-                            <div class="form-check form-switch">
-                                <input
-                                    type="checkbox"
-                                    class="form-check-input"
-                                    id="notifyViaPhoneInput"
-                                    value="1"
-                                    wire:model.defer="user.notify_via_phone">
-                                <label class="form-check-label" for="notifyViaPhoneInput">Receive notifications via phone</label>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <label for="inputPhone" class="form-label">Phone:</label>
-                            <div class="input-group">
-                                @php
-                                    $phoneContryCodes = megastruktur\PhoneCountryCodes::getCodesList();
-                                @endphp
-                                <select
-                                    class="form-select"
-                                    style="max-width: 11em;"
-                                    wire:model.defer="phone_country">
-                                    <option value="" selected>-- Select country --</option>
-                                    @foreach(Countries::getList() as $key => $val)
-                                        <option value="{{ $key }}">
-                                            {{ $val }}
-                                            @isset($phoneContryCodes[$key] )({{ $phoneContryCodes[$key] }})@endisset
-                                        </option>
-                                    @endforeach
-                                </select>
-                                <input
-                                    type="tel"
-                                    class="form-control @error('phone') is-invalid @enderror"
-                                    id="inputPhone"
-                                    autocomplete="off"
-                                    wire:model.defer="phone">
-                                @error('phone') <div class="invalid-feedback">{{ $message }}</div> @enderror
-                            </div>
                         </div>
                     </div>
 

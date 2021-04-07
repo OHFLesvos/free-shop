@@ -3,11 +3,7 @@
 namespace App\Http\Livewire;
 
 use App\Models\Customer;
-use App\Models\User;
-use App\Notifications\OrderCancelled;
-use App\Services\CurrentCustomer;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Notification;
+use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 
 class MyOrdersPage extends Component
@@ -16,9 +12,9 @@ class MyOrdersPage extends Component
 
     public $requestCancel = 0;
 
-    public function mount(CurrentCustomer $currentCustomer)
+    public function mount()
     {
-        $this->customer = $currentCustomer->get();
+        $this->customer = Auth::guard('customer')->user();
     }
 
     public function render()
@@ -39,12 +35,8 @@ class MyOrdersPage extends Component
         if ($order != null) {
             $order->status = 'cancelled';
             $order->save();
-
-            try {
-                Notification::send(User::notifiable()->get(), new OrderCancelled($order));
-            } catch (\Exception $ex) {
-                Log::warning('[' . get_class($ex) . '] Cannot send notification: ' . $ex->getMessage());
-            }
+            $order->customer->credit += $order->costs;
+            $order->customer->save();
         }
     }
 }

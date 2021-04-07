@@ -2,16 +2,16 @@
 
 namespace App\Http\Livewire;
 
+use App\Exceptions\PhoneNumberBlockedByAdminException;
 use App\Models\Customer;
 use App\Models\Order;
-use App\Models\User;
+use App\Models\Product;
 use App\Notifications\OrderRegistered;
-use App\Services\CurrentCustomer;
 use App\Support\ShoppingBasket;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Livewire\Component;
-use Illuminate\Support\Facades\Notification;
 
 class CheckoutPage extends Component
 {
@@ -23,9 +23,9 @@ class CheckoutPage extends Component
         'remarks' => 'nullable',
     ];
 
-    public function mount(CurrentCustomer $currentCustomer)
+    public function mount()
     {
-        $this->customer = $currentCustomer->get();
+        $this->customer = Auth::guard('customer')->user();
     }
 
     public function render(ShoppingBasket $basket)
@@ -41,8 +41,17 @@ class CheckoutPage extends Component
     {
         $this->validate();
 
+        $totalPrice = $basket->items()
+            ->map(fn ($quantity, $productId) => Product::find($productId)->price * $quantity)
+            ->sum();
+        if ($this->customer->credit < $totalPrice) {
+            session()->flash('error', __('Not enough credit.'));
+            return;
+        }
+
         $order = new Order();
         $order->fill([
+            'costs' => $totalPrice,
             'remarks' => trim($this->remarks),
             'ip_address' => $request->ip(),
             'user_agent' => $request->userAgent(),
@@ -55,18 +64,17 @@ class CheckoutPage extends Component
                 'quantity' => $quantity,
             ]]));
 
-        // TODO
-        // $totalPrice = $order->products->sum('price');
-        // if ($totalPrice > $customer->credit) {
-        //     // TODO abort
-        // }
-        // $customer->credit -= $totalPrice;
+        $this->customer->credit = max(0, $this->customer->credit - $totalPrice);
+        $this->customer->save();
 
-        try {
-            $this->customer->notify(new OrderRegistered($order));
-            Notification::locale(config('app.locale'))->send(User::notifiable()->get(), new OrderRegistered($order));
-        } catch (\Exception $ex) {
-            Log::warning('[' . get_class($ex) . '] Cannot send notification: ' . $ex->getMessage());
+        if (!setting()->has('customer.skip_order_registered_notification')) {
+            try {
+                $this->customer->notify(new OrderRegistered($order));
+            } catch (PhoneNumberBlockedByAdminException $ex) {
+                session()->flash('error', __('The phone number :phone has been blocked by an administrator.', ['phone' => $ex->getPhone()]));
+            } catch (\Exception $ex) {
+                Log::warning('[' . get_class($ex) . '] Cannot send notification: ' . $ex->getMessage());
+            }
         }
 
         $this->order = $order;

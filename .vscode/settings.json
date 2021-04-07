@@ -6,6 +6,7 @@
         "public/js": true,
         "public/vendor": true,
         "storage/framework/views": true,
+        "storage/logs": true,
         "bootstrap/cache": true
     }
 }

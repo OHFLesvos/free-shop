@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Backend;
 
+use App\Exceptions\PhoneNumberBlockedByAdminException;
 use App\Models\Order;
 use App\Notifications\OrderCancelled;
 use App\Notifications\OrderReadyed;
@@ -127,9 +128,12 @@ class OrderListPage extends BackendPage
                         if ($order->status == 'ready') {
                             $order->customer->notify(new OrderReadyed($order));
                         } else if ($order->status == 'cancelled') {
-                            // TODO handle cancelled calculations of credits
+                            $order->customer->credit += $order->costs;
+                            $order->customer->save();
                             $order->customer->notify(new OrderCancelled($order));
                         }
+                    } catch (PhoneNumberBlockedByAdminException $ex) {
+                        session()->flash('error', $ex->getMessage());
                     } catch (\Exception $ex) {
                         Log::warning('[' . get_class($ex) . '] Cannot send notification: ' . $ex->getMessage());
                     }

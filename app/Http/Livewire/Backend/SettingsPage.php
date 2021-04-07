@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Backend;
 
+use App\Http\Livewire\CurrentRouteName;
 use Illuminate\Support\Collection;
 use Countries;
 use Gumlet\ImageResize;
@@ -15,12 +16,14 @@ class SettingsPage extends BackendPage
 {
     use WithFileUploads;
     use AuthorizesRequests;
+    use CurrentRouteName;
 
     public Collection $geoblockWhitelist;
     public string $orderDefaultPhoneCountry;
     public string $timezone;
     public $customerStartingCredit;
     public bool $shopDisabled;
+    public bool $groupProductsByCategories;
     public $shopMaxOrdersPerDay;
     public $customerIdNumberPattern;
     public $customerIdNumberExample;
@@ -36,9 +39,14 @@ class SettingsPage extends BackendPage
 
     public $contentLocale;
 
+    public bool $skipOrderRegisteredNotification;
+
     protected function rules() {
         return [
             'shopDisabled' => [
+                'boolean',
+            ],
+            'groupProductsByCategories' => [
                 'boolean',
             ],
             'orderDefaultPhoneCountry' => [
@@ -82,6 +90,9 @@ class SettingsPage extends BackendPage
                 'integer',
                 'min:1',
             ],
+            'skipOrderRegisteredNotification' => [
+                'boolean',
+            ],            
         ];
     }
 
@@ -90,6 +101,7 @@ class SettingsPage extends BackendPage
         $this->authorize('update settings');
 
         $this->shopDisabled = setting()->has('shop.disabled');
+        $this->groupProductsByCategories = setting()->has('shop.group_products_by_categories');
         $this->geoblockWhitelist = collect(setting()->get('geoblock.whitelist', []));
         $this->orderDefaultPhoneCountry = setting()->get('order.default_phone_country', '');
         $this->timezone = setting()->get('timezone', '');
@@ -99,6 +111,7 @@ class SettingsPage extends BackendPage
         $this->customerIdNumberPattern = setting()->get('customer.id_number_pattern', '');
         $this->customerIdNumberExample = setting()->get('customer.id_number_example', '');
         $this->customerWaitingTimeBetweenOrders = setting()->get('customer.waiting_time_between_orders', '');
+        $this->skipOrderRegisteredNotification = setting()->has('customer.skip_order_registered_notification');
 
         $this->countries = collect(Countries::getList());
 
@@ -137,6 +150,11 @@ class SettingsPage extends BackendPage
             setting()->set('shop.disabled', true);
         } else {
             setting()->forget('shop.disabled');
+        }
+        if ($this->groupProductsByCategories) {
+            setting()->set('shop.group_products_by_categories', true);
+        } else {
+            setting()->forget('shop.group_products_by_categories');
         }
 
         if ($this->geoblockWhitelist->isNotEmpty()) {
@@ -202,6 +220,12 @@ class SettingsPage extends BackendPage
             setting()->set('customer.waiting_time_between_orders', $this->customerWaitingTimeBetweenOrders);
         } else {
             setting()->forget('customer.waiting_time_between_orders');
+        }
+
+        if ($this->skipOrderRegisteredNotification) {
+            setting()->set('customer.skip_order_registered_notification', true);
+        } else {
+            setting()->forget('customer.skip_order_registered_notification');
         }
 
         if ($checksum != md5(json_encode(Setting::all()))) {

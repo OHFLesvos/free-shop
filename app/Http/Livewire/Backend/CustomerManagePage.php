@@ -5,7 +5,7 @@ namespace App\Http\Livewire\Backend;
 use App\Models\Customer;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Validation\Rule;
-use Propaganistas\LaravelPhone\Exceptions\NumberParseException;
+use libphonenumber\NumberParseException;
 use Propaganistas\LaravelPhone\PhoneNumber;
 
 class CustomerManagePage extends BackendPage
@@ -44,6 +44,10 @@ class CustomerManagePage extends BackendPage
             ],
             'customer.remarks' => 'nullable',
             'customer.locale' => 'nullable',
+            'customer.is_disabled' => 'boolean',
+            'customer.disabled_reason' => [
+                'required_if:customer.is_disabled,true',
+            ]
         ];
     }
 
@@ -67,7 +71,7 @@ class CustomerManagePage extends BackendPage
                 $phone = PhoneNumber::make($this->customer->phone);
                 $this->customer_phone_country = $phone->getCountry();
                 $this->customer_phone = $phone->formatNational();
-            } catch (NumberParseException|\libphonenumber\NumberParseException $ignored) {
+            } catch (NumberParseException $ignored) {
                 $this->customer_phone_country = '';
                 $this->customer_phone = $this->customer->phone;
             }
@@ -96,6 +100,10 @@ class CustomerManagePage extends BackendPage
 
         $this->customer->phone = PhoneNumber::make($this->customer_phone, $this->customer_phone_country)
             ->formatE164();
+
+        if (!$this->customer->is_disabled) {
+            $this->customer->disabled_reason = null;
+        }
 
         $this->customer->save();
 

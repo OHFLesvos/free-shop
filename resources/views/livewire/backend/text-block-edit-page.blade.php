@@ -85,7 +85,7 @@
                 <div class="d-flex justify-content-end">
                     @can('viewAny', App\Models\TextBlock::class)
                         <a
-                            href="{{ route('backend.text-blocks') }}"
+                            href="{{ route('backend.configuration.text-blocks') }}"
                             class="btn btn-link">Cancel</a>
                     @endcan
                     <button

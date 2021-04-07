@@ -4,15 +4,16 @@ namespace App\Notifications;
 
 use App\Models\Customer;
 use App\Models\Order;
-use App\Models\User;
+use App\Notifications\Traits\CheckBlockedPhoneNumber;
 use App\Repository\TextBlockRepository;
-use Illuminate\Notifications\Messages\MailMessage;
+use Illuminate\Notifications\Notification;
 use NotificationChannels\Twilio\TwilioChannel;
 use NotificationChannels\Twilio\TwilioSmsMessage;
-use Illuminate\Notifications\Notification;
 
 class OrderRegistered extends Notification
 {
+    use CheckBlockedPhoneNumber;
+
     private Order $order;
     private TextBlockRepository $textRepo;
 
@@ -30,35 +31,11 @@ class OrderRegistered extends Notification
      */
     public function via($notifiable)
     {
-        if ($notifiable instanceof User) {
-            $channels = [];
-            if ($notifiable->notify_via_email) {
-                $channels[] = 'mail';
-            }
-            if ($notifiable->notify_via_phone && $notifiable->phone !== null) {
-                $channels[] = TwilioChannel::class;
-            }
-            return $channels;
-        }
         if ($notifiable instanceof Customer) {
+            $this->checkBlockedPhoneNumber($notifiable->phone);
             return [TwilioChannel::class];
         }
         return [];
-    }
-
-    /**
-     * Get the mail representation of the notification.
-     *
-     * @param  mixed  $notifiable
-     * @return \Illuminate\Notifications\Messages\MailMessage
-     */
-    public function toMail($notifiable)
-    {
-        return (new MailMessage)
-            ->subject('Order #' . $this->order->id . ' registered by customer')
-            ->markdown('mail.order.registered_by_customer', [
-                'order' => $this->order,
-            ]);
     }
 
     public function toTwilio($notifiable)
@@ -67,24 +44,15 @@ class OrderRegistered extends Notification
             ->content($this->twilioMessage($notifiable));
     }
 
-    private function twilioMessage($notifiable): string
+    private function twilioMessage(Customer $notifiable): string
     {
-        if ($notifiable instanceof User) {
-            return sprintf("Hello %s, we have received a new order with ID #%s from customer %s.\n%s",
-                $notifiable->name,
-                $this->order->id,
-                $this->order->customer->name,
-                route('backend.orders.show', $this->order));
-        }
-        if ($notifiable instanceof Customer) {
-            $message = __($this->textRepo->getPlain('message-order-registered'), [
-                'customer_name' => $notifiable->name,
-                'customer_id' => $notifiable->id_number,
-                'id' => $this->order->id,
-            ]);
-            $message .= "\n";
-            $message .= route('my-orders');
-            return $message;
-        }
+        $message = __($this->textRepo->getPlain('message-order-registered'), [
+            'customer_name' => $notifiable->name,
+            'customer_id' => $notifiable->id_number,
+            'id' => $this->order->id,
+        ]);
+        $message .= "\n";
+        $message .= route('my-orders');
+        return $message;
     }
 }

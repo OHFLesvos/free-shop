@@ -6,7 +6,9 @@
         <h3>@lang('Choose your language')</h3>
         <div class="list-group shadow-sm my-4">
             @foreach($languages as $key => $value)
-                <a href="{{ route('languages.change', $key) }}" class="list-group-item list-group-item-action">
+                <a
+                    href="{{ route('languages.change', $key) }}"
+                    class="list-group-item list-group-item-action py-3">
                     {{ $value }}
                 </a>
             @endforeach

@@ -65,7 +65,7 @@ class TextBlockEditPage extends BackendPage
 
         session()->flash('message', 'Text block updated.');
 
-        return redirect()->route('backend.text-blocks');
+        return redirect()->route('backend.configuration.text-blocks');
     }
 
     public function getDefaultLocaleProperty()

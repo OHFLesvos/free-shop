@@ -2,6 +2,7 @@
 
 namespace App\Listeners;
 
+use App\Models\Customer;
 use App\Models\User;
 use Illuminate\Auth\Events\Login;
 use Illuminate\Support\Facades\Log;
@@ -16,10 +17,14 @@ class LogSuccessfulLogin
      */
     public function handle(Login $event)
     {
-        $this->writeLog($event->user);
+        if ($event->user instanceof User) {
+            $this->writeLogForUser($event->user);
+        } else if ($event->user instanceof Customer) {
+            $this->writeLogForCustomer($event->user);
+        }
     }
 
-    private function writeLog(User $user)
+    private function writeLogForUser(User $user)
     {
         Log::info('Successful user login.', [
             'event.kind' => 'event',
@@ -29,6 +34,19 @@ class LogSuccessfulLogin
             'user.name' => $user->name,
             'user.email' => $user->email,
             'user.roles' => $user->getRoleNames()->toArray(),
+        ]);
+    }
+
+    private function writeLogForCustomer(Customer $customer)
+    {
+        Log::info('Successful customer login.', [
+            'event.kind' => 'event',
+            'event.category' => 'authentication',
+            'event.type' => 'start',
+            'event.outcome' => 'success',
+            'user.name' => $customer->name,
+            'user.email' => $customer->id_number,
+            'user.phone' => $customer->phone,
         ]);
     }
 }

@@ -49,13 +49,10 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
         'last_login_at' => 'datetime',
-        'notify_via_email' => 'boolean',
-        'notify_via_phone' => 'boolean',
     ];
 
     protected $nullable = [
         'timezone',
-        'phone',
     ];
 
     /**
@@ -67,19 +64,6 @@ class User extends Authenticatable
         'created' => UserCreated::class,
         'deleted' => UserDeleted::class,
     ];
-
-    public function scopeNotifiable(Builder $query)
-    {
-        $query->where('notify_via_email', true)
-            ->orWhere(fn ($inner) => $inner->where('notify_via_phone', true)
-                ->whereNotNull('phone')
-            );
-    }
-
-    public function routeNotificationForTwilio()
-    {
-        return $this->phone;
-    }
 
     public function scopeFilter(Builder $qry, string $filter)
     {
