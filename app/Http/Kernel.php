@@ -68,5 +68,6 @@ class Kernel extends HttpKernel
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'geoblock.whitelist' => GeoBlockWhitelist::class,
         'set-language' => SetLanguage::class,
+        'customer-disabled-check' => \App\Http\Middleware\CustomerIsDisabled::class,
     ];
 }

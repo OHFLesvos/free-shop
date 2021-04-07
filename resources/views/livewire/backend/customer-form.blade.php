@@ -121,6 +121,30 @@
                             wire:model.defer="customer.remarks"></textarea>
                         @error('customer.remarks') <div class="invalid-feedback">{{ $message }}</div> @enderror
                     </div>
+                    <div class="col-md-4">
+                        <div class="form-check form-switch">
+                            <input
+                                type="checkbox"
+                                class="form-check-input"
+                                id="isDisabledInput"
+                                value="1"
+                                wire:model="customer.is_disabled">
+                            <label class="form-check-label" for="isDisabledInput">Disabled</label>
+                            @error('customer.is_disabled') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                        </div>
+                    </div>
+                    @if($customer->is_disabled)
+                        <div class="col-md-8">
+                            <label for="disabledReasonInput" class="form-label">Reason for disabling</label>
+                            <textarea
+                                class="form-control @error('customer.disabled_reason') is-invalid @enderror"
+                                id="disabledReasonInput"
+                                autocomplete="off"
+                                rows="3"
+                                wire:model.defer="customer.disabled_reason"></textarea>
+                            @error('customer.disabled_reason') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                        </div>
+                    @endif
                 </div>
 
                 <x-slot name="footer">

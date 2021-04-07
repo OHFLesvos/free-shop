@@ -45,6 +45,11 @@ class Customer extends Model implements
     protected $nullable = [
         'locale',
         'remarks',
+        'disabled_reason',
+    ];
+
+    protected $casts = [
+        'is_disabled' => 'boolean',
     ];
 
     protected static function booted()

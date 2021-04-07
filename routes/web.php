@@ -54,15 +54,16 @@ Route::middleware(['geoblock.whitelist', 'set-language'])
         Route::get('about', AboutPage::class)
             ->name('about');
         Route::get('shop', ShopFrontPage::class)
-            ->name('shop-front');
+            ->name('shop-front')
+            ->middleware('customer-disabled-check');
         Route::middleware('guest:customer')
-            ->group(function () {            
+            ->group(function () {
                 Route::get('customer/login', CustomerLoginPage::class)
                     ->name('customer.login');
                 Route::get('customer/registration', CustomerRegistrationPage::class)
                     ->name('customer.registration');
             });
-        Route::middleware('auth:customer')
+        Route::middleware(['auth:customer', 'customer-disabled-check'])
             ->group(function () {
                 Route::get('checkout', CheckoutPage::class)
                     ->name('checkout');
@@ -128,7 +129,7 @@ Route::middleware('auth')
                 Route::get('products/{product}/edit', ProductManagePage::class)
                     ->name('products.edit');
                 Route::get('stock', StockPage::class)
-                    ->name('stock');                    
+                    ->name('stock');
                 Route::get('import-export', DataImportExportPage::class)
                     ->name('import-export');
                 Route::get('reports', ReportsPage::class)

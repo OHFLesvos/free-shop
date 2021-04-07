@@ -47,7 +47,12 @@
                         @can('view', $customer) onclick="window.location='{{ route('backend.customers.show', $customer) }}'" @endcan
                         @can('view', $customer) class="cursor-pointer" @endcan>
                         <td>{{ $customer->name }}</td>
-                        <td>{{ $customer->id_number }}</td>
+                        <td>
+                            @if($customer->is_disabled)
+                                <x-icon icon="user-lock" class="text-danger" title="Disabled" />
+                            @endif
+                            {{ $customer->id_number }}
+                        </td>
                         <td><x-phone-info :value="$customer->phone"/></td>
                         <td class="text-end">{{ $customer->orders()->count() }}</td>
                         <td class="text-end">{{ $customer->credit }}</td>

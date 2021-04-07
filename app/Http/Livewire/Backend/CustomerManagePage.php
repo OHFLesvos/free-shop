@@ -44,6 +44,10 @@ class CustomerManagePage extends BackendPage
             ],
             'customer.remarks' => 'nullable',
             'customer.locale' => 'nullable',
+            'customer.is_disabled' => 'boolean',
+            'customer.disabled_reason' => [
+                'required_with:customer.is_disabled',
+            ]
         ];
     }
 
@@ -96,6 +100,10 @@ class CustomerManagePage extends BackendPage
 
         $this->customer->phone = PhoneNumber::make($this->customer_phone, $this->customer_phone_country)
             ->formatE164();
+
+        if (!$this->customer->is_disabled) {
+            $this->customer->disabled_reason = null;
+        }
 
         $this->customer->save();
 
