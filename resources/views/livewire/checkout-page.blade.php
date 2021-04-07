@@ -1,4 +1,7 @@
 <div class="small-container">
+    @if(session()->has('error'))
+        <x-alert type="warning" dismissible>{{ session()->get('error') }}</x-alert>
+    @endif
     @if(isset($order))
         <x-alert type="success">
             @lang('Your order has been submitted and your order number is <strong>#:id</strong>.', ['id' => $order->id])<br>
@@ -46,7 +49,7 @@
                                 <strong>@lang('Total')</strong>
                             </td>
                             <td class="text-end fit">
-                                <u><strong>{{ $total }}</strong></u>
+                                <u><strong>{{ $total }} / {{ $customer->credit }}</strong></u>
                             </td>
                         </tr>
                     </tfoot>

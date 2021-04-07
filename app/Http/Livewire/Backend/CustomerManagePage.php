@@ -46,7 +46,7 @@ class CustomerManagePage extends BackendPage
             'customer.locale' => 'nullable',
             'customer.is_disabled' => 'boolean',
             'customer.disabled_reason' => [
-                'required_with:customer.is_disabled',
+                'required_if:customer.is_disabled,true',
             ]
         ];
     }

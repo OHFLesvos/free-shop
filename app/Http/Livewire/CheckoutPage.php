@@ -5,6 +5,7 @@ namespace App\Http\Livewire;
 use App\Exceptions\PhoneNumberBlockedByAdminException;
 use App\Models\Customer;
 use App\Models\Order;
+use App\Models\Product;
 use App\Notifications\OrderRegistered;
 use App\Support\ShoppingBasket;
 use Illuminate\Http\Request;
@@ -40,6 +41,14 @@ class CheckoutPage extends Component
     {
         $this->validate();
 
+        $totalPrice = $basket->items()
+            ->map(fn ($quantity, $productId) => Product::find($productId)->price * $quantity)
+            ->sum();
+        if ($this->customer->credit < $totalPrice) {
+            session()->flash('error', __('Not enough credit.'));
+            return;
+        }
+
         $order = new Order();
         $order->fill([
             'remarks' => trim($this->remarks),
@@ -54,12 +63,8 @@ class CheckoutPage extends Component
                 'quantity' => $quantity,
             ]]));
 
-        // TODO
-        // $totalPrice = $order->products->sum('price');
-        // if ($totalPrice > $customer->credit) {
-        //     // TODO abort
-        // }
-        // $customer->credit -= $totalPrice;
+        $this->customer->credit -= $totalPrice;
+        $this->customer->save();
 
         if (!setting()->has('customer.skip_order_registered_notification')) {
             try {
