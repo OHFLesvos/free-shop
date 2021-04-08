@@ -8,7 +8,7 @@ class PhoneNumberBlockedByAdminException extends \Exception
 
     public function __construct (string $phone)
     {
-        parent::__construct("The phone number '$phone' has been blocked by an administrator and cannot be used to send messages to.");
+        parent::__construct("The phone number $phone has been blocked by an administrator and cannot be used to send messages to.");
         $this->phone = $phone;
     }
 

@@ -28,7 +28,7 @@
                     @lang('This order is in progress.')
                 @endif
             </p>
-            @if($order->isOpen)
+            @if($order->status == 'new')
                 <x-slot name="footer">
                     <div class="row g-2 align-items-center">
                         @if($requestCancel == $order->id)
