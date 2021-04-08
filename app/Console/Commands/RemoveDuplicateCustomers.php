@@ -39,9 +39,9 @@ class RemoveDuplicateCustomers extends Command
     public function handle()
     {
         $duplicatedIdNumbers = Customer::select('id_number', 'name')
-            ->selectRaw('COUNT(id_number)')
+            ->selectRaw('COUNT(id_number) as cnt')
             ->groupBy('id_number', 'name')
-            ->having('COUNT(id_number)', '>', 1)
+            ->havingRaw('COUNT(id_number) > 1')
             ->get();
 
         $this->table(
@@ -60,9 +60,9 @@ class RemoveDuplicateCustomers extends Command
         }
 
         $remainingDuplicatedIdNumbers = Customer::select('id_number')
-            ->selectRaw('COUNT(id_number)')
+            ->selectRaw('COUNT(id_number) as cnt')
             ->groupBy('id_number')
-            ->having('COUNT(id_number)', '>', 1)
+            ->havingRaw('COUNT(id_number) > 1')
             ->get();
 
         $this->table(
