@@ -6,6 +6,7 @@ use Dyrynda\Database\Support\NullableFields;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Spatie\Translatable\HasTranslations;
 
@@ -54,10 +55,15 @@ class Product extends Model
 
     public function getReservedQuantityAttribute()
     {
-        return $this->orders
-            ->where('isOpen', true)
-            ->map(fn ($order) => $order->pivot->quantity)
-            ->sum();
+        return DB::table('orders')->whereIn('orders.status', ['new', 'ready'])
+            ->join('order_product', function ($join) {
+                $join->on('orders.id', '=', 'order_product.order_id')
+                    ->where('order_product.product_id', '=', $this->id);
+            })
+            ->groupBy('order_product.product_id')
+            ->selectRaw('sum(quantity) as reserved')
+            ->first()
+            ->reserved ?? 0;
     }
 
     public function getFreeQuantityAttribute()
@@ -67,11 +73,10 @@ class Product extends Model
 
     public function getQuantityAvailableForCustomerAttribute()
     {
-        // TODO fix calculation of free and available orders
         if ($this->limit_per_order !== null) {
-            return min($this->limit_per_order, $this->stock);
+            return min($this->limit_per_order, $this->free_quantity);
         }
-        return $this->stock;
+        return max(0, $this->free_quantity);
     }
 
     public function scopeAvailable(Builder $qry)
