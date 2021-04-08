@@ -15,6 +15,7 @@
         <x-backend.dashboard.products-widget/>
         <x-backend.dashboard.users-widget/>
         <x-backend.dashboard.twilio-widget/>
+        <x-backend.dashboard.system-info-widget/>
         @php
             $content = ob_get_clean();
         @endphp
