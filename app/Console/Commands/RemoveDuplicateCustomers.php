@@ -38,14 +38,14 @@ class RemoveDuplicateCustomers extends Command
      */
     public function handle()
     {
-        $duplicatedIdNumbers = Customer::select('id_number', 'name')
+        $duplicatedIdNumbers = Customer::select('id_number')
             ->selectRaw('COUNT(id_number) as cnt')
-            ->groupBy('id_number', 'name')
+            ->groupBy('id_number')
             ->havingRaw('COUNT(id_number) > 1')
             ->get();
 
         $this->table(
-            ['ID Number', 'Name', 'Count'],
+            ['ID Number', 'Count'],
             $duplicatedIdNumbers->toArray()
         );
         foreach ($duplicatedIdNumbers->pluck('id_number') as $idNumber) {
@@ -58,17 +58,6 @@ class RemoveDuplicateCustomers extends Command
                 $customer->delete();
             }
         }
-
-        $remainingDuplicatedIdNumbers = Customer::select('id_number')
-            ->selectRaw('COUNT(id_number) as cnt')
-            ->groupBy('id_number')
-            ->havingRaw('COUNT(id_number) > 1')
-            ->get();
-
-        $this->table(
-            ['ID Number', 'Count'],
-            $remainingDuplicatedIdNumbers->toArray()
-        );
 
         return 0;
     }
