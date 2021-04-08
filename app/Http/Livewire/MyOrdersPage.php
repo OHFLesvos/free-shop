@@ -32,7 +32,7 @@ class MyOrdersPage extends Component
     public function cancelOrder($id)
     {
         $order = $this->customer->orders()->find($id);
-        if ($order != null) {
+        if ($order != null  && $order->status == 'new') {
             $order->status = 'cancelled';
             $order->save();
             $order->customer->credit += $order->costs;
