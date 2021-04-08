@@ -14,7 +14,7 @@ jobs:
     - name: Log git hash
       shell: bash
       run: |
-        echo "Commit: $(git rev-parse --short "$GITHUB_SHA)" >> .gitinfo
+        echo "Commit: $(git rev-parse --short \"$GITHUB_SHA\")" >> .gitinfo
         echo "Branch: ${GITHUB_REF#refs/heads/}" >> .gitinfo
     - name: Install Dependencies
       run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist  --optimize-autoloader --no-dev
