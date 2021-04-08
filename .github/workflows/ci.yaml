@@ -11,6 +11,10 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@v2
+    - name: Log git hash
+      shell: bash
+      run: |
+        git rev-parse --short "$GITHUB_SHA" > .git_hash
     - name: Install Dependencies
       run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist  --optimize-autoloader --no-dev
     - name: Enable maintenance mode on remote
