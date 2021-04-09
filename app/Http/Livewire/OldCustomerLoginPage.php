@@ -4,6 +4,7 @@ namespace App\Http\Livewire;
 
 use App\Exceptions\OtpTokenThrottledException;
 use App\Exceptions\PhoneNumberBlockedByAdminException;
+use App\Http\Livewire\Traits\TrimEmptyStrings;
 use App\Models\Customer;
 use App\Notifications\OtpRequired;
 use App\Services\OtpProvider;

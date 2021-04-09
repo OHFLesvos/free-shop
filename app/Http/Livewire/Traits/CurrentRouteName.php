@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Livewire;
+namespace App\Http\Livewire\Traits;
 
 use Illuminate\Support\Facades\Request;
 

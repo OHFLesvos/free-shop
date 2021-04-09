@@ -2,8 +2,8 @@
 
 namespace App\Http\Livewire\Backend;
 
-use App\Http\Livewire\CurrentRouteName;
-use App\Http\Livewire\TrimEmptyStrings;
+use App\Http\Livewire\Traits\CurrentRouteName;
+use App\Http\Livewire\Traits\TrimEmptyStrings;
 use App\Models\BlockedPhoneNumber;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Livewire\WithPagination;
@@ -55,7 +55,7 @@ class BlockedPhoneNumbersPage extends BackendPage
         $this->authorize('create', BlockedPhoneNumber::class);
 
         $this->validate();
-        
+
         $entry = BlockedPhoneNumber::create([
             'phone' => $this->phone,
             'reason' => $this->reason,
