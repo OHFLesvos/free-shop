@@ -6,7 +6,7 @@ use App;
 use App\Models\Customer;
 use App\Models\Order;
 use App\Models\Product;
-use App\Support\ShoppingBasket;
+use App\Services\ShoppingBasket;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;

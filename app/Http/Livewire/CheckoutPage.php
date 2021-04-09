@@ -7,7 +7,7 @@ use App\Models\Customer;
 use App\Models\Order;
 use App\Models\Product;
 use App\Notifications\OrderRegistered;
-use App\Support\ShoppingBasket;
+use App\Services\ShoppingBasket;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
