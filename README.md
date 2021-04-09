@@ -2,8 +2,8 @@
 
 This is a "free  web-shop" application based on [Laravel](https://laravel.com/), a popular PHP framework. 
 
-The service is intended to be used for distribution of items/goods in humanitarian aid scenarios, with a points based system for the "customers", 
-with which they receive a certain amount of credits on a regular basis which they then can use to "purchase" items from the shop. One an order
+The service is intended to be used for distribution of items/goods in humanitarian aid scenarios, with a points based system for the "customers".
+They receive a certain amount of credits on a regular basis which then can be used to "purchase" items from the online shop. One an order
 is ready, the customer received a notification by SMS informing about the modalities of the pickup of the order.
 
 ## Requirements
@@ -11,8 +11,8 @@ is ready, the customer received a notification by SMS informing about the modali
 ### Environment
 
 * A web server like:
-    * Apache (tested with 2.4.x)
-    * Nginx
+  * Apache (tested with 2.4.x)
+  * Nginx
 * PHP >= 7.4 with the following extensions:
   * BCMath
   * Ctype
