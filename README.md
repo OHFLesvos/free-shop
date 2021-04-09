@@ -67,6 +67,8 @@ Access the backend via http://your-site.com/backend
 
 ## Development
 
+### Database seeding
+
 To seed the database with random entries, which is useful for development, run:
 
     php artisan db:seed
