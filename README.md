@@ -63,7 +63,7 @@ Backend login relies on Google OAuth. Create API credentials according to the fo
 
 https://developers.google.com/identity/sign-in/web/sign-in
 
-to obtain the cliend ID and client secret values.
+to obtain the client ID and client secret values.
 
 Update the `GOOGLE_*` variables in `.env` accordingly.
 
