@@ -6,19 +6,19 @@ This is a web-shop application based on [Laravel](https://laravel.com/), a popul
 
 ### Environment
 
-* A web server like
-    * Apache (tested with 2.4)
+* A web server like:
+    * Apache (tested with 2.4.x)
     * Nginx
-* PHP >= 7.4
-  * BCMath PHP Extension
-  * Ctype PHP Extension
-  * Fileinfo PHP Extension
-  * JSON PHP Extension
-  * Mbstring PHP Extension
-  * OpenSSL PHP Extension
-  * PDO PHP Extension
-  * Tokenizer PHP Extension
-  * XML PHP Extension
+* PHP >= 7.4 with the following extensions:
+  * BCMath
+  * Ctype
+  * Fileinfo
+  * JSON
+  * Mbstring
+  * OpenSSL
+  * PDO
+  * Tokenizer
+  * XML
 * Composer PHP dependency manager
 * A relational database like:
   * MySQL
@@ -31,7 +31,7 @@ This is a web-shop application based on [Laravel](https://laravel.com/), a popul
 * [REQUIRED] [Twilio](https://www.twilio.com/) for sending order updates by SMS
 * [REQUIRED] [SwiftMailer](https://swiftmailer.symfony.com/)-compatible mail service (SMTP, Mailgun, Postmark, Amazon SES, sendmail, ...)
 * [OPTIONAL] [Sentry](https://sentry.io/welcome/) for application monitoring
-* [OPTIONAL] [Monolog](https://github.com/Seldaek/monolog)-compatible logging service
+* [OPTIONAL] [Monolog](https://github.com/Seldaek/monolog)-compatible logging service for log collection and analysis
 
 ## Installation
 
@@ -49,10 +49,6 @@ Create/migrate database tables:
 
     php artisan migrate
 
-Seed the database with random entries (for development):
-
-    php artisan db:seed
-
 ## Deployment
 
 The code contains a [GitHub actions](https://docs.github.com/en/actions) definition to assemble and deploy the application to any web hosting server via SSH whenever changes are made to the 'production' branch. Credentials for the target server need to be provided as [GitHub Secrets](https://docs.github.com/en/actions/reference/encrypted-secrets).
@@ -69,7 +65,13 @@ Update the `GOOGLE_*` variables in `.env` accordingly.
 
 Access the backend via http://your-site.com/backend
 
-## Export language strings from code
+## Development
+
+To seed the database with random entries, which is useful for development, run:
+
+    php artisan db:seed
+
+### Export language strings from code
 
 Export translatable strings for any language:
 
@@ -79,7 +81,7 @@ Find untranslated strings in a language file (for example French = fr):
 
     php artisan translatable:inspect-translations fr
 
-## Recommended software for development
+### Recommended software for development
 
 * [Visual Studio Code](https://code.visualstudio.com/)
 * [Git](https://git-scm.com/)
