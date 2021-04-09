@@ -5,10 +5,9 @@ namespace App\Http\Livewire;
 use App\Models\Customer;
 use Illuminate\Support\Facades\Auth;
 use libphonenumber\NumberParseException;
-use Livewire\Component;
 use Propaganistas\LaravelPhone\PhoneNumber;
 
-class CustomerAccountPage extends Component
+class CustomerAccountPage extends FrontendPage
 {
     public Customer $customer;
     public string $customer_name = '';
@@ -26,6 +25,7 @@ class CustomerAccountPage extends Component
                 setting()->has('customer.id_number_pattern')
                     ? 'regex:' . setting()->get('customer.id_number_pattern')
                     : null,
+                'unique:customers,id_number,' . $this->customer->id,
             ],
             'customer_phone' => [
                 'required',
@@ -33,6 +33,11 @@ class CustomerAccountPage extends Component
             ],
             'customer_phone_country' => 'required_with:customer_phone',
         ];
+    }
+
+    protected function title()
+    {
+        return __('Customer Account');
     }
 
     public function mount()
@@ -53,8 +58,7 @@ class CustomerAccountPage extends Component
 
     public function render()
     {
-        return view('livewire.customer-account-page')
-            ->layout(null, ['title' => __('Customer Account')]);
+        return parent::view('livewire.customer-account-page');
     }
 
     public function submit()

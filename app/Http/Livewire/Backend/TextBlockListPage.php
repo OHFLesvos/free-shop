@@ -2,7 +2,7 @@
 
 namespace App\Http\Livewire\Backend;
 
-use App\Http\Livewire\CurrentRouteName;
+use App\Http\Livewire\Traits\CurrentRouteName;
 use App\Models\TextBlock;
 use App\Repository\TextBlockRepository;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;

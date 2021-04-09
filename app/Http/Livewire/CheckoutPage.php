@@ -7,13 +7,12 @@ use App\Models\Customer;
 use App\Models\Order;
 use App\Models\Product;
 use App\Notifications\OrderRegistered;
-use App\Support\ShoppingBasket;
+use App\Services\ShoppingBasket;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
-use Livewire\Component;
 
-class CheckoutPage extends Component
+class CheckoutPage extends FrontendPage
 {
     public ?Order $order = null;
     public Customer $customer;
@@ -23,6 +22,11 @@ class CheckoutPage extends Component
         'remarks' => 'nullable',
     ];
 
+    protected function title()
+    {
+        return __('Checkout');
+    }
+
     public function mount()
     {
         $this->customer = Auth::guard('customer')->user();
@@ -30,11 +34,10 @@ class CheckoutPage extends Component
 
     public function render(ShoppingBasket $basket)
     {
-        return view('livewire.checkout-page', [
+        return parent::view('livewire.checkout-page', [
                 'basket' => $basket->items(),
                 'nextOrderIn' => $this->customer->getNextOrderIn(),
-            ])
-            ->layout(null, ['title' => __('Checkout')]);
+            ]);
     }
 
     public function submit(Request $request, ShoppingBasket $basket)

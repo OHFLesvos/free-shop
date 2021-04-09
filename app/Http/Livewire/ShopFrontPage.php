@@ -6,25 +6,29 @@ use App;
 use App\Models\Customer;
 use App\Models\Order;
 use App\Models\Product;
-use App\Support\ShoppingBasket;
+use App\Services\ShoppingBasket;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
-use Livewire\Component;
 
-class ShopFrontPage extends Component
+class ShopFrontPage extends FrontendPage
 {
     public Collection $products;
     public Collection $categories;
     public ?Customer $customer = null;
     public bool $shopDisabled;
-    public bool $maxOrdersReached = false;
+    public bool $dailyOrdersMaxedOut = false;
     public bool $useCategories = false;
+
+    protected function title()
+    {
+        return __('Choose your items');
+    }
 
     public function mount()
     {
         $this->shopDisabled = setting()->has('shop.disabled');
         $this->useCategories = setting()->has('shop.group_products_by_categories');
-        $this->maxOrdersReached = $this->areMaxOrdersReached();
+        $this->dailyOrdersMaxedOut = $this->dailyOrdersMaxedOut();
 
         $this->customer = Auth::guard('customer')->user();
 
@@ -45,7 +49,7 @@ class ShopFrontPage extends Component
         }
     }
 
-    private function areMaxOrdersReached(): bool
+    private function dailyOrdersMaxedOut(): bool
     {
         if (setting()->has('shop.max_orders_per_day') && setting()->get('shop.max_orders_per_day') > 0) {
             $currentOrderCount = Order::whereDate('created_at', today())
@@ -60,11 +64,10 @@ class ShopFrontPage extends Component
 
     public function render(ShoppingBasket $basket)
     {
-        return view('livewire.shop-front-page', [
-                'basket' => $basket->items(),
-                'nextOrderIn' => optional($this->customer)->getNextOrderIn(),
-            ])
-            ->layout(null, ['title' => __('Choose your items')]);
+        return parent::view('livewire.shop-front-page', [
+            'basket' => $basket->items(),
+            'nextOrderIn' => optional($this->customer)->getNextOrderIn(),
+        ]);
     }
 
     public function add(ShoppingBasket $basket, $productId, $quantity = 1)

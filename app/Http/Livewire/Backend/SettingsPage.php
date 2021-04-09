@@ -2,7 +2,7 @@
 
 namespace App\Http\Livewire\Backend;
 
-use App\Http\Livewire\CurrentRouteName;
+use App\Http\Livewire\Traits\CurrentRouteName;
 use Illuminate\Support\Collection;
 use Countries;
 use Gumlet\ImageResize;
@@ -92,7 +92,7 @@ class SettingsPage extends BackendPage
             ],
             'skipOrderRegisteredNotification' => [
                 'boolean',
-            ],            
+            ],
         ];
     }
 

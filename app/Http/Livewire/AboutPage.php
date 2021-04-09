@@ -5,11 +5,15 @@ namespace App\Http\Livewire;
 use App\Repository\TextBlockRepository;
 use App\Services\MetricsAggregator;
 use Carbon\Carbon;
-use Livewire\Component;
 
-class AboutPage extends Component
+class AboutPage extends FrontendPage
 {
     public ?string $content = null;
+
+    protected function title()
+    {
+        return __('About');
+    }
 
     public function mount(TextBlockRepository $textRepo)
     {
@@ -18,7 +22,7 @@ class AboutPage extends Component
 
     public function render()
     {
-        return view('livewire.about-page', [
+        return parent::view('livewire.about-page', [
             'stats' => [
                 __('Current month') => $this->monthlyStats(now()->startOfMonth()),
                 __('Last month') => $this->monthlyStats(now()->subMonth()->startOfMonth()),

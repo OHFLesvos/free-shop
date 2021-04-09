@@ -7,7 +7,7 @@
         </div>
     @endif
     @unless($shopDisabled)
-        @unless($maxOrdersReached)
+        @unless($dailyOrdersMaxedOut)
             @isset($nextOrderIn)
                 <x-alert type="info">@lang('You can place a new order in :time.', ['time' => $nextOrderIn])</x-alert>
             @endisset

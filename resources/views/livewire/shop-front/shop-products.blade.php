@@ -43,7 +43,7 @@
                             <a
                                 href="{{ route('customer.login') }}"
                                 class="btn btn-primary">
-                                @lang('Add')
+                                @lang('Get')
                             </a>
                         @endisset
                     @endunless
