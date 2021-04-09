@@ -5,7 +5,6 @@ namespace App\Http\Livewire;
 use App\Models\Customer;
 use Illuminate\Support\Facades\Auth;
 use libphonenumber\NumberParseException;
-use Livewire\Component;
 use Propaganistas\LaravelPhone\PhoneNumber;
 
 class CustomerAccountPage extends FrontendPage
@@ -26,6 +25,7 @@ class CustomerAccountPage extends FrontendPage
                 setting()->has('customer.id_number_pattern')
                     ? 'regex:' . setting()->get('customer.id_number_pattern')
                     : null,
+                'unique:customers,id_number,' . $this->customer->id,
             ],
             'customer_phone' => [
                 'required',
