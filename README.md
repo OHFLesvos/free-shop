@@ -1,6 +1,10 @@
 # Free Shop App
 
-This is a web-shop application based on [Laravel](https://laravel.com/), a popular PHP framework.
+This is a "free  web-shop" application based on [Laravel](https://laravel.com/), a popular PHP framework. 
+
+The service is intended to be used for distribution of items/goods in humanitarian aid scenarios, with a points based system for the "customers", 
+with which they receive a certain amount of credits on a regular basis which they then can use to "purchase" items from the shop. One an order
+is ready, the customer received a notification by SMS informing about the modalities of the pickup of the order.
 
 ## Requirements
 
