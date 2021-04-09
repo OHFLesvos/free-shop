@@ -16,7 +16,7 @@ class ShopFrontPage extends FrontendPage
     public Collection $categories;
     public ?Customer $customer = null;
     public bool $shopDisabled;
-    public bool $maxOrdersReached = false;
+    public bool $dailyOrdersMaxedOut = false;
     public bool $useCategories = false;
 
     protected function title()
@@ -28,7 +28,7 @@ class ShopFrontPage extends FrontendPage
     {
         $this->shopDisabled = setting()->has('shop.disabled');
         $this->useCategories = setting()->has('shop.group_products_by_categories');
-        $this->maxOrdersReached = $this->areMaxOrdersReached();
+        $this->dailyOrdersMaxedOut = $this->dailyOrdersMaxedOut();
 
         $this->customer = Auth::guard('customer')->user();
 
@@ -49,7 +49,7 @@ class ShopFrontPage extends FrontendPage
         }
     }
 
-    private function areMaxOrdersReached(): bool
+    private function dailyOrdersMaxedOut(): bool
     {
         if (setting()->has('shop.max_orders_per_day') && setting()->get('shop.max_orders_per_day') > 0) {
             $currentOrderCount = Order::whereDate('created_at', today())
