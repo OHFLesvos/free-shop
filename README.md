@@ -49,6 +49,10 @@ Create/migrate database tables:
 
     php artisan migrate
 
+Cache routes and configuration for increased performance (don't use during development!):
+
+    php artisan optimize
+
 ## Deployment
 
 The code contains a [GitHub actions](https://docs.github.com/en/actions) definition to assemble and deploy the application to any web hosting server via SSH whenever changes are made to the 'production' branch. Credentials for the target server need to be provided as [GitHub Secrets](https://docs.github.com/en/actions/reference/encrypted-secrets).
