@@ -8,7 +8,7 @@ use libphonenumber\NumberParseException;
 use Livewire\Component;
 use Propaganistas\LaravelPhone\PhoneNumber;
 
-class CustomerAccountPage extends Component
+class CustomerAccountPage extends FrontendPage
 {
     public Customer $customer;
     public string $customer_name = '';
@@ -35,6 +35,11 @@ class CustomerAccountPage extends Component
         ];
     }
 
+    protected function title()
+    {
+        return __('Customer Account');
+    }
+
     public function mount()
     {
         $this->customer = Auth::guard('customer')->user();
@@ -53,8 +58,7 @@ class CustomerAccountPage extends Component
 
     public function render()
     {
-        return view('livewire.customer-account-page')
-            ->layout(null, ['title' => __('Customer Account')]);
+        return parent::view('livewire.customer-account-page');
     }
 
     public function submit()

@@ -9,9 +9,8 @@ use App\Models\Product;
 use App\Services\ShoppingBasket;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
-use Livewire\Component;
 
-class ShopFrontPage extends Component
+class ShopFrontPage extends FrontendPage
 {
     public Collection $products;
     public Collection $categories;
@@ -19,6 +18,11 @@ class ShopFrontPage extends Component
     public bool $shopDisabled;
     public bool $maxOrdersReached = false;
     public bool $useCategories = false;
+
+    protected function title()
+    {
+        return __('Choose your items');
+    }
 
     public function mount()
     {
@@ -60,11 +64,10 @@ class ShopFrontPage extends Component
 
     public function render(ShoppingBasket $basket)
     {
-        return view('livewire.shop-front-page', [
-                'basket' => $basket->items(),
-                'nextOrderIn' => optional($this->customer)->getNextOrderIn(),
-            ])
-            ->layout(null, ['title' => __('Choose your items')]);
+        return parent::view('livewire.shop-front-page', [
+            'basket' => $basket->items(),
+            'nextOrderIn' => optional($this->customer)->getNextOrderIn(),
+        ]);
     }
 
     public function add(ShoppingBasket $basket, $productId, $quantity = 1)

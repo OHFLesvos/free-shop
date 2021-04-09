@@ -4,10 +4,9 @@ namespace App\Http\Livewire;
 
 use App\Models\Customer;
 use Illuminate\Support\Facades\Auth;
-use Livewire\Component;
 use Propaganistas\LaravelPhone\PhoneNumber;
 
-class CustomerRegistrationPage extends Component
+class CustomerRegistrationPage extends FrontendPage
 {
     use TrimEmptyStrings;
 
@@ -38,6 +37,11 @@ class CustomerRegistrationPage extends Component
         ];
     }
 
+    protected function title()
+    {
+        return __('Customer Registration');
+    }
+
     public function mount()
     {
         $this->phoneCountry = setting()->get('order.default_phone_country', '');
@@ -45,8 +49,7 @@ class CustomerRegistrationPage extends Component
 
     public function render()
     {
-        return view('livewire.customer-registration-page', [])
-            ->layout(null, ['title' => __('Customer Registration')]);
+        return parent::view('livewire.customer-registration-page', []);
     }
 
     public function submit()

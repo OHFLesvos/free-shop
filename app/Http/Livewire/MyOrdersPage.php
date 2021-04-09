@@ -4,13 +4,17 @@ namespace App\Http\Livewire;
 
 use App\Models\Customer;
 use Illuminate\Support\Facades\Auth;
-use Livewire\Component;
 
-class MyOrdersPage extends Component
+class MyOrdersPage extends FrontendPage
 {
     public Customer $customer;
 
     public $requestCancel = 0;
+
+    protected function title()
+    {
+        return __('Find your order');
+    }
 
     public function mount()
     {
@@ -23,10 +27,9 @@ class MyOrdersPage extends Component
             ->orderBy('created_at', 'desc')
             ->get();
 
-        return view('livewire.my-orders-page', [
-                'orders' => $orders,
-            ])
-            ->layout(null, ['title' => __('Find your order')]);
+        return parent::view('livewire.my-orders-page', [
+            'orders' => $orders,
+        ]);
     }
 
     public function cancelOrder($id)

@@ -4,9 +4,8 @@ namespace App\Http\Livewire;
 
 use App\Models\Customer;
 use Illuminate\Support\Facades\Auth;
-use Livewire\Component;
 
-class CustomerLoginPage extends Component
+class CustomerLoginPage extends FrontendPage
 {
     use TrimEmptyStrings;
 
@@ -23,10 +22,14 @@ class CustomerLoginPage extends Component
         ];
     }
 
+    protected function title()
+    {
+        return __('Customer Registration & Login');
+    }
+
     public function render()
     {
-        return view('livewire.customer-login-page', [])
-            ->layout(null, ['title' => __('Customer Registration & Login')]);
+        return parent::view('livewire.customer-login-page', []);
     }
 
     public function submit()
