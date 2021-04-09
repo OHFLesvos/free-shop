@@ -4,6 +4,11 @@ This is a web-shop application based on [Laravel](https://laravel.com/), a popul
 
 ## Requirements
 
+### Environment
+
+* A web server like
+    * Apache (tested with 2.4)
+    * Nginx
 * PHP >= 7.4
   * BCMath PHP Extension
   * Ctype PHP Extension
@@ -14,8 +19,19 @@ This is a web-shop application based on [Laravel](https://laravel.com/), a popul
   * PDO PHP Extension
   * Tokenizer PHP Extension
   * XML PHP Extension
-* Composer
-* MySQL, MariaDB or PostgreSQL database
+* Composer PHP dependency manager
+* A relational database like:
+  * MySQL
+  * MariaDB (tested with 10.4.x)
+  * PostgreSQL (tested with 11.x)
+
+### 3rd-party services
+
+* [REQUIRED] [Google OAuth](https://developers.google.com/identity/protocols/oauth2/web-server) for backend (administrator) login
+* [REQUIRED] [Twilio](https://www.twilio.com/) for sending order updates by SMS
+* [REQUIRED] [SwiftMailer](https://swiftmailer.symfony.com/)-compatible mail service (SMTP, Mailgun, Postmark, Amazon SES, sendmail, ...)
+* [OPTIONAL] [Sentry](https://sentry.io/welcome/) for application monitoring
+* [OPTIONAL] [Monolog](https://github.com/Seldaek/monolog)-compatible logging service
 
 ## Installation
 
@@ -36,6 +52,10 @@ Create/migrate database tables:
 Seed the database with random entries (for development):
 
     php artisan db:seed
+
+## Deployment
+
+The code contains a [GitHub actions](https://docs.github.com/en/actions) definition to assemble and deploy the application to any web hosting server via SSH whenever changes are made to the 'production' branch. Credentials for the target server need to be provided as [GitHub Secrets](https://docs.github.com/en/actions/reference/encrypted-secrets).
 
 ## Setup backend access
 
