@@ -28,6 +28,7 @@ class CustomerManagePage extends BackendPage
                 setting()->has('customer.id_number_pattern')
                     ? 'regex:' . setting()->get('customer.id_number_pattern')
                     : null,
+                'unique:customers,id_number,' . $this->customer->id,
             ],
             'customer_phone' => [
                 'required',
