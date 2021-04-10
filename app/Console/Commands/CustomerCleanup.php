@@ -38,7 +38,7 @@ class CustomerCleanup extends Command
      */
     public function handle()
     {
-        $date = now()->subMonth();
+        $date = now()->subDays(30);
         $customersWithoutAnyOrders = Customer::doesntHave('orders')
             ->select('name', 'id_number')
             ->whereDate('created_at', '<', $date)

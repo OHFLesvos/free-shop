@@ -50,6 +50,7 @@ class Customer extends Model implements
 
     protected $casts = [
         'is_disabled' => 'boolean',
+        'topped_up_at' => 'datetime',
     ];
 
     protected static function booted()
