@@ -26,12 +26,13 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
+        $logFile = storage_path('logs/cron.log');
         $schedule->command(CustomerCleanup::class)
             ->daily()
-            ->appendOutputTo(storage_path('logs/cron.log'));
+            ->appendOutputTo($logFile);
         $schedule->command(TopUpCustmerCredits::class)
             ->daily()
-            ->appendOutputTo(storage_path('logs/cron.log'));;
+            ->appendOutputTo($logFile);
     }
 
     /**
