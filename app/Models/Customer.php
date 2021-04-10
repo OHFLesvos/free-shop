@@ -125,4 +125,13 @@ class Customer extends Model implements
         }
         return null;
     }
+
+    public function getNextTopupDateAttribute()
+    {
+        $days = setting()->get('customer.credit_topup.days');
+        if ($days > 0) {
+            return $this->topped_up_at->clone()->addDays($days);
+        }
+        return null;
+    }
 }
