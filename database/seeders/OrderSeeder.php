@@ -26,15 +26,17 @@ class OrderSeeder extends Seeder
                     ->for($customer)
                     ->create()
                     ->each(function ($order) use ($products) {
-                        $products->filter(fn ($product) => $product->quantity_available_for_customer > 0)
-                            ->random(mt_rand(1, $products->count() - 1))
-                            ->each(function ($product) use ($order) {
-                                $order->products()->attach($product, [
-                                    'quantity' => $product->limit_per_order !== null
-                                        ? mt_rand(1, $product->limit_per_order)
-                                        : mt_rand(1, 10)
-                                ]);
-                            });
+                        $availableProducts = $products->filter(fn ($product) => $product->quantity_available_for_customer > 0);
+                        if ($availableProducts->count() > 0) {
+                            $availableProducts->random(mt_rand(1, $availableProducts->count()))
+                                ->each(function ($product) use ($order) {
+                                    $order->products()->attach($product, [
+                                        'quantity' => $product->limit_per_order !== null
+                                            ? mt_rand(1, $product->limit_per_order)
+                                            : mt_rand(1, 10)
+                                    ]);
+                                });
+                        }
                     });
             });
     }
