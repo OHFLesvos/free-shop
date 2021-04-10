@@ -49,7 +49,7 @@ class TopUpCustmerCredits extends Command
             $maximum = setting()->get('customer.credit_topup.maximum', $starting_credit);
 
             $this->count = 0;
-            Customer::whereDate('topped_up_at', '<', $date)->get()->each(function ($customer) use ($amount, $maximum) {
+            Customer::whereDate('topped_up_at', '<=', $date)->get()->each(function ($customer) use ($amount, $maximum) {
                 $customer->credit = min($customer->credit + $amount, $maximum);
                 if ($customer->isDirty('credit')) {
                     $customer->topped_up_at = now();
