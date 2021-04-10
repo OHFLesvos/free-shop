@@ -18,12 +18,14 @@ use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
 use Illuminate\Foundation\Auth\Access\Authorizable;
 use libphonenumber\NumberParseException;
 use Propaganistas\LaravelPhone\PhoneNumber;
+use OwenIt\Auditing\Contracts\Auditable;
 
 class Customer extends Model implements
     HasLocalePreference,
     AuthenticatableContract,
     AuthorizableContract,
-    CanResetPasswordContract
+    CanResetPasswordContract,
+    Auditable
 {
     use HasFactory;
     use Notifiable;
@@ -32,6 +34,7 @@ class Customer extends Model implements
     use Authenticatable;
     use Authorizable;
     use CanResetPassword;
+    use \OwenIt\Auditing\Auditable;
 
     protected $fillable = [
         'name',
