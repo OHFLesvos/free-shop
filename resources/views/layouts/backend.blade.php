@@ -31,7 +31,7 @@ $navItems = [
         'authorized' => auth()
             ->user()
             ->can('manage stock'),
-    ],    
+    ],
     [
         'label' => 'Import & Export',
         'route' => 'backend.import-export',
@@ -86,16 +86,7 @@ $navItems = [
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     @foreach (collect($navItems)->filter(fn($item) => !isset($item['authorized']) || $item['authorized']) as $item)
-                        @php
-                            $active = Str::of(Request::route()->getName())->startsWith($item['route']);
-                        @endphp
-                        <li class="nav-item">
-                            <a class="nav-link @if ($active) active @endif" href="{{ route($item['route']) }}" @if ($active)
-                                aria-current="page"
-                    @endif>
-                    {{ $item['label'] }}
-                    </a>
-                    </li>
+                        <x-nav-item :item="$item"/>
                     @endforeach
                 </ul>
                 <ul class="navbar-nav mb-2 mb-lg-0">
@@ -131,12 +122,7 @@ $navItems = [
                             </li>
                         </ul>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('home') }}" target="_blank">
-                            Frontend
-                            <x-icon icon="external-link-alt" />
-                        </a>
-                    </li>
+                    <x-nav-item :item="['label' => 'Frontend', 'route' => 'home']" target="_blank"/>
                 </ul>
             </div>
         </div>
