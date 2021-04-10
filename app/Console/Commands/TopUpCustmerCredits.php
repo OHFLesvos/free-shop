@@ -59,6 +59,8 @@ class TopUpCustmerCredits extends Command
             });
 
             $this->line("Topped up $this->count customers.");
+        } else {
+            $this->warn("Customer topup skipped, no time range defined.");
         }
 
         return 0;
