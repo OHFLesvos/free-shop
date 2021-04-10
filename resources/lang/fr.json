@@ -1,4 +1,5 @@
 {
+    "About": "À propos de",
     "Current month": "Mois actuel",
     "Last month": "Mois dernier",
     "Checkout": "Consulter",
@@ -21,7 +22,6 @@
     "Choose your language": "Choisissez votre langue",
     "Shop": "Boutique",
     "Your orders": "Vos commandes",
-    "About": "À propos de",
     "Login": "Connexion",
     "Logout": "Déconnexion",
     "Switch language": "Changer de langue",
@@ -84,6 +84,7 @@
     ":amount points available": ":amount points disponibles",
     "Add one": "Ajouter un",
     "Go to checkout": "Aller à la caisse",
+    "You currently don't have any points available to spend.": "Vous n'avez actuellement aucun point disponible à dépenser.",
     "Please add some products.": "Veuillez ajouter quelques produits.",
     "Please register or login to place an order.": "Veuillez vous enregistrer ou vous connecter pour passer une commande.",
     "Price: :amount": "Prix: :amount",

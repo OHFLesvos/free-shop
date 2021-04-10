@@ -1,4 +1,5 @@
 {
+    "About": "توضیحات",
     "Current month": "ماه فعلی",
     "Last month": "ماهه گذشته",
     "Checkout": "وارسی",
@@ -21,7 +22,6 @@
     "Choose your language": "زبان خود را انتخواب کنید",
     "Shop": "فروشگاه",
     "Your orders": "محصولات شما",
-    "About": "توضیحات",
     "Login": "ورود",
     "Logout": "خٌروج",
     "Switch language": "عوض کردن زبان",
@@ -84,6 +84,7 @@
     ":amount points available": ":amount points available",
     "Add one": "یکی اضافه کن",
     "Go to checkout": "ارسال به صندوق",
+    "You currently don't have any points available to spend.": "You currently don't have any points available to spend.",
     "Please add some products.": "لطفا برخی محصولات را اضافه کنید",
     "Please register or login to place an order.": "برای گذاشتن سفارش لطفا یا وارد شوید یا ثبت نام کنید",
     "Price: :amount": "قیمت: :amount",
