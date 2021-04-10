@@ -58,6 +58,11 @@ class Customer extends Model implements
 
     protected static function booted()
     {
+        static::creating(function (Customer $customer) {
+            if ($customer->topped_up_at == null) {
+                $customer->topped_up_at = now();
+            }
+        });
         static::deleting(function (Customer $customer) {
             $customer->orders()
                 ->whereIn('status', ['new', 'ready'])
