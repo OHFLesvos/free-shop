@@ -38,13 +38,13 @@ class CustomerCleanup extends Command
      */
     public function handle()
     {
-        $date = now()->subMonth();
+        $date = now()->subDays(30);
         $customersWithoutAnyOrders = Customer::doesntHave('orders')
             ->select('name', 'id_number')
             ->whereDate('created_at', '<', $date)
             ->delete();
 
-        $this->line("Deleted $customersWithoutAnyOrders which had no orders registered and were older than $date.");
+        $this->line("Deleted $customersWithoutAnyOrders customers which had no orders registered and were older than $date.");
 
         return 0;
     }

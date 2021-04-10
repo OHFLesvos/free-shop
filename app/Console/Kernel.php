@@ -2,6 +2,8 @@
 
 namespace App\Console;
 
+use App\Console\Commands\CustomerCleanup;
+use App\Console\Commands\TopUpCustmerCredits;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
@@ -24,7 +26,13 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        // $schedule->command('inspire')->hourly();
+        $logFile = storage_path('logs/cron.log');
+        $schedule->command(CustomerCleanup::class)
+            ->daily()
+            ->appendOutputTo($logFile);
+        $schedule->command(TopUpCustmerCredits::class)
+            ->daily()
+            ->appendOutputTo($logFile);
     }
 
     /**

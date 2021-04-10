@@ -28,6 +28,10 @@ class SettingsPage extends BackendPage
     public $customerIdNumberPattern;
     public $customerIdNumberExample;
 
+    public $customerCreditTopupDays;
+    public $customerCreditTopupAmount;
+    public $customerCreditTopupMaximum;
+
     public $countries;
 
     public ?string $selectedCountry = null;
@@ -66,6 +70,21 @@ class SettingsPage extends BackendPage
                 'nullable',
                 'integer',
                 'min:0',
+            ],
+            'customerCreditTopupDays' => [
+                'nullable',
+                'integer',
+                'min:1',
+            ],
+            'customerCreditTopupAmount' => [
+                'nullable',
+                'integer',
+                'min:1',
+            ],
+            'customerCreditTopupMaximum' => [
+                'nullable',
+                'integer',
+                'min:1',
             ],
             'customerIdNumberPattern' => [
                 'nullable',
@@ -106,6 +125,9 @@ class SettingsPage extends BackendPage
         $this->orderDefaultPhoneCountry = setting()->get('order.default_phone_country', '');
         $this->timezone = setting()->get('timezone', '');
         $this->customerStartingCredit = setting()->get('customer.starting_credit', '');
+        $this->customerCreditTopupDays = setting()->get('customer.credit_topup.days', '');
+        $this->customerCreditTopupAmount = setting()->get('customer.credit_topup.amount', '');
+        $this->customerCreditTopupMaximum = setting()->get('customer.credit_topup.maximum', '');
         $this->shopMaxOrdersPerDay = setting()->get('shop.max_orders_per_day', '');
         $this->brandLogo = setting()->get('brand.logo');
         $this->customerIdNumberPattern = setting()->get('customer.id_number_pattern', '');
@@ -179,6 +201,25 @@ class SettingsPage extends BackendPage
             setting()->set('customer.starting_credit', $this->customerStartingCredit);
         } else {
             setting()->forget('customer.starting_credit');
+        }
+
+
+        if (filled($this->customerCreditTopupDays)) {
+            setting()->set('customer.credit_topup.days', $this->customerCreditTopupDays);
+        } else {
+            setting()->forget('customer.credit_topup.days');
+        }
+
+        if (filled($this->customerCreditTopupAmount)) {
+            setting()->set('customer.credit_topup.amount', $this->customerCreditTopupAmount);
+        } else {
+            setting()->forget('customer.credit_topup.amount');
+        }
+
+        if (filled($this->customerCreditTopupMaximum)) {
+            setting()->set('customer.credit_topup.maximum', $this->customerCreditTopupMaximum);
+        } else {
+            setting()->forget('customer.credit_topup.maximum');
         }
 
         if (filled($this->shopMaxOrdersPerDay)) {

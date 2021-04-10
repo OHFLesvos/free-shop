@@ -128,6 +128,11 @@
                     {{-- Credits --}}
                     <x-card :title="__('Credit')">
                         <span class="display-6">@lang(':amount points', ['amount' => $customer->credit])</span>
+                        @isset($customer->nextTopupDate)
+                            <span class="card-text d-block mt-2">
+                                @lang('Next top up on <strong>:date</strong>.', ['date' => $customer->nextTopupDate->isoFormat('LL')])
+                            </span>
+                        @endif
                     </x-card>
 
                 </div>
