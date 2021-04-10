@@ -50,6 +50,7 @@ class Customer extends Model implements
 
     protected $casts = [
         'is_disabled' => 'boolean',
+        'topped_up_at' => 'datetime',
     ];
 
     protected static function booted()
@@ -121,6 +122,15 @@ class Customer extends Model implements
                     return $lastOrder->created_at->clone()->addDays($days)->diffForHumans();
                 }
             }
+        }
+        return null;
+    }
+
+    public function getNextTopupDateAttribute()
+    {
+        $days = setting()->get('customer.credit_topup.days');
+        if ($days > 0) {
+            return $this->topped_up_at->clone()->addDays($days);
         }
         return null;
     }
