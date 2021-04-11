@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\Traits\NumberCompareScope;
+use Carbon\Carbon;
 use Dyrynda\Database\Support\NullableFields;
 use Illuminate\Contracts\Translation\HasLocalePreference;
 use Illuminate\Database\Eloquent\Builder;
@@ -117,7 +118,7 @@ class Customer extends Model implements
         return null;
     }
 
-    public function getNextOrderIn()
+    public function getNextOrderIn(): ?Carbon
     {
         $days = intval(setting()->get('customer.waiting_time_between_orders', 0));
         if ($days > 0) {
@@ -127,7 +128,7 @@ class Customer extends Model implements
                 ->first();
             if ($lastOrder != null) {
                 if (now()->subDays($days)->lte($lastOrder->created_at)) {
-                    return $lastOrder->created_at->clone()->addDays($days)->diffForHumans();
+                    return $lastOrder->created_at->clone()->addDays($days);
                 }
             }
         }

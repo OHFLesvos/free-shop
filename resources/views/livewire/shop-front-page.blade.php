@@ -8,9 +8,6 @@
     @endif
     @unless($shopDisabled)
         @unless($dailyOrdersMaxedOut)
-            @isset($nextOrderIn)
-                <x-alert type="info">@lang('You can place a new order in :time.', ['time' => $nextOrderIn])</x-alert>
-            @endisset
             @if($products->isNotEmpty())
                 <div class="row">
                     <div class="col-md-4 order-md-2">
@@ -19,6 +16,9 @@
                         @endunless
                     </div>
                     <div class="col-md order-md-1">
+                        @isset($nextOrderIn)
+                            <x-alert type="info">@lang('You can place a new order in :time.', ['time' => $nextOrderIn->diffForHumans()])</x-alert>
+                        @endisset
                         @if($useCategories)
                             @foreach($categories as $category)
                                 @if($products->where('category', $category)->isNotEmpty())
