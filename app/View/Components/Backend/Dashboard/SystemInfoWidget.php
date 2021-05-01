@@ -20,7 +20,8 @@ class SystemInfoWidget extends Component
             $data = [
                 'OS' => PHP_OS_FAMILY,
                 'Web server' => $_SERVER['SERVER_SOFTWARE'],
-                'PHP version' => phpversion(),
+                'PHP' => phpversion(),
+                'Laravel' => app()->version(),
                 'Database' => sprintf("%s (%s)", DB::connection()->getPdo()->getAttribute(PDO::ATTR_DRIVER_NAME), DB::connection()->getPdo()->getAttribute(PDO::ATTR_SERVER_VERSION))
             ];
             $gitInfoFile = base_path('.gitinfo');
