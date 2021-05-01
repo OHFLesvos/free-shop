@@ -19,11 +19,15 @@
                 </select>
                 @error('timezone') <div class="invalid-feedback">{{ $message }}</div> @enderror
             </div>
-            <div>
+
+            <div class="mb-3">
                 <label for="brandLogoInput" class="form-label">Brand Logo:</label>
                 <input type="file" class="form-control" wire:model="brandLogoUpload" accept="image/*"
-                    id="brandLogoInput">
+                    id="brandLogoInput" aria-describedby="brandLogoHelp">
                 @error('brandLogoUpload') <span class="text-danger">{{ $message }}</span> @enderror
+                <small id="brandLogoHelp" class="form-text">
+                    Image will be resized to have a height of 24 pixels.
+                </small>
                 <div wire:loading wire:target="brandLogoUpload" class="mt-3">
                     <x-spinner /> Uploading...
                 </div>
@@ -40,6 +44,35 @@
                             <input type="checkbox" class="form-check-input" id="brandLogoRemoveInput" value="1"
                                 wire:model.defer="brandLogoRemove">
                             <label class="form-check-label" for="brandLogoRemoveInput">Remove existing logo</label>
+                        </div>
+                    </div>
+                @endif
+            </div>
+
+            <div>
+                <label for="brandFaviconInput" class="form-label">Favicon:</label>
+                <input type="file" class="form-control" wire:model="brandFaviconUpload" accept="image/*"
+                    id="brandFaviconInput" aria-describedby="brandFaviconHelp">
+                @error('brandFaviconUpload') <span class="text-danger">{{ $message }}</span> @enderror
+                <small id="brandFaviconHelp" class="form-text">
+                    Image will be resized to 32x32 pixels.
+                </small>
+                <div wire:loading wire:target="brandFaviconUpload" class="mt-3">
+                    <x-spinner /> Uploading...
+                </div>
+                @if (isset($brandFaviconUpload))
+                    <div class="mt-3">
+                        <img src="{{ $brandFaviconUpload->temporaryUrl() }}" alt="Preview" height="24" />
+                    </div>
+                @elseif(isset($brandFavicon))
+                    <div class="d-flex align-items-center mt-3">
+                        <div class="me-2">
+                            <img src="{{ url(Storage::url($brandFavicon)) }}" alt="Current Favicon" height="24" />
+                        </div>
+                        <div class="form-check form-switch">
+                            <input type="checkbox" class="form-check-input" id="brandFaviconRemoveInput" value="1"
+                                wire:model.defer="brandFaviconRemove">
+                            <label class="form-check-label" for="brandFaviconRemoveInput">Remove existing Favicon</label>
                         </div>
                     </div>
                 @endif
