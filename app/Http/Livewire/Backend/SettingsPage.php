@@ -39,6 +39,10 @@ class SettingsPage extends BackendPage
     public $brandLogo;
     public $brandLogoUpload;
     public bool $brandLogoRemove = false;
+    public $brandFavicon;
+    public $brandFaviconUpload;
+    public bool $brandFaviconRemove = false;
+
     public $customerWaitingTimeBetweenOrders;
 
     public $contentLocale;
@@ -130,6 +134,7 @@ class SettingsPage extends BackendPage
         $this->customerCreditTopupMaximum = setting()->get('customer.credit_topup.maximum', '');
         $this->shopMaxOrdersPerDay = setting()->get('shop.max_orders_per_day', '');
         $this->brandLogo = setting()->get('brand.logo');
+        $this->brandFavicon = setting()->get('brand.favicon');
         $this->customerIdNumberPattern = setting()->get('customer.id_number_pattern', '');
         $this->customerIdNumberExample = setting()->get('customer.id_number_example', '');
         $this->customerWaitingTimeBetweenOrders = setting()->get('customer.waiting_time_between_orders', '');
@@ -246,6 +251,24 @@ class SettingsPage extends BackendPage
             $this->brandLogoUpload = null;
         }
 
+        if (setting()->has('brand.favicon') && ($this->brandFaviconRemove) || isset($this->brandFaviconUpload)) {
+            Storage::delete(setting()->get('brand.favicon'));
+            setting()->forget('brand.favicon');
+            $this->brandFavicon = null;
+        }
+        if (isset($this->brandFaviconUpload)) {
+            $name = 'brand-favicon-' . now()->format('YmdHis') . '.' . $this->brandFaviconUpload->getClientOriginalExtension();
+            $path = $this->brandFaviconUpload->storePubliclyAs('public', $name);
+
+            $image = new ImageResize(Storage::path($path));
+            $image->resizeToBestFit(32, 32);
+            $image->save(Storage::path($path));
+
+            setting()->set('brand.favicon', $path);
+            $this->brandFavicon = $path;
+            $this->brandFaviconUpload = null;
+        }
+
         if (filled($this->customerIdNumberPattern)) {
             setting()->set('customer.id_number_pattern', $this->customerIdNumberPattern);
         } else {
@@ -285,6 +308,16 @@ class SettingsPage extends BackendPage
     {
         $this->validate([
             'brandLogoUpload' => [
+                'image',
+                'max:4096',
+            ],
+        ]);
+    }
+
+    public function updatedBrandFaviconUpload()
+    {
+        $this->validate([
+            'brandFaviconUpload' => [
                 'image',
                 'max:4096',
             ],

@@ -11,7 +11,7 @@ abstract class FrontendPage extends Component
     function view($view, $data = [])
     {
         return view($view, $data)
-            ->layout(null, [
+            ->layoutData([
                 'title' => method_exists($this, 'title') ? $this->title() : $this->title,
             ]);
     }
