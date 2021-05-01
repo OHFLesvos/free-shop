@@ -26,7 +26,7 @@ class SystemInfoWidget extends Component
             ];
             $gitInfoFile = base_path('.gitinfo');
             if (file_exists($gitInfoFile)) {
-                $data['Software version'] = file_get_contents($gitInfoFile);
+                $data['Code revision'] = file_get_contents($gitInfoFile);
             }
             return view('components.backend.dashboard.system-info-widget', [
                 'data' => $data,
