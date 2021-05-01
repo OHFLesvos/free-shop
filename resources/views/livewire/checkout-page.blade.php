@@ -16,7 +16,7 @@
             {!! $textRepo->getMarkdown('post-checkout') !!}
         @endif
     @elseif(isset($nextOrderIn))
-        <x-alert type="info">@lang('You can place a new order in :time.', ['time' => $nextOrderIn])</x-alert>
+        <x-alert type="info">@lang('You can place a new order in :time.', ['time' => $nextOrderIn->diffForHumans()])</x-alert>
         <p><a href="{{ route('my-orders') }}" class="btn btn-primary">@lang('View your orders')</a></p>
     @elseif ($basket->isNotEmpty())
         <form wire:submit.prevent="submit" autocomplete="off">

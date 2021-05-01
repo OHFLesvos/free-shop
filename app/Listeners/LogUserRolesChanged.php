@@ -11,7 +11,7 @@ class LogUserRolesChanged
     /**
      * Handle the event.
      *
-     * @param  object  $event
+     * @param  UserRolesChanged  $event
      * @return void
      */
     public function handle(UserRolesChanged $event)

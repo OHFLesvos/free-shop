@@ -44,7 +44,6 @@ class CustomerManagePage extends BackendPage
                 Rule::in(array_keys(config('app.supported_languages'))),
             ],
             'customer.remarks' => 'nullable',
-            'customer.locale' => 'nullable',
             'customer.is_disabled' => 'boolean',
             'customer.disabled_reason' => [
                 'required_if:customer.is_disabled,true',

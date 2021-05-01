@@ -34,6 +34,10 @@ class Product extends Model
         'price',
     ];
 
+    protected $casts = [
+        'is_available' => 'boolean',
+    ];
+
     public function orders()
     {
         return $this->belongsToMany(Order::class)

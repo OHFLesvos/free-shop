@@ -10,7 +10,7 @@ class LogUserDeleted
     /**
      * Handle the event.
      *
-     * @param  object  $event
+     * @param  UserDeleted  $event
      * @return void
      */
     public function handle(UserDeleted $event)

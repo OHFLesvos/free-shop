@@ -38,6 +38,7 @@ class Authenticate extends Middleware
         if (!$request->expectsJson()) {
             return route('backend.login');
         }
+        return null;
     }
 
     protected function customerRedirectTo($request)
@@ -45,5 +46,6 @@ class Authenticate extends Middleware
         if (!$request->expectsJson()) {
             return route('customer.login');
         }
+        return null;
     }
 }
