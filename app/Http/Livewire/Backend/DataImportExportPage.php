@@ -95,8 +95,8 @@ class DataImportExportPage extends BackendPage
         ]);
 
         if ($this->delete_existing_data) {
-            Product::destroy(Product::all()->pluck('id'));
-            Customer::destroy(Customer::all()->pluck('id'));
+            Product::destroy(Product::pluck('id'));
+            Customer::destroy(Customer::pluck('id'));
         }
 
         $import = new DataImport();

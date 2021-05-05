@@ -46,7 +46,16 @@
                 </div>
             </x-slot>
         @else
-            <p class="card-text">@lang('Please add some products.')</p>
+            @if($this->availableCredit == 0)
+                <p class="card-text">
+                    @lang("You currently don't have any points available to spend.")
+                    @isset($customer->nextTopupDate)
+                        @lang('Next top up on <strong>:date</strong>.', ['date' => $customer->nextTopupDate->isoFormat('LL')])
+                    @endif
+                </p>
+            @else
+                <p class="card-text">@lang('Please add some products.')</p>
+            @endif
         @endif
     @else
         <p class="card-text">@lang('Please register or login to place an order.')</p>

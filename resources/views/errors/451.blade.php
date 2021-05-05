@@ -1,4 +1,4 @@
-@extends('errors::minimal')
+@extends('errors::minimal', ['hide_home_button' => true])
 
 @section('title', __('Unavailable for legal reasons'))
 @section('code', '451')

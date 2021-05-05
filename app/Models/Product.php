@@ -34,6 +34,10 @@ class Product extends Model
         'price',
     ];
 
+    protected $casts = [
+        'is_available' => 'boolean',
+    ];
+
     public function orders()
     {
         return $this->belongsToMany(Order::class)
@@ -81,11 +85,11 @@ class Product extends Model
 
     public function scopeAvailable(Builder $qry)
     {
-        $qry->where('is_available', true);
+        $qry->where('is_available', DB::raw('true'));
     }
 
     public function scopeDisabled(Builder $qry)
     {
-        $qry->where('is_available', false);
+        $qry->where('is_available', DB::raw('false'));
     }
 }

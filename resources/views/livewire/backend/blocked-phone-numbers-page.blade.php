@@ -106,7 +106,7 @@
                             <td class="fit">
                                 <x-date-time-info :value="$entry->created_at" line-break />
                             </td>
-                            <td class="align-middle">
+                            <td class="align-middle fit">
                                 @can('delete', $entry)
                                     <button type="button" class="btn btn-outline-danger" wire:click="$set('shouldDelete', {{ $entry }})">
                                         <x-icon icon="trash" aria-label="Delete"/>

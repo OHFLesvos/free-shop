@@ -19,11 +19,15 @@
                 </select>
                 @error('timezone') <div class="invalid-feedback">{{ $message }}</div> @enderror
             </div>
-            <div>
+
+            <div class="mb-3">
                 <label for="brandLogoInput" class="form-label">Brand Logo:</label>
                 <input type="file" class="form-control" wire:model="brandLogoUpload" accept="image/*"
-                    id="brandLogoInput">
+                    id="brandLogoInput" aria-describedby="brandLogoHelp">
                 @error('brandLogoUpload') <span class="text-danger">{{ $message }}</span> @enderror
+                <small id="brandLogoHelp" class="form-text">
+                    Image will be resized to have a height of 24 pixels.
+                </small>
                 <div wire:loading wire:target="brandLogoUpload" class="mt-3">
                     <x-spinner /> Uploading...
                 </div>
@@ -40,6 +44,35 @@
                             <input type="checkbox" class="form-check-input" id="brandLogoRemoveInput" value="1"
                                 wire:model.defer="brandLogoRemove">
                             <label class="form-check-label" for="brandLogoRemoveInput">Remove existing logo</label>
+                        </div>
+                    </div>
+                @endif
+            </div>
+
+            <div>
+                <label for="brandFaviconInput" class="form-label">Favicon:</label>
+                <input type="file" class="form-control" wire:model="brandFaviconUpload" accept="image/*"
+                    id="brandFaviconInput" aria-describedby="brandFaviconHelp">
+                @error('brandFaviconUpload') <span class="text-danger">{{ $message }}</span> @enderror
+                <small id="brandFaviconHelp" class="form-text">
+                    Image will be resized to 32x32 pixels.
+                </small>
+                <div wire:loading wire:target="brandFaviconUpload" class="mt-3">
+                    <x-spinner /> Uploading...
+                </div>
+                @if (isset($brandFaviconUpload))
+                    <div class="mt-3">
+                        <img src="{{ $brandFaviconUpload->temporaryUrl() }}" alt="Preview" height="24" />
+                    </div>
+                @elseif(isset($brandFavicon))
+                    <div class="d-flex align-items-center mt-3">
+                        <div class="me-2">
+                            <img src="{{ url(Storage::url($brandFavicon)) }}" alt="Current Favicon" height="24" />
+                        </div>
+                        <div class="form-check form-switch">
+                            <input type="checkbox" class="form-check-input" id="brandFaviconRemoveInput" value="1"
+                                wire:model.defer="brandFaviconRemove">
+                            <label class="form-check-label" for="brandFaviconRemoveInput">Remove existing Favicon</label>
                         </div>
                     </div>
                 @endif
@@ -150,7 +183,7 @@
                     <div class="mb-3">
                         <label for="customerStartingCredit" class="form-label">Starting credit:</label>
                         <input type="number" min="0" id="customerStartingCredit"
-                            wire:model.defer="customerStartingCredit"
+                            wire:model="customerStartingCredit"
                             placeholder="{{ config('shop.customer.starting_credit') }}"
                             class="form-control @error('customerStartingCredit') is-invalid @enderror"
                             style="max-width: 10em;">
@@ -206,6 +239,47 @@
                         <input type="checkbox" class="form-check-input" id="skipOrderRegisteredNotificationInput" value="1"
                             wire:model.defer="skipOrderRegisteredNotification">
                         <label class="form-check-label" for="skipOrderRegisteredNotificationInput">Don't send a notification to the customer when an order has been registered.</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-4">
+                    <div class="mb-3">
+                        <label for="customerCreditTopupDays" class="form-label">Top up timeframe:</label>
+                        <input type="number" min="0" id="customerCreditTopupDays"
+                            wire:model.defer="customerCreditTopupDays"
+                            class="form-control @error('customerCreditTopupDays') is-invalid @enderror"
+                            style="max-width: 10em;"
+                            aria-describedby="customerWaitingTimeBetweenOrdersHelp">
+                        @error('customerCreditTopupDays') <div class="invalid-feedback">{{ $message }}</div>@enderror
+                        <small id="customerWaitingTimeBetweenOrdersHelp" class="form-text">
+                            Time in days after which a top up will happen. Leave empty to disable automatic top up.
+                        </small>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="mb-3">
+                        <label for="customerCreditTopupAmount" class="form-label">Top up credit amount:</label>
+                        <input type="number" min="0" id="customerCreditTopupAmount"
+                            wire:model.defer="customerCreditTopupAmount"
+                            placeholder="{{ $customerStartingCredit > 0 ? $customerStartingCredit : config('shop.customer.starting_credit') }}"
+                            class="form-control @error('customerCreditTopupAmount') is-invalid @enderror"
+                            style="max-width: 10em;">
+                        @error('customerCreditTopupAmount') <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="mb-3">
+                        <label for="customerCreditTopupMaximum" class="form-label">Top up credit maximum:</label>
+                        <input type="number" min="0" id="customerCreditTopupMaximum"
+                            wire:model.defer="customerCreditTopupMaximum"
+                            placeholder="{{ $customerStartingCredit > 0 ? $customerStartingCredit : config('shop.customer.starting_credit') }}"
+                            class="form-control @error('customerCreditTopupMaximum') is-invalid @enderror"
+                            style="max-width: 10em;">
+                        @error('customerCreditTopupMaximum') <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
                     </div>
                 </div>
 

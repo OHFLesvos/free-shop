@@ -14,4 +14,9 @@
             @endforeach
         </div>
     </div>
+    <p class="text-center">
+        <small>
+            @include('layouts.includes.copyright')
+        </small>
+    </p>
 @endsection

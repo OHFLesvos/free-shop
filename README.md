@@ -1,6 +1,6 @@
 # Free Shop App
 
-This is a "free  web-shop" application based on [Laravel](https://laravel.com/), a popular PHP framework. 
+This is a "free  web-shop" application based on [Laravel](https://laravel.com/), a popular PHP framework.
 
 The service is intended to be used for distribution of items/goods in humanitarian aid scenarios, with a points based system for the "customers".
 They receive a certain amount of credits on a regular basis which then can be used to "purchase" items from the online shop. One an order
@@ -60,6 +60,14 @@ Cache routes and configuration for increased performance (don't use during devel
 ## Deployment
 
 The code contains a [GitHub actions](https://docs.github.com/en/actions) definition to assemble and deploy the application to any web hosting server via SSH whenever changes are made to the 'production' branch. Credentials for the target server need to be provided as [GitHub Secrets](https://docs.github.com/en/actions/reference/encrypted-secrets).
+
+## Task scheduler
+
+Setup the task scheduler using the following cronjob:
+
+    * * * * * cd /path-to-your-project && php artisan schedule:run >> /dev/null 2>&1
+
+More information can be found in the [Laravel documentation](https://laravel.com/docs/8.x/scheduling#running-the-scheduler).
 
 ## Setup backend access
 

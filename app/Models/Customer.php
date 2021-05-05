@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\Traits\NumberCompareScope;
+use Carbon\Carbon;
 use Dyrynda\Database\Support\NullableFields;
 use Illuminate\Contracts\Translation\HasLocalePreference;
 use Illuminate\Database\Eloquent\Builder;
@@ -18,12 +19,14 @@ use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
 use Illuminate\Foundation\Auth\Access\Authorizable;
 use libphonenumber\NumberParseException;
 use Propaganistas\LaravelPhone\PhoneNumber;
+use OwenIt\Auditing\Contracts\Auditable;
 
 class Customer extends Model implements
     HasLocalePreference,
     AuthenticatableContract,
     AuthorizableContract,
-    CanResetPasswordContract
+    CanResetPasswordContract,
+    Auditable
 {
     use HasFactory;
     use Notifiable;
@@ -32,6 +35,7 @@ class Customer extends Model implements
     use Authenticatable;
     use Authorizable;
     use CanResetPassword;
+    use \OwenIt\Auditing\Auditable;
 
     protected $fillable = [
         'name',
@@ -50,10 +54,16 @@ class Customer extends Model implements
 
     protected $casts = [
         'is_disabled' => 'boolean',
+        'topped_up_at' => 'datetime',
     ];
 
     protected static function booted()
     {
+        static::creating(function (Customer $customer) {
+            if ($customer->topped_up_at == null) {
+                $customer->topped_up_at = now();
+            }
+        });
         static::deleting(function (Customer $customer) {
             $customer->orders()
                 ->whereIn('status', ['new', 'ready'])
@@ -108,7 +118,7 @@ class Customer extends Model implements
         return null;
     }
 
-    public function getNextOrderIn()
+    public function getNextOrderIn(): ?Carbon
     {
         $days = intval(setting()->get('customer.waiting_time_between_orders', 0));
         if ($days > 0) {
@@ -118,9 +128,18 @@ class Customer extends Model implements
                 ->first();
             if ($lastOrder != null) {
                 if (now()->subDays($days)->lte($lastOrder->created_at)) {
-                    return $lastOrder->created_at->clone()->addDays($days)->diffForHumans();
+                    return $lastOrder->created_at->clone()->addDays($days);
                 }
             }
+        }
+        return null;
+    }
+
+    public function getNextTopupDateAttribute()
+    {
+        $days = setting()->get('customer.credit_topup.days');
+        if ($days > 0) {
+            return $this->topped_up_at ? $this->topped_up_at->clone()->addDays($days) : today();
         }
         return null;
     }

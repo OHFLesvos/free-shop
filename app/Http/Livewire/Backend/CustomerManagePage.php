@@ -28,6 +28,7 @@ class CustomerManagePage extends BackendPage
                 setting()->has('customer.id_number_pattern')
                     ? 'regex:' . setting()->get('customer.id_number_pattern')
                     : null,
+                'unique:customers,id_number,' . $this->customer->id,
             ],
             'customer_phone' => [
                 'required',
@@ -43,7 +44,6 @@ class CustomerManagePage extends BackendPage
                 Rule::in(array_keys(config('app.supported_languages'))),
             ],
             'customer.remarks' => 'nullable',
-            'customer.locale' => 'nullable',
             'customer.is_disabled' => 'boolean',
             'customer.disabled_reason' => [
                 'required_if:customer.is_disabled,true',

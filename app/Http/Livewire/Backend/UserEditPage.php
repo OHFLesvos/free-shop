@@ -24,7 +24,7 @@ class UserEditPage extends BackendPage
     {
         return [
             'userRoles.*' => [
-                Rule::in(Role::all()->pluck('id')),
+                Rule::in(Role::pluck('id')),
             ]
         ];
     }

@@ -28,6 +28,10 @@ class SettingsPage extends BackendPage
     public $customerIdNumberPattern;
     public $customerIdNumberExample;
 
+    public $customerCreditTopupDays;
+    public $customerCreditTopupAmount;
+    public $customerCreditTopupMaximum;
+
     public $countries;
 
     public ?string $selectedCountry = null;
@@ -35,6 +39,10 @@ class SettingsPage extends BackendPage
     public $brandLogo;
     public $brandLogoUpload;
     public bool $brandLogoRemove = false;
+    public $brandFavicon;
+    public $brandFaviconUpload;
+    public bool $brandFaviconRemove = false;
+
     public $customerWaitingTimeBetweenOrders;
 
     public $contentLocale;
@@ -66,6 +74,21 @@ class SettingsPage extends BackendPage
                 'nullable',
                 'integer',
                 'min:0',
+            ],
+            'customerCreditTopupDays' => [
+                'nullable',
+                'integer',
+                'min:1',
+            ],
+            'customerCreditTopupAmount' => [
+                'nullable',
+                'integer',
+                'min:1',
+            ],
+            'customerCreditTopupMaximum' => [
+                'nullable',
+                'integer',
+                'min:1',
             ],
             'customerIdNumberPattern' => [
                 'nullable',
@@ -106,8 +129,12 @@ class SettingsPage extends BackendPage
         $this->orderDefaultPhoneCountry = setting()->get('order.default_phone_country', '');
         $this->timezone = setting()->get('timezone', '');
         $this->customerStartingCredit = setting()->get('customer.starting_credit', '');
+        $this->customerCreditTopupDays = setting()->get('customer.credit_topup.days', '');
+        $this->customerCreditTopupAmount = setting()->get('customer.credit_topup.amount', '');
+        $this->customerCreditTopupMaximum = setting()->get('customer.credit_topup.maximum', '');
         $this->shopMaxOrdersPerDay = setting()->get('shop.max_orders_per_day', '');
         $this->brandLogo = setting()->get('brand.logo');
+        $this->brandFavicon = setting()->get('brand.favicon');
         $this->customerIdNumberPattern = setting()->get('customer.id_number_pattern', '');
         $this->customerIdNumberExample = setting()->get('customer.id_number_example', '');
         $this->customerWaitingTimeBetweenOrders = setting()->get('customer.waiting_time_between_orders', '');
@@ -181,6 +208,25 @@ class SettingsPage extends BackendPage
             setting()->forget('customer.starting_credit');
         }
 
+
+        if (filled($this->customerCreditTopupDays)) {
+            setting()->set('customer.credit_topup.days', $this->customerCreditTopupDays);
+        } else {
+            setting()->forget('customer.credit_topup.days');
+        }
+
+        if (filled($this->customerCreditTopupAmount)) {
+            setting()->set('customer.credit_topup.amount', $this->customerCreditTopupAmount);
+        } else {
+            setting()->forget('customer.credit_topup.amount');
+        }
+
+        if (filled($this->customerCreditTopupMaximum)) {
+            setting()->set('customer.credit_topup.maximum', $this->customerCreditTopupMaximum);
+        } else {
+            setting()->forget('customer.credit_topup.maximum');
+        }
+
         if (filled($this->shopMaxOrdersPerDay)) {
             setting()->set('shop.max_orders_per_day', $this->shopMaxOrdersPerDay);
         } else {
@@ -203,6 +249,24 @@ class SettingsPage extends BackendPage
             setting()->set('brand.logo', $path);
             $this->brandLogo = $path;
             $this->brandLogoUpload = null;
+        }
+
+        if (setting()->has('brand.favicon') && ($this->brandFaviconRemove) || isset($this->brandFaviconUpload)) {
+            Storage::delete(setting()->get('brand.favicon'));
+            setting()->forget('brand.favicon');
+            $this->brandFavicon = null;
+        }
+        if (isset($this->brandFaviconUpload)) {
+            $name = 'brand-favicon-' . now()->format('YmdHis') . '.' . $this->brandFaviconUpload->getClientOriginalExtension();
+            $path = $this->brandFaviconUpload->storePubliclyAs('public', $name);
+
+            $image = new ImageResize(Storage::path($path));
+            $image->resizeToBestFit(32, 32);
+            $image->save(Storage::path($path));
+
+            setting()->set('brand.favicon', $path);
+            $this->brandFavicon = $path;
+            $this->brandFaviconUpload = null;
         }
 
         if (filled($this->customerIdNumberPattern)) {
@@ -244,6 +308,16 @@ class SettingsPage extends BackendPage
     {
         $this->validate([
             'brandLogoUpload' => [
+                'image',
+                'max:4096',
+            ],
+        ]);
+    }
+
+    public function updatedBrandFaviconUpload()
+    {
+        $this->validate([
+            'brandFaviconUpload' => [
                 'image',
                 'max:4096',
             ],
