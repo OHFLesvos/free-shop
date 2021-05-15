@@ -60,6 +60,56 @@
         </dl>
     </x-card>
 
+    {{-- Comments --}}
+    <h3>Comments</h3>
+    @if($comments->isNotEmpty())
+        @foreach($comments as $comment)
+            <div class="card mb-3 shadow-sm">
+                <div class="card-body">
+                    {{ $comment->content }}
+                    @can('delete', $comment)
+                        <button
+                            class="btn btn-outline-danger btn-sm float-end"
+                            wire:click="deleteComment({{$comment->id}})"
+                            onclick="confirm('Are you sure you want to remove this comment?') || event.stopImmediatePropagation()">
+                            Delete
+                        </button>
+                    @endcan
+                </div>
+                <div class="card-footer d-sm-flex justify-content-between">
+                    <span>
+                        <x-date-time-info :value="$comment->created_at" />
+                    </span>
+                    @isset($comment->user)
+                        <small class="text-muted">{{ $comment->user->name }}</small>
+                    @endisset
+                </div>
+            </div>
+        @endforeach
+        <div class="overflow-auto">{{ $comments->onEachSide(2)->links() }}</div>
+    @endif
+    <p>
+        @if($addComment)
+            <form wire:submit.prevent="saveComment" autocomplete="off">
+                <div x-data x-init="$refs.newComment.focus()" class="mb-3">
+                    <textarea
+                        class="form-control @error('newComment') is-invalid @enderror"
+                        id="newCommentInput"
+                        wire:model.defer="newComment"
+                        x-ref="newComment"
+                        rows="3"
+                        placeholder="Add your comment..."
+                        autocomplete="off"></textarea>
+                    @error('newComment') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                </div>
+                <button class="btn btn-primary" type="submit">Save</button>
+                <button class="btn btn-link" wire:click="resetComment">Cancel</button>
+            </form>
+        @else
+            <button class="btn btn-secondary" wire:click="$set('addComment', true)">Add comment</button>
+        @endif
+    </p>
+
     {{-- Orders --}}
     @if($customer->orders->isNotEmpty())
         <h3>Orders</h3>
@@ -125,6 +175,7 @@
         </ul>
     @endif
 
+    <hr>
     <div class="d-flex justify-content-between mb-3">
         <span>
             @can('update', $customer)

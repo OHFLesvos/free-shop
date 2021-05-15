@@ -2,6 +2,7 @@
 
 namespace App\Exports;
 
+use App\Exports\Sheets\CommentsSheet;
 use App\Exports\Sheets\CustomersSheet;
 use App\Exports\Sheets\OrdersSheet;
 use App\Exports\Sheets\ProductsSheet;
@@ -25,6 +26,7 @@ class DataExport implements WithMultipleSheets, WithProperties
         {
             $sheets[] = new ProductsSheet($locale);
         }
+        $sheets[] = new CommentsSheet();
         return $sheets;
     }
 
