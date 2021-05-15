@@ -12,17 +12,18 @@
                 </x-alert>
             @endif
         @endif
-
-        @if(filled(config('services.google.redirect')))
+        @if(count($oauth) > 0)
             <p class="text-center">
-                <a href="{{ route('backend.login.google') }}" class="btn btn-primary">
-                    <x-icon type="brands" icon="google"/>
-                    Sign in with Google
-                    @if(config('services.google.organization_domain') != null)
-                    ({{ config('services.google.organization_domain') }})
-                    @endif
-                </a>
+                @foreach ($oauth as $service)
+                    <a href="{{ $service['url'] }}" class="btn btn-primary">
+                        <x-icon type="brands" :icon="$service['icon']"/>
+                        {{ $service['label'] }}
+                        @if($service['domain'] != null)({{ $service['domain'] }})@endif
+                    </a>
+                @endforeach
             </p>
+        @else
+            <x-alert type="warning">No OAuth provider configured.</x-alert>
         @endif
 
         <p class="text-center">

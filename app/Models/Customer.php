@@ -70,12 +70,19 @@ class Customer extends Model implements
                 ->update(['status' => 'cancelled']);
             $customer->orders()
                 ->update(['customer_id' => null]);
+            $customer->comments()
+                ->delete();
         });
     }
 
     public function orders()
     {
         return $this->hasMany(Order::class);
+    }
+
+    public function comments()
+    {
+        return $this->morphMany(Comment::class, 'commentable');
     }
 
     public function scopeRegisteredInDateRange(Builder $qry, ?string $start, ?string $end)

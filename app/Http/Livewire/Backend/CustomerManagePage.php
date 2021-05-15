@@ -62,6 +62,7 @@ class CustomerManagePage extends BackendPage
         if (! isset($this->customer)) {
             $this->customer = new Customer();
             $this->customer->credit = setting()->get('customer.starting_credit', config('shop.customer.starting_credit'));
+            $this->customer->is_disabled = false;
         }
 
         $this->customer_phone_country = setting()->get('order.default_phone_country', '');
