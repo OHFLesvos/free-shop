@@ -9,7 +9,23 @@ class LoginController extends Controller
 {
     public function login()
     {
-        return view('backend.login');
+        return view('backend.login', [
+            'oauth' => $this->getOauthProviders(),
+        ]);
+    }
+
+    private function getOauthProviders()
+    {
+        $oauth = [];
+        if (filled(config('services.google.client_id')) && filled(config('services.google.client_secret'))) {
+            $oauth['google'] = [
+                'url' => route('backend.login.google'),
+                'label' => 'Sign in with Google',
+                'domain' => config('services.google.organization_domain'),
+                'icon' => 'google',
+            ];
+        }
+        return $oauth;
     }
 
     public function logout(Request $request)
