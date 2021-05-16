@@ -85,6 +85,11 @@ class Customer extends Model implements
         return $this->morphMany(Comment::class, 'commentable');
     }
 
+    public function tags()
+    {
+        return $this->morphToMany(Tag::class, 'taggable');
+    }
+
     public function scopeRegisteredInDateRange(Builder $qry, ?string $start, ?string $end)
     {
         if (filled($start) && filled($end)) {
