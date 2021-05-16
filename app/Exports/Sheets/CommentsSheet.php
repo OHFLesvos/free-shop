@@ -31,9 +31,9 @@ class CommentsSheet implements FromQuery, WithMapping, WithHeadings, WithColumnF
             'ID',
             'Commentable ID',
             'Commentable',
-            'User',
             'Content',
-            'Registered',
+            'User',
+            'Date',
         ];
     }
 
@@ -49,8 +49,8 @@ class CommentsSheet implements FromQuery, WithMapping, WithHeadings, WithColumnF
             $comment->id,
             optional($commentable)->id,
             $commentable_label,
-            optional($comment->user)->name,
             $comment->content,
+            optional($comment->user)->name,
             $this->mapDateTime($comment->created_at),
         ];
     }
