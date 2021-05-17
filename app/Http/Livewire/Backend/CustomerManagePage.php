@@ -3,6 +3,7 @@
 namespace App\Http\Livewire\Backend;
 
 use App\Models\Customer;
+use App\Models\Tag;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Validation\Rule;
 use libphonenumber\NumberParseException;
@@ -16,6 +17,7 @@ class CustomerManagePage extends BackendPage
 
     public string $customer_phone;
     public string $customer_phone_country;
+    public string $customer_tags;
 
     public bool $shouldDelete = false;
 
@@ -35,6 +37,9 @@ class CustomerManagePage extends BackendPage
                 'phone:customer_phone_country,mobile',
             ],
             'customer_phone_country' => 'required_with:customer_phone',
+            'customer_tags' => [
+                'nullable'
+            ],
             'customer.credit' => [
                 'integer',
                 'min:0',
@@ -77,6 +82,8 @@ class CustomerManagePage extends BackendPage
                 $this->customer_phone = $this->customer->phone;
             }
         }
+
+        $this->customer_tags = $this->customer->tags->pluck('name')->join(',');
     }
 
     protected function title()
@@ -108,11 +115,19 @@ class CustomerManagePage extends BackendPage
 
         $this->customer->save();
 
+        $tags = [];
+        foreach (preg_split('/\s*,\s*/', trim($this->customer_tags), -1, PREG_SPLIT_NO_EMPTY) as $tag) {
+            $tags[] = Tag::firstOrCreate([
+                'name' => $tag,
+            ])->id;
+        }
+        $this->customer->tags()->sync($tags);
+
         session()->flash('message', $this->customer->wasRecentlyCreated
             ? 'Customer registered.'
             : 'Customer updated.');
 
-        return redirect()->route('backend.customers');
+        return redirect()->route('backend.customers.show', $this->customer);
     }
 
     public function delete()
