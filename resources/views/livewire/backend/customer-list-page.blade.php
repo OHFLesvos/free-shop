@@ -24,6 +24,22 @@
             @endif
         </div>
     </div>
+    @if($tags->isNotEmpty())
+        <div class="overflow-auto mb-3">
+            @foreach($tags as $t)
+                <button
+                    wire:click="setTag('{{ $t->slug }}')"
+                    class="btn btn-sm me-1 @if($t->slug == $tag) btn-success @else btn-info @endif">
+                    {{ $t->name }}
+                </button>
+            @endforeach
+            @if(filled($tag))
+                <button wire:click="setTag('')" class="btn btn-sm btn-secondary">
+                    <x-icon icon="times"/>
+                </button>
+            @endif
+        </div>
+    @endif
     <div class="table-responsive">
         <table class="table table-bordered bg-white shadow-sm table-hover">
             <caption>{{ $customers->total() }} customers found</caption>
@@ -63,7 +79,7 @@
                     </tr>
                 @empty
                     <tr>
-                        <td colspan="4" class="text-center">
+                        <td colspan="6" class="text-center">
                             <em>
                                 @if(filled($search))
                                     No customers found for term '{{ $search }}'.

@@ -51,6 +51,14 @@
                 <dt class="col-sm-3">Remarks</dt>
                 <dd class="col-sm-9">{!! nl2br(e($customer->remarks)) !!}</dd>
             @endisset
+            @if($customer->tags()->exists())
+                <dt class="col-sm-3">Tags</dt>
+                <dd class="col-sm-9">
+                    @foreach($customer->tags as $tag)
+                        <a href="{{ route('backend.customers', ['tag' => $tag->slug]) }}" class="btn btn-sm btn-info">{{ $tag->name }}</a>
+                    @endforeach
+                </dd>
+            @endif
             @if($customer->is_disabled)
                 <dt class="col-sm-3">Disabled</dt>
                 <dd class="col-sm-9">{{ $customer->disabled_reason ?? 'Yes' }}</dd>
