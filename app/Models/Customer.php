@@ -87,7 +87,8 @@ class Customer extends Model implements
 
     public function tags()
     {
-        return $this->morphToMany(Tag::class, 'taggable');
+        return $this->morphToMany(Tag::class, 'taggable')
+            ->using(Taggable::class);
     }
 
     public function scopeRegisteredInDateRange(Builder $qry, ?string $start, ?string $end)

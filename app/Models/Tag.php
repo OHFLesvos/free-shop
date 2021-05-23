@@ -21,7 +21,8 @@ class Tag extends Model
 
     public function customers()
     {
-        return $this->morphedByMany(Customer::class, 'taggable');
+        return $this->morphedByMany(Customer::class, 'taggable')
+            ->using(Taggable::class);
     }
 
     public function sluggable(): array
