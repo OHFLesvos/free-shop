@@ -122,18 +122,17 @@
                         @error('customer.remarks') <div class="invalid-feedback">{{ $message }}</div> @enderror
                     </div>
                     <div class="col-md-12">
-                        <label for="inputTags" class="form-label">Tags</label>
-                        <input
-                            type="text"
-                            class="form-control @error('customer_tags') is-invalid @enderror"
-                            id="inputTags"
-                            autocomplete="off"
-                            wire:model.defer="customer_tags"
-                            aria-describedby="customerTagsHelp"/>
-                        @error('customer_tags') <div class="invalid-feedback">{{ $message }}</div> @enderror
-                        <small id="customerTagsHelp" class="form-text text-muted">
-                            @lang('Separate tags by comma.')
-                        </small>
+                        @livewire('tagify', [
+                            'suggestions' => App\Models\Tag::orderBy('name')
+                                ->has('customers')
+                                ->get()
+                                ->pluck('name')
+                                ->toArray(),
+                            'tags' => $customer->tags
+                                ->sortBy('name', SORT_STRING | SORT_FLAG_CASE)
+                                ->pluck('name')
+                                ->toArray()
+                        ])
                     </div>
                     <div class="col-md-4">
                         <div class="form-check form-switch">
