@@ -32,11 +32,11 @@
                     @unless(isset($nextOrderIn))
                         @isset($customer)
                             <button
-                                class="btn @unless(($basket[$product->id] ?? 0) < $product->quantity_available_for_customer && $product->price <= $this->availableCredit) btn-secondary @else btn-primary @endunless"
+                                class="btn @unless(($basket->get($product->id) ?? 0) < $product->quantity_available_for_customer && $product->price <= $this->availableCredit) btn-secondary @else btn-primary @endunless"
                                 wire:click="add({{ $product->id }})"
                                 wire:loading.attr="disabled"
                                 wire:target="add"
-                                @unless(($basket[$product->id] ?? 0) < $product->quantity_available_for_customer && $product->price <= $this->availableCredit) disabled @endunless>
+                                @unless(($basket->get($product->id) ?? 0) < $product->quantity_available_for_customer && $product->price <= $this->availableCredit) disabled @endunless>
                                 @lang('Add')
                             </button>
                         @else
