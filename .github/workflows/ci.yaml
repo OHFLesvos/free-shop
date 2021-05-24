@@ -16,6 +16,7 @@ jobs:
       run: |
         echo "Commit: $(git rev-parse --short HEAD)" >> .gitinfo
         echo "Branch: ${GITHUB_REF#refs/heads/}" >> .gitinfo
+        echo "Build date: $(date)" >> .gitinfo
     - name: Install Dependencies
       run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist  --optimize-autoloader --no-dev
     - name: Enable maintenance mode on remote
