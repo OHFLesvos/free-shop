@@ -6,8 +6,11 @@ window.showSnackbar = (message) => Snackbar.show({
     pos: 'bottom-right',
     textColor: '#ffffff',
     backgroundColor: getComputedStyle(document.documentElement).getPropertyValue('--bs-primary'),
-    actionTextColor: '#cccccc',    
+    actionTextColor: '#cccccc',
     customClass: 'shadow'
 });
 
 import 'alpinejs';
+
+import Tagify from '@yaireo/tagify'
+window.Tagify = Tagify;

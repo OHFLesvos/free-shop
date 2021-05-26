@@ -17,7 +17,7 @@ class CustomerManagePage extends BackendPage
 
     public string $customer_phone;
     public string $customer_phone_country;
-    public string $customer_tags;
+    public array $customer_tags;
 
     public bool $shouldDelete = false;
 
@@ -38,7 +38,7 @@ class CustomerManagePage extends BackendPage
             ],
             'customer_phone_country' => 'required_with:customer_phone',
             'customer_tags' => [
-                'nullable'
+                'array',
             ],
             'customer.credit' => [
                 'integer',
@@ -83,7 +83,7 @@ class CustomerManagePage extends BackendPage
             }
         }
 
-        $this->customer_tags = $this->customer->tags->pluck('name')->join(',');
+        $this->customer_tags = $this->customer->tags->pluck('name')->toArray();
     }
 
     protected function title()
@@ -116,7 +116,7 @@ class CustomerManagePage extends BackendPage
         $this->customer->save();
 
         $tags = [];
-        foreach (preg_split('/\s*,\s*/', trim($this->customer_tags), -1, PREG_SPLIT_NO_EMPTY) as $tag) {
+        foreach ($this->customer_tags as $tag) {
             $tags[] = Tag::firstOrCreate([
                 'name' => $tag,
             ])->id;
@@ -139,5 +139,12 @@ class CustomerManagePage extends BackendPage
         session()->flash('message', 'Customer deleted.');
 
         return redirect()->route('backend.customers');
+    }
+
+    protected $listeners = ['changeTags' => 'updateTags'];
+
+    public function updateTags($value)
+    {
+        $this->customer_tags = $value;
     }
 }

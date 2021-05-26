@@ -65,7 +65,7 @@ class ShopFrontPage extends FrontendPage
     public function render(ShoppingBasket $basket)
     {
         return parent::view('livewire.shop-front-page', [
-            'basket' => $basket->items(),
+            'basket' => $basket,
             'nextOrderIn' => optional($this->customer)->getNextOrderIn(),
         ]);
     }

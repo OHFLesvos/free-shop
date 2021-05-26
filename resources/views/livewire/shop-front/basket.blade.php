@@ -9,9 +9,9 @@
             <x-slot name="addon">
                 <table class="table m-0">
                     <tbody>
-                        @foreach($this->products->whereIn('id', $basket->keys()) as $product)
+                        @foreach($this->products->whereIn('id', $basket->items()->keys()) as $product)
                             <tr>
-                                <td class="align-middle ps-3 fit text-end"><strong>{{ $basket[$product->id] }}x</strong></td>
+                                <td class="align-middle ps-3 fit text-end"><strong>{{ $basket->get($product->id) }}x</strong></td>
                                 <td class="align-middle">{{ $product->name }}</td>
                                 <td class="align-middle pe-3 fit">
                                     <button
@@ -24,10 +24,10 @@
                                     </button>
                                     <button
                                         type="button"
-                                        class="btn btn-sm @unless($basket[$product->id] < $product->quantity_available_for_customer && $product->price <= $this->availableCredit) btn-secondary @else btn-success @endunless"
+                                        class="btn btn-sm @unless($basket->get($product->id) < $product->quantity_available_for_customer && $product->price <= $this->availableCredit) btn-secondary @else btn-success @endunless"
                                         wire:click="add({{ $product->id }}, 1)"
                                         wire:loading.attr="disabled"
-                                        @unless($basket[$product->id] < $product->quantity_available_for_customer && $product->price <= $this->availableCredit) disabled aria-disabled @endunless
+                                        @unless($basket->get($product->id) < $product->quantity_available_for_customer && $product->price <= $this->availableCredit) disabled aria-disabled @endunless
                                         aria-label="@lang('Add one')">
                                         <x-icon icon="plus"/>
                                     </button>

@@ -54,7 +54,7 @@
             @if($customer->tags()->exists())
                 <dt class="col-sm-3">Tags</dt>
                 <dd class="col-sm-9">
-                    @foreach($customer->tags as $tag)
+                    @foreach($customer->tags->sortBy('name', SORT_STRING | SORT_FLAG_CASE) as $tag)
                         <a href="{{ route('backend.customers', ['tag' => $tag->slug]) }}" class="btn btn-sm btn-info">{{ $tag->name }}</a>
                     @endforeach
                 </dd>

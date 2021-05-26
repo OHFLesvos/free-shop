@@ -1,5 +1,6 @@
 @import "custom";
 @import "~bootstrap/scss/bootstrap";
+@import "@yaireo/tagify/dist/tagify.css";
 
 .medium-container {
     @include make-container();
@@ -17,7 +18,7 @@ $fa-font-path: "../webfonts";
 @import "~@fortawesome/fontawesome-free/scss/brands";
 @import "~@fortawesome/fontawesome-free/scss/regular";
 
-@import 'node-snackbar/src/sass/snackbar';
+@import "node-snackbar/src/sass/snackbar";
 
 div.sticky {
     position: -webkit-sticky; /* Safari */
@@ -33,4 +34,21 @@ div.sticky {
 
 .cursor-pointer {
     cursor: pointer;
+}
+
+/**
+* Tagify
+*/
+
+.tagify__tag > div {
+    line-height: 1;
+}
+
+.tagify__input {
+    padding-top: 0.1em;
+    padding-bottom: 0.05em;
+}
+
+.tagify__tag-text {
+    padding-bottom: 0.1em;
 }
