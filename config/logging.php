@@ -101,6 +101,20 @@ return [
             'formatter' => LogzIoFormatter::class,
         ],
 
+        'elasticsearch' => [
+            'driver'         => 'monolog',
+            'level'          => 'debug',
+            'handler'        => \Monolog\Handler\ElasticsearchHandler::class,
+            'formatter'      => \Monolog\Formatter\ElasticsearchFormatter::class,
+            'formatter_with' => [
+                'index' => env('ELASTIC_LOGS_INDEX') . '-' . now()->toDateString(),
+                'type'  => '_doc',
+            ],
+            'handler_with'   => [
+                'client' => \Elasticsearch\ClientBuilder::create()->setHosts([env('ELASTIC_HOST')])->build(),
+            ],
+        ],
+
         'stderr' => [
             'driver' => 'monolog',
             'handler' => StreamHandler::class,
