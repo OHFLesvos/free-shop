@@ -101,6 +101,12 @@ return [
             'formatter' => LogzIoFormatter::class,
         ],
 
+        'stack_logzio_daily' => [
+            'driver' => 'stack',
+            'channels' => ['daily', 'logzio'],
+            'ignore_exceptions' => false,
+        ],
+
         'stderr' => [
             'driver' => 'monolog',
             'handler' => StreamHandler::class,

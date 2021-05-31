@@ -2,56 +2,40 @@
 
 namespace App\Services;
 
-use App\Models\Product;
-use ErrorException;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\Log;
 
 class ShoppingBasket
 {
-    private Collection $basket;
-    private Collection $products;
+    private Collection $items;
 
-    const SESSION_KEY = 'basket';
+    private string $session_key = 'shopping-basket';
 
     public function __construct()
     {
-        $this->products = Product::query()
-            ->available()
-            ->get()
-            ->filter(fn ($product) => $product->quantity_available_for_customer > 0);
-
-        $this->load();
-    }
-
-    public function load()
-    {
-        $savedBasket = collect(session()->get(self::SESSION_KEY, []));
-        $this->basket = $savedBasket
-            ->filter(fn ($val, $key) => $this->products->where('id', $key)->isNotEmpty());
+        $this->items = collect(session()->get($this->session_key, []));
     }
 
     public function save()
     {
-        if ($this->basket->isNotEmpty())  {
-            session()->put(self::SESSION_KEY, $this->basket
-                ->map(fn ($quantity) => intval($quantity))
-                ->filter(fn ($quantity) => $quantity > 0)
-                ->toArray());
+        $items = $this->items
+            ->map(fn ($quantity) => intval($quantity))
+            ->filter(fn ($quantity) => $quantity > 0);
+        if ($items->isNotEmpty())  {
+            session()->put($this->session_key, $items->toArray());
         } else {
-            session()->forget(self::SESSION_KEY);
+            session()->forget($this->session_key);
         }
     }
 
     public function items(): Collection
     {
-        return $this->basket
+        return $this->items
             ->filter(fn ($quantity) => $quantity > 0);
     }
 
     public function get($productId): int
     {
-        return $this->basket[$productId] ?? 0;
+        return $this->items[$productId] ?? 0;
     }
 
     public function add($productId, int $quantity)
@@ -61,21 +45,11 @@ class ShoppingBasket
 
     public function set($productId, int $quantity)
     {
-        $product = $this->products->where('id', $productId)->first();
-        if ($product !== null) {
-            if ($quantity > 0 && $quantity <= $product->quantity_available_for_customer) {
-                $this->basket[$productId] = $quantity;
-                $this->save();
-            } else if ($quantity <= 0) {
-                $this->remove($productId);
-            } else {
-                throw new ErrorException('Requested quantity is not available.');
-            }
+        if ($quantity > 0) {
+            $this->items[$productId] = $quantity;
+            $this->save();
         } else {
-            Log::warning('Unable to set product in basket.', [
-                'productId' => $productId,
-                'quantity' => $quantity,
-            ]);
+            $this->remove($productId);
         }
     }
 
@@ -91,13 +65,18 @@ class ShoppingBasket
 
     public function remove($productId)
     {
-        $this->basket->forget($productId);
+        $this->items->forget($productId);
         $this->save();
     }
 
-    public function empty()
+    public function clear()
     {
-        $this->basket = collect();
+        $this->items = collect();
         $this->save();
+    }
+
+    public function isNotEmpty(): bool
+    {
+        return $this->items()->isNotEmpty();
     }
 }

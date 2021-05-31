@@ -1,6 +1,9 @@
 @inject('textRepo', 'App\Repository\TextBlockRepository')
 
 <div>
+    @if(session()->has('error'))
+        <x-alert type="warning" dismissible>{{ session()->get('error') }}</x-alert>
+    @endif
     @if($textRepo->exists('welcome'))
         <div class="mb-4">
             {!! $textRepo->getMarkdown('welcome') !!}

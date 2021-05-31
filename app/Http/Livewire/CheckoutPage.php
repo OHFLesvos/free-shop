@@ -35,7 +35,7 @@ class CheckoutPage extends FrontendPage
     public function render(ShoppingBasket $basket)
     {
         return parent::view('livewire.checkout-page', [
-                'basket' => $basket->items(),
+                'basket' => $basket,
                 'nextOrderIn' => $this->customer->getNextOrderIn(),
             ]);
     }
@@ -43,6 +43,11 @@ class CheckoutPage extends FrontendPage
     public function submit(Request $request, ShoppingBasket $basket)
     {
         $this->validate();
+
+        if ($basket->items()->isEmpty()) {
+            session()->flash('error', __('No products have been selected.'));
+            return redirect()->route('shop-front');
+        }
 
         $totalPrice = $basket->items()
             ->map(fn ($quantity, $productId) => Product::find($productId)->price * $quantity)
@@ -82,6 +87,6 @@ class CheckoutPage extends FrontendPage
 
         $this->order = $order;
 
-        $basket->empty();
+        $basket->clear();
     }
 }

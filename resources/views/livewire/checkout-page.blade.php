@@ -27,10 +27,10 @@
                 <p class="mb-1">{{ __('Selected products:') }}</p>
                 <table class="table">
                     <tbody>
-                        @foreach(App\Models\Product::whereIn('id', $basket->keys())->get()->sortBy('name') as $product)
+                        @foreach(App\Models\Product::whereIn('id', $basket->items()->keys())->get()->sortBy('name') as $product)
                             <tr>
                                 <td class="fit text-end align-middle">
-                                    <strong>{{ $basket[$product->id] }}x</strong>
+                                    <strong>{{ $basket->get($product->id) }}x</strong>
                                 </td>
                                 <td class="align-middle">
                                     {{ $product->name }}
@@ -38,7 +38,7 @@
                                 </td>
                                 <td class="align-middle text-end fit">
                                     @php
-                                        $price = $basket[$product->id] * $product->price;
+                                        $price = $basket->get($product->id) * $product->price;
                                         $total += $price;
                                     @endphp
                                     {{ $price }}
