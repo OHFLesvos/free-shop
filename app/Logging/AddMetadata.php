@@ -2,6 +2,7 @@
 
 namespace App\Logging;
 
+use App\Models\User;
 use donatj\UserAgent\UserAgentParser;
 use Illuminate\Http\Request;
 use Illuminate\Log\Logger;
@@ -45,7 +46,7 @@ class AddMetadata
             'app.environment' => config('app.env'),
         ];
         $user = $this->request->user();
-        if (isset($user)) {
+        if (isset($user) && $user instanceof User) {
             $record['extra'] += [
                 'client.user.name' => $user->name,
                 'client.user.email' => $user->email,
