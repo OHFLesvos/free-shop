@@ -17,7 +17,7 @@ class CancelOrder
         if ($order->customer != null) {
             $starting_credit = setting()->get('customer.starting_credit', config('shop.customer.starting_credit'));
             $maximum = setting()->get('customer.credit_topup.maximum', $starting_credit);
-            $order->customer->credit = min($order->customer->credit + $order->costs, $maximum);
+            $order->customer->credit = max($order->customer->credit, min($order->customer->credit + $order->costs, $maximum));
             $order->customer->save();
         }
 
