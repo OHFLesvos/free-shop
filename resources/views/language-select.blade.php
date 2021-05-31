@@ -3,7 +3,7 @@
 @section('content')
     <div class="small-container text-center">
         <h1 class="mb-5 display-4">{{ config('app.name') }}</h1>
-        <h3>@lang('Choose your language')</h3>
+        <h3>{{ __('Choose your language') }}</h3>
         <div class="list-group shadow-sm my-4">
             @foreach($languages as $key => $value)
                 <a

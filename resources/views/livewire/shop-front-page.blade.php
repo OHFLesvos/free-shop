@@ -20,7 +20,7 @@
                     </div>
                     <div class="col-md order-md-1">
                         @isset($nextOrderIn)
-                            <x-alert type="info">@lang('You can place a new order in :time.', ['time' => $nextOrderIn->diffForHumans()])</x-alert>
+                            <x-alert type="info">{{ __('You can place a new order in :time.', ['time' => $nextOrderIn->diffForHumans()]) }}</x-alert>
                         @endisset
                         @if($useCategories)
                             @foreach($categories as $category)
@@ -38,19 +38,19 @@
                     <p class="d-md-none">
                         <a href="{{ route('checkout') }}"
                             class="btn btn-primary btn-block">
-                            @lang('Go to checkout')
+                            {{ __('Go to checkout') }}
                         </a>
                     </p>
                 @endif
             @else
-                <x-alert type="info">@lang('There are no products available at the moment.')</x-alert>
+                <x-alert type="info">{{ __('There are no products available at the moment.') }}</x-alert>
             @endif
         @else
-            <x-alert type="info">@lang('It is not possible to order something now because the maximum orders per day have been exceeded. Please visit us again another day.')</x-alert>
+            <x-alert type="info">{{ __('It is not possible to order something now because the maximum orders per day have been exceeded. Please visit us again another day.') }}</x-alert>
         @endunless
     @else
         <x-alert type="info">
-            <strong>@lang('The shop is currently not available.')</strong>
+            <strong>{{ __('The shop is currently not available.') }}</strong>
             {!! $textRepo->getPlain('shop-disabled') !!}
         </x-alert>
     @endunless
