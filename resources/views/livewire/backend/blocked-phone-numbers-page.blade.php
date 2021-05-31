@@ -10,7 +10,7 @@
                             class="btn btn-link"
                             wire:loading.attr="disabled"
                             wire:click="$set('shouldDelete', null)">
-                            @lang('Cancel')
+                            Cancel
                         </button>
                         <button
                             type="button"
@@ -19,7 +19,7 @@
                             wire:loading.attr="disabled"
                             wire:click="delete">
                             <x-spinner wire:loading wire:target="delete"/>
-                            @lang('Delete')
+                            Delete
                         </button>
                     </span>
                 </div>

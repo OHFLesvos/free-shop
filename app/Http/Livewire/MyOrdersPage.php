@@ -4,6 +4,7 @@ namespace App\Http\Livewire;
 
 use App\Models\Customer;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class MyOrdersPage extends FrontendPage
 {
@@ -40,6 +41,17 @@ class MyOrdersPage extends FrontendPage
             $order->save();
             $order->customer->credit += $order->costs;
             $order->customer->save();
+
+            Log::info('Customer cancelled order.', [
+                'event.kind' => 'event',
+                'event.outcome' => 'success',
+                'customer.name' => $order->customer->name,
+                'customer.id_number' => $order->customer->id_number,
+                'customer.phone' => $order->customer->phone,
+                'customer.credit' => $order->customer->credit,
+                'order.id' => $order->id,
+                'order.costs' => $order->costs,
+            ]);
         }
     }
 }

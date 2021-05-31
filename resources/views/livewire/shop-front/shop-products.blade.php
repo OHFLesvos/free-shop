@@ -24,9 +24,9 @@
                 <div class="card-footer d-flex justify-content-between align-items-center">
                     <strong>
                         @if($product->price > 0)
-                            @lang('Price: :amount', ['amount' => $product->price])
+                            {{ __('Price: :amount', ['amount' => $product->price]) }}
                         @else
-                            @lang('Free')
+                            {{ __('Free') }}
                         @endif
                     </strong>
                     @unless(isset($nextOrderIn))
@@ -37,13 +37,13 @@
                                 wire:loading.attr="disabled"
                                 wire:target="add"
                                 @unless(($basket->get($product->id) ?? 0) < $product->quantity_available_for_customer && $product->price <= $this->availableCredit) disabled @endunless>
-                                @lang('Add')
+                                {{ __('Add') }}
                             </button>
                         @else
                             <a
                                 href="{{ route('customer.login') }}"
                                 class="btn btn-primary">
-                                @lang('Get')
+                                {{ __('Get') }}
                             </a>
                         @endisset
                     @endunless

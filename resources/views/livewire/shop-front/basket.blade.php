@@ -2,7 +2,7 @@
     @isset($customer)
         <p class="card-text">
             <strong>
-                @lang(':amount points available', ['amount' => $this->availableCredit])
+                {{  __(':amount points available', ['amount' => $this->availableCredit]) }}
             </strong>
         </p>
         @if($basket->isNotEmpty())
@@ -19,7 +19,7 @@
                                         class="btn btn-sm btn-danger"
                                         wire:click="add({{ $product->id }}, -1)"
                                         wire:loading.attr="disabled"
-                                        aria-label="@land('Remove one')">
+                                        aria-label="{{ __('Remove one') }}">
                                         <x-icon icon="minus"/>
                                     </button>
                                     <button
@@ -28,7 +28,7 @@
                                         wire:click="add({{ $product->id }}, 1)"
                                         wire:loading.attr="disabled"
                                         @unless($basket->get($product->id) < $product->quantity_available_for_customer && $product->price <= $this->availableCredit) disabled aria-disabled @endunless
-                                        aria-label="@lang('Add one')">
+                                        aria-label="{{ __('Add one') }}">
                                         <x-icon icon="plus"/>
                                     </button>
                                 </td>
@@ -41,28 +41,28 @@
                 <div class="d-flex justify-content-end">
                     <a href="{{ route('checkout') }}"
                         class="btn btn-primary">
-                        @lang('Go to checkout')
+                        {{ __('Go to checkout') }}
                     </a>
                 </div>
             </x-slot>
         @else
             @if($this->availableCredit == 0)
                 <p class="card-text">
-                    @lang("You currently don't have any points available to spend.")
+                    {{ __("You currently don't have any points available to spend.") }}
                     @isset($customer->nextTopupDate)
-                        @lang('Next top up on <strong>:date</strong>.', ['date' => $customer->nextTopupDate->isoFormat('LL')])
+                        {!! __('Next top up on <strong>:date</strong>.', ['date' => $customer->nextTopupDate->isoFormat('LL') ]) !!}
                     @endif
                 </p>
             @else
-                <p class="card-text">@lang('Please add some products.')</p>
+                <p class="card-text">{{ __('Please add some products.') }}</p>
             @endif
         @endif
     @else
-        <p class="card-text">@lang('Please register or login to place an order.')</p>
+        <p class="card-text">{{ __('Please register or login to place an order.') }}</p>
         <a
             href="{{ route('customer.login') }}"
             class="btn btn-primary">
-            @lang('Login')
+            {{ __('Login') }}
         </a>
     @endisset
 </x-card>

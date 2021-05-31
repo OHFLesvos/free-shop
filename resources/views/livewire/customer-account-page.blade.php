@@ -1,7 +1,7 @@
 @if($shouldDelete)
     <div class="small-container">
         <x-card :title="__('Delete account')">
-            <p class="card-text">@lang('Do you really want do delete your customer account?')</p>
+            <p class="card-text">{{ __('Do you really want do delete your customer account?') }}</p>
             <x-slot name="footer">
                 <div class="d-flex justify-content-end">
                     <span>
@@ -10,7 +10,7 @@
                             class="btn btn-link"
                             wire:loading.attr="disabled"
                             wire:click="$toggle('shouldDelete')">
-                            @lang('Cancel')
+                            {{ __('Cancel') }}
                         </button>
                         <button
                             type="button"
@@ -19,7 +19,7 @@
                             wire:loading.attr="disabled"
                             wire:click="delete">
                             <x-spinner wire:loading wire:target="delete"/>
-                            @lang('Delete')
+                            {{ __('Delete') }}
                         </button>
                     </span>
                 </div>
@@ -36,7 +36,7 @@
                     <x-card :title="__('Customer Profile')">
                         {{-- Name --}}
                         <div class="mb-3">
-                            <label for="inputCustomerName" class="form-label">@lang('First & last name')</label>
+                            <label for="inputCustomerName" class="form-label">{{ __('First & last name') }}</label>
                             <input type="text"
                                 class="form-control @error('customer_name') is-invalid @enderror"
                                 id="inputCustomerName"
@@ -46,13 +46,13 @@
                                 aria-describedby="customerNameHelp">
                             @error('customer_name') <div class="invalid-feedback">{{ $message }}</div> @enderror
                             <small id="customerNameHelp" class="form-text text-muted">
-                                @lang('Write your full name according to your identification document.')
+                                {{ __('Write your full name according to your identification document.') }}
                             </small>
                         </div>
 
                         {{-- ID number --}}
                         <div class="mb-3">
-                            <label for="inputCustomerIdNumber" class="form-label">@lang('ID number')</label>
+                            <label for="inputCustomerIdNumber" class="form-label">{{ __('ID number') }}</label>
                             <input type="text"
                                 class="form-control @error('customer_id_number') is-invalid @enderror"
                                 id="inputCustomerIdNumber"
@@ -63,9 +63,9 @@
                                 aria-describedby="customerIdNumberHelp">
                             @error('customer_id_number') <div class="invalid-feedback">{{ $message }}</div> @enderror
                             <small id="customerIdNumberHelp" class="form-text text-muted">
-                                @lang('Write your ID number according to your identification document.')
+                                {{ __('Write your ID number according to your identification document.') }}
                                 @if(setting()->has('customer.id_number_example'))
-                                    <br>@lang('Example: :value', ['value' => setting()->get('customer.id_number_example')])
+                                    <br>{{ __('Example: :value', ['value' => setting()->get('customer.id_number_example') ]) }}
                                 @endif
                             </small>
                         </div>
@@ -74,7 +74,7 @@
                         <div>
                             <label
                                 for="inputCustomerPhone"
-                                class="form-label">@lang('Mobile phone number')</label>
+                                class="form-label">{{ __('Mobile phone number') }}</label>
                             <div class="input-group" dir="ltr">
                                 @php
                                     $phoneContryCodes = megastruktur\PhoneCountryCodes::getCodesList();
@@ -86,7 +86,7 @@
                                     @foreach(collect(Countries::getList(app()->getLocale())) as $key => $val)
                                         @isset($phoneContryCodes[$key])
                                             <option value="{{ $key }}">
-                                                @lang(':country (:code)', ['country' => $val, 'code' => $phoneContryCodes[$key]])
+                                                {{ __(':country (:code)', ['country' => $val, 'code' => $phoneContryCodes[$key]]) }}
                                             </option>
                                         @endisset
                                     @endforeach
@@ -102,20 +102,20 @@
                                 @error('customer_phone') <div class="invalid-feedback">{{ $message }}</div> @enderror
                             </div>
                             <small id="customerPhoneHelp" class="form-text text-muted">
-                                @lang('We will send updates about your order to this number.')
+                                {{ __('We will send updates about your order to this number.') }}
                             </small>
                         </div>
 
                         <x-slot name="footer">
                             <div class="d-flex justify-content-between">
-                                <x-submit-button>@lang('Save')</x-submit-button>
+                                <x-submit-button>{{ __('Save') }}</x-submit-button>
                                 @if($this->canDelete)
                                     <button
                                         type="button"
                                         class="btn btn-outline-danger"
                                         wire:loading.attr="disabled"
                                         wire:click="$toggle('shouldDelete')">
-                                        @lang('Delete account')
+                                        {{ __('Delete account') }}
                                     </button>
                                 @endif
                             </div>
@@ -127,10 +127,10 @@
 
                     {{-- Credits --}}
                     <x-card :title="__('Credit')">
-                        <span class="display-6">@lang(':amount points', ['amount' => $customer->credit])</span>
+                        <span class="display-6">{{ __(':amount points', ['amount' => $customer->credit]) }}</span>
                         @isset($customer->nextTopupDate)
                             <span class="card-text d-block mt-2">
-                                @lang('Next top up on <strong>:date</strong>.', ['date' => $customer->nextTopupDate->isoFormat('LL')])
+                                {!! __('Next top up on <strong>:date</strong>.', ['date' => $customer->nextTopupDate->isoFormat('LL') ]) !!}
                             </span>
                         @endif
                     </x-card>

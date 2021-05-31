@@ -4,20 +4,20 @@
     @endif
     @if(isset($order))
         <x-alert type="success">
-            @lang('Your order has been submitted and your order number is <strong>#:id</strong>.', ['id' => $order->id])<br>
-            @lang('We will contact you via your phone <strong>:phone</strong> when the order is ready.', ['phone' => $order->customer->phone])
+            {!! __('Your order has been submitted and your order number is <strong>#:id</strong>.', ['id' => $order->id]) !!}<br>
+            {!! __('We will contact you via your phone <strong>:phone</strong> when the order is ready.', ['phone' => $order->customer->phone]) !!}
         </x-alert>
         <p class="d-flex justify-content-between">
-            <a href="{{ route('my-orders') }}" class="btn btn-primary">@lang('View your orders')</a>
-            <a href="{{ route('customer.logout') }}" class="btn btn-secondary">@lang('Logout')</a>
+            <a href="{{ route('my-orders') }}" class="btn btn-primary">{{ __('View your orders') }}</a>
+            <a href="{{ route('customer.logout') }}" class="btn btn-secondary">{{ __('Logout') }}</a>
         </p>
         @inject('textRepo', 'App\Repository\TextBlockRepository')
         @if($textRepo->exists('post-checkout'))
             {!! $textRepo->getMarkdown('post-checkout') !!}
         @endif
     @elseif(isset($nextOrderIn))
-        <x-alert type="info">@lang('You can place a new order in :time.', ['time' => $nextOrderIn->diffForHumans()])</x-alert>
-        <p><a href="{{ route('my-orders') }}" class="btn btn-primary">@lang('View your orders')</a></p>
+        <x-alert type="info">{{ __('You can place a new order in :time.', ['time' => $nextOrderIn->diffForHumans()]) }}</x-alert>
+        <p><a href="{{ route('my-orders') }}" class="btn btn-primary">{{ __('View your orders') }}</a></p>
     @elseif ($basket->isNotEmpty())
         <form wire:submit.prevent="submit" autocomplete="off">
             @php
@@ -49,7 +49,7 @@
                     <tfoot>
                         <tr>
                             <td colspan="2" class="text-end">
-                                <strong>@lang('Total')</strong>
+                                <strong>{{ __('Total') }}</strong>
                             </td>
                             <td class="text-end fit">
                                 <u><strong>{{ $total }}</strong></u>
@@ -57,7 +57,7 @@
                         </tr>
                         <tr>
                             <td colspan="2" class="text-end">
-                                @lang('Remaining credit')
+                                {{ __('Remaining credit') }}
                             </td>
                             <td class="text-end fit">
                                 {{ max(0, $customer->credit - $total) }}
@@ -66,7 +66,7 @@
                     </tfoot>
                 </table>
                 <div class="mb-3">
-                    <label for="inputRemarks" class="form-label">@lang('Remarks')</label>
+                    <label for="inputRemarks" class="form-label">{{ __('Remarks') }}</label>
                     <textarea
                         class="form-control @error('remarks') is-invalid @enderror"
                         id="inputRemarks"
@@ -76,31 +76,31 @@
                         aria-describedby="remarksHelp"></textarea>
                     @error('remarks') <div class="invalid-feedback">{{ $message }}</div> @enderror
                     <small id="remarksHelp" class="form-text text-muted">
-                        @lang('Please write if we need to know anything more regarding your order.')
+                        {{ __('Please write if we need to know anything more regarding your order.') }}
                     </small>
                 </div>
                 <p class="card-text d-flex align-items-center">
                     <x-icon icon="info-circle" class="fa-2x me-3"/>
                     <span>
-                        @lang('We will send you updates about your order via SMS to <strong dir="ltr" class="text-nowrap">:phone</strong>.', ['phone' => $customer->phoneFormattedInternational])
-                        @lang('You can update your phone number <a href=":url">here</a>.', ['url' => route('customer.account')])</a>
+                        {!! __('We will send you updates about your order via SMS to <strong dir="ltr" class="text-nowrap">:phone</strong>.', ['phone' => $customer->phoneFormattedInternational]) !!}
+                        {!! __('You can update your phone number <a href=":url">here</a>.', ['url' => route('customer.account') ]) !!}</a>
                     </span>
                 </p>
                 <x-slot name="footer">
                     <div class="d-flex justify-content-between align-items-center">
                         <a href="{{ route('shop-front') }}" class="btn btn-secondary">
-                            @lang('Change')
+                            {{ __('Change') }}
                         </a>
                         @if($total <= $customer->credit)
                             <button
                                 type="submit"
                                 class="btn btn-primary">
                                 <x-spinner wire:loading wire:target="submit"/>
-                                @lang('Send order')
+                                {{ __('Send order') }}
                             </button>
                         @else
                             <span class="text-danger">
-                                @lang('Not enough credit.')
+                                {{ __('Not enough credit.') }}
                             </span>
                         @endif
                     </div>
@@ -109,10 +109,10 @@
         </form>
     @else
         <x-alert type="warning">
-            @lang('No products selected.')
+            {{ __('No products selected.') }}
         </x-alert>
         <p>
-            <a href="{{ route('shop-front') }}" class="btn btn-primary">@lang('Choose products')</a>
+            <a href="{{ route('shop-front') }}" class="btn btn-primary">{{ __('Choose products') }}</a>
         </p>
     @endif
 </div>

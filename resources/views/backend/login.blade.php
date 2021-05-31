@@ -28,7 +28,7 @@
 
         <p class="text-center">
             <a href="{{ route('home') }}">Return to shop</a>
-            | <a href="{{ route('privacy-policy') }}">@lang('Privacy Policy')</a>
+            | <a href="{{ route('privacy-policy') }}">{{ __('Privacy Policy') }}</a>
         </p>
     </div>
 @endsection

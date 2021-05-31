@@ -5,7 +5,7 @@
     <form wire:submit.prevent="submit" class="mb-4" autocomplete="off">
         <x-card :title="__('Customer Registration & Login')">
             <div>
-                <label for="idNumberInput" class="form-label">@lang('ID number')</label>
+                <label for="idNumberInput" class="form-label">{{ __('ID number') }}</label>
                 <input
                     type="text"
                     class="form-control @error('idNumber') is-invalid @enderror"
@@ -18,15 +18,15 @@
                     aria-describedby="idNumberHelp">
                 @error('idNumber') <div class="invalid-feedback">{{ $message }}</div> @enderror
                 <small id="idNumberHelp" class="form-text text-muted">
-                    @lang('Write your ID number according to your identification document.')
+                    {{ __('Write your ID number according to your identification document.') }}
                     @if(setting()->has('customer.id_number_example'))
-                        <br>@lang('Example: :value', ['value' => setting()->get('customer.id_number_example')])
+                        <br>{{ __('Example: :value', ['value' => setting()->get('customer.id_number_example') ]) }}
                     @endif
                 </small>
             </div>
             <p class="card-text mt-3 d-flex align-items-center">
                 <x-icon icon="info-circle" class="fa-2x me-3"/>
-                <span>@lang("If you don't have an account yet, we will ask you to register a new account in the next step.")</span>
+                <span>{{ __("If you don't have an account yet, we will ask you to register a new account in the next step.") }}</span>
             </p>
             <x-slot name="footer">
                 <div class="d-flex justify-content-end">
@@ -34,7 +34,7 @@
                         type="submit"
                         class="btn btn-primary">
                         <x-spinner wire:loading wire:target="submit"/>
-                        @lang('Next')
+                        {{ __('Next') }}
                     </button>
                 </div>
             </x-slot>

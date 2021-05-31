@@ -78,7 +78,7 @@ $rtl = in_array(app()->getLocale(), config('app.rtl_languages', []));
                                 data-bs-toggle="dropdown"
                                 aria-expanded="false">
                                 <x-icon icon="language"/>
-                                @lang('Switch language')
+                                {{ __('Switch language') }}
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                                 @foreach(config('app.supported_languages') as $key => $val)
@@ -116,7 +116,7 @@ $rtl = in_array(app()->getLocale(), config('app.rtl_languages', []));
             <p class="text-center">
                 <small>
                     @include('layouts.includes.copyright')
-                    | <a href="{{ route('privacy-policy') }}">@lang('Privacy Policy')</a>
+                    | <a href="{{ route('privacy-policy') }}">{{ __('Privacy Policy') }}</a>
                 </small>
             </p>
         </footer>
