@@ -45,6 +45,14 @@ class CheckoutPage extends FrontendPage
         $this->validate();
 
         if ($basket->items()->isEmpty()) {
+            Log::warning('Customer tried to place empty order.', [
+                'event.kind' => 'event',
+                'event.outcome' => 'failure',
+                'customer.name' => $this->customer->name,
+                'customer.id_number' => $this->customer->id_number,
+                'customer.phone' => $this->customer->phone,
+                'customer.credit' => $this->customer->credit,
+            ]);
             session()->flash('error', __('No products have been selected.'));
             return redirect()->route('shop-front');
         }
@@ -53,6 +61,14 @@ class CheckoutPage extends FrontendPage
             ->map(fn ($quantity, $productId) => Product::find($productId)->price * $quantity)
             ->sum();
         if ($this->customer->credit < $totalPrice) {
+            Log::warning('Customer did not have enough credit to place order.', [
+                'event.kind' => 'event',
+                'event.outcome' => 'failure',
+                'customer.name' => $this->customer->name,
+                'customer.id_number' => $this->customer->id_number,
+                'customer.phone' => $this->customer->phone,
+                'customer.credit' => $this->customer->credit,
+            ]);
             session()->flash('error', __('Not enough credit.'));
             return;
         }
