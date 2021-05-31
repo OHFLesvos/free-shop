@@ -66,28 +66,28 @@ class ReportsPage extends BackendPage
         if ($value == 'today') {
             $this->date_start = now()->toDateString();
             $this->date_end = now()->toDateString();
-        } else if ($value == 'yesterday') {
+        } elseif ($value == 'yesterday') {
             $this->date_start = now()->subDay()->toDateString();
             $this->date_end = now()->subDay()->toDateString();
-        } else if ($value == 'this_week') {
+        } elseif ($value == 'this_week') {
             $this->date_start = now()->startOfWeek()->toDateString();
             $this->date_end = now()->toDateString();
-        } else if ($value == 'last_week') {
+        } elseif ($value == 'last_week') {
             $this->date_start = now()->subWeek()->startOfWeek()->toDateString();
             $this->date_end = now()->subWeek()->endOfWeek()->toDateString();
-        } else if ($value == 'this_month') {
+        } elseif ($value == 'this_month') {
             $this->date_start = now()->startOfMonth()->toDateString();
             $this->date_end = now()->toDateString();
-        } else if ($value == 'last_month') {
+        } elseif ($value == 'last_month') {
             $this->date_start = now()->subMonth()->startOfMonth()->toDateString();
             $this->date_end = now()->subMonth()->endOfMonth()->toDateString();
-        } else if ($value == 'this_year') {
+        } elseif ($value == 'this_year') {
             $this->date_start = now()->startOfYear()->toDateString();
             $this->date_end = now()->toDateString();
-        } else if ($value == 'last_year') {
+        } elseif ($value == 'last_year') {
             $this->date_start = now()->subYear()->startOfYear()->toDateString();
             $this->date_end = now()->subYear()->endOfYear()->toDateString();
-        } else if ($value == 'all_time') {
+        } elseif ($value == 'all_time') {
             $this->date_start = null;
             $this->date_end = null;
         }

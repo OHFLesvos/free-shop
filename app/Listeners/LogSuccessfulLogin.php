@@ -19,7 +19,7 @@ class LogSuccessfulLogin
     {
         if ($event->user instanceof User) {
             $this->writeLogForUser($event->user);
-        } else if ($event->user instanceof Customer) {
+        } elseif ($event->user instanceof Customer) {
             $this->writeLogForCustomer($event->user);
         }
     }
