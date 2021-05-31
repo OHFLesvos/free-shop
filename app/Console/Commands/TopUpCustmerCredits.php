@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use App\Models\Customer;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Log;
 
 class TopUpCustmerCredits extends Command
 {
@@ -57,6 +58,16 @@ class TopUpCustmerCredits extends Command
                     if ($customer->isDirty('credit')) {
                         $customer->topped_up_at = now();
                         $customer->save();
+
+                        Log::info('Customer credit topped up.', [
+                            'event.kind' => 'event',
+                            'event.outcome' => 'success',
+                            'customer.name' => $customer->name,
+                            'customer.id_number' => $customer->id_number,
+                            'customer.phone' => $customer->phone,
+                            'customer.credit' => $customer->credit,
+                        ]);
+
                         $this->count++;
                     }
                 });
