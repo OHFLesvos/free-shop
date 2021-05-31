@@ -44,9 +44,9 @@ class LogSuccessfulLogin
             'event.category' => 'authentication',
             'event.type' => 'start',
             'event.outcome' => 'success',
-            'user.name' => $customer->name,
-            'user.email' => $customer->id_number,
-            'user.phone' => $customer->phone,
+            'customer.name' => $customer->name,
+            'customer.email' => $customer->id_number,
+            'customer.phone' => $customer->phone,
         ]);
     }
 }

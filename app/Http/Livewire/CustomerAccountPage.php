@@ -4,6 +4,7 @@ namespace App\Http\Livewire;
 
 use App\Models\Customer;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 use libphonenumber\NumberParseException;
 use Propaganistas\LaravelPhone\PhoneNumber;
 
@@ -70,6 +71,14 @@ class CustomerAccountPage extends FrontendPage
         $this->customer->phone = PhoneNumber::make($this->customer_phone, $this->customer_phone_country)
             ->formatE164();
         $this->customer->save();
+
+        Log::info('Customer updated profile.', [
+            'event.kind' => 'event',
+            'event.outcome' => 'success',
+            'customer.name' => $this->customer->name,
+            'customer.email' => $this->customer->id_number,
+            'customer.phone' => $this->customer->phone,
+        ]);
 
         session()->flash('submitMessage', __('Customer profile saved.'));
     }
