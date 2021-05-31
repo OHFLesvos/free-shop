@@ -75,6 +75,17 @@ class CheckoutPage extends FrontendPage
         $this->customer->credit = max(0, $this->customer->credit - $totalPrice);
         $this->customer->save();
 
+        Log::info('Customer placed order.', [
+            'event.kind' => 'event',
+            'event.outcome' => 'success',
+            'customer.name' => $this->customer->name,
+            'customer.id_number' => $this->customer->id_number,
+            'customer.phone' => $this->customer->phone,
+            'customer.credit' => $this->customer->credit,
+            'order.id' => $order->id,
+            'order.costs' => $order->costs,
+        ]);
+
         if (!setting()->has('customer.skip_order_registered_notification')) {
             try {
                 $this->customer->notify(new OrderRegistered($order));
