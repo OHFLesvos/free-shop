@@ -129,6 +129,7 @@
                         <th>Status</th>
                         <th>Registered</th>
                         <th class="text-end">Products</th>
+                        <th class="text-end">Costs</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -143,6 +144,9 @@
                             </td>
                             <td class="fit text-end">
                                 {{ $order->products->map(fn ($product) => $product->pivot->quantity)->sum() }}
+                            </td>
+                            <td class="fit text-end">
+                                {{ $order->costs }}
                             </td>
                         </tr>
                     @endforeach
