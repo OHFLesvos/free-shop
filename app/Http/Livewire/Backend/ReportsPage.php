@@ -117,6 +117,8 @@ class ReportsPage extends BackendPage
             'totalProductsHandedOut' => $aggregator->totalProductsHandedOut(),
             'productsHandedOut' => $aggregator->productsHandedOut($this->sortBy == 'quantity', $this->sortDirection == 'desc'),
             'averageOrderDuration' => $aggregator->averageOrderDuration(),
+            'userAgents' => $aggregator->userAgents(),
+            'customerLocales' => $aggregator->customerLocales(),
         ];
     }
 

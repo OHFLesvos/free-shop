@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Models\Customer;
 use App\Models\Order;
 use App\Models\Product;
+use donatj\UserAgent\UserAgentParser;
 
 class MetricsAggregator
 {
@@ -78,5 +79,30 @@ class MetricsAggregator
             ->get()
             ->map(fn ($order) => $order->completed_at->diffInDays($order->created_at))
             ->avg();
+    }
+
+    public function userAgents()
+    {
+        $parser = new UserAgentParser();
+        $data = Order::registeredInDateRange($this->date_start, $this->date_end)
+            ->pluck('user_agent')
+            ->map(fn($value) => $parser->parse($value))
+            ->map(fn($ua) => [
+                'browser' => $ua->browser(),
+                'os' => $ua->platform(),
+            ]);
+        return [
+            'browser' => $data->pluck('browser')->countBy()->sortDesc(),
+            'os' => $data->pluck('os')->countBy()->sortDesc(),
+        ];
+    }
+
+    public function customerLocales()
+    {
+        return Customer::whereHas('orders', fn ($qry) => $qry->completedInDateRange($this->date_start, $this->date_end))
+            ->select('locale')
+            ->selectRaw('COUNT(locale) AS cnt')
+            ->groupBy('locale')
+            ->pluck('cnt', 'locale');
     }
 }

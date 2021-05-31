@@ -46,4 +46,80 @@
         </div>
     </div>
     @include('backend.include.report', ['dateRangeTitle' => $this->dateRangeTitle ])
+
+    @if($userAgents['browser']->isNotEmpty())
+        <table class="table table-bordered bg-white shadow-sm">
+            <thead>
+                <th>Browser</th>
+                <th class="fit text-end">Quantity</th>
+                <th class="fit text-end">Percent</th>
+            </thead>
+            <tbody>
+                @foreach($userAgents['browser'] as $browser => $quantity)
+                    <tr>
+                        <td>{{ $browser }}</td>
+                        <td class="fit text-end">
+                            {{ number_format($quantity) }}
+                        </td>
+                        <td class="fit text-end">
+                            {{ round($quantity / $userAgents['browser']->sum() * 100, 1) }}%
+                        </td>
+                    </tr>
+                @endforeach
+            </tbody>
+        </table>
+    @endif
+
+    @if($userAgents['os']->isNotEmpty())
+        <table class="table table-bordered bg-white shadow-sm">
+            <thead>
+                <th>Operating System</th>
+                <th class="fit text-end">Quantity</th>
+                <th class="fit text-end">Percent</th>
+            </thead>
+            <tbody>
+                @foreach($userAgents['os'] as $os => $quantity)
+                    <tr>
+                        <td>{{ $os }}</td>
+                        <td class="fit text-end">
+                            {{ number_format($quantity) }}
+                        </td>
+                        <td class="fit text-end">
+                            {{ round($quantity / $userAgents['os']->sum() * 100, 1) }}%
+                        </td>
+                    </tr>
+                @endforeach
+            </tbody>
+        </table>
+    @endif
+
+    @if($customerLocales->isNotEmpty())
+        <table class="table table-bordered bg-white shadow-sm">
+            <thead>
+                <th>Language</th>
+                <th class="fit text-end">Quantity</th>
+                <th class="fit text-end">Percent</th>
+            </thead>
+            <tbody>
+                @foreach($customerLocales as $locale => $quantity)
+                    <tr>
+                        <td>
+                            @isset(config('app.supported_languages')[$locale])
+                                {{  config('app.supported_languages')[$locale] }} ({{ strtoupper($locale) }})
+                            @else
+                                {{ strtoupper($locale) }}
+                            @endisset
+                        </td>
+                        <td class="fit text-end">
+                            {{ number_format($quantity) }}
+                        </td>
+                        <td class="fit text-end">
+                            {{ round($quantity / $customerLocales->sum() * 100, 1) }}%
+                        </td>
+                    </tr>
+                @endforeach
+            </tbody>
+        </table>
+    @endif
+
 </div>
