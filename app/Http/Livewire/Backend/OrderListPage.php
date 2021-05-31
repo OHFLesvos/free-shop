@@ -2,10 +2,11 @@
 
 namespace App\Http\Livewire\Backend;
 
+use App\Actions\CompleteOrder;
+use App\Actions\ReadyOrder;
+use App\Actions\RejectOrder;
 use App\Exceptions\PhoneNumberBlockedByAdminException;
 use App\Models\Order;
-use App\Notifications\OrderCancelled;
-use App\Notifications\OrderReadyed;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
@@ -107,39 +108,20 @@ class OrderListPage extends BackendPage
         foreach ($this->selectedItems as $id) {
             $order = Order::find($id);
             if (Auth::user()->can('update', $order) && $order->status != $newStatus) {
-
-                if ($newStatus == 'completed') {
-                    foreach ($order->products as $product) {
-                        if ($product->stock < $product->pivot->quantity) {
-                            session()->flash('error', 'Cannot complete order; missing ' . abs($product->pivot->quantity - $product->stock) . ' ' . $product->name . ' in stock.');
-                            return;
-                        }
+                try {
+                    if ($newStatus == 'cancelled') {
+                        RejectOrder::run($order);
+                    } elseif ($newStatus == 'ready') {
+                        ReadyOrder::run($order);
+                    } elseif ($newStatus == 'completed') {
+                        CompleteOrder::run($order);
                     }
-                    foreach ($order->products as $product) {
-                        $product->stock -= $product->pivot->quantity;
-                        $product->save();
-                    }
+                } catch (\Twilio\Exceptions\TwilioException | PhoneNumberBlockedByAdminException $ex) {
+                    Log::warning('[' . get_class($ex) . '] Unable to notify customer about order change: ' . $ex->getMessage());
+                } catch (\Exception $ex) {
+                    session()->flash('error', $ex->getMessage());
+                    return;
                 }
-
-                $order->status = $newStatus;
-
-                if ($order->customer != null) {
-                    try {
-                        if ($order->status == 'ready') {
-                            $order->customer->notify(new OrderReadyed($order));
-                        } else if ($order->status == 'cancelled') {
-                            $order->customer->credit += $order->costs;
-                            $order->customer->save();
-                            $order->customer->notify(new OrderCancelled($order));
-                        }
-                    } catch (PhoneNumberBlockedByAdminException $ex) {
-                        session()->flash('error', $ex->getMessage());
-                    } catch (\Exception $ex) {
-                        Log::warning('[' . get_class($ex) . '] Cannot send notification: ' . $ex->getMessage());
-                    }
-                }
-
-                $order->save();
                 $updated++;
             }
         }

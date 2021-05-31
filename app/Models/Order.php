@@ -64,9 +64,14 @@ class Order extends Model implements Auditable
         return $this->belongsTo(Customer::class);
     }
 
-    public function getIsOpenAttribute()
+    public function getIsOpenAttribute(): bool
     {
         return in_array($this->status, ['new', 'ready']);
+    }
+
+    public function getIsCancellableAttribute(): bool
+    {
+        return $this->status == 'new';
     }
 
     public function scopeRegisteredInDateRange(Builder $qry, ?string $start, ?string $end)

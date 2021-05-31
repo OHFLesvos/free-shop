@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire;
 
+use App\Actions\CancelOrder;
 use App\Models\Customer;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
@@ -36,12 +37,8 @@ class MyOrdersPage extends FrontendPage
     public function cancelOrder($id)
     {
         $order = $this->customer->orders()->find($id);
-        if ($order != null  && $order->status == 'new') {
-            $order->status = 'cancelled';
-            $order->save();
-            $order->customer->credit += $order->costs;
-            $order->customer->save();
-
+        if ($order != null && $order->isCancellable) {
+            CancelOrder::run($order);
             Log::info('Customer cancelled order.', [
                 'event.kind' => 'event',
                 'event.outcome' => 'success',

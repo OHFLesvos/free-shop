@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "98b8d497a3dd7e70ecdbc74e2419353f",
+    "content-hash": "aeba1f81676d0467c09a17f978b4bae3",
     "packages": [
         {
             "name": "anlutro/l4-settings",
@@ -2952,6 +2952,80 @@
                 }
             ],
             "time": "2021-04-28T15:31:15+00:00"
+        },
+        {
+            "name": "lorisleiva/laravel-actions",
+            "version": "v2.1.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/lorisleiva/laravel-actions.git",
+                "reference": "277d90122dad6469b1ecfc07111e8d40f1854c25"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/lorisleiva/laravel-actions/zipball/277d90122dad6469b1ecfc07111e8d40f1854c25",
+                "reference": "277d90122dad6469b1ecfc07111e8d40f1854c25",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/contracts": "^8.15",
+                "php": "^7.4|^8.0"
+            },
+            "require-dev": {
+                "orchestra/testbench": "^6.0",
+                "pestphp/pest": "^0.3.14",
+                "phpunit/phpunit": "^9.3.10"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Lorisleiva\\Actions\\ActionServiceProvider"
+                    ],
+                    "aliases": {
+                        "Action": "Lorisleiva\\Actions\\Facades\\Actions"
+                    }
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Lorisleiva\\Actions\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Loris Leiva",
+                    "email": "loris.leiva@gmail.com",
+                    "homepage": "https://lorisleiva.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Laravel components that take care of one specific task",
+            "homepage": "https://github.com/lorisleiva/laravel-actions",
+            "keywords": [
+                "action",
+                "command",
+                "component",
+                "controller",
+                "job",
+                "laravel",
+                "object"
+            ],
+            "support": {
+                "issues": "https://github.com/lorisleiva/laravel-actions/issues",
+                "source": "https://github.com/lorisleiva/laravel-actions/tree/v2.1.2"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/sponsors/lorisleiva",
+                    "type": "github"
+                }
+            ],
+            "time": "2021-03-30T17:56:39+00:00"
         },
         {
             "name": "maatwebsite/excel",
