@@ -77,6 +77,13 @@
                     </tr>
                 @endforeach
             </tbody>
+            @isset($order->costs)
+            <tfoot>
+                <tr>
+                    <td colspan="3"><strong>Total costs:</strong> {{ $order->costs }} points</td>
+                </tr>
+            </tfoot>
+            @endif
         </table>
     </div>
 
