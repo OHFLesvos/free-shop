@@ -8,5 +8,12 @@
         "storage/framework/views": true,
         "storage/logs": true,
         "bootstrap/cache": true
-    }
+    },
+    "cSpell.words": [
+        "gumlet",
+        "livewire",
+        "lorisleiva",
+        "spatie",
+        "twilio"
+    ]
 }
