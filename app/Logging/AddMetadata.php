@@ -33,7 +33,7 @@ class AddMetadata
         $ua = $this->uap->parse($this->request->userAgent());
         $record['extra'] += [
             'client.ip' => $this->request->getClientIp(),
-            'client.session.id' => $this->request->session()->getId(),
+            'client.session.id' => session()->getId(),
             'client.locale' => app()->getLocale(),
             'user_agent.original' => $this->request->userAgent(),
             'user_agent.name' => $ua->browser(),
