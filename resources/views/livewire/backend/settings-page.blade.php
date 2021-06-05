@@ -246,7 +246,7 @@
             <div class="row">
                 <div class="col-sm-4">
                     <div class="mb-3">
-                        <label for="customerCreditTopUpDays" class="form-label">Top up timeframe:</label>
+                        <label for="customerCreditTopUpDays" class="form-label">Top-up timeframe:</label>
                         <input type="number" min="0" id="customerCreditTopUpDays"
                             wire:model.defer="customerCreditTopUpDays"
                             class="form-control @error('customerCreditTopUpDays') is-invalid @enderror"
@@ -254,13 +254,13 @@
                             aria-describedby="customerWaitingTimeBetweenOrdersHelp">
                         @error('customerCreditTopUpDays') <div class="invalid-feedback">{{ $message }}</div>@enderror
                         <small id="customerWaitingTimeBetweenOrdersHelp" class="form-text">
-                            Time in days after which a top up will happen. Leave empty to disable automatic top up.
+                            Time in days after which a top-up will happen. Leave empty to disable automatic top-up.
                         </small>
                     </div>
                 </div>
                 <div class="col-sm-4">
                     <div class="mb-3">
-                        <label for="customerCreditTopUpAmount" class="form-label">Top up credit amount:</label>
+                        <label for="customerCreditTopUpAmount" class="form-label">Top-up credit amount:</label>
                         <input type="number" min="0" id="customerCreditTopUpAmount"
                             wire:model.defer="customerCreditTopUpAmount"
                             placeholder="{{ $customerStartingCredit > 0 ? $customerStartingCredit : config('shop.customer.starting_credit') }}"
@@ -272,7 +272,7 @@
                 </div>
                 <div class="col-sm-4">
                     <div class="mb-3">
-                        <label for="customerCreditTopUpMaximum" class="form-label">Top up credit maximum:</label>
+                        <label for="customerCreditTopUpMaximum" class="form-label">Top-up credit maximum:</label>
                         <input type="number" min="0" id="customerCreditTopUpMaximum"
                             wire:model.defer="customerCreditTopUpMaximum"
                             placeholder="{{ $customerStartingCredit > 0 ? $customerStartingCredit : config('shop.customer.starting_credit') }}"

@@ -50,7 +50,7 @@
                 <p class="card-text">
                     {{ __("You currently don't have any points available to spend.") }}
                     @isset($customer->nextTopupDate)
-                        {!! __('Next top up on <strong>:date</strong>.', ['date' => $customer->nextTopupDate->isoFormat('LL') ]) !!}
+                        {!! __('Next top-up on <strong>:date</strong>.', ['date' => $customer->nextTopupDate->isoFormat('LL') ]) !!}
                     @endif
                 </p>
             @else

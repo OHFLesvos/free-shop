@@ -58,7 +58,7 @@
     "Save": "Enregistrer",
     "Credit": "Crédit",
     ":amount points": ":amount points",
-    "Next top up on <strong>:date<\/strong>.": "Prochaine recharge le <strong>:date<\/strong>.",
+    "Next top-up on <strong>:date<\/strong>.": "Prochaine recharge le <strong>:date<\/strong>.",
     "If you don't have an account yet, we will ask you to register a new account in the next step.": "Si vous n'avez pas encore de compte, nous vous inviterons à créer un nouveau compte à l'étape suivante.",
     "Next": "Suivant",
     "Order #:id": "Commande #:id",
