@@ -10,6 +10,7 @@ use App\Models\Product;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\Rule;
+use Illuminate\View\View;
 use Livewire\WithFileUploads;
 use Maatwebsite\Excel\Facades\Excel;
 use Symfony\Component\HttpFoundation\Response;
@@ -41,12 +42,10 @@ class DataImportExportPage extends BackendPage
     ];
 
     public string $format = 'xlsx';
+
     public string $type = 'complete';
 
-    /**
-     * @return \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory
-     */
-    public function render()
+    public function render(): View
     {
         return parent::view('livewire.backend.data-import-export-page');
     }

@@ -6,6 +6,7 @@ use App\Http\Livewire\Traits\CurrentRouteName;
 use App\Models\TextBlock;
 use App\Repository\TextBlockRepository;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Illuminate\View\View;
 
 class TextBlockListPage extends BackendPage
 {
@@ -21,10 +22,7 @@ class TextBlockListPage extends BackendPage
         $textRepo->initialize();
     }
 
-    /**
-     * @return \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory
-     */
-    public function render()
+    public function render(): View
     {
         $blocks = TextBlock::query()
             ->whereIn('name', array_keys(config('text-blocks')))

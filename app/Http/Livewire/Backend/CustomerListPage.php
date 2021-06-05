@@ -6,6 +6,7 @@ use App\Models\Customer;
 use App\Models\Tag;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Illuminate\View\View;
 use Livewire\WithPagination;
 
 class CustomerListPage extends BackendPage
@@ -49,10 +50,7 @@ class CustomerListPage extends BackendPage
         }
     }
 
-    /**
-     * @return \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory
-     */
-    public function render()
+    public function render(): View
     {
         session()->put('customers.page', $this->resolvePage());
 

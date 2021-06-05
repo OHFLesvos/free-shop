@@ -7,6 +7,7 @@ use Gumlet\ImageResize;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\View\View;
 use Livewire\WithFileUploads;
 
 class ProductManagePage extends BackendPage
@@ -111,10 +112,7 @@ class ProductManagePage extends BackendPage
             : 'Register Product';
     }
 
-    /**
-     * @return \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory
-     */
-    public function render()
+    public function render(): View
     {
         return parent::view('livewire.backend.product-form', [
             'title' => $this->product->exists ? 'Edit Product' : 'Register Product',
@@ -142,9 +140,6 @@ class ProductManagePage extends BackendPage
         session()->put('product-form.locale', $value);
     }
 
-    /**
-     * @return \Illuminate\Routing\Redirector|\Illuminate\Http\RedirectResponse
-     */
     public function submit()
     {
         $this->authorize('update', $this->product);
@@ -177,9 +172,6 @@ class ProductManagePage extends BackendPage
         return redirect()->route('backend.products');
     }
 
-    /**
-     * @return \Illuminate\Routing\Redirector|\Illuminate\Http\RedirectResponse
-     */
     public function delete()
     {
         $this->authorize('delete', $this->product);

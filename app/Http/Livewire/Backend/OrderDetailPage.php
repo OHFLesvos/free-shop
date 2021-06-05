@@ -10,6 +10,7 @@ use App\Models\Order;
 use App\Repository\TextBlockRepository;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Support\Facades\Log;
+use Illuminate\View\View;
 
 class OrderDetailPage extends BackendPage
 {
@@ -48,10 +49,7 @@ class OrderDetailPage extends BackendPage
         return $statuses;
     }
 
-    /**
-     * @return \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory
-     */
-    public function render()
+    public function render(): View
     {
         return parent::view('livewire.backend.order-detail-page');
     }

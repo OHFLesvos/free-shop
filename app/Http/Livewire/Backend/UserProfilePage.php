@@ -4,6 +4,7 @@ namespace App\Http\Livewire\Backend;
 
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\View\View;
 use Torann\GeoIP\Facades\GeoIP;
 
 class UserProfilePage extends BackendPage
@@ -25,10 +26,7 @@ class UserProfilePage extends BackendPage
         $this->user = Auth::user();
     }
 
-    /**
-     * @return \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory
-     */
-    public function render()
+    public function render(): View
     {
         return parent::view('livewire.backend.user-profile-page');
     }
@@ -48,9 +46,6 @@ class UserProfilePage extends BackendPage
         session()->flash('submitMessage', 'User profile information updated.');
     }
 
-    /**
-     * @return \Illuminate\Routing\Redirector|\Illuminate\Http\RedirectResponse
-     */
     public function delete()
     {
         $this->user->delete();

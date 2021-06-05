@@ -6,6 +6,7 @@ use App\Models\Customer;
 use App\Models\Tag;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Validation\Rule;
+use Illuminate\View\View;
 use libphonenumber\NumberParseException;
 use Propaganistas\LaravelPhone\PhoneNumber;
 
@@ -102,19 +103,13 @@ class CustomerManagePage extends BackendPage
             : 'Register Customer';
     }
 
-    /**
-     * @return \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory
-     */
-    public function render()
+    public function render(): View
     {
         return parent::view('livewire.backend.customer-form', [
             'title' => $this->customer->exists ? 'Edit Customer' : 'Register Customer',
         ]);
     }
 
-    /**
-     * @return \Illuminate\Routing\Redirector|\Illuminate\Http\RedirectResponse
-     */
     public function submit()
     {
         $this->authorize('update', $this->customer);
@@ -145,9 +140,6 @@ class CustomerManagePage extends BackendPage
         return redirect()->route('backend.customers.show', $this->customer);
     }
 
-    /**
-     * @return \Illuminate\Routing\Redirector|\Illuminate\Http\RedirectResponse
-     */
     public function delete()
     {
         $this->authorize('delete', $this->customer);

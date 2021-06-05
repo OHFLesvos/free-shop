@@ -10,6 +10,7 @@ use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\Rule;
+use Illuminate\View\View;
 use Spatie\Permission\Models\Role;
 use Swift_SwiftException;
 
@@ -45,10 +46,7 @@ class UserEditPage extends BackendPage
         return 'Edit User ' . $this->user->name;
     }
 
-    /**
-     * @return \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory
-     */
-    public function render()
+    public function render(): View
     {
         return parent::view('livewire.backend.user-edit-page', [
             'roles' => Role::orderBy('name')->get(),
@@ -60,9 +58,6 @@ class UserEditPage extends BackendPage
         return AuthServiceProvider::ADMINISTRATOR_ROLE;
     }
 
-    /**
-     * @return \Illuminate\Routing\Redirector|\Illuminate\Http\RedirectResponse
-     */
     public function submit()
     {
         $this->authorize('update', $this->user);
@@ -91,9 +86,6 @@ class UserEditPage extends BackendPage
         return redirect()->route('backend.users');
     }
 
-    /**
-     * @return \Illuminate\Routing\Redirector|\Illuminate\Http\RedirectResponse
-     */
     public function delete()
     {
         $this->authorize('delete', $this->user);

@@ -4,6 +4,7 @@ namespace App\Http\Livewire\Backend;
 
 use App\Models\Product;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Illuminate\View\View;
 
 class StockPage extends BackendPage
 {
@@ -27,10 +28,7 @@ class StockPage extends BackendPage
         $this->authorize('manage stock');
     }
 
-    /**
-     * @return \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory
-     */
-    public function render()
+    public function render(): View
     {
         return parent::view('livewire.backend.stock-page', [
             'products' => Product::query()

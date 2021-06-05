@@ -4,6 +4,7 @@ namespace App\Http\Livewire\Backend;
 
 use App\Models\User;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Illuminate\View\View;
 use Livewire\WithPagination;
 
 class UserListPage extends BackendPage
@@ -31,10 +32,7 @@ class UserListPage extends BackendPage
         $this->search = request()->input('search', session()->get('users.search', '')) ?? '';
     }
 
-    /**
-     * @return \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory
-     */
-    public function render()
+    public function render(): View
     {
         return parent::view('livewire.backend.user-list-page', [
             'users' => User::query()

@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Customer;
-use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
 
@@ -16,7 +15,7 @@ class LanguageSelectController extends Controller
         ]);
     }
 
-    public function change(string $lang): RedirectResponse
+    public function change(string $lang)
     {
         if (! isset(config('app.supported_languages')[$lang])) {
             $lang = config('app.fallback_locale');

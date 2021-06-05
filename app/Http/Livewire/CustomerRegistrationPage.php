@@ -4,7 +4,6 @@ namespace App\Http\Livewire;
 
 use App\Http\Livewire\Traits\TrimEmptyStrings;
 use App\Models\Customer;
-use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
 use Propaganistas\LaravelPhone\PhoneNumber;
@@ -61,7 +60,7 @@ class CustomerRegistrationPage extends FrontendPage
         return parent::view('livewire.customer-registration-page', []);
     }
 
-    public function submit(): RedirectResponse
+    public function submit()
     {
         $this->validate();
 

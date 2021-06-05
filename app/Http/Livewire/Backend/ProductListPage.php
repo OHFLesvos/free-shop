@@ -4,6 +4,7 @@ namespace App\Http\Livewire\Backend;
 
 use App\Models\Product;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Illuminate\View\View;
 
 class ProductListPage extends BackendPage
 {
@@ -20,10 +21,7 @@ class ProductListPage extends BackendPage
         $this->state = session()->get('products.state', 'all');
     }
 
-    /**
-     * @return \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory
-     */
-    public function render()
+    public function render(): View
     {
         session()->put('products.state', $this->state);
 

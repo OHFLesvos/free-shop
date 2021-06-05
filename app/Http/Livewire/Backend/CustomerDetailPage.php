@@ -7,6 +7,7 @@ use App\Models\Comment;
 use App\Models\Customer;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\View\View;
 use Livewire\WithPagination;
 
 class CustomerDetailPage extends BackendPage
@@ -28,10 +29,7 @@ class CustomerDetailPage extends BackendPage
         return 'Customer ' . $this->customer->name;
     }
 
-    /**
-     * @return \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory
-     */
-    public function render()
+    public function render(): View
     {
         $this->authorize('view', $this->customer);
 

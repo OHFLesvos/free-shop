@@ -4,6 +4,7 @@ namespace App\Http\Livewire\Backend;
 
 use App\Models\TextBlock;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Illuminate\View\View;
 
 class TextBlockEditPage extends BackendPage
 {
@@ -43,10 +44,7 @@ class TextBlockEditPage extends BackendPage
         return 'Edit Text Block ' . $this->textBlock->name;
     }
 
-    /**
-     * @return \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory
-     */
-    public function render()
+    public function render(): View
     {
         return parent::view('livewire.backend.text-block-edit-page');
     }
@@ -56,9 +54,6 @@ class TextBlockEditPage extends BackendPage
         session()->put('text-block-form.locale', $value);
     }
 
-    /**
-     * @return \Illuminate\Routing\Redirector|\Illuminate\Http\RedirectResponse
-     */
     public function submit()
     {
         $this->authorize('update', $this->textBlock);

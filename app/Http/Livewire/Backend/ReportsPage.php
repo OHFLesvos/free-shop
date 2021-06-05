@@ -5,6 +5,7 @@ namespace App\Http\Livewire\Backend;
 use App\Services\MetricsAggregator;
 use Carbon\Carbon;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Illuminate\View\View;
 use PDF;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -46,10 +47,7 @@ class ReportsPage extends BackendPage
         $this->updatedRange($this->range);
     }
 
-    /**
-     * @return \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory
-     */
-    public function render()
+    public function render(): View
     {
         return parent::view('livewire.backend.reports-page', $this->getData());
     }

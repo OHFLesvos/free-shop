@@ -6,6 +6,7 @@ use App\Http\Livewire\Traits\CurrentRouteName;
 use App\Http\Livewire\Traits\TrimEmptyStrings;
 use App\Models\BlockedPhoneNumber;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Illuminate\View\View;
 use Livewire\WithPagination;
 
 class BlockedPhoneNumbersPage extends BackendPage
@@ -42,10 +43,7 @@ class BlockedPhoneNumbersPage extends BackendPage
         $this->authorize('viewAny', BlockedPhoneNumber::class);
     }
 
-    /**
-     * @return \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory
-     */
-    public function render()
+    public function render(): View
     {
         return parent::view('livewire.backend.blocked-phone-numbers-page', [
             'entries' => BlockedPhoneNumber::query()

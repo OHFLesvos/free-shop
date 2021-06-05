@@ -9,6 +9,7 @@ use Gumlet\ImageResize;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\View\View;
 use Livewire\WithFileUploads;
 use Setting;
 
@@ -164,10 +165,7 @@ class SettingsPage extends BackendPage
         $this->countries = collect(Countries::getList());
     }
 
-    /**
-     * @return \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory
-     */
-    public function render()
+    public function render(): View
     {
         return parent::view('livewire.backend.settings-page');
     }

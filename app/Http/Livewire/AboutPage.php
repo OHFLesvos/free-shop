@@ -5,6 +5,7 @@ namespace App\Http\Livewire;
 use App\Repository\TextBlockRepository;
 use App\Services\MetricsAggregator;
 use Carbon\Carbon;
+use Illuminate\View\View;
 
 class AboutPage extends FrontendPage
 {
@@ -20,10 +21,7 @@ class AboutPage extends FrontendPage
         $this->content = $textRepo->getMarkdown('about');
     }
 
-    /**
-     * @return \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory
-     */
-    public function render()
+    public function render(): View
     {
         return parent::view('livewire.about-page', [
             'stats' => [

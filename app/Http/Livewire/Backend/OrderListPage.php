@@ -10,6 +10,7 @@ use App\Models\Order;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
+use Illuminate\View\View;
 use Livewire\WithPagination;
 
 class OrderListPage extends BackendPage
@@ -59,10 +60,7 @@ class OrderListPage extends BackendPage
         }
     }
 
-    /**
-     * @return \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory
-     */
-    public function render()
+    public function render(): View
     {
         session()->put('orders.page', $this->resolvePage());
 
