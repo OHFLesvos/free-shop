@@ -16,4 +16,7 @@
     @if($completedOrders > 0)
         {{ $completedOrders }} orders completed
     @endif
+    @if($newOrders == 0 && $readyOrders == 0 && $completedOrders == 0)
+        No orders registered
+    @endif
 @overwrite

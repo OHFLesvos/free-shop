@@ -5,5 +5,5 @@
 @overwrite
 
 @section('content')
-    {{ $registeredCustomers }} registered customers
+    {{ $registeredCustomers }} customers registered
 @overwrite
