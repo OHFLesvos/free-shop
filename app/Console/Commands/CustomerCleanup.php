@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use App\Models\Customer;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Log;
 
 class CustomerCleanup extends Command
 {
@@ -45,6 +46,14 @@ class CustomerCleanup extends Command
             ->delete();
 
         $this->line("Deleted $customersWithoutAnyOrders customers which had no orders registered and were older than $date.");
+
+        if ($customersWithoutAnyOrders > 0) {
+            Log::info('Unused customer accounts deleted.', [
+                'event.kind' => 'event',
+                'event.outcome' => 'success',
+                'count' => $customersWithoutAnyOrders,
+            ]);
+        }
 
         return 0;
     }
