@@ -17,16 +17,18 @@ class OrderDetailPage extends BackendPage
 
     public Order $order;
 
-    public $newStatus;
+    public string $newStatus;
+
     public bool $showChangeStatus = false;
+
     public ?string $message = '';
 
-    protected function title()
+    protected function title(): string
     {
         return 'Order #' . $this->order->id;
     }
 
-    public function mount()
+    public function mount(): void
     {
         $this->authorize('view', $this->order);
 
@@ -46,12 +48,15 @@ class OrderDetailPage extends BackendPage
         return $statuses;
     }
 
+    /**
+     * @return \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory
+     */
     public function render()
     {
         return parent::view('livewire.backend.order-detail-page');
     }
 
-    public function submit()
+    public function submit(): void
     {
         $this->authorize('update', $this->order);
 
@@ -84,19 +89,19 @@ class OrderDetailPage extends BackendPage
         return $this->newStatus != $this->order->status && in_array($this->newStatus, ['ready', 'cancelled']);
     }
 
-    public function updatedNewStatus()
+    public function updatedNewStatus(): void
     {
-        $this->message = $this->configuredMessage;
+        $this->message = $this->getConfiguredMessageProperty();
     }
 
-    public function getConfiguredMessageProperty()
+    public function getConfiguredMessageProperty(): ?string
     {
         $textRepo = app()->make(TextBlockRepository::class);
         if ($this->newStatus == 'ready') {
-            return $textRepo->getPlain($this->messageTextBlockName, optional($this->order->customer)->locale);
+            return $textRepo->getPlain($this->getMessageTextBlockNameProperty(), optional($this->order->customer)->locale);
         }
         if ($this->newStatus == 'cancelled') {
-            return $textRepo->getPlain($this->messageTextBlockName, optional($this->order->customer)->locale);
+            return $textRepo->getPlain($this->getMessageTextBlockNameProperty(), optional($this->order->customer)->locale);
         }
         return null;
     }

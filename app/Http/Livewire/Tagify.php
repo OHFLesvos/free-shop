@@ -2,12 +2,13 @@
 
 namespace App\Http\Livewire;
 
-use App\Models\Tag;
+use Illuminate\View\View;
 use Livewire\Component;
 
 class Tagify extends Component
 {
     public array $suggestions;
+
     public array $tags;
 
     public function mount(array $suggestions, ?array $tags = []): void
@@ -27,7 +28,7 @@ class Tagify extends Component
         $this->emitUp('changeTags', $changed);
     }
 
-    public function render()
+    public function render(): View
     {
         return view('livewire.tagify', [
             'suggestions' => $this->suggestions,

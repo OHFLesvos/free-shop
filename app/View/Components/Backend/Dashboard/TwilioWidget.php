@@ -4,6 +4,7 @@ namespace App\View\Components\Backend\Dashboard;
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\View\Component;
+use Twilio\Rest\Api\V2010\Account\BalanceInstance;
 
 class TwilioWidget extends Component
 {
@@ -27,10 +28,10 @@ class TwilioWidget extends Component
                 return view('components.backend.dashboard.twilio-widget', $data);
             }
         }
-        return null;
+        return '';
     }
 
-    private function getTwilioBalance($sid, $token)
+    private function getTwilioBalance(?string $sid, ?string $token): BalanceInstance
     {
         $client = new \Twilio\Rest\Client($sid, $token);
         return $client->balance->fetch();

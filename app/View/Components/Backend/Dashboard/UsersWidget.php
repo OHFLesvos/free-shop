@@ -20,6 +20,6 @@ class UsersWidget extends Component
                 'registeredUsers' => User::count(),
             ]);
         }
-        return null;
+        return '';
     }
 }

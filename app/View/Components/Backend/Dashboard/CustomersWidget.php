@@ -20,6 +20,6 @@ class CustomersWidget extends Component
                 'registeredCustomers' => Customer::count(),
             ]);
         }
-        return null;
+        return '';
     }
 }

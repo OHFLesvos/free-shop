@@ -1,6 +1,6 @@
 @props(['value'])
 @php
-    $location = geoip()->getLocation($value);
+    $location = GeoIP::getLocation($value);
 @endphp
 @if(!$location->default)
 {{ $location->city }},

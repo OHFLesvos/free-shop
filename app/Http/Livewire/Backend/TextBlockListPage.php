@@ -12,21 +12,25 @@ class TextBlockListPage extends BackendPage
     use AuthorizesRequests;
     use CurrentRouteName;
 
-    public function mount(TextBlockRepository $textRepo)
+    protected string $title = 'Text Blocks';
+
+    public function mount(TextBlockRepository $textRepo): void
     {
         $this->authorize('viewAny', TextBlock::class);
 
         $textRepo->initialize();
     }
 
-    protected $title = 'Text Blocks';
-
+    /**
+     * @return \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory
+     */
     public function render()
     {
         $blocks = TextBlock::query()
             ->whereIn('name', array_keys(config('text-blocks')))
             ->orderBy('name')
             ->get();
+
         return parent::view('livewire.backend.text-block-list-page', [
             'textBlocks' => collect(config('text-blocks'))
                 ->keys()

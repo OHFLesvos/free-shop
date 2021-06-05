@@ -12,28 +12,27 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\Rule;
 use Livewire\WithFileUploads;
 use Maatwebsite\Excel\Facades\Excel;
+use Symfony\Component\HttpFoundation\Response;
 
 class DataImportExportPage extends BackendPage
 {
     use WithFileUploads;
     use AuthorizesRequests;
 
+    protected string $title = 'Data Import & Export';
+
+    /**
+     * @var \Illuminate\Http\UploadedFile|null
+     */
     public $upload;
 
     public bool $delete_existing_data = false;
 
-    protected $rules = [
+    protected array $rules = [
         'delete_existing_data' => 'boolean',
     ];
 
-    protected $title = 'Data Import & Export';
-
-    public function render()
-    {
-        return parent::view('livewire.backend.data-import-export-page');
-    }
-
-    public $formats = [
+    public array $formats = [
         'xlsx' => 'Excel Spreadsheet (XLSX)',
         'ods' => 'OpenDocument Spreadsheet (ODS)',
         'csv' => 'Comma-separated values (CSV)',
@@ -41,10 +40,16 @@ class DataImportExportPage extends BackendPage
         'pdf' => 'Portable Document Format (PDF)',
     ];
 
-    public $format = 'xlsx';
-
+    public string $format = 'xlsx';
     public string $type = 'complete';
 
+    /**
+     * @return \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory
+     */
+    public function render()
+    {
+        return parent::view('livewire.backend.data-import-export-page');
+    }
 
     public function getTypesProperty(): array
     {
@@ -60,16 +65,18 @@ class DataImportExportPage extends BackendPage
         ];
     }
 
-    public function export()
+    public function export(): Response
     {
         $this->authorize('export data');
 
+        $types = $this->getTypesProperty();
+
         $this->validate([
             'format' => Rule::in(array_keys($this->formats)),
-            'type' => Rule::in(array_keys($this->types)),
+            'type' => Rule::in(array_keys($types)),
         ]);
 
-        $name = $this->types[$this->type]['label'];
+        $name = $types[$this->type]['label'];
         $filename = config('app.name') . ' - ' . $name .' '. now()->toDateString() . '.' . $this->format;
 
         Log::info('Exported data to file.', [
@@ -79,11 +86,12 @@ class DataImportExportPage extends BackendPage
             'file.name' => $filename,
         ]);
 
-        $exportable = $this->types[$this->type]['exportable'];
+        $exportable = $types[$this->type]['exportable'];
+
         return Excel::download($exportable, $filename);
     }
 
-    public function import()
+    public function import(): void
     {
         $this->authorize('import data');
 

@@ -16,14 +16,17 @@ class BlockedPhoneNumbersPage extends BackendPage
     use CurrentRouteName;
     use TrimEmptyStrings;
 
-    protected $paginationTheme = 'bootstrap';
+    protected string $title = 'Blocked Phone Numbers';
 
-    public $shouldDelete = null;
+    protected string $paginationTheme = 'bootstrap';
 
-    public $phone = '';
-    public $reason = '';
+    public ?BlockedPhoneNumber $shouldDelete = null;
 
-    protected $rules = [
+    public string $phone = '';
+
+    public string $reason = '';
+
+    protected array $rules = [
         'phone' => [
             'required',
             'phone:AUTO,mobile',
@@ -34,13 +37,14 @@ class BlockedPhoneNumbersPage extends BackendPage
         ],
     ];
 
-    public function mount()
+    public function mount(): void
     {
         $this->authorize('viewAny', BlockedPhoneNumber::class);
     }
 
-    protected $title = 'Blocked Phone Numbers';
-
+    /**
+     * @return \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory
+     */
     public function render()
     {
         return parent::view('livewire.backend.blocked-phone-numbers-page', [
@@ -50,7 +54,7 @@ class BlockedPhoneNumbersPage extends BackendPage
         ]);
     }
 
-    public function submit()
+    public function submit(): void
     {
         $this->authorize('create', BlockedPhoneNumber::class);
 
@@ -66,7 +70,7 @@ class BlockedPhoneNumbersPage extends BackendPage
         session()->flash('message', "Phone number $entry->phone added.");
     }
 
-    public function delete()
+    public function delete(): void
     {
         if (isset($this->shouldDelete)) {
             $entry = BlockedPhoneNumber::find($this->shouldDelete['id']);

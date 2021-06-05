@@ -19,7 +19,7 @@ class AddMetadata
         $this->uap = new UserAgentParser();
     }
 
-    public function __invoke(Logger $logger)
+    public function __invoke(Logger $logger): void
     {
         if ($this->request) {
             foreach ($logger->getHandlers() as $handler) {

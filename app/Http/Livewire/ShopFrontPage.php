@@ -9,22 +9,28 @@ use App\Models\Product;
 use App\Services\ShoppingBasket;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\View\View;
 
 class ShopFrontPage extends FrontendPage
 {
     public Collection $products;
+
     public Collection $categories;
+
     public ?Customer $customer = null;
+
     public bool $shopDisabled;
+
     public bool $dailyOrdersMaxedOut = false;
+
     public bool $useCategories = false;
 
-    protected function title()
+    protected function title(): string
     {
         return __('Choose your items');
     }
 
-    public function mount()
+    public function mount(): void
     {
         $this->shopDisabled = setting()->has('shop.disabled');
         $this->useCategories = setting()->has('shop.group_products_by_categories');
@@ -62,7 +68,7 @@ class ShopFrontPage extends FrontendPage
         return false;
     }
 
-    public function render(ShoppingBasket $basket)
+    public function render(ShoppingBasket $basket): View
     {
         return parent::view('livewire.shop-front-page', [
             'basket' => $basket,
@@ -70,20 +76,19 @@ class ShopFrontPage extends FrontendPage
         ]);
     }
 
-    public function add(ShoppingBasket $basket, $productId, $quantity = 1)
+    public function add(ShoppingBasket $basket, int $productId, ?int $quantity = 1): void
     {
         $price = $this->products->firstWhere('id', $productId)->price * $quantity;
-        if ($price <= $this->AvailableCredit) {
+        if ($price <= $this->getAvailableCreditProperty($basket)) {
             $basket->add($productId, $quantity);
         }
     }
 
-    public function getAvailableCreditProperty(ShoppingBasket $basket)
+    public function getAvailableCreditProperty(ShoppingBasket $basket): int
     {
-        $credit = $this->customer->credit;
-        $credit -= $basket->items()
+        $basketCosts = (int)$basket->items()
             ->map(fn ($quantity, $productId) => $this->products->firstWhere('id', $productId)->price * $quantity)
             ->sum();
-        return $credit;
+        return $this->customer->credit - $basketCosts;
     }
 }

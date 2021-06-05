@@ -5,14 +5,15 @@ namespace App\Http\Livewire;
 use App\Http\Livewire\Traits\TrimEmptyStrings;
 use App\Models\Customer;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\View\View;
 
 class CustomerLoginPage extends FrontendPage
 {
     use TrimEmptyStrings;
 
-    public String $idNumber = '';
+    public string $idNumber = '';
 
-    protected function rules() {
+    protected function rules(): array {
         return [
             'idNumber' => [
                 'required',
@@ -23,12 +24,12 @@ class CustomerLoginPage extends FrontendPage
         ];
     }
 
-    protected function title()
+    protected function title(): string
     {
         return __('Customer Registration & Login');
     }
 
-    public function render()
+    public function render(): View
     {
         return parent::view('livewire.customer-login-page', []);
     }

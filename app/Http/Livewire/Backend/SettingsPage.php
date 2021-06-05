@@ -18,38 +18,59 @@ class SettingsPage extends BackendPage
     use AuthorizesRequests;
     use CurrentRouteName;
 
+    protected string $title = 'Settings';
+
     public Collection $geoblockWhitelist;
+
     public string $orderDefaultPhoneCountry;
+
     public string $timezone;
-    public $customerStartingCredit;
+
+    public string $customerStartingCredit;
+
     public bool $shopDisabled;
+
     public bool $groupProductsByCategories;
-    public $shopMaxOrdersPerDay;
-    public $customerIdNumberPattern;
-    public $customerIdNumberExample;
 
-    public $customerCreditTopupDays;
-    public $customerCreditTopupAmount;
-    public $customerCreditTopupMaximum;
+    public string $shopMaxOrdersPerDay;
 
-    public $countries;
+    public string $customerIdNumberPattern;
+
+    public string $customerIdNumberExample;
+
+    public string $customerCreditTopUpDays;
+
+    public string $customerCreditTopUpAmount;
+
+    public string $customerCreditTopUpMaximum;
+
+    public string $customerWaitingTimeBetweenOrders;
+
+    public Collection $countries;
 
     public ?string $selectedCountry = null;
 
-    public $brandLogo;
+    public ?string $brandLogo;
+
+    /**
+     * @var \Illuminate\Http\UploadedFile|null
+     */
     public $brandLogoUpload;
+
     public bool $brandLogoRemove = false;
-    public $brandFavicon;
+
+    public ?string $brandFavicon;
+
+    /**
+     * @var \Illuminate\Http\UploadedFile|null
+     */
     public $brandFaviconUpload;
+
     public bool $brandFaviconRemove = false;
-
-    public $customerWaitingTimeBetweenOrders;
-
-    public $contentLocale;
 
     public bool $skipOrderRegisteredNotification;
 
-    protected function rules() {
+    protected function rules(): array {
         return [
             'shopDisabled' => [
                 'boolean',
@@ -75,17 +96,17 @@ class SettingsPage extends BackendPage
                 'integer',
                 'min:0',
             ],
-            'customerCreditTopupDays' => [
+            'customerCreditTopUpDays' => [
                 'nullable',
                 'integer',
                 'min:1',
             ],
-            'customerCreditTopupAmount' => [
+            'customerCreditTopUpAmount' => [
                 'nullable',
                 'integer',
                 'min:1',
             ],
-            'customerCreditTopupMaximum' => [
+            'customerCreditTopUpMaximum' => [
                 'nullable',
                 'integer',
                 'min:1',
@@ -119,7 +140,7 @@ class SettingsPage extends BackendPage
         ];
     }
 
-    public function mount()
+    public function mount(): void
     {
         $this->authorize('update settings');
 
@@ -129,9 +150,9 @@ class SettingsPage extends BackendPage
         $this->orderDefaultPhoneCountry = setting()->get('order.default_phone_country', '');
         $this->timezone = setting()->get('timezone', '');
         $this->customerStartingCredit = setting()->get('customer.starting_credit', '');
-        $this->customerCreditTopupDays = setting()->get('customer.credit_topup.days', '');
-        $this->customerCreditTopupAmount = setting()->get('customer.credit_topup.amount', '');
-        $this->customerCreditTopupMaximum = setting()->get('customer.credit_topup.maximum', '');
+        $this->customerCreditTopUpDays = setting()->get('customer.credit_topup.days', '');
+        $this->customerCreditTopUpAmount = setting()->get('customer.credit_topup.amount', '');
+        $this->customerCreditTopUpMaximum = setting()->get('customer.credit_topup.maximum', '');
         $this->shopMaxOrdersPerDay = setting()->get('shop.max_orders_per_day', '');
         $this->brandLogo = setting()->get('brand.logo');
         $this->brandFavicon = setting()->get('brand.favicon');
@@ -141,18 +162,17 @@ class SettingsPage extends BackendPage
         $this->skipOrderRegisteredNotification = setting()->has('customer.skip_order_registered_notification');
 
         $this->countries = collect(Countries::getList());
-
-        $this->contentLocale = config('app.fallback_locale');
     }
 
-    protected $title = 'Settings';
-
+    /**
+     * @return \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory
+     */
     public function render()
     {
         return parent::view('livewire.backend.settings-page');
     }
 
-    public function addToGeoblockWhitelist()
+    public function addToGeoblockWhitelist(): void
     {
         if (filled($this->selectedCountry) && ! $this->geoblockWhitelist->contains($this->selectedCountry)) {
             $this->geoblockWhitelist->push($this->selectedCountry);
@@ -160,18 +180,18 @@ class SettingsPage extends BackendPage
         $this->selectedCountry = null;
     }
 
-    public function removeFromGeoblockWhitelist($value)
+    public function removeFromGeoblockWhitelist(string $value): void
     {
         $this->geoblockWhitelist = $this->geoblockWhitelist->filter(fn ($val) => $value != $val)->values();
     }
 
-    public function submit()
+    public function submit(): void
     {
         $this->authorize('update settings');
 
         $this->validate();
 
-        $checksum = md5(json_encode(Setting::all()));
+        $checksum = md5((string)json_encode(Setting::all()));
 
         if ($this->shopDisabled) {
             setting()->set('shop.disabled', true);
@@ -208,21 +228,20 @@ class SettingsPage extends BackendPage
             setting()->forget('customer.starting_credit');
         }
 
-
-        if (filled($this->customerCreditTopupDays)) {
-            setting()->set('customer.credit_topup.days', $this->customerCreditTopupDays);
+        if (filled($this->customerCreditTopUpDays)) {
+            setting()->set('customer.credit_topup.days', $this->customerCreditTopUpDays);
         } else {
             setting()->forget('customer.credit_topup.days');
         }
 
-        if (filled($this->customerCreditTopupAmount)) {
-            setting()->set('customer.credit_topup.amount', $this->customerCreditTopupAmount);
+        if (filled($this->customerCreditTopUpAmount)) {
+            setting()->set('customer.credit_topup.amount', $this->customerCreditTopUpAmount);
         } else {
             setting()->forget('customer.credit_topup.amount');
         }
 
-        if (filled($this->customerCreditTopupMaximum)) {
-            setting()->set('customer.credit_topup.maximum', $this->customerCreditTopupMaximum);
+        if (filled($this->customerCreditTopUpMaximum)) {
+            setting()->set('customer.credit_topup.maximum', $this->customerCreditTopUpMaximum);
         } else {
             setting()->forget('customer.credit_topup.maximum');
         }
@@ -242,12 +261,15 @@ class SettingsPage extends BackendPage
             $name = 'brand-logo-' . now()->format('YmdHis') . '.' . $this->brandLogoUpload->getClientOriginalExtension();
             $path = $this->brandLogoUpload->storePubliclyAs('public', $name);
 
-            $image = new ImageResize(Storage::path($path));
-            $image->resizeToHeight(24);
-            $image->save(Storage::path($path));
+            if ($path) {
+                $image = new ImageResize(Storage::path($path));
+                $image->resizeToHeight(24);
+                $image->save(Storage::path($path));
 
-            setting()->set('brand.logo', $path);
-            $this->brandLogo = $path;
+                setting()->set('brand.logo', $path);
+                $this->brandLogo = $path;
+            }
+
             $this->brandLogoUpload = null;
         }
 
@@ -260,12 +282,15 @@ class SettingsPage extends BackendPage
             $name = 'brand-favicon-' . now()->format('YmdHis') . '.' . $this->brandFaviconUpload->getClientOriginalExtension();
             $path = $this->brandFaviconUpload->storePubliclyAs('public', $name);
 
-            $image = new ImageResize(Storage::path($path));
-            $image->resizeToBestFit(32, 32);
-            $image->save(Storage::path($path));
+            if ($path) {
+                $image = new ImageResize(Storage::path($path));
+                $image->resizeToBestFit(32, 32);
+                $image->save(Storage::path($path));
 
-            setting()->set('brand.favicon', $path);
-            $this->brandFavicon = $path;
+                setting()->set('brand.favicon', $path);
+                $this->brandFavicon = $path;
+            }
+
             $this->brandFaviconUpload = null;
         }
 
@@ -292,7 +317,7 @@ class SettingsPage extends BackendPage
             setting()->forget('customer.skip_order_registered_notification');
         }
 
-        if ($checksum != md5(json_encode(Setting::all()))) {
+        if ($checksum != md5((string)json_encode(Setting::all()))) {
             Log::info('Updated settings.', [
                 'event.kind' => 'event',
                 'event.category' => 'configuration',
@@ -304,7 +329,7 @@ class SettingsPage extends BackendPage
         session()->flash('submitMessage', 'Settings saved.');
     }
 
-    public function updatedBrandLogoUpload()
+    public function updatedBrandLogoUpload(): void
     {
         $this->validate([
             'brandLogoUpload' => [
@@ -314,7 +339,7 @@ class SettingsPage extends BackendPage
         ]);
     }
 
-    public function updatedBrandFaviconUpload()
+    public function updatedBrandFaviconUpload(): void
     {
         $this->validate([
             'brandFaviconUpload' => [
@@ -324,7 +349,7 @@ class SettingsPage extends BackendPage
         ]);
     }
 
-    public function getDefaultLocaleProperty()
+    public function getDefaultLocaleProperty(): string
     {
         return config('app.fallback_locale');
     }

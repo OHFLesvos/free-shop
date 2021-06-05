@@ -16,6 +16,9 @@ class ProductManagePage extends BackendPage
 
     public Product $product;
 
+    /**
+     * @var \Illuminate\Http\UploadedFile|null
+     */
     public $picture;
 
     public Collection $categories;
@@ -24,7 +27,15 @@ class ProductManagePage extends BackendPage
 
     public bool $shouldDelete = false;
 
-    protected function rules()
+    public string $locale;
+
+    public array $name;
+
+    public array $category;
+
+    public array $description;
+
+    protected function rules(): array
     {
         $defaultLocale = config('app.fallback_locale');
         return [
@@ -57,13 +68,7 @@ class ProductManagePage extends BackendPage
         ];
     }
 
-    public string $locale;
-
-    public $name;
-    public $category;
-    public $description;
-
-    public function mount()
+    public function mount(): void
     {
         if (isset($this->product)) {
             $this->authorize('update', $this->product);
@@ -99,13 +104,16 @@ class ProductManagePage extends BackendPage
         $this->description = $this->product->getTranslations('description');
     }
 
-    protected function title()
+    protected function title(): string
     {
         return $this->product->exists
             ? 'Edit Product ' . $this->product->name
             : 'Register Product';
     }
 
+    /**
+     * @return \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory
+     */
     public function render()
     {
         return parent::view('livewire.backend.product-form', [
@@ -113,12 +121,12 @@ class ProductManagePage extends BackendPage
         ]);
     }
 
-    public function getDefaultLocaleProperty()
+    public function getDefaultLocaleProperty(): string
     {
         return config('app.fallback_locale');
     }
 
-    public function updatedPicture()
+    public function updatedPicture(): void
     {
         $this->validate([
             'picture' => [
@@ -129,11 +137,14 @@ class ProductManagePage extends BackendPage
         ]);
     }
 
-    public function updatedLocale($value)
+    public function updatedLocale(string $value): void
     {
         session()->put('product-form.locale', $value);
     }
 
+    /**
+     * @return \Illuminate\Routing\Redirector|\Illuminate\Http\RedirectResponse
+     */
     public function submit()
     {
         $this->authorize('update', $this->product);
@@ -166,6 +177,9 @@ class ProductManagePage extends BackendPage
         return redirect()->route('backend.products');
     }
 
+    /**
+     * @return \Illuminate\Routing\Redirector|\Illuminate\Http\RedirectResponse
+     */
     public function delete()
     {
         $this->authorize('delete', $this->product);

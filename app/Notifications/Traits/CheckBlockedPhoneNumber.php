@@ -7,7 +7,14 @@ use App\Models\BlockedPhoneNumber;
 
 trait CheckBlockedPhoneNumber
 {
-    function checkBlockedPhoneNumber($phone)
+    /**
+     * Checks if the given phone number is marked as blocked
+     *
+     * @param string $phone the phone number
+     * @throws PhoneNumberBlockedByAdminException in case the phone number is blocked
+     * @return void
+     */
+    function checkBlockedPhoneNumber(string $phone): void
     {
         if (BlockedPhoneNumber::where('phone', $phone)->exists()) {
             throw new PhoneNumberBlockedByAdminException($phone);

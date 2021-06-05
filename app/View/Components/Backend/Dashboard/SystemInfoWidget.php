@@ -32,6 +32,6 @@ class SystemInfoWidget extends Component
                 'data' => $data,
             ]);
         }
-        return null;
+        return '';
     }
 }

@@ -2,19 +2,21 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\View\View;
 
 class LoginController extends Controller
 {
-    public function login()
+    public function login(): View
     {
         return view('backend.login', [
             'oauth' => $this->getOauthProviders(),
         ]);
     }
 
-    private function getOauthProviders()
+    private function getOauthProviders(): array
     {
         $oauth = [];
         if (filled(config('services.google.client_id')) && filled(config('services.google.client_secret'))) {
@@ -28,7 +30,7 @@ class LoginController extends Controller
         return $oauth;
     }
 
-    public function logout(Request $request)
+    public function logout(Request $request): RedirectResponse
     {
         Auth::logout();
         $request->session()->invalidate();

@@ -38,7 +38,7 @@ class OrderRegistered extends Notification
         return [];
     }
 
-    public function toTwilio($notifiable)
+    public function toTwilio(Customer $notifiable): TwilioSmsMessage
     {
         return (new TwilioSmsMessage)
             ->content($this->twilioMessage($notifiable));

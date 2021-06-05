@@ -7,7 +7,7 @@ use Illuminate\Support\Str;
 
 class TextBlockRepository
 {
-    public function initialize()
+    public function initialize(): void
     {
         foreach (config('text-blocks') as $key => $item) {
             TextBlock::firstOrCreate([

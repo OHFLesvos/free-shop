@@ -10,50 +10,55 @@ class TextBlockEditPage extends BackendPage
     use AuthorizesRequests;
 
     public TextBlock $textBlock;
-    public $content;
-
-    public $locale;
-
+    public array $content;
+    public string $locale;
     public bool $textPreview = false;
 
-    protected function rules()
+    protected function rules(): array
     {
-        $defaultLocale = $this->defaultLocale;
+        $defaultLocale = $this->getDefaultLocaleProperty();
         return [
             'content.*' => 'nullable',
             'content.'. $defaultLocale => config('text-blocks.' . $this->textBlock->name . '.required') ? 'required' : 'nullable',
         ];
     }
 
-    public function mount()
+    public function mount(): void
     {
         $this->authorize('update', $this->textBlock);
 
-        if (blank($this->textBlock->getTranslation('content', $this->defaultLocale))) {
-            $this->locale = $this->defaultLocale;
+        $defaultLocale = $this->getDefaultLocaleProperty();
+        if (blank($this->textBlock->getTranslation('content', $defaultLocale))) {
+            $this->locale = $defaultLocale;
             session()->forget('text-block-form.locale');
         } else {
-            $this->locale = session()->get('text-block-form.locale', $this->defaultLocale);
+            $this->locale = session()->get('text-block-form.locale', $defaultLocale);
         }
 
         $this->content = $this->textBlock->getTranslations('content');
     }
 
-    protected function title()
+    protected function title(): string
     {
         return 'Edit Text Block ' . $this->textBlock->name;
     }
 
+    /**
+     * @return \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory
+     */
     public function render()
     {
         return parent::view('livewire.backend.text-block-edit-page');
     }
 
-    public function updatedLocale($value)
+    public function updatedLocale(string $value): void
     {
         session()->put('text-block-form.locale', $value);
     }
 
+    /**
+     * @return \Illuminate\Routing\Redirector|\Illuminate\Http\RedirectResponse
+     */
     public function submit()
     {
         $this->authorize('update', $this->textBlock);
@@ -68,12 +73,12 @@ class TextBlockEditPage extends BackendPage
         return redirect()->route('backend.configuration.text-blocks');
     }
 
-    public function getDefaultLocaleProperty()
+    public function getDefaultLocaleProperty(): string
     {
         return config('app.fallback_locale');
     }
 
-    public function getSupportsMarkdownProperty()
+    public function getSupportsMarkdownProperty(): bool
     {
         return config('text-blocks.' . $this->textBlock->name . '.type') == 'markdown';
     }

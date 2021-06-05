@@ -9,17 +9,20 @@ class ProductListPage extends BackendPage
 {
     use AuthorizesRequests;
 
+    protected string $title = 'Products';
+
     public string $state;
 
-    public function mount()
+    public function mount(): void
     {
         $this->authorize('viewAny', Product::class);
 
         $this->state = session()->get('products.state', 'all');
     }
 
-    protected $title = 'Products';
-
+    /**
+     * @return \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory
+     */
     public function render()
     {
         session()->put('products.state', $this->state);
@@ -32,6 +35,6 @@ class ProductListPage extends BackendPage
                 ->orderBy('sequence')
                 ->orderBy('name->' . config('app.fallback_locale'))
                 ->get(),
-            ]);
+        ]);
     }
 }

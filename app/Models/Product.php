@@ -6,6 +6,7 @@ use Dyrynda\Database\Support\NullableFields;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Spatie\Translatable\HasTranslations;
@@ -16,10 +17,21 @@ class Product extends Model
     use NullableFields;
     use HasTranslations;
 
+    /**
+     * The attributes that should be set to null in the database
+     * in case the value is an empty string.
+     *
+     * @var array
+     */
     protected $nullable = [
         'limit_per_order',
     ];
 
+    /**
+     * The attributes that should have translations
+     *
+     * @var array
+     */
     public $translatable = [
         'name',
         'category',
@@ -38,13 +50,13 @@ class Product extends Model
         'is_available' => 'boolean',
     ];
 
-    public function orders()
+    public function orders(): BelongsToMany
     {
         return $this->belongsToMany(Order::class)
             ->withPivot('quantity');
     }
 
-    public function getPictureUrlAttribute()
+    public function getPictureUrlAttribute(): ?string
     {
         if ($this->picture !== null) {
             if (preg_match('#^http[s]?://#', $this->picture)) {
@@ -57,7 +69,7 @@ class Product extends Model
         return null;
     }
 
-    public function getReservedQuantityAttribute()
+    public function getReservedQuantityAttribute(): int
     {
         return DB::table('orders')->whereIn('orders.status', ['new', 'ready'])
             ->join('order_product', function ($join) {
@@ -70,12 +82,12 @@ class Product extends Model
             ->reserved ?? 0;
     }
 
-    public function getFreeQuantityAttribute()
+    public function getFreeQuantityAttribute(): int
     {
         return $this->stock - $this->reserved_quantity;
     }
 
-    public function getQuantityAvailableForCustomerAttribute()
+    public function getQuantityAvailableForCustomerAttribute(): int
     {
         if ($this->limit_per_order !== null) {
             return min($this->limit_per_order, $this->free_quantity);
@@ -83,12 +95,12 @@ class Product extends Model
         return max(0, $this->free_quantity);
     }
 
-    public function scopeAvailable(Builder $qry)
+    public function scopeAvailable(Builder $qry): void
     {
         $qry->where('is_available', DB::raw('true'));
     }
 
-    public function scopeDisabled(Builder $qry)
+    public function scopeDisabled(Builder $qry): void
     {
         $qry->where('is_available', DB::raw('false'));
     }

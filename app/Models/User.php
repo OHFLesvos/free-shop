@@ -13,7 +13,8 @@ use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
 {
-    use HasFactory, Notifiable;
+    use HasFactory;
+    use Notifiable;
     use NullableFields;
     use HasRoles;
 
@@ -51,6 +52,12 @@ class User extends Authenticatable
         'last_login_at' => 'datetime',
     ];
 
+    /**
+     * The attributes that should be set to null in the database
+     * in case the value is an empty string.
+     *
+     * @var array
+     */
     protected $nullable = [
         'timezone',
     ];
@@ -65,7 +72,7 @@ class User extends Authenticatable
         'deleted' => UserDeleted::class,
     ];
 
-    public function scopeFilter(Builder $qry, string $filter)
+    public function scopeFilter(Builder $qry, string $filter): void
     {
         $qry->where('name', 'LIKE', '%' . $filter . '%')
             ->orWhere('email', 'LIKE', '%' . $filter . '%');

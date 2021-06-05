@@ -16,6 +16,10 @@ use Illuminate\Auth\Passwords\CanResetPassword;
 use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOneOrMany;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Foundation\Auth\Access\Authorizable;
 use libphonenumber\NumberParseException;
 use Propaganistas\LaravelPhone\PhoneNumber;
@@ -46,6 +50,12 @@ class Customer extends Model implements
         'credit',
     ];
 
+    /**
+     * The attributes that should be set to null in the database
+     * in case the value is an empty string.
+     *
+     * @var array
+     */
     protected $nullable = [
         'locale',
         'remarks',
@@ -75,23 +85,23 @@ class Customer extends Model implements
         });
     }
 
-    public function orders()
+    public function orders(): HasMany
     {
         return $this->hasMany(Order::class);
     }
 
-    public function comments()
+    public function comments(): HasOneOrMany
     {
         return $this->morphMany(Comment::class, 'commentable');
     }
 
-    public function tags()
+    public function tags(): BelongsToMany
     {
         return $this->morphToMany(Tag::class, 'taggable')
             ->using(Taggable::class);
     }
 
-    public function scopeRegisteredInDateRange(Builder $qry, ?string $start, ?string $end)
+    public function scopeRegisteredInDateRange(Builder $qry, ?string $start, ?string $end): void
     {
         if (filled($start) && filled($end)) {
             $qry->whereDate('created_at', '>=', $start)
@@ -99,7 +109,7 @@ class Customer extends Model implements
         }
     }
 
-    public function scopeFilter(Builder $qry, string $filter)
+    public function scopeFilter(Builder $qry, string $filter): void
     {
         $qry->where(DB::raw('LOWER(name)'), 'LIKE', '%' . strtolower($filter) . '%')
             ->orWhere('id_number', 'LIKE', $filter . '%')
@@ -109,17 +119,17 @@ class Customer extends Model implements
             ->orWhere('remarks', 'LIKE', '%' . $filter . '%');
     }
 
-    public function routeNotificationForTwilio()
+    public function routeNotificationForTwilio(): ?string
     {
         return $this->phone;
     }
 
-    public function preferredLocale()
+    public function preferredLocale(): ?string
     {
         return $this->locale;
     }
 
-    public function getPhoneFormattedInternationalAttribute()
+    public function getPhoneFormattedInternationalAttribute(): ?string
     {
         if ($this->phone !== null) {
             try {
@@ -148,7 +158,7 @@ class Customer extends Model implements
         return null;
     }
 
-    public function getNextTopupDateAttribute()
+    public function getNextTopupDateAttribute(): ?Carbon
     {
         $days = setting()->get('customer.credit_topup.days');
         if ($days > 0) {

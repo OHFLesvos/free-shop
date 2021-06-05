@@ -24,7 +24,7 @@ class LogSuccessfulLogin
         }
     }
 
-    private function writeLogForUser(User $user)
+    private function writeLogForUser(User $user): void
     {
         Log::info('Successful user login.', [
             'event.kind' => 'event',
@@ -37,7 +37,7 @@ class LogSuccessfulLogin
         ]);
     }
 
-    private function writeLogForCustomer(Customer $customer)
+    private function writeLogForCustomer(Customer $customer): void
     {
         Log::info('Successful customer login.', [
             'event.kind' => 'event',

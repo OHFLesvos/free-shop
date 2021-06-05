@@ -16,12 +16,21 @@ class CustomerManagePage extends BackendPage
     public Customer $customer;
 
     public string $customer_phone;
+
     public string $customer_phone_country;
+
     public array $customer_tags;
 
     public bool $shouldDelete = false;
 
-    protected function rules()
+    /**
+     * @var array
+     */
+    protected $listeners = [
+        'changeTags' => 'updateTags',
+    ];
+
+    protected function rules(): array
     {
         return [
             'customer.name' => 'required',
@@ -56,7 +65,7 @@ class CustomerManagePage extends BackendPage
         ];
     }
 
-    public function mount()
+    public function mount(): void
     {
         if (isset($this->customer)) {
             $this->authorize('update', $this->customer);
@@ -86,13 +95,16 @@ class CustomerManagePage extends BackendPage
         $this->customer_tags = $this->customer->tags->pluck('name')->toArray();
     }
 
-    protected function title()
+    protected function title(): string
     {
         return $this->customer->exists
             ? 'Edit Customer ' . $this->customer->name
             : 'Register Customer';
     }
 
+    /**
+     * @return \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory
+     */
     public function render()
     {
         return parent::view('livewire.backend.customer-form', [
@@ -100,6 +112,9 @@ class CustomerManagePage extends BackendPage
         ]);
     }
 
+    /**
+     * @return \Illuminate\Routing\Redirector|\Illuminate\Http\RedirectResponse
+     */
     public function submit()
     {
         $this->authorize('update', $this->customer);
@@ -130,6 +145,9 @@ class CustomerManagePage extends BackendPage
         return redirect()->route('backend.customers.show', $this->customer);
     }
 
+    /**
+     * @return \Illuminate\Routing\Redirector|\Illuminate\Http\RedirectResponse
+     */
     public function delete()
     {
         $this->authorize('delete', $this->customer);
@@ -141,9 +159,7 @@ class CustomerManagePage extends BackendPage
         return redirect()->route('backend.customers');
     }
 
-    protected $listeners = ['changeTags' => 'updateTags'];
-
-    public function updateTags($value)
+    public function updateTags(array $value): void
     {
         $this->customer_tags = $value;
     }

@@ -10,7 +10,7 @@ use Illuminate\Notifications\Notification;
 use NotificationChannels\Twilio\TwilioChannel;
 use NotificationChannels\Twilio\TwilioSmsMessage;
 
-class OrderReadyed extends Notification
+class OrderReadied extends Notification
 {
     use CheckBlockedPhoneNumber;
 
@@ -40,7 +40,7 @@ class OrderReadyed extends Notification
         return [];
     }
 
-    public function toTwilio($notifiable)
+    public function toTwilio(Customer $notifiable): TwilioSmsMessage
     {
         return (new TwilioSmsMessage())
             ->content($this->twilioMessage($notifiable));

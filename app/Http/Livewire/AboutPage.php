@@ -10,16 +10,19 @@ class AboutPage extends FrontendPage
 {
     public ?string $content = null;
 
-    protected function title()
+    protected function title(): string
     {
         return __('About');
     }
 
-    public function mount(TextBlockRepository $textRepo)
+    public function mount(TextBlockRepository $textRepo): void
     {
         $this->content = $textRepo->getMarkdown('about');
     }
 
+    /**
+     * @return \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory
+     */
     public function render()
     {
         return parent::view('livewire.about-page', [
@@ -30,7 +33,7 @@ class AboutPage extends FrontendPage
         ]);
     }
 
-    private function monthlyStats(Carbon $month_start)
+    private function monthlyStats(Carbon $month_start): array
     {
         $aggregator = new MetricsAggregator($month_start, $month_start->clone()->endOfMonth());
         return [

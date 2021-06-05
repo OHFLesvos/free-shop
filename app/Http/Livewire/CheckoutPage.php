@@ -11,28 +11,31 @@ use App\Services\ShoppingBasket;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
+use Illuminate\View\View;
 
 class CheckoutPage extends FrontendPage
 {
     public ?Order $order = null;
+
     public Customer $customer;
+
     public string $remarks = '';
 
-    protected $rules = [
+    protected array $rules = [
         'remarks' => 'nullable',
     ];
 
-    protected function title()
+    protected function title(): string
     {
         return __('Checkout');
     }
 
-    public function mount()
+    public function mount(): void
     {
         $this->customer = Auth::guard('customer')->user();
     }
 
-    public function render(ShoppingBasket $basket)
+    public function render(ShoppingBasket $basket): View
     {
         return parent::view('livewire.checkout-page', [
                 'basket' => $basket,

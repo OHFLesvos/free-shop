@@ -30,11 +30,11 @@ class UpdateUserLastLogin
     public function handle(Login $event)
     {
         if ($event->user instanceof User) {
-            $this->updateUser($event->user);
+            $this->updateLastLogin($event->user);
         }
     }
 
-    private function updateUser(User $user)
+    private function updateLastLogin(User $user): void
     {
         $user->last_login_at = now();
         $user->last_login_ip = $this->request->ip();

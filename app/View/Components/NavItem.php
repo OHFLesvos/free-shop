@@ -30,7 +30,7 @@ class NavItem extends Component
         return view('components.nav-item');
     }
 
-    public function isActive()
+    public function isActive(): bool
     {
         if (isset($this->item['active'])) {
             return $this->item['active'];

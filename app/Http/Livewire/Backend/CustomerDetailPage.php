@@ -15,18 +15,22 @@ class CustomerDetailPage extends BackendPage
     use AuthorizesRequests;
     use TrimEmptyStrings;
 
-    protected $paginationTheme = 'bootstrap';
+    protected string $paginationTheme = 'bootstrap';
 
     public Customer $customer;
 
     public bool $addComment = false;
+
     public string $newComment = '';
 
-    protected function title()
+    protected function title(): string
     {
         return 'Customer ' . $this->customer->name;
     }
 
+    /**
+     * @return \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory
+     */
     public function render()
     {
         $this->authorize('view', $this->customer);
@@ -41,7 +45,7 @@ class CustomerDetailPage extends BackendPage
         ]);
     }
 
-    public function saveComment()
+    public function saveComment(): void
     {
         $this->validate([
             'newComment' => [
@@ -59,12 +63,12 @@ class CustomerDetailPage extends BackendPage
         $this->reset(['addComment', 'newComment']);
     }
 
-    public function resetComment()
+    public function resetComment(): void
     {
         $this->reset(['addComment', 'newComment']);
     }
 
-    public function deleteComment($id)
+    public function deleteComment(int $id): void
     {
         $this->authorize('delete', $this->customer);
 

@@ -4,7 +4,7 @@ namespace App\Http\Livewire\Backend;
 
 trait WithSorting
 {
-    public function mountWithSorting()
+    public function mountWithSorting(): void
     {
         if (session()->has(get_class() . '.sortBy')) {
             $this->sortBy = session()->get(get_class() . '.sortBy');
@@ -14,7 +14,7 @@ trait WithSorting
         }
     }
 
-    public function sortBy($field)
+    public function sortBy(string $field): void
     {
         if (in_array($field, $this->sortableFields)) {
             $this->sortDirection = $this->sortBy === $field
@@ -27,7 +27,7 @@ trait WithSorting
         }
     }
 
-    public function reverseSort()
+    public function reverseSort(): string
     {
         return $this->sortDirection === 'asc'
             ? 'desc'

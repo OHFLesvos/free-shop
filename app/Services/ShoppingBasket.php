@@ -15,7 +15,7 @@ class ShoppingBasket
         $this->items = collect(session()->get($this->session_key, []));
     }
 
-    public function save()
+    public function save(): void
     {
         $items = $this->items
             ->map(fn ($quantity) => intval($quantity))
@@ -33,17 +33,17 @@ class ShoppingBasket
             ->filter(fn ($quantity) => $quantity > 0);
     }
 
-    public function get($productId): int
+    public function get(int $productId): int
     {
         return $this->items[$productId] ?? 0;
     }
 
-    public function add($productId, int $quantity)
+    public function add(int $productId, int $quantity): void
     {
         $this->set($productId, $this->get($productId) + $quantity);
     }
 
-    public function set($productId, int $quantity)
+    public function set(int $productId, int $quantity): void
     {
         if ($quantity > 0) {
             $this->items[$productId] = $quantity;
@@ -53,23 +53,23 @@ class ShoppingBasket
         }
     }
 
-    public function decrease($productId)
+    public function decrease(int $productId): void
     {
         $this->add($productId, -1);
     }
 
-    public function increase($productId)
+    public function increase(int $productId): void
     {
         $this->add($productId, 1);
     }
 
-    public function remove($productId)
+    public function remove(int $productId): void
     {
-        $this->items->forget($productId);
+        $this->items->forget((string)$productId);
         $this->save();
     }
 
-    public function clear()
+    public function clear(): void
     {
         $this->items = collect();
         $this->save();

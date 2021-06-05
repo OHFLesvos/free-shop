@@ -18,7 +18,7 @@ class ProductsSheet implements ToModel, WithHeadingRow, WithValidation, SkipsOnE
     private string $locale;
     private ?string $defaultLocale;
 
-    private $countImports = 0;
+    private int $countImports = 0;
 
     public function __construct(string $locale, ?string $defaultLocale = null)
     {

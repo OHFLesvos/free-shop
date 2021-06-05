@@ -5,6 +5,7 @@ namespace App\Http\Livewire;
 use App\Models\Customer;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
+use Illuminate\View\View;
 use libphonenumber\NumberParseException;
 use Propaganistas\LaravelPhone\PhoneNumber;
 
@@ -18,7 +19,7 @@ class CustomerAccountPage extends FrontendPage
 
     public bool $shouldDelete = false;
 
-    protected function rules() {
+    protected function rules(): array {
         return [
             'customer_name' => 'required',
             'customer_id_number' => [
@@ -36,12 +37,12 @@ class CustomerAccountPage extends FrontendPage
         ];
     }
 
-    protected function title()
+    protected function title(): string
     {
         return __('Customer Account');
     }
 
-    public function mount()
+    public function mount(): void
     {
         $this->customer = Auth::guard('customer')->user();
 
@@ -57,12 +58,12 @@ class CustomerAccountPage extends FrontendPage
         }
     }
 
-    public function render()
+    public function render(): View
     {
         return parent::view('livewire.customer-account-page');
     }
 
-    public function submit()
+    public function submit(): void
     {
         $this->validate();
 
@@ -90,7 +91,7 @@ class CustomerAccountPage extends FrontendPage
 
     public function delete()
     {
-        if ($this->canDelete) {
+        if ($this->getCanDeleteProperty()) {
             $this->customer->delete();
 
             return redirect(route('home'));

@@ -6,24 +6,25 @@ use App\Actions\CancelOrder;
 use App\Models\Customer;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
+use Illuminate\View\View;
 
 class MyOrdersPage extends FrontendPage
 {
     public Customer $customer;
 
-    public $requestCancel = 0;
+    public int $requestCancel = 0;
 
-    protected function title()
+    protected function title(): string
     {
         return __('Find your order');
     }
 
-    public function mount()
+    public function mount(): void
     {
         $this->customer = Auth::guard('customer')->user();
     }
 
-    public function render()
+    public function render(): View
     {
         $orders = $this->customer->orders()
             ->orderBy('created_at', 'desc')
@@ -34,7 +35,7 @@ class MyOrdersPage extends FrontendPage
         ]);
     }
 
-    public function cancelOrder($id)
+    public function cancelOrder(int $id): void
     {
         $order = $this->customer->orders()->find($id);
         if ($order != null && $order->isCancellable) {

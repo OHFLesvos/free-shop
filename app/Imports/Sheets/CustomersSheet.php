@@ -15,7 +15,7 @@ class CustomersSheet implements ToModel, WithHeadingRow, WithValidation, SkipsOn
 {
     use SkipsErrors;
 
-    private $countImports = 0;
+    private int $countImports = 0;
 
     public function model(array $row)
     {

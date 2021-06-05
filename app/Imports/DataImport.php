@@ -28,7 +28,7 @@ class DataImport implements WithMultipleSheets, SkipsUnknownSheets
         return $sheets;
     }
 
-    public function onUnknownSheet($sheetName)
+    public function onUnknownSheet($sheetName): void
     {
         // E.g. you can log that a sheet was not found.
         Log::info("Sheet {$sheetName} was skipped");

@@ -11,23 +11,29 @@ class UserListPage extends BackendPage
     use WithPagination;
     use AuthorizesRequests;
 
-    protected $paginationTheme = 'bootstrap';
+    protected string $title = 'Users';
 
-    public string $search = '';
+    protected string $paginationTheme = 'bootstrap';
 
+    /**
+     * @var array
+     */
     protected $queryString = [
         'search' => ['except' => ''],
     ];
 
-    public function mount()
+    public string $search = '';
+
+    public function mount(): void
     {
         $this->authorize('viewAny', User::class);
 
         $this->search = request()->input('search', session()->get('users.search', '')) ?? '';
     }
 
-    protected $title = 'Users';
-
+    /**
+     * @return \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory
+     */
     public function render()
     {
         return parent::view('livewire.backend.user-list-page', [
@@ -38,12 +44,12 @@ class UserListPage extends BackendPage
             ]);
     }
 
-    public function updatingSearch()
+    public function updatingSearch(): void
     {
         $this->resetPage();
     }
 
-    public function updatedSearch($value)
+    public function updatedSearch(string $value): void
     {
         session()->put('users.search', $value);
     }

@@ -2,6 +2,7 @@
 
 namespace App\Util\Carbon;
 
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 
 class UserTimeZoneMixin

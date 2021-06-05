@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Providers\AuthServiceProvider;
 use Illuminate\Auth\Events\Login;
 use Spatie\Permission\Models\Role;
+use Spatie\Permission\Contracts\Role as RoleContract;
 
 class EnsureAdminExists
 {
@@ -27,7 +28,7 @@ class EnsureAdminExists
         }
     }
 
-    private function assignAdmin(User $user, Role $adminRole)
+    private function assignAdmin(User $user, RoleContract $adminRole): void
     {
         $previousRoles = $user->getRoleNames()->toArray();
         $user->assignRole($adminRole);

@@ -6,9 +6,9 @@ use Illuminate\Support\Facades\Request;
 
 trait CurrentRouteName
 {
-    public $currentRouteName;
+    public ?string $currentRouteName;
 
-    public function mountCurrentRouteName()
+    public function mountCurrentRouteName(): void
     {
         $this->currentRouteName = Request::route()->getName();
     }

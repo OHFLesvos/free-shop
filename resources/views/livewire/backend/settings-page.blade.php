@@ -126,7 +126,7 @@
             </p>
             <p class="card-text">
                 <small><strong>Note:</strong> Your current country is
-                    <em>{{ geoip()->getLocation()['country'] }}</em>.</small>
+                    <em>{{ GeoIP::getLocation()['country'] }}</em>.</small>
             </p>
             @php
                 $list = $countries->filter(fn($val, $key) => $geoblockWhitelist->contains($key));
@@ -246,13 +246,13 @@
             <div class="row">
                 <div class="col-sm-4">
                     <div class="mb-3">
-                        <label for="customerCreditTopupDays" class="form-label">Top up timeframe:</label>
-                        <input type="number" min="0" id="customerCreditTopupDays"
-                            wire:model.defer="customerCreditTopupDays"
-                            class="form-control @error('customerCreditTopupDays') is-invalid @enderror"
+                        <label for="customerCreditTopUpDays" class="form-label">Top up timeframe:</label>
+                        <input type="number" min="0" id="customerCreditTopUpDays"
+                            wire:model.defer="customerCreditTopUpDays"
+                            class="form-control @error('customerCreditTopUpDays') is-invalid @enderror"
                             style="max-width: 10em;"
                             aria-describedby="customerWaitingTimeBetweenOrdersHelp">
-                        @error('customerCreditTopupDays') <div class="invalid-feedback">{{ $message }}</div>@enderror
+                        @error('customerCreditTopUpDays') <div class="invalid-feedback">{{ $message }}</div>@enderror
                         <small id="customerWaitingTimeBetweenOrdersHelp" class="form-text">
                             Time in days after which a top up will happen. Leave empty to disable automatic top up.
                         </small>
@@ -260,25 +260,25 @@
                 </div>
                 <div class="col-sm-4">
                     <div class="mb-3">
-                        <label for="customerCreditTopupAmount" class="form-label">Top up credit amount:</label>
-                        <input type="number" min="0" id="customerCreditTopupAmount"
-                            wire:model.defer="customerCreditTopupAmount"
+                        <label for="customerCreditTopUpAmount" class="form-label">Top up credit amount:</label>
+                        <input type="number" min="0" id="customerCreditTopUpAmount"
+                            wire:model.defer="customerCreditTopUpAmount"
                             placeholder="{{ $customerStartingCredit > 0 ? $customerStartingCredit : config('shop.customer.starting_credit') }}"
-                            class="form-control @error('customerCreditTopupAmount') is-invalid @enderror"
+                            class="form-control @error('customerCreditTopUpAmount') is-invalid @enderror"
                             style="max-width: 10em;">
-                        @error('customerCreditTopupAmount') <div class="invalid-feedback">{{ $message }}</div>
+                        @error('customerCreditTopUpAmount') <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
                     </div>
                 </div>
                 <div class="col-sm-4">
                     <div class="mb-3">
-                        <label for="customerCreditTopupMaximum" class="form-label">Top up credit maximum:</label>
-                        <input type="number" min="0" id="customerCreditTopupMaximum"
-                            wire:model.defer="customerCreditTopupMaximum"
+                        <label for="customerCreditTopUpMaximum" class="form-label">Top up credit maximum:</label>
+                        <input type="number" min="0" id="customerCreditTopUpMaximum"
+                            wire:model.defer="customerCreditTopUpMaximum"
                             placeholder="{{ $customerStartingCredit > 0 ? $customerStartingCredit : config('shop.customer.starting_credit') }}"
-                            class="form-control @error('customerCreditTopupMaximum') is-invalid @enderror"
+                            class="form-control @error('customerCreditTopUpMaximum') is-invalid @enderror"
                             style="max-width: 10em;">
-                        @error('customerCreditTopupMaximum') <div class="invalid-feedback">{{ $message }}</div>
+                        @error('customerCreditTopUpMaximum') <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
                     </div>
                 </div>

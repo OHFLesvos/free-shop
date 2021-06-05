@@ -18,27 +18,36 @@ class OrderListPage extends BackendPage
     use AuthorizesRequests;
     use WithSorting;
 
-    protected $paginationTheme = 'bootstrap';
+    protected string $paginationTheme = 'bootstrap';
 
-    public string $search = '';
-    public string $status = '';
+    protected string $title = 'Orders';
 
+    /**
+     * @var array
+     */
     protected $queryString = [
         'search' => ['except' => ''],
         'status' => ['except' => ''],
     ];
 
+    public string $search = '';
+
+    public string $status = '';
+
     public array $selectedItems = [];
+
     public bool $selectedAllItems = false;
 
     public string $sortBy = 'created_at';
+
     public string $sortDirection = 'asc';
-    protected $sortableFields = [
+
+    protected array $sortableFields = [
         'id',
         'created_at',
     ];
 
-    public function mount()
+    public function mount(): void
     {
         $this->authorize('viewAny', Order::class);
 
@@ -50,8 +59,9 @@ class OrderListPage extends BackendPage
         }
     }
 
-    protected $title = 'Orders';
-
+    /**
+     * @return \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory
+     */
     public function render()
     {
         session()->put('orders.page', $this->resolvePage());
@@ -65,19 +75,19 @@ class OrderListPage extends BackendPage
             ]);
     }
 
-    public function updatingSearch()
+    public function updatingSearch(): void
     {
         $this->resetPage();
         $this->selectedItems = [];
     }
 
-    public function updatingStatus()
+    public function updatingStatus(): void
     {
         $this->resetPage();
         $this->selectedItems = [];
     }
 
-    public function updatingSelectedAllItems($value)
+    public function updatingSelectedAllItems(string $value): void
     {
         if ($value) {
             $this->selectedItems = explode(',', $value);
@@ -86,12 +96,12 @@ class OrderListPage extends BackendPage
         }
     }
 
-    public function updatedSearch($value)
+    public function updatedSearch(string $value): void
     {
         session()->put('orders.search', $value);
     }
 
-    public function updatedStatus($value)
+    public function updatedStatus(string $value): void
     {
         if (filled($value)) {
             session()->put('orders.status', $value);
@@ -100,7 +110,7 @@ class OrderListPage extends BackendPage
         }
     }
 
-    public function bulkChange(string $newStatus)
+    public function bulkChange(string $newStatus): void
     {
         $this->authorize('update orders');
 

@@ -8,7 +8,7 @@ use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 
 trait DefaultWorksheetStyles
 {
-    public function styles(Worksheet $sheet)
+    public function styles(Worksheet $sheet): void
     {
         // Sheet title
         $sheet->setTitle($this->worksheetTitle);

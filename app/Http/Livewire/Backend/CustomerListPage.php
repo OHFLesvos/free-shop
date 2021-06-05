@@ -14,24 +14,29 @@ class CustomerListPage extends BackendPage
     use AuthorizesRequests;
     use WithSorting;
 
-    protected $paginationTheme = 'bootstrap';
+    protected string $title = 'Customers';
 
-    public string $search = '';
-    public string $tag = '';
+    protected string $paginationTheme = 'bootstrap';
 
+    /**
+     * @var array
+     */
     protected $queryString = [
         'search' => ['except' => ''],
         'tag' => ['except' => ''],
     ];
 
+    public string $search = '';
+    public string $tag = '';
     public string $sortBy = 'name';
     public string $sortDirection  = 'asc';
-    protected $sortableFields = [
+
+    protected array $sortableFields = [
         'name',
         'created_at',
     ];
 
-    public function mount()
+    public function mount(): void
     {
         $this->authorize('viewAny', Customer::class);
 
@@ -44,8 +49,9 @@ class CustomerListPage extends BackendPage
         }
     }
 
-    protected $title = 'Customers';
-
+    /**
+     * @return \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory
+     */
     public function render()
     {
         session()->put('customers.page', $this->resolvePage());
@@ -68,28 +74,29 @@ class CustomerListPage extends BackendPage
         ]);
     }
 
-    public function setTag($tag)
+    public function setTag(string $tag): void
     {
         $this->tag = $this->tag == $tag ? '' : $tag;
+
         session()->put('customers.tag', $this->tag);
     }
 
-    public function updatingSearch()
+    public function updatingSearch(): void
     {
         $this->resetPage();
     }
 
-    public function updatedSearch($value)
+    public function updatedSearch(string $value): void
     {
         session()->put('customers.search', $value);
     }
 
-    public function updatingTag()
+    public function updatingTag(): void
     {
         $this->resetPage();
     }
 
-    public function updatedTag($value)
+    public function updatedTag(string $value): void
     {
         session()->put('customers.tag', $value);
     }

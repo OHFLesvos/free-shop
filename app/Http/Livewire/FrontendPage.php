@@ -2,13 +2,14 @@
 
 namespace App\Http\Livewire;
 
+use Illuminate\View\View;
 use Livewire\Component;
 
 abstract class FrontendPage extends Component
 {
-    protected $title;
+    protected string $title;
 
-    function view($view, $data = [])
+    protected function view(string $view, ?array $data = []): View
     {
         return view($view, $data)
             ->layoutData([

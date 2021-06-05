@@ -6,16 +6,14 @@ use App\Services\MetricsAggregator;
 use Carbon\Carbon;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use PDF;
+use Symfony\Component\HttpFoundation\Response;
 
 class ReportsPage extends BackendPage
 {
     use AuthorizesRequests;
     use WithSorting;
 
-    protected $title = 'Reports';
-
-    public ?string $date_start = null;
-    public ?string $date_end = null;
+    protected string $title = 'Reports';
 
     public array $ranges = [
         'today' => 'Today',
@@ -30,38 +28,43 @@ class ReportsPage extends BackendPage
         'custom' => 'Custom',
     ];
 
-    public $range = 'this_month';
-
+    public string $range = 'this_month';
     public string $sortBy = 'product';
     public string $sortDirection = 'asc';
-    protected $sortableFields = [
+    public ?string $date_start = null;
+    public ?string $date_end = null;
+
+    protected array $sortableFields = [
         'product',
         'quantity',
     ];
 
-    public function mount()
+    public function mount(): void
     {
         $this->authorize('view reports');
 
         $this->updatedRange($this->range);
     }
 
+    /**
+     * @return \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory
+     */
     public function render()
     {
         return parent::view('livewire.backend.reports-page', $this->getData());
     }
 
-    public function updatedDateStart($value)
+    public function updatedDateStart(?string $value): void
     {
         $this->range = 'custom';
     }
 
-    public function updatedDateEnd($value)
+    public function updatedDateEnd(?string $value): void
     {
         $this->range = 'custom';
     }
 
-    public function updatedRange($value)
+    public function updatedRange(string $value): void
     {
         if ($value == 'today') {
             $this->date_start = now()->toDateString();
@@ -93,7 +96,7 @@ class ReportsPage extends BackendPage
         }
     }
 
-    public function getDateRangeTitleProperty()
+    public function getDateRangeTitleProperty(): string
     {
         if (isset($this->date_start) && isset($this->date_end)) {
             $date_start = (new Carbon($this->date_start))->isoFormat('LL');
@@ -106,7 +109,7 @@ class ReportsPage extends BackendPage
         return 'All time';
     }
 
-    private function getData()
+    private function getData(): array
     {
         $aggregator = new MetricsAggregator($this->date_start, $this->date_end);
         return [
@@ -122,13 +125,13 @@ class ReportsPage extends BackendPage
         ];
     }
 
-    public function generatePdf()
+    public function generatePdf(): Response
     {
         $name = 'Report - ' . $this->ranges[$this->range] . ' ('. now()->toDateString() . ')';
 
         $data = $this->getData();
         $mergeData = [
-            'dateRangeTitle' => $this->dateRangeTitle,
+            'dateRangeTitle' => $this->getDateRangeTitleProperty(),
         ];
         $config = [
             'title' => $name,
@@ -142,6 +145,7 @@ class ReportsPage extends BackendPage
         ];
 
         $pdf = PDF::loadView('backend.pdf-report', $data, $mergeData, $config);
+
         return response()->streamDownload(fn () => $pdf->stream(), $name . '.pdf');
     }
 }

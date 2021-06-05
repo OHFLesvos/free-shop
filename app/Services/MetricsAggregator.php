@@ -6,6 +6,7 @@ use App\Models\Customer;
 use App\Models\Order;
 use App\Models\Product;
 use donatj\UserAgent\UserAgentParser;
+use Illuminate\Support\Collection;
 
 class MetricsAggregator
 {
@@ -18,31 +19,31 @@ class MetricsAggregator
         $this->date_end = $date_end;
     }
 
-    public function customersRegistered()
+    public function customersRegistered(): int
     {
         return Customer::registeredInDateRange($this->date_start, $this->date_end)
             ->count();
     }
 
-    public function ordersRegistered()
+    public function ordersRegistered(): int
     {
         return Order::registeredInDateRange($this->date_start, $this->date_end)
             ->count();
     }
 
-    public function ordersCompleted()
+    public function ordersCompleted(): int
     {
         return Order::completedInDateRange($this->date_start, $this->date_end)
             ->count();
     }
 
-    public function customersWithCompletedOrders()
+    public function customersWithCompletedOrders(): int
     {
         return Customer::whereHas('orders', fn ($qry) => $qry->completedInDateRange($this->date_start, $this->date_end))
             ->count();
     }
 
-    public function totalProductsHandedOut()
+    public function totalProductsHandedOut(): int
     {
         return Order::completedInDateRange($this->date_start, $this->date_end)
             ->get()
@@ -50,7 +51,7 @@ class MetricsAggregator
             ->sum();
     }
 
-    public function productsHandedOut(bool $sortByQuantity = false, bool $sortDesc = false)
+    public function productsHandedOut(bool $sortByQuantity = false, bool $sortDesc = false): Collection
     {
         return Product::whereHas('orders', fn ($qry) => $qry->completedInDateRange($this->date_start, $this->date_end))
             ->get()
@@ -72,7 +73,7 @@ class MetricsAggregator
             ->values();
     }
 
-    public function averageOrderDuration()
+    public function averageOrderDuration(): ?float
     {
         return Order::completedInDateRange($this->date_start, $this->date_end)
             ->select('completed_at', 'created_at')
@@ -81,7 +82,7 @@ class MetricsAggregator
             ->avg();
     }
 
-    public function userAgents()
+    public function userAgents(): array
     {
         $parser = new UserAgentParser();
         $data = Order::registeredInDateRange($this->date_start, $this->date_end)
@@ -97,11 +98,12 @@ class MetricsAggregator
         ];
     }
 
-    public function customerLocales()
+    public function customerLocales(): Collection
     {
         return Customer::whereHas('orders', fn ($qry) => $qry->registeredInDateRange($this->date_start, $this->date_end))
             ->select('locale')
             ->selectRaw('COUNT(locale) AS cnt')
+            ->whereNotNull('locale')
             ->groupBy('locale')
             ->pluck('cnt', 'locale')
             ->sortDesc();

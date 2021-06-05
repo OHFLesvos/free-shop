@@ -5,6 +5,7 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Torann\GeoIP\Facades\GeoIP;
 
 class GeoBlockWhitelist
 {
@@ -18,7 +19,7 @@ class GeoBlockWhitelist
     public function handle(Request $request, Closure $next)
     {
         $countries = setting()->get('geoblock.whitelist', []);
-        if (count($countries) > 0 && ! in_array(geoip()->getLocation()['iso_code'], $countries)) {
+        if (count($countries) > 0 && ! in_array(GeoIP::getLocation()['iso_code'], $countries)) {
             abort(Response::HTTP_UNAVAILABLE_FOR_LEGAL_REASONS);
         }
 

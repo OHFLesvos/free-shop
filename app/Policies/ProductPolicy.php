@@ -73,7 +73,7 @@ class ProductPolicy
      */
     public function delete(User $user, Product $product)
     {
-        if ($product->orders->isNotEmpty()) {
+        if ($product->orders()->exists()) {
             return false;
         }
 

@@ -10,11 +10,24 @@
         "bootstrap/cache": true
     },
     "cSpell.words": [
+        "authenticatable",
+        "cviebrock",
+        "dispatchable",
         "donatj",
+        "dyrynda",
+        "eloquent",
+        "geoblock",
         "gumlet",
+        "libphonenumber",
         "livewire",
         "lorisleiva",
+        "maatwebsite",
+        "propaganistas",
+        "redirector",
+        "sluggable",
         "spatie",
+        "tagify",
+        "torann",
         "twilio"
     ]
 }

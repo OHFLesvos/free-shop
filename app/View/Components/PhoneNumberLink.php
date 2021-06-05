@@ -35,7 +35,7 @@ class PhoneNumberLink extends Component
         return view('components.phone-number-link');
     }
 
-    public function href()
+    public function href(): string
     {
         if ($this->type == 'whatsapp') {
             $user_agent = request()->userAgent();

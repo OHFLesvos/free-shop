@@ -16,6 +16,11 @@ class TextBlock extends Model implements Auditable
         'content',
     ];
 
+    /**
+     * The attributes that should have translations
+     *
+     * @var array
+     */
     public $translatable = [
         'content',
     ];

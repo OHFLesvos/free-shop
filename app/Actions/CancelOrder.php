@@ -9,7 +9,7 @@ class CancelOrder
 {
     use AsAction;
 
-    public function handle(Order $order)
+    public function handle(Order $order): void
     {
         $order->status = 'cancelled';
         $order->save();
@@ -24,7 +24,7 @@ class CancelOrder
         $this->notify($order);
     }
 
-    protected function notify(Order $order)
+    protected function notify(Order $order): void
     {
         // NOOP
     }

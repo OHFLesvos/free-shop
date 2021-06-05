@@ -3,24 +3,22 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
-use App\Providers\AuthServiceProvider;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Auth\Events\Registered;
-use Illuminate\Http\Request;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 use Laravel\Socialite\Facades\Socialite;
 use Laravel\Socialite\Two\InvalidStateException;
 use Illuminate\Support\Str;
-use Spatie\Permission\Models\Role;
 
 class SocialLoginController extends Controller
 {
-    public function organizationDomain()
+    public function organizationDomain(): ?string
     {
         return config('services.google.organization_domain');
     }
 
-    public function redirectToGoogle()
+    public function redirectToGoogle(): RedirectResponse
     {
         $driver = Socialite::driver('google');
         if ($this->organizationDomain() != null) {
@@ -29,7 +27,7 @@ class SocialLoginController extends Controller
         return $driver->redirect();
     }
 
-    public function processGoogleCallback(Request $request)
+    public function processGoogleCallback(): RedirectResponse
     {
         try {
             $socialUser = Socialite::driver('google')->user();

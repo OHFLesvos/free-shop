@@ -20,6 +20,6 @@ class ProductsWidget extends Component
                 'availableProducts' => Product::available()->count(),
             ]);
         }
-        return null;
+        return '';
     }
 }

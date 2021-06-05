@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Cviebrock\EloquentSluggable\SluggableScopeHelpers;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Tag extends Model
 {
@@ -19,7 +20,7 @@ class Tag extends Model
         'name',
     ];
 
-    public function customers()
+    public function customers(): BelongsToMany
     {
         return $this->morphedByMany(Customer::class, 'taggable')
             ->using(Taggable::class);

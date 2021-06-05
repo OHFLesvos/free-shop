@@ -18,11 +18,10 @@ class UserEditPage extends BackendPage
     use AuthorizesRequests;
 
     public User $user;
-    public $userRoles;
-
+    public array $userRoles;
     public bool $shouldDelete = false;
 
-    public function rules()
+    public function rules(): array
     {
         return [
             'userRoles.*' => [
@@ -31,7 +30,7 @@ class UserEditPage extends BackendPage
         ];
     }
 
-    public function mount()
+    public function mount(): void
     {
         $this->authorize('update', $this->user);
 
@@ -41,11 +40,14 @@ class UserEditPage extends BackendPage
             ->toArray();
     }
 
-    protected function title()
+    protected function title(): string
     {
         return 'Edit User ' . $this->user->name;
     }
 
+    /**
+     * @return \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory
+     */
     public function render()
     {
         return parent::view('livewire.backend.user-edit-page', [
@@ -53,11 +55,14 @@ class UserEditPage extends BackendPage
         ]);
     }
 
-    public function getAdminRoleNameProperty()
+    public function getAdminRoleNameProperty(): string
     {
         return AuthServiceProvider::ADMINISTRATOR_ROLE;
     }
 
+    /**
+     * @return \Illuminate\Routing\Redirector|\Illuminate\Http\RedirectResponse
+     */
     public function submit()
     {
         $this->authorize('update', $this->user);
@@ -86,6 +91,9 @@ class UserEditPage extends BackendPage
         return redirect()->route('backend.users');
     }
 
+    /**
+     * @return \Illuminate\Routing\Redirector|\Illuminate\Http\RedirectResponse
+     */
     public function delete()
     {
         $this->authorize('delete', $this->user);

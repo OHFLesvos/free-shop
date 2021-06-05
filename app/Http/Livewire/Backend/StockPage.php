@@ -9,24 +9,27 @@ class StockPage extends BackendPage
 {
     use AuthorizesRequests;
 
-    protected $title = 'Stock';
+    protected string $title = 'Stock';
 
     public ?int $productId = null;
-    public $quantity = null;
+    public ?int $quantity = null;
 
-    protected $rules = [
+    protected array $rules = [
         'quantity' => [
             'required',
             'integer',
             'min:0',
-        ],        
+        ],
     ];
 
-    public function mount() 
+    public function mount(): void
     {
         $this->authorize('manage stock');
     }
 
+    /**
+     * @return \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory
+     */
     public function render()
     {
         return parent::view('livewire.backend.stock-page', [
@@ -38,7 +41,7 @@ class StockPage extends BackendPage
         ]);
     }
 
-    public function startEdit($id, $quantity)
+    public function startEdit(int $id, int $quantity): void
     {
         if ($this->productId != $id) {
             $this->productId = $id;
@@ -47,12 +50,12 @@ class StockPage extends BackendPage
         }
     }
 
-    public function cancelEdit()
+    public function cancelEdit(): void
     {
         $this->reset(['productId', 'quantity']);
     }
 
-    public function submitEdit()
+    public function submitEdit(): void
     {
         $this->validate();
 

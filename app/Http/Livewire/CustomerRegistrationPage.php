@@ -4,23 +4,31 @@ namespace App\Http\Livewire;
 
 use App\Http\Livewire\Traits\TrimEmptyStrings;
 use App\Models\Customer;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\View\View;
 use Propaganistas\LaravelPhone\PhoneNumber;
 
 class CustomerRegistrationPage extends FrontendPage
 {
     use TrimEmptyStrings;
 
-    public String $idNumber = '';
-    public String $name = '';
-    public String $phone = '';
-    public String $phoneCountry = '';
+    public string $idNumber = '';
 
+    public string $name = '';
+
+    public string $phone = '';
+
+    public string $phoneCountry = '';
+
+    /**
+     * @var array
+     */
     protected $queryString = [
         'idNumber' => ['except' => ''],
     ];
 
-    protected function rules() {
+    protected function rules(): array {
         return [
             'idNumber' => [
                 'required',
@@ -38,22 +46,22 @@ class CustomerRegistrationPage extends FrontendPage
         ];
     }
 
-    protected function title()
+    protected function title(): string
     {
         return __('Customer Registration');
     }
 
-    public function mount()
+    public function mount(): void
     {
         $this->phoneCountry = setting()->get('order.default_phone_country', '');
     }
 
-    public function render()
+    public function render(): View
     {
         return parent::view('livewire.customer-registration-page', []);
     }
 
-    public function submit()
+    public function submit(): RedirectResponse
     {
         $this->validate();
 

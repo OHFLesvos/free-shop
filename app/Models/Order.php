@@ -7,6 +7,8 @@ use Dyrynda\Database\Support\NullableFields;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Facades\DB;
 use OwenIt\Auditing\Contracts\Auditable;
 
@@ -37,6 +39,12 @@ class Order extends Model implements Auditable
         'remarks',
     ];
 
+    /**
+     * The attributes that should be set to null in the database
+     * in case the value is an empty string.
+     *
+     * @var array
+     */
     protected $nullable = [
         'remarks',
     ];
@@ -48,18 +56,18 @@ class Order extends Model implements Auditable
         'cancelled',
     ];
 
-    public function products()
+    public function products(): BelongsToMany
     {
         return $this->belongsToMany(Product::class)
             ->withPivot('quantity');
     }
 
-    public function numberOfProducts()
+    public function numberOfProducts(): int
     {
         return $this->products()->sum('quantity');
     }
 
-    public function customer()
+    public function customer(): BelongsTo
     {
         return $this->belongsTo(Customer::class);
     }
@@ -74,7 +82,7 @@ class Order extends Model implements Auditable
         return $this->status == 'new';
     }
 
-    public function scopeRegisteredInDateRange(Builder $qry, ?string $start, ?string $end)
+    public function scopeRegisteredInDateRange(Builder $qry, ?string $start, ?string $end): void
     {
         if (filled($start) && filled($end)) {
             $qry->whereDate('created_at', '>=', $start)
@@ -82,30 +90,29 @@ class Order extends Model implements Auditable
         }
     }
 
-    public function scopeCompletedInDateRange(Builder $qry, ?string $start, ?string $end)
+    public function scopeCompletedInDateRange(Builder $qry, ?string $start, ?string $end): void
     {
+        $qry->where('status', 'completed');
+
         if (filled($start) && filled($end)) {
-            $qry->status('completed')
-                ->whereDate('completed_at', '>=', $start)
+            $qry->whereDate('completed_at', '>=', $start)
                 ->whereDate('completed_at', '<=', $end);
-        } else {
-            $qry->status('completed');
         }
     }
 
-    public function scopeOpen(Builder $qry)
+    public function scopeOpen(Builder $qry): void
     {
         $qry->whereIn('status', ['new', 'ready']);
     }
 
-    public function scopeStatus(Builder $qry, string $status)
+    public function scopeStatus(Builder $qry, string $status): void
     {
         assert(in_array($status, self::STATUSES));
 
         $qry->where('status', $status);
     }
 
-    public function scopeFilter(Builder $qry, string $filter)
+    public function scopeFilter(Builder $qry, string $filter): void
     {
         $qry->where('id', is_numeric($filter) ? $filter : 0)
             ->orWhereHas('customer', function ($cqry) use ($filter) {
