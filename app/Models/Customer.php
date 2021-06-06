@@ -160,7 +160,7 @@ class Customer extends Model implements
 
     public function getNextTopupDateAttribute(): ?Carbon
     {
-        $days = setting()->get('customer.credit_topup.days');
+        $days = setting()->get('customer.credit_top_up.days');
         if ($days > 0) {
             return $this->topped_up_at ? $this->topped_up_at->clone()->addDays($days) : today();
         }

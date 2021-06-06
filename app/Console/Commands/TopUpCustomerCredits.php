@@ -42,7 +42,7 @@ class TopUpCustomerCredits extends Command
      */
     public function handle()
     {
-        $days = setting()->get('customer.credit_topup.days');
+        $days = setting()->get('customer.credit_top_up.days');
         if ($days > 0) {
             $date = now()->subDays($days);
             $this->topUp($date);
@@ -57,8 +57,8 @@ class TopUpCustomerCredits extends Command
     private function topUp(Carbon $date): void
     {
         $startingCredit = setting()->get('customer.starting_credit', config('shop.customer.starting_credit'));
-        $amount = setting()->get('customer.credit_topup.amount', $startingCredit);
-        $maximum = setting()->get('customer.credit_topup.maximum', $startingCredit);
+        $amount = setting()->get('customer.credit_top_up.amount', $startingCredit);
+        $maximum = setting()->get('customer.credit_top_up.maximum', $startingCredit);
 
         $this->count = 0;
         Customer::whereDate('topped_up_at', '<=', $date)

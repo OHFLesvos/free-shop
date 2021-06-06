@@ -151,9 +151,9 @@ class SettingsPage extends BackendPage
         $this->orderDefaultPhoneCountry = setting()->get('order.default_phone_country', '');
         $this->timezone = setting()->get('timezone', '');
         $this->customerStartingCredit = setting()->get('customer.starting_credit', '');
-        $this->customerCreditTopUpDays = setting()->get('customer.credit_topup.days', '');
-        $this->customerCreditTopUpAmount = setting()->get('customer.credit_topup.amount', '');
-        $this->customerCreditTopUpMaximum = setting()->get('customer.credit_topup.maximum', '');
+        $this->customerCreditTopUpDays = setting()->get('customer.credit_top_up.days', '');
+        $this->customerCreditTopUpAmount = setting()->get('customer.credit_top_up.amount', '');
+        $this->customerCreditTopUpMaximum = setting()->get('customer.credit_top_up.maximum', '');
         $this->shopMaxOrdersPerDay = setting()->get('shop.max_orders_per_day', '');
         $this->brandLogo = setting()->get('brand.logo');
         $this->brandFavicon = setting()->get('brand.favicon');
@@ -227,21 +227,21 @@ class SettingsPage extends BackendPage
         }
 
         if (filled($this->customerCreditTopUpDays)) {
-            setting()->set('customer.credit_topup.days', $this->customerCreditTopUpDays);
+            setting()->set('customer.credit_top_up.days', $this->customerCreditTopUpDays);
         } else {
-            setting()->forget('customer.credit_topup.days');
+            setting()->forget('customer.credit_top_up.days');
         }
 
         if (filled($this->customerCreditTopUpAmount)) {
-            setting()->set('customer.credit_topup.amount', $this->customerCreditTopUpAmount);
+            setting()->set('customer.credit_top_up.amount', $this->customerCreditTopUpAmount);
         } else {
-            setting()->forget('customer.credit_topup.amount');
+            setting()->forget('customer.credit_top_up.amount');
         }
 
         if (filled($this->customerCreditTopUpMaximum)) {
-            setting()->set('customer.credit_topup.maximum', $this->customerCreditTopUpMaximum);
+            setting()->set('customer.credit_top_up.maximum', $this->customerCreditTopUpMaximum);
         } else {
-            setting()->forget('customer.credit_topup.maximum');
+            setting()->forget('customer.credit_top_up.maximum');
         }
 
         if (filled($this->shopMaxOrdersPerDay)) {
