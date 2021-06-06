@@ -3,7 +3,7 @@
 namespace App\Console;
 
 use App\Console\Commands\CustomerCleanup;
-use App\Console\Commands\TopUpCustmerCredits;
+use App\Console\Commands\TopUpCustomerCredits;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
@@ -30,7 +30,7 @@ class Kernel extends ConsoleKernel
         $schedule->command(CustomerCleanup::class)
             ->daily()
             ->appendOutputTo($logFile);
-        $schedule->command(TopUpCustmerCredits::class)
+        $schedule->command(TopUpCustomerCredits::class)
             ->daily()
             ->appendOutputTo($logFile);
     }

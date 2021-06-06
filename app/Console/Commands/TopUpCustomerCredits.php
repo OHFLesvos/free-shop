@@ -7,7 +7,7 @@ use Carbon\Carbon;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Log;
 
-class TopUpCustmerCredits extends Command
+class TopUpCustomerCredits extends Command
 {
     private int $count = 0;
 
