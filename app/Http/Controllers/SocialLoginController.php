@@ -66,20 +66,7 @@ class SocialLoginController extends Controller
 
         $user->name = $socialUser->getName();
 
-        if ($socialUser->getAvatar() !== null) {
-            if (ini_get('allow_url_fopen')) {
-                $avatar = 'public/avatars/' . basename($socialUser->getAvatar());
-                if ($user->avatar !== null && $avatar != $user->avatar && Storage::exists($user->avatar)) {
-                    Storage::delete($user->avatar);
-                }
-                Storage::put($avatar, file_get_contents($socialUser->getAvatar()));
-                $user->avatar = $avatar;
-            } else {
-                $user->avatar = $socialUser->getAvatar();
-            }
-        } else {
-            $user->avatar = null;
-        }
+        $user->avatar = $this->getAvatar($socialUser->getAvatar(), $user->avatar);
 
         if ($user->email_verified_at == null) {
             $user->email_verified_at = now();
@@ -91,5 +78,21 @@ class SocialLoginController extends Controller
         Auth::login($user);
 
         return redirect()->intended(RouteServiceProvider::HOME);
+    }
+
+    private function getAvatar(?string $newAvatar, ?string $currentAvatar): ?string
+    {
+        if ($newAvatar !== null) {
+            if (ini_get('allow_url_fopen')) {
+                $avatar = 'public/avatars/' . basename($newAvatar);
+                if ($currentAvatar !== null && $avatar != $currentAvatar && Storage::exists($currentAvatar)) {
+                    Storage::delete($currentAvatar);
+                }
+                Storage::put($avatar, file_get_contents($newAvatar));
+                return $avatar;
+            }
+            return $newAvatar;
+        }
+        return null;
     }
 }

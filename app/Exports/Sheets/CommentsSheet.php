@@ -40,19 +40,22 @@ class CommentsSheet implements FromQuery, WithMapping, WithHeadings, WithColumnF
     public function map($comment): array
     {
         $commentable = $comment->commentable;
-        if ($commentable instanceof Customer) {
-            $commentable_label = "$commentable->name, $commentable->id_number";
-        } else {
-            $commentable_label = '?';
-        }
         return [
             $comment->id,
             optional($commentable)->id,
-            $commentable_label,
+            $this->getLabel($commentable),
             $comment->content,
             optional($comment->user)->name,
             $this->mapDateTime($comment->created_at),
         ];
+    }
+
+    private function getLabel($commentable): string
+    {
+        if ($commentable instanceof Customer) {
+            return "$commentable->name, $commentable->id_number";
+        }
+        return '?';
     }
 
     private function mapDateTime($value)

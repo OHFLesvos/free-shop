@@ -68,21 +68,21 @@ class OrdersSheet implements FromQuery, WithMapping, WithHeadings, WithColumnFor
     {
         try {
             return PhoneNumber::make($value)->formatInternational();
-        } catch (Throwable $t) {
+        } catch (Throwable $ignored) {
             return ' ' . $value;
         }
     }
 
     private function mapBrowser($value)
     {
-        $ua = (new UserAgentParser())->parse($value);
-        return $ua->browser() . ' ' . $ua->browserVersion();
+        $userAgent = (new UserAgentParser())->parse($value);
+        return $userAgent->browser() . ' ' . $userAgent->browserVersion();
     }
 
     private function mapOS($value)
     {
-        $ua = (new UserAgentParser())->parse($value);
-        return $ua->platform();
+        $userAgent = (new UserAgentParser())->parse($value);
+        return $userAgent->platform();
     }
 
     private function mapDateTime($value)
