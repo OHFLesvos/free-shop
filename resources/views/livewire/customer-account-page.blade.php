@@ -36,33 +36,33 @@
                     <x-card :title="__('Customer Profile')">
                         {{-- Name --}}
                         <div class="mb-3">
-                            <label for="inputCustomerName" class="form-label">{{ __('First & last name') }}</label>
+                            <label for="nameInput" class="form-label">{{ __('First & last name') }}</label>
                             <input type="text"
-                                class="form-control @error('customer_name') is-invalid @enderror"
-                                id="inputCustomerName"
-                                wire:model.defer="customer_name"
+                                class="form-control @error('name') is-invalid @enderror"
+                                id="nameInput"
+                                wire:model.defer="name"
                                 required
                                 autocomplete="off"
-                                aria-describedby="customerNameHelp">
-                            @error('customer_name') <div class="invalid-feedback">{{ $message }}</div> @enderror
-                            <small id="customerNameHelp" class="form-text text-muted">
+                                aria-describedby="nameHelp">
+                            @error('name') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                            <small id="nameHelp" class="form-text text-muted">
                                 {{ __('Write your full name according to your identification document.') }}
                             </small>
                         </div>
 
                         {{-- ID number --}}
                         <div class="mb-3">
-                            <label for="inputCustomerIdNumber" class="form-label">{{ __('ID number') }}</label>
+                            <label for="idNumberInput" class="form-label">{{ __('ID number') }}</label>
                             <input type="text"
-                                class="form-control @error('customer_id_number') is-invalid @enderror"
-                                id="inputCustomerIdNumber"
-                                wire:model.defer="customer_id_number"
+                                class="form-control @error('idNumber') is-invalid @enderror"
+                                id="idNumberInput"
+                                wire:model.defer="idNumber"
                                 required
                                 autocomplete="off"
                                 dir="ltr"
-                                aria-describedby="customerIdNumberHelp">
-                            @error('customer_id_number') <div class="invalid-feedback">{{ $message }}</div> @enderror
-                            <small id="customerIdNumberHelp" class="form-text text-muted">
+                                aria-describedby="idNumberHelp">
+                            @error('idNumber') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                            <small id="idNumberHelp" class="form-text text-muted">
                                 {{ __('Write your ID number according to your identification document.') }}
                                 @if(setting()->has('customer.id_number_example'))
                                     <br>{{ __('Example: :value', ['value' => setting()->get('customer.id_number_example') ]) }}
@@ -73,7 +73,7 @@
                         {{-- Phone number --}}
                         <div>
                             <label
-                                for="inputCustomerPhone"
+                                for="phoneInput"
                                 class="form-label">{{ __('Mobile phone number') }}</label>
                             <div class="input-group" dir="ltr">
                                 @php
@@ -82,7 +82,7 @@
                                 <select
                                     class="form-select"
                                     style="max-width: 11em;"
-                                    wire:model.defer="customer_phone_country">
+                                    wire:model.defer="phoneCountry">
                                     @foreach(collect(Countries::getList(app()->getLocale())) as $key => $val)
                                         @isset($phoneContryCodes[$key])
                                             <option value="{{ $key }}">
@@ -93,15 +93,15 @@
                                 </select>
                                 <input
                                     type="tel"
-                                    class="form-control @error('customer_phone') is-invalid @enderror"
-                                    id="inputCustomerPhone"
-                                    wire:model.defer="customer_phone"
+                                    class="form-control @error('phone') is-invalid @enderror"
+                                    id="phoneInput"
+                                    wire:model.defer="phone"
                                     required
                                     autocomplete="off"
-                                    aria-describedby="customerPhoneHelp">
-                                @error('customer_phone') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                                    aria-describedby="phoneHelp">
+                                @error('phone') <div class="invalid-feedback">{{ $message }}</div> @enderror
                             </div>
-                            <small id="customerPhoneHelp" class="form-text text-muted">
+                            <small id="phoneHelp" class="form-text text-muted">
                                 {{ __('We will send updates about your order to this number.') }}
                             </small>
                         </div>

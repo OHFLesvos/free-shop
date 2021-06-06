@@ -12,28 +12,28 @@ use Propaganistas\LaravelPhone\PhoneNumber;
 class CustomerAccountPage extends FrontendPage
 {
     public Customer $customer;
-    public string $customer_name = '';
-    public string $customer_id_number = '';
-    public string $customer_phone = '';
-    public string $customer_phone_country;
+    public string $name = '';
+    public string $idNumber = '';
+    public string $phone = '';
+    public string $phoneCountry;
 
     public bool $shouldDelete = false;
 
     protected function rules(): array {
         return [
-            'customer_name' => 'required',
-            'customer_id_number' => [
+            'name' => 'required',
+            'idNumber' => [
                 'required',
                 setting()->has('customer.id_number_pattern')
                     ? 'regex:' . setting()->get('customer.id_number_pattern')
                     : null,
                 'unique:customers,id_number,' . $this->customer->id,
             ],
-            'customer_phone' => [
+            'phone' => [
                 'required',
-                'phone:customer_phone_country,mobile',
+                'phone:phoneCountry,mobile',
             ],
-            'customer_phone_country' => 'required_with:customer_phone',
+            'phoneCountry' => 'required_with:phone',
         ];
     }
 
@@ -46,15 +46,15 @@ class CustomerAccountPage extends FrontendPage
     {
         $this->customer = Auth::guard('customer')->user();
 
-        $this->customer_name = $this->customer->name;
-        $this->customer_id_number = $this->customer->id_number;
+        $this->name = $this->customer->name;
+        $this->idNumber = $this->customer->id_number;
         try {
             $phone = PhoneNumber::make($this->customer->phone);
-            $this->customer_phone_country = $phone->getCountry();
-            $this->customer_phone = $phone->formatNational();
+            $this->phoneCountry = $phone->getCountry();
+            $this->phone = $phone->formatNational();
         } catch (NumberParseException $ignored) {
-            $this->customer_phone_country = '';
-            $this->customer_phone = $this->customer->phone;
+            $this->phoneCountry = '';
+            $this->phone = $this->customer->phone;
         }
     }
 
@@ -67,9 +67,9 @@ class CustomerAccountPage extends FrontendPage
     {
         $this->validate();
 
-        $this->customer->name = trim($this->customer_name);
-        $this->customer->id_number = trim($this->customer_id_number);
-        $this->customer->phone = PhoneNumber::make($this->customer_phone, $this->customer_phone_country)
+        $this->customer->name = trim($this->name);
+        $this->customer->id_number = trim($this->idNumber);
+        $this->customer->phone = PhoneNumber::make($this->phone, $this->phoneCountry)
             ->formatE164();
         $this->customer->save();
 
@@ -77,7 +77,7 @@ class CustomerAccountPage extends FrontendPage
             'event.kind' => 'event',
             'event.outcome' => 'success',
             'customer.name' => $this->customer->name,
-            'customer.id_number' => $this->customer->id_number,
+            'customer.id_number' => $this->customer->idNumber,
             'customer.phone' => $this->customer->phone,
         ]);
 
