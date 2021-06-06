@@ -38,7 +38,7 @@
                 @elseif(isset($brandLogo))
                     <div class="d-flex align-items-center mt-3">
                         <div class="me-2">
-                            <img src="{{ url(Storage::url($brandLogo)) }}" alt="Current logo" height="24" />
+                            <img src="{{ storage_url($brandLogo) }}" alt="Current logo" height="24" />
                         </div>
                         <div class="form-check form-switch">
                             <input type="checkbox" class="form-check-input" id="brandLogoRemoveInput" value="1"
@@ -67,7 +67,7 @@
                 @elseif(isset($brandFavicon))
                     <div class="d-flex align-items-center mt-3">
                         <div class="me-2">
-                            <img src="{{ url(Storage::url($brandFavicon)) }}" alt="Current Favicon" height="24" />
+                            <img src="{{ storage_url($brandFavicon) }}" alt="Current Favicon" height="24" />
                         </div>
                         <div class="form-check form-switch">
                             <input type="checkbox" class="form-check-input" id="brandFaviconRemoveInput" value="1"

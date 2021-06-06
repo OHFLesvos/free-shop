@@ -98,8 +98,12 @@ $navItems = [
                             dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
                             aria-expanded="false">
                             @isset(Auth::user()->avatar)
-                                <img src="{{ Auth::user()->avatar }}" alt="Avatar"
-                                    class="align-top bg-white rounded-circle" height="24" width="24">
+                                <img
+                                    src="{{ storage_url(Auth::user()->avatar) }}"
+                                    alt="Avatar"
+                                    class="align-top bg-white rounded-circle"
+                                    height="24"
+                                    width="24"/>
                             @endisset
                             <span class="align-top ms-2">{{ Str::of(Auth::user()->name)->words(1, '') }}</span>
                         </a>

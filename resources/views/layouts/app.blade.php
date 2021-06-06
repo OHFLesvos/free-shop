@@ -55,7 +55,7 @@ $rtl = in_array(app()->getLocale(), config('app.rtl_languages', []));
             <div class="container">
                 <a class="navbar-brand" href="{{ route('home') }}">
                     @if(setting()->has('brand.logo') && Storage::exists(setting()->get('brand.logo')))
-                        <img src="{{ url(Storage::url(setting()->get('brand.logo'))) }}" alt="Logo" height="24" class="me-1" />
+                        <img src="{{ storage_url(setting()->get('brand.logo')) }}" alt="Logo" height="24" class="me-1" />
                     @endif
                     {{ config('app.name') }}
                 </a>

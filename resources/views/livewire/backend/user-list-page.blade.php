@@ -41,11 +41,11 @@
                         <td class="fit">
                             @isset($user->avatar)
                                 <img
-                                    src="{{ $user->avatar }}"
+                                    src="{{ storage_url($user->avatar) }}"
                                     alt="Avatar"
                                     class="align-top rounded-circle"
                                     height="24"
-                                    width="24">
+                                    width="24"/>
                             @endisset
                         </td>
                         <td>{{ $user->name }}</td>

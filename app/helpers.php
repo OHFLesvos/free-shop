@@ -14,3 +14,16 @@ if (! function_exists('listTimezones')) {
             ->toArray();
     }
 }
+
+if (! function_exists('storage_url')) {
+    function storage_url(?string $path): ?string
+    {
+        if ($path === null) {
+            return null;
+        }
+        if (filter_var($path, FILTER_VALIDATE_URL)) {
+            return $path;
+        }
+        return url(Storage::url($path));
+    }
+}

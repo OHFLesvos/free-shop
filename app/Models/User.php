@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Storage;
 use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
@@ -71,6 +72,16 @@ class User extends Authenticatable
         'created' => UserCreated::class,
         'deleted' => UserDeleted::class,
     ];
+
+    public static function boot()
+    {
+        parent::boot();
+        static::deleted(function($user) {
+            if ($user->avatar !== null && Storage::exists($user->avatar)) {
+                Storage::delete($user->avatar);
+            }
+        });
+    }
 
     public function scopeFilter(Builder $qry, string $filter): void
     {

@@ -6,6 +6,7 @@ use App\Models\User;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 use Laravel\Socialite\Facades\Socialite;
 use Laravel\Socialite\Two\InvalidStateException;
 use Illuminate\Support\Str;
@@ -55,7 +56,6 @@ class SocialLoginController extends Controller
             ['email' => $socialUser->getEmail()],
             [
                 'name' => $socialUser->getName(),
-                'avatar' => $socialUser->getAvatar(),
                 'password' => Str::random(32),
                 'provider' => 'google',
             ]
@@ -65,7 +65,18 @@ class SocialLoginController extends Controller
         }
 
         $user->name = $socialUser->getName();
-        $user->avatar = $socialUser->getAvatar();
+
+        if ($socialUser->getAvatar() !== null) {
+            $avatar = 'public/avatars/' . basename($socialUser->getAvatar());
+            if ($user->avatar !== null && $avatar != $user->avatar && Storage::exists($user->avatar)) {
+                Storage::delete($user->avatar);
+            }
+            Storage::put($avatar, file_get_contents($socialUser->getAvatar()));
+            $user->avatar = $avatar;
+        } else {
+            $user->avatar = null;
+        }
+
         if ($user->email_verified_at == null) {
             $user->email_verified_at = now();
         }

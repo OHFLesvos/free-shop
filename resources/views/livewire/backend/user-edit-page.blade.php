@@ -32,7 +32,10 @@
             <x-card title="{{ $user->name }}">
                 <h6 class="card-subtitle mb-2">{{ $user->email }}</h6>
                 @isset($user->avatar)
-                    <img src="{{ $user->avatar }}" alt="Avatar" class="img-thumbnail mb-3" />
+                    <img
+                        src="{{ storage_url($user->avatar) }}"
+                        alt="Avatar"
+                        class="img-thumbnail mb-3"/>
                 @endisset
 
                 <p class="form-label">Roles</p>

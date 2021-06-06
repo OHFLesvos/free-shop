@@ -31,7 +31,10 @@
         <div class="row align-items-center mb-4 g-4">
             <div class="col-md-auto">
                 @isset($user->avatar)
-                    <img src="{{ $user->avatar }}" alt="Avatar" class="img-thumbnail" />
+                    <img
+                        src="{{ storage_url($user->avatar) }}"
+                        alt="Avatar"
+                        class="img-thumbnail"/>
                 @endisset
             </div>
             <div class="col-md">
