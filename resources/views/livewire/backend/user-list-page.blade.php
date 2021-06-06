@@ -78,7 +78,7 @@
                 {{ $users->links() }}
             </div>
             <div class="col-auto">
-                Showing {{ $users->firstItem() }} to {{ $users->lastItem() }} of {{ $users->total() }} users
+                <small>Showing {{ $users->firstItem() }} to {{ $users->lastItem() }} of {{ $users->total() }} users</small>
             </div>
         </div>
     @endif
