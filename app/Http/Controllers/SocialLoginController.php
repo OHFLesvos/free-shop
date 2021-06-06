@@ -67,12 +67,16 @@ class SocialLoginController extends Controller
         $user->name = $socialUser->getName();
 
         if ($socialUser->getAvatar() !== null) {
-            $avatar = 'public/avatars/' . basename($socialUser->getAvatar());
-            if ($user->avatar !== null && $avatar != $user->avatar && Storage::exists($user->avatar)) {
-                Storage::delete($user->avatar);
+            if (ini_get('allow_url_fopen')) {
+                $avatar = 'public/avatars/' . basename($socialUser->getAvatar());
+                if ($user->avatar !== null && $avatar != $user->avatar && Storage::exists($user->avatar)) {
+                    Storage::delete($user->avatar);
+                }
+                Storage::put($avatar, file_get_contents($socialUser->getAvatar()));
+                $user->avatar = $avatar;
+            } else {
+                $user->avatar = $socialUser->getAvatar();
             }
-            Storage::put($avatar, file_get_contents($socialUser->getAvatar()));
-            $user->avatar = $avatar;
         } else {
             $user->avatar = null;
         }
