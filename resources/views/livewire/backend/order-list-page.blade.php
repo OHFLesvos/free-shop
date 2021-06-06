@@ -86,7 +86,6 @@
     @endif
     <div class="table-responsive">
         <table class="table table-bordered bg-white shadow-sm table-hover">
-            <caption>{{ $orders->total() }} orders found</caption>
             <thead>
                 @can('update orders')
                     <th class="fit text-center">
@@ -180,5 +179,14 @@
             </tbody>
         </table>
     </div>
-    <div class="overflow-auto">{{ $orders->onEachSide(2)->links() }}</div>
+    @if($orders->hasPages())
+        <div class="row">
+            <div class="col overflow-auto">
+                {{ $orders->onEachSide(2)->links() }}
+            </div>
+            <div class="col-sm-auto">
+                <small>Showing {{ $orders->firstItem() }} to {{ $orders->lastItem() }} of {{ $orders->total() }} orders</small>
+            </div>
+        </div>
+    @endif
 </div>

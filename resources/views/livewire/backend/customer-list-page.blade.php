@@ -42,7 +42,6 @@
     @endif
     <div class="table-responsive">
         <table class="table table-bordered bg-white shadow-sm table-hover">
-            <caption>{{ $customers->total() }} customers found</caption>
             <thead>
                 <th>
                     Name
@@ -93,7 +92,16 @@
             </tbody>
         </table>
     </div>
-    <div class="overflow-auto">{{ $customers->onEachSide(2)->links() }}</div>
+    @if($customers->hasPages())
+        <div class="row">
+            <div class="col overflow-auto">
+                {{ $customers->onEachSide(2)->links() }}
+            </div>
+            <div class="col-sm-auto">
+                <small>Showing {{ $customers->firstItem() }} to {{ $customers->lastItem() }} of {{ $customers->total() }} customers</small>
+            </div>
+        </div>
+    @endif
     @can('create', App\Model\Customer::class)
         <p>
             <a

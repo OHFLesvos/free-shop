@@ -23,7 +23,6 @@
     </div>
     <div class="table-responsive">
         <table class="table table-bordered bg-white shadow-sm @canany(['manage products', 'update products']) table-hover @endcanany">
-            <caption>{{ $products->count() }} products registered</caption>
             <thead>
                 <th>Picture</th>
                 <th>Name</th>
@@ -61,6 +60,9 @@
                 @endforelse
             </tbody>
         </table>
+    </div>
+    <div class="mb-3">
+        <small>{{ $products->count() }} products registered</small>
     </div>
     @can('create', App\Model\Product::class)
         <p>

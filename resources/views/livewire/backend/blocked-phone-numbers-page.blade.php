@@ -87,7 +87,6 @@
 
         <div class="table-responsive">
             <table class="table table-bordered bg-white shadow-sm">
-                <caption>{{ $entries->total() }} blocked phone numbers found</caption>
                 <thead>
                     <th>Number</th>
                     <th>Reason</th>
@@ -124,6 +123,15 @@
                 </tbody>
             </table>
         </div>
-        <div class="overflow-auto">{{ $entries->links() }}</div>
+        @if($entries->hasPages())
+            <div class="row">
+                <div class="col overflow-auto">
+                    {{ $entries->onEachSide(2)->links() }}
+                </div>
+                <div class="col-sm-auto">
+                    <small>Showing {{ $entries->firstItem() }} to {{ $entries->lastItem() }} of {{ $entries->total() }} blocked phone numbers</small>
+                </div>
+            </div>
+        @endif
     </div>
 @endif
