@@ -191,64 +191,25 @@ class SettingsPage extends BackendPage
 
         $checksum = md5((string)json_encode(Setting::all()));
 
-        if ($this->shopDisabled) {
-            setting()->set('shop.disabled', true);
-        } else {
-            setting()->forget('shop.disabled');
-        }
-        if ($this->groupProductsByCategories) {
-            setting()->set('shop.group_products_by_categories', true);
-        } else {
-            setting()->forget('shop.group_products_by_categories');
-        }
+        $this->updateBooleanSetting('shop.disabled', $this->shopDisabled);
 
-        if ($this->geoblockWhitelist->isNotEmpty()) {
-            setting()->set('geoblock.whitelist', $this->geoblockWhitelist->toArray());
-        } else {
-            setting()->forget('geoblock.whitelist');
-        }
+        $this->updateBooleanSetting('shop.group_products_by_categories', $this->groupProductsByCategories);
 
-        if (filled($this->orderDefaultPhoneCountry)) {
-            setting()->set('order.default_phone_country', $this->orderDefaultPhoneCountry);
-        } else {
-            setting()->forget('order.default_phone_country');
-        }
+        $this->updateCollectionSetting('geoblock.whitelist', $this->geoblockWhitelist);
 
-        if (filled($this->timezone)) {
-            setting()->set('timezone', $this->timezone);
-        } else {
-            setting()->forget('timezone');
-        }
+        $this->updateStringSetting('order.default_phone_country', $this->orderDefaultPhoneCountry);
 
-        if (filled($this->customerStartingCredit)) {
-            setting()->set('customer.starting_credit', $this->customerStartingCredit);
-        } else {
-            setting()->forget('customer.starting_credit');
-        }
+        $this->updateStringSetting('timezone', $this->timezone);
 
-        if (filled($this->customerCreditTopUpDays)) {
-            setting()->set('customer.credit_top_up.days', $this->customerCreditTopUpDays);
-        } else {
-            setting()->forget('customer.credit_top_up.days');
-        }
+        $this->updateStringSetting('customer.starting_credit', $this->customerStartingCredit);
 
-        if (filled($this->customerCreditTopUpAmount)) {
-            setting()->set('customer.credit_top_up.amount', $this->customerCreditTopUpAmount);
-        } else {
-            setting()->forget('customer.credit_top_up.amount');
-        }
+        $this->updateStringSetting('customer.credit_top_up.days', $this->customerCreditTopUpDays);
 
-        if (filled($this->customerCreditTopUpMaximum)) {
-            setting()->set('customer.credit_top_up.maximum', $this->customerCreditTopUpMaximum);
-        } else {
-            setting()->forget('customer.credit_top_up.maximum');
-        }
+        $this->updateStringSetting('customer.credit_top_up.amount', $this->customerCreditTopUpAmount);
 
-        if (filled($this->shopMaxOrdersPerDay)) {
-            setting()->set('shop.max_orders_per_day', $this->shopMaxOrdersPerDay);
-        } else {
-            setting()->forget('shop.max_orders_per_day');
-        }
+        $this->updateStringSetting('customer.credit_top_up.maximum', $this->customerCreditTopUpMaximum);
+
+        $this->updateStringSetting('shop.max_orders_per_day', $this->shopMaxOrdersPerDay);
 
         if (setting()->has('brand.logo') && ($this->brandLogoRemove) || isset($this->brandLogoUpload)) {
             Storage::delete(setting()->get('brand.logo'));
@@ -292,28 +253,13 @@ class SettingsPage extends BackendPage
             $this->brandFaviconUpload = null;
         }
 
-        if (filled($this->customerIdNumberPattern)) {
-            setting()->set('customer.id_number_pattern', $this->customerIdNumberPattern);
-        } else {
-            setting()->forget('customer.id_number_pattern');
-        }
-        if (filled($this->customerIdNumberExample)) {
-            setting()->set('customer.id_number_example', $this->customerIdNumberExample);
-        } else {
-            setting()->forget('customer.id_number_example');
-        }
+        $this->updateStringSetting('customer.id_number_pattern', $this->customerIdNumberPattern);
 
-        if (filled($this->customerWaitingTimeBetweenOrders)) {
-            setting()->set('customer.waiting_time_between_orders', $this->customerWaitingTimeBetweenOrders);
-        } else {
-            setting()->forget('customer.waiting_time_between_orders');
-        }
+        $this->updateStringSetting('customer.id_number_example', $this->customerIdNumberExample);
 
-        if ($this->skipOrderRegisteredNotification) {
-            setting()->set('customer.skip_order_registered_notification', true);
-        } else {
-            setting()->forget('customer.skip_order_registered_notification');
-        }
+        $this->updateStringSetting('customer.waiting_time_between_orders', $this->customerWaitingTimeBetweenOrders);
+
+        $this->updateBooleanSetting('customer.skip_order_registered_notification', $this->skipOrderRegisteredNotification);
 
         if ($checksum != md5((string)json_encode(Setting::all()))) {
             Log::info('Updated settings.', [
@@ -325,6 +271,34 @@ class SettingsPage extends BackendPage
         }
 
         session()->flash('submitMessage', 'Settings saved.');
+    }
+
+    private function updateStringSetting(string $key, ?string $value): void
+    {
+        if (filled($value)) {
+            setting()->set($key, $value);
+            return;
+        }
+        setting()->forget($key);
+    }
+
+    private function updateBooleanSetting(string $key, bool $value): void
+    {
+        if ($value) {
+            setting()->set($key, true);
+            return;
+        }
+        setting()->forget($key);
+    }
+
+
+    private function updateCollectionSetting(string $key, Collection $value): void
+    {
+        if ($value->isNotEmpty()) {
+            setting()->set($key, $value->toArray());
+            return;
+        }
+        setting()->forget($key);
     }
 
     public function updatedBrandLogoUpload(): void
