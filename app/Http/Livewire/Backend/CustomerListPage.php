@@ -24,11 +24,11 @@ class CustomerListPage extends BackendPage
      */
     protected $queryString = [
         'search' => ['except' => ''],
-        'tag' => ['except' => ''],
+        'tags' => ['except' => []],
     ];
 
     public string $search = '';
-    public string $tag = '';
+    public array $tags = [];
     public string $sortBy = 'name';
     public string $sortDirection  = 'asc';
 
@@ -42,8 +42,8 @@ class CustomerListPage extends BackendPage
         $this->authorize('viewAny', Customer::class);
 
         $this->search = request()->input('search', session()->get('customers.search', '')) ?? '';
-        $this->tag = request()->input('tag', session()->get('customers.tag', '')) ?? '';
-        session()->put('customers.tag', $this->tag);
+        $this->tags = request()->input('tags', session()->get('customers.tags', [])) ?? [];
+        session()->put('customers.tags', $this->tags);
 
         if (session()->has('customers.page')) {
             $this->setPage(session()->get('customers.page'));
@@ -56,27 +56,22 @@ class CustomerListPage extends BackendPage
 
         $customers = Customer::query()
             ->when(filled($this->search), fn ($qry) => $qry->filter(trim($this->search)))
-            ->when(filled($this->tag), fn ($qry) => $qry->whereHas('tags', function (Builder $query) {
-                $query->whereSlug($this->tag);
-            }))
+            ->when(count($this->tags) > 0, function ($qry) {
+                foreach ($this->tags as $tag) {
+                    $qry->whereHas('tags', fn (Builder $query) => $query->whereSlug($tag));
+                }
+            })
             ->orderBy($this->sortBy, $this->sortDirection)
             ->paginate(10);
 
-        $tags = Tag::orderBy('name')
+        $allTags = Tag::orderBy('name')
             ->has('customers')
             ->get();
 
         return parent::view('livewire.backend.customer-list-page', [
             'customers' => $customers,
-            'tags' => $tags,
+            'allTags' => $allTags,
         ]);
-    }
-
-    public function setTag(string $tag): void
-    {
-        $this->tag = $this->tag == $tag ? '' : $tag;
-
-        session()->put('customers.tag', $this->tag);
     }
 
     public function updatingSearch(): void
@@ -89,13 +84,13 @@ class CustomerListPage extends BackendPage
         session()->put('customers.search', $value);
     }
 
-    public function updatingTag(): void
+    public function updatingTags(): void
     {
         $this->resetPage();
     }
 
-    public function updatedTag(string $value): void
+    public function updatedTags(array $value): void
     {
-        session()->put('customers.tag', $value);
+        session()->put('customers.tags', $value);
     }
 }

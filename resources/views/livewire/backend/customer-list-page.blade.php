@@ -24,20 +24,31 @@
             @endif
         </div>
     </div>
-    @if($tags->isNotEmpty())
-        <div class="overflow-auto mb-3">
-            @foreach($tags as $t)
-                <button
-                    wire:click="setTag('{{ $t->slug }}')"
-                    class="btn btn-sm me-1 @if($t->slug == $tag) btn-success @else btn-info @endif">
-                    {{ $t->name }}
-                </button>
-            @endforeach
-            @if(filled($tag))
-                <button wire:click="setTag('')" class="btn btn-sm btn-secondary">
-                    <x-icon icon="times"/>
-                </button>
-            @endif
+    @if($allTags->isNotEmpty())
+        <div class="overflow-auto mb-3 px-1">
+            <div class="btn-group" role="group" aria-label="Tags">
+                @foreach($allTags as $tag)
+                    <input
+                        type="checkbox"
+                        class="btn-check"
+                        id="btn-tag-{{ $tag->slug }}"
+                        value="{{ $tag->slug }}"
+                        wire:model="tags"
+                        onclick="this.blur();"
+                        autocomplete="off">
+                    <label
+                        class="btn btn-outline-primary btn-sm"
+                        for="btn-tag-{{ $tag->slug }}">{{ $tag->name }}</label>
+                @endforeach
+                @if(count($tags) > 0)
+                    <button
+                        type="button"
+                        class="btn btn-outline-primary btn-sm"
+                        wire:click="$set('tags', [])">
+                        <x-icon icon="times"/>
+                    </button>
+                @endif
+            </div>
         </div>
     @endif
     <div class="table-responsive">
