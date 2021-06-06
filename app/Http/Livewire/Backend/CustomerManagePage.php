@@ -16,11 +16,11 @@ class CustomerManagePage extends BackendPage
 
     public Customer $customer;
 
-    public string $customer_phone;
+    public string $phone;
 
-    public string $customer_phone_country;
+    public string $phoneCountry;
 
-    public array $customer_tags;
+    public array $tags;
 
     public bool $shouldDelete = false;
 
@@ -42,12 +42,12 @@ class CustomerManagePage extends BackendPage
                     : null,
                 'unique:customers,id_number,' . $this->customer->id,
             ],
-            'customer_phone' => [
+            'phone' => [
                 'required',
-                'phone:customer_phone_country,mobile',
+                'phone:phoneCountry,mobile',
             ],
-            'customer_phone_country' => 'required_with:customer_phone',
-            'customer_tags' => [
+            'phoneCountry' => 'required_with:phone',
+            'tags' => [
                 'array',
             ],
             'customer.credit' => [
@@ -80,20 +80,20 @@ class CustomerManagePage extends BackendPage
             $this->customer->is_disabled = false;
         }
 
-        $this->customer_phone_country = setting()->get('order.default_phone_country', '');
-        $this->customer_phone = '';
+        $this->phoneCountry = setting()->get('order.default_phone_country', '');
+        $this->phone = '';
         if ($this->customer->phone != null) {
             try {
                 $phone = PhoneNumber::make($this->customer->phone);
-                $this->customer_phone_country = $phone->getCountry();
-                $this->customer_phone = $phone->formatNational();
+                $this->phoneCountry = $phone->getCountry();
+                $this->phone = $phone->formatNational();
             } catch (NumberParseException $ignored) {
-                $this->customer_phone_country = '';
-                $this->customer_phone = $this->customer->phone;
+                $this->phoneCountry = '';
+                $this->phone = $this->customer->phone;
             }
         }
 
-        $this->customer_tags = $this->customer->tags->pluck('name')->toArray();
+        $this->tags = $this->customer->tags->pluck('name')->toArray();
     }
 
     protected function title(): string
@@ -116,7 +116,7 @@ class CustomerManagePage extends BackendPage
 
         $this->validate();
 
-        $this->customer->phone = PhoneNumber::make($this->customer_phone, $this->customer_phone_country)
+        $this->customer->phone = PhoneNumber::make($this->phone, $this->phoneCountry)
             ->formatE164();
 
         if (!$this->customer->is_disabled) {
@@ -126,7 +126,7 @@ class CustomerManagePage extends BackendPage
         $this->customer->save();
 
         $tags = [];
-        foreach ($this->customer_tags as $tag) {
+        foreach ($this->tags as $tag) {
             $tags[] = Tag::firstOrCreate([
                 'name' => $tag,
             ])->id;
@@ -153,6 +153,6 @@ class CustomerManagePage extends BackendPage
 
     public function updateTags(array $value): void
     {
-        $this->customer_tags = $value;
+        $this->tags = $value;
     }
 }

@@ -31,11 +31,11 @@ class AboutPage extends FrontendPage
         ]);
     }
 
-    private function monthlyStats(Carbon $month_start): array
+    private function monthlyStats(Carbon $monthStart): array
     {
-        $aggregator = new MetricsAggregator($month_start, $month_start->clone()->endOfMonth());
+        $aggregator = new MetricsAggregator($monthStart, $monthStart->clone()->endOfMonth());
         return [
-            'month_start' => $month_start,
+            'month_start' => $monthStart,
             'ordersCompleted' => $aggregator->ordersCompleted(),
             'customersWithCompletedOrders' => $aggregator->customersWithCompletedOrders(),
             'totalProductsHandedOut' => $aggregator->totalProductsHandedOut(),

@@ -27,10 +27,10 @@ class DataImportExportPage extends BackendPage
      */
     public $upload;
 
-    public bool $delete_existing_data = false;
+    public bool $deleteExistingData = false;
 
     protected array $rules = [
-        'delete_existing_data' => 'boolean',
+        'deleteExistingData' => 'boolean',
     ];
 
     public array $formats = [
@@ -101,7 +101,7 @@ class DataImportExportPage extends BackendPage
             ],
         ]);
 
-        if ($this->delete_existing_data) {
+        if ($this->deleteExistingData) {
             Product::destroy(Product::pluck('id'));
             Customer::destroy(Customer::pluck('id'));
         }

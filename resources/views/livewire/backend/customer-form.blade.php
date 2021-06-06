@@ -32,11 +32,11 @@
             <x-card :title="$title">
                 <div class="row g-3">
                     <div class="col-md-6">
-                        <label for="inputName" class="form-label">Name</label>
+                        <label for="nameInput" class="form-label">Name</label>
                         <input
                             type="text"
                             class="form-control @error('customer.name') is-invalid @enderror"
-                            id="inputName"
+                            id="nameInput"
                             required
                             @unless($customer->exists) autofocus @endunless
                             autocomplete="off"
@@ -44,18 +44,18 @@
                         @error('customer.name') <div class="invalid-feedback">{{ $message }}</div> @enderror
                     </div>
                     <div class="col-md-6">
-                        <label for="inputIdNumber" class="form-label">ID Number</label>
+                        <label for="idNumberInput" class="form-label">ID Number</label>
                         <input
                             type="text"
                             class="form-control @error('customer.id_number') is-invalid @enderror"
-                            id="inputIdNumber"
+                            id="idNumberInput"
                             required
                             autocomplete="off"
                             wire:model.defer="customer.id_number">
                         @error('customer.id_number') <div class="invalid-feedback">{{ $message }}</div> @enderror
                     </div>
                     <div class="col-md-6">
-                        <label for="inputPhone" class="form-label">Phone</label>
+                        <label for="phoneInput" class="form-label">Phone</label>
                         <div class="input-group">
                             @php
                                 $phoneContryCodes = megastruktur\PhoneCountryCodes::getCodesList();
@@ -63,7 +63,7 @@
                             <select
                                 class="form-select"
                                 style="max-width: 11em;"
-                                wire:model.defer="customer_phone_country">
+                                wire:model.defer="phoneCountry">
                                 <option value="" selected>-- Select country --</option>
                                 @foreach(Countries::getList() as $key => $val)
                                     <option value="{{ $key }}">
@@ -74,20 +74,20 @@
                             </select>
                             <input
                                 type="tel"
-                                class="form-control @error('customer_phone') is-invalid @enderror"
-                                id="inputPhone"
+                                class="form-control @error('phone') is-invalid @enderror"
+                                id="phoneInput"
                                 required
                                 autocomplete="off"
-                                wire:model.defer="customer_phone">
-                            @error('customer_phone') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                                wire:model.defer="phone">
+                            @error('phone') <div class="invalid-feedback">{{ $message }}</div> @enderror
                         </div>
                     </div>
                     <div class="col-md-6">
-                        <label for="inputCredit" class="form-label">Credit</label>
+                        <label for="creditInput" class="form-label">Credit</label>
                         <input
                             type="number"
                             class="form-control @error('customer.credit') is-invalid @enderror"
-                            id="inputCredit"
+                            id="creditInput"
                             required
                             min="0"
                             autocomplete="off"
@@ -95,9 +95,9 @@
                         @error('customer.credit') <div class="invalid-feedback">{{ $message }}</div> @enderror
                     </div>
                     <div class="col-md-6">
-                        <label for="inputLocale" class="form-label">Language</label>
+                        <label for="localeInput" class="form-label">Language</label>
                         <select
-                            id="inputLocale"
+                            id="localeInput"
                             class="form-select @error('customer.locale') is-invalid @enderror"
                             style="max-width: 11em;"
                             wire:model.defer="customer.locale">
@@ -112,10 +112,10 @@
 
                     </div>
                     <div class="col-md-12">
-                        <label for="inputRemarks" class="form-label">Remarks</label>
+                        <label for="remarksInput" class="form-label">Remarks</label>
                         <textarea
                             class="form-control @error('customer.remarks') is-invalid @enderror"
-                            id="inputRemarks"
+                            id="remarksInput"
                             autocomplete="off"
                             rows="3"
                             wire:model.defer="customer.remarks"></textarea>

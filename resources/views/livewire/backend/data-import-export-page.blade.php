@@ -20,7 +20,7 @@
                                 class="form-check-input"
                                 id="deleteExistingDataInput"
                                 value="1"
-                                wire:model.defer="delete_existing_data">
+                                wire:model.defer="deleteExistingData">
                             <label class="form-check-label" for="deleteExistingDataInput">Delete existing data</label>
                         </div>
                         <x-slot name="footer">
