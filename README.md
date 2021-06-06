@@ -99,6 +99,12 @@ Find untranslated strings in a language file (for example French = fr):
 
     php artisan translatable:inspect-translations fr
 
+## Code check using PHP mess detector
+
+Run:
+
+    .\vendor\bin\phpmd app text .\phpmd-ruleset.xml
+
 ### Recommended software for development
 
 * [Visual Studio Code](https://code.visualstudio.com/)

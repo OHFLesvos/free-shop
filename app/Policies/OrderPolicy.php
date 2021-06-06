@@ -10,12 +10,6 @@ class OrderPolicy
 {
     use HandlesAuthorization;
 
-    /**
-     * Determine whether the user can view any models.
-     *
-     * @param  \App\Models\User  $user
-     * @return mixed
-     */
     public function viewAny(User $user)
     {
         if ($user->canAny(['view orders', 'update orders'])) {
@@ -23,27 +17,13 @@ class OrderPolicy
         }
     }
 
-    /**
-     * Determine whether the user can view the model.
-     *
-     * @param  \App\Models\User  $user
-     * @param  \App\Models\Order  $order
-     * @return mixed
-     */
-    public function view(User $user, Order $order)
+    public function view(User $user)
     {
         if ($user->canAny(['view orders', 'update orders'])) {
             return true;
         }
     }
 
-    /**
-     * Determine whether the user can update the model.
-     *
-     * @param  \App\Models\User  $user
-     * @param  \App\Models\Order  $order
-     * @return mixed
-     */
     public function update(User $user, Order $order)
     {
         if (!$order->isOpen) {

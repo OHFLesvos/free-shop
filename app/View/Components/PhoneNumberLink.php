@@ -38,42 +38,60 @@ class PhoneNumberLink extends Component
     public function href(): string
     {
         if ($this->type == 'whatsapp') {
-            $user_agent = request()->userAgent();
-            $iphone = strpos($user_agent, 'iPhone');
-            $android = strpos($user_agent, 'Android');
-            $palmpre = strpos($user_agent, 'webOS');
-            $berry = strpos($user_agent, 'BlackBerry');
-            $ipod = strpos($user_agent, 'iPod');
-            $chrome = strpos($user_agent, 'Chrome');
-            $value = '';
-            if ($android || $iphone) {
-                $value = 'whatsapp://send?phone=';
-            } elseif ($palmpre || $ipod || $berry || $chrome) {
-                $value = 'https://api.whatsapp.com/send?phone=';
-            } else {
-                $this->attributes['target'] = '_blank';
-                $value = 'https://web.whatsapp.com/send?phone=';
-            }
-            $value .= preg_replace('/[^0-9]/', '', $this->value);
-            if (filled($this->body)) {
-                $value .= '&text=' . urlencode($this->body);
-            }
-            return $value;
+            return $this->formatWhatsApp();
         }
         if ($this->type == 'viber') {
-            $value = 'viber://chat/?number=' . urlencode($this->value);
-            if (filled($this->body)) {
-                $value .= '&text=' . urlencode($this->body);
-            }
-            return $value;
+            return $this->formatViber();
         }
         if ($this->type == 'sms') {
-            $value = 'sms://' . $this->value;
-            if (filled($this->body)) {
-                $value .= '?body=' . urlencode($this->body);
-            }
-            return $value;
+            return $this->formatSms();
         }
         return 'tel:' . $this->value;
+    }
+
+    private function formatWhatsApp(): string
+    {
+        $value = $this->whatsAppUrlByUserAgent(request()->userAgent());
+        $value .= preg_replace('/[^0-9]/', '', $this->value);
+        if (filled($this->body)) {
+            $value .= '&text=' . urlencode($this->body);
+        }
+        return $value;
+    }
+
+    private function whatsAppUrlByUserAgent(string $userAgent): string
+    {
+        $iphone = strpos($userAgent, 'iPhone');
+        $android = strpos($userAgent, 'Android');
+        $palmpre = strpos($userAgent, 'webOS');
+        $berry = strpos($userAgent, 'BlackBerry');
+        $ipod = strpos($userAgent, 'iPod');
+        $chrome = strpos($userAgent, 'Chrome');
+        if ($android || $iphone) {
+            return 'whatsapp://send?phone=';
+        }
+        if ($palmpre || $ipod || $berry || $chrome) {
+            return 'https://api.whatsapp.com/send?phone=';
+        }
+        $this->attributes['target'] = '_blank';
+        return 'https://web.whatsapp.com/send?phone=';
+    }
+
+    private function formatViber(): string
+    {
+        $value = 'viber://chat/?number=' . urlencode($this->value);
+        if (filled($this->body)) {
+            $value .= '&text=' . urlencode($this->body);
+        }
+        return $value;
+    }
+
+    private function formatSms()
+    {
+        $value = 'sms://' . $this->value;
+        if (filled($this->body)) {
+            $value .= '?body=' . urlencode($this->body);
+        }
+        return $value;
     }
 }

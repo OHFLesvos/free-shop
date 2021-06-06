@@ -10,42 +10,42 @@ use Illuminate\Support\Collection;
 
 class MetricsAggregator
 {
-    public ?string $date_start = null;
-    public ?string $date_end = null;
+    public ?string $dateStart = null;
+    public ?string $dateEnd = null;
 
-    public function __construct(?string $date_start, ?string $date_end)
+    public function __construct(?string $dateStart, ?string $dateEnd)
     {
-        $this->date_start = $date_start;
-        $this->date_end = $date_end;
+        $this->dateStart = $dateStart;
+        $this->dateEnd = $dateEnd;
     }
 
     public function customersRegistered(): int
     {
-        return Customer::registeredInDateRange($this->date_start, $this->date_end)
+        return Customer::registeredInDateRange($this->dateStart, $this->dateEnd)
             ->count();
     }
 
     public function ordersRegistered(): int
     {
-        return Order::registeredInDateRange($this->date_start, $this->date_end)
+        return Order::registeredInDateRange($this->dateStart, $this->dateEnd)
             ->count();
     }
 
     public function ordersCompleted(): int
     {
-        return Order::completedInDateRange($this->date_start, $this->date_end)
+        return Order::completedInDateRange($this->dateStart, $this->dateEnd)
             ->count();
     }
 
     public function customersWithCompletedOrders(): int
     {
-        return Customer::whereHas('orders', fn ($qry) => $qry->completedInDateRange($this->date_start, $this->date_end))
+        return Customer::whereHas('orders', fn ($qry) => $qry->completedInDateRange($this->dateStart, $this->dateEnd))
             ->count();
     }
 
     public function totalProductsHandedOut(): int
     {
-        return Order::completedInDateRange($this->date_start, $this->date_end)
+        return Order::completedInDateRange($this->dateStart, $this->dateEnd)
             ->get()
             ->map(fn ($order) => $order->numberOfProducts())
             ->sum();
@@ -53,13 +53,13 @@ class MetricsAggregator
 
     public function productsHandedOut(bool $sortByQuantity = false, bool $sortDesc = false): Collection
     {
-        return Product::whereHas('orders', fn ($qry) => $qry->completedInDateRange($this->date_start, $this->date_end))
+        return Product::whereHas('orders', fn ($qry) => $qry->completedInDateRange($this->dateStart, $this->dateEnd))
             ->get()
             ->map(fn ($product) => [
                 'name' => $product->name,
                 'category' => $product->category,
                 'sequence' => $product->sequence,
-                'quantity' => $product->orders()->completedInDateRange($this->date_start, $this->date_end)->sum('quantity')
+                'quantity' => $product->orders()->completedInDateRange($this->dateStart, $this->dateEnd)->sum('quantity')
             ])
             ->sortBy($sortByQuantity
             ? [
@@ -75,7 +75,7 @@ class MetricsAggregator
 
     public function averageOrderDuration(): ?float
     {
-        return Order::completedInDateRange($this->date_start, $this->date_end)
+        return Order::completedInDateRange($this->dateStart, $this->dateEnd)
             ->select('completed_at', 'created_at')
             ->get()
             ->map(fn ($order) => $order->completed_at->diffInDays($order->created_at))
@@ -85,7 +85,7 @@ class MetricsAggregator
     public function userAgents(): array
     {
         $parser = new UserAgentParser();
-        $data = Order::registeredInDateRange($this->date_start, $this->date_end)
+        $data = Order::registeredInDateRange($this->dateStart, $this->dateEnd)
             ->pluck('user_agent')
             ->map(fn($value) => $parser->parse($value))
             ->map(fn($ua) => [
@@ -100,7 +100,7 @@ class MetricsAggregator
 
     public function customerLocales(): Collection
     {
-        return Customer::whereHas('orders', fn ($qry) => $qry->registeredInDateRange($this->date_start, $this->date_end))
+        return Customer::whereHas('orders', fn ($qry) => $qry->registeredInDateRange($this->dateStart, $this->dateEnd))
             ->select('locale')
             ->selectRaw('COUNT(locale) AS cnt')
             ->whereNotNull('locale')

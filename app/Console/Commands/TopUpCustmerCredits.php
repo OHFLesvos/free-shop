@@ -45,9 +45,9 @@ class TopUpCustmerCredits extends Command
         if ($days > 0) {
             $date = now()->subDays($days);
 
-            $starting_credit = setting()->get('customer.starting_credit', config('shop.customer.starting_credit'));
-            $amount = setting()->get('customer.credit_topup.amount', $starting_credit);
-            $maximum = setting()->get('customer.credit_topup.maximum', $starting_credit);
+            $startingCredit = setting()->get('customer.starting_credit', config('shop.customer.starting_credit'));
+            $amount = setting()->get('customer.credit_topup.amount', $startingCredit);
+            $maximum = setting()->get('customer.credit_topup.maximum', $startingCredit);
 
             $this->count = 0;
             Customer::whereDate('topped_up_at', '<=', $date)

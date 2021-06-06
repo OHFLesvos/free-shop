@@ -19,11 +19,9 @@ class Tagify extends Component
 
     public function changeTags(string $tags): void
     {
-        if (empty($tags)) {
-            $changed = [];
-        } else {
-            $changed = collect(json_decode($tags))->pluck('value')->toArray();
-        }
+        $changed = empty($tags) ? [] : collect(json_decode($tags))
+            ->pluck('value')
+            ->toArray();
 
         $this->emitUp('changeTags', $changed);
     }

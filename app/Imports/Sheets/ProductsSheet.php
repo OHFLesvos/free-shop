@@ -3,6 +3,7 @@
 namespace App\Imports\Sheets;
 
 use App\Models\Product;
+use Illuminate\Support\Facades\Log;
 use Maatwebsite\Excel\Concerns\SkipsErrors;
 use Maatwebsite\Excel\Concerns\SkipsOnError;
 use Maatwebsite\Excel\Concerns\ToModel;
@@ -74,8 +75,8 @@ class ProductsSheet implements ToModel, WithHeadingRow, WithValidation, SkipsOnE
     public function registerEvents(): array
     {
         return [
-            AfterSheet ::class => function(AfterSheet $event) {
-                info("Imported {$this->countImports} products.");
+            AfterSheet::class => function() {
+                Log::info("Imported {$this->countImports} products.");
             },
         ];
     }

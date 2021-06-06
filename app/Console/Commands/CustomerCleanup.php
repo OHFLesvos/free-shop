@@ -40,18 +40,18 @@ class CustomerCleanup extends Command
     public function handle()
     {
         $date = now()->subDays(30);
-        $customersWithoutAnyOrders = Customer::doesntHave('orders')
+        $deletedCustomers = Customer::doesntHave('orders')
             ->select('name', 'id_number')
             ->whereDate('created_at', '<', $date)
             ->delete();
 
-        $this->line("Deleted $customersWithoutAnyOrders customers which had no orders registered and were older than $date.");
+        $this->line("Deleted $deletedCustomers customers which had no orders registered and were older than $date.");
 
-        if ($customersWithoutAnyOrders > 0) {
+        if ($deletedCustomers > 0) {
             Log::info('Unused customer accounts deleted.', [
                 'event.kind' => 'event',
                 'event.outcome' => 'success',
-                'count' => $customersWithoutAnyOrders,
+                'count' => $deletedCustomers,
             ]);
         }
 

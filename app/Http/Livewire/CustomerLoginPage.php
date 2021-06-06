@@ -13,7 +13,8 @@ class CustomerLoginPage extends FrontendPage
 
     public string $idNumber = '';
 
-    protected function rules(): array {
+    protected function rules(): array
+    {
         return [
             'idNumber' => [
                 'required',
@@ -50,10 +51,9 @@ class CustomerLoginPage extends FrontendPage
             }
             Auth::guard('customer')->login($customer);
             return redirect()->route('shop-front');
-        } else {
-            return redirect()->route('customer.registration', [
-                'idNumber' => $this->idNumber,
-            ]);
         }
+        return redirect()->route('customer.registration', [
+            'idNumber' => $this->idNumber,
+        ]);
     }
 }

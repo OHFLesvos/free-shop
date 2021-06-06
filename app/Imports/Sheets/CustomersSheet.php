@@ -3,6 +3,7 @@
 namespace App\Imports\Sheets;
 
 use App\Models\Customer;
+use Illuminate\Support\Facades\Log;
 use Maatwebsite\Excel\Concerns\SkipsErrors;
 use Maatwebsite\Excel\Concerns\SkipsOnError;
 use Maatwebsite\Excel\Concerns\ToModel;
@@ -47,8 +48,8 @@ class CustomersSheet implements ToModel, WithHeadingRow, WithValidation, SkipsOn
     public function registerEvents(): array
     {
         return [
-            AfterSheet ::class => function(AfterSheet $event) {
-                info("Imported {$this->countImports} customers.");
+            AfterSheet::class => function() {
+                Log::info("Imported {$this->countImports} customers.");
             },
         ];
     }

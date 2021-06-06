@@ -8,11 +8,11 @@ class ShoppingBasket
 {
     private Collection $items;
 
-    private string $session_key = 'shopping-basket';
+    private const SESSION_KEY = 'shopping-basket';
 
     public function __construct()
     {
-        $this->items = collect(session()->get($this->session_key, []));
+        $this->items = collect(session()->get(self::SESSION_KEY, []));
     }
 
     public function save(): void
@@ -20,11 +20,12 @@ class ShoppingBasket
         $items = $this->items
             ->map(fn ($quantity) => intval($quantity))
             ->filter(fn ($quantity) => $quantity > 0);
+
         if ($items->isNotEmpty())  {
-            session()->put($this->session_key, $items->toArray());
-        } else {
-            session()->forget($this->session_key);
+            session()->put(self::SESSION_KEY, $items->toArray());
+            return;
         }
+        session()->forget(self::SESSION_KEY);
     }
 
     public function items(): Collection
@@ -48,9 +49,9 @@ class ShoppingBasket
         if ($quantity > 0) {
             $this->items[$productId] = $quantity;
             $this->save();
-        } else {
-            $this->remove($productId);
+            return;
         }
+        $this->remove($productId);
     }
 
     public function decrease(int $productId): void

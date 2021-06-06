@@ -29,6 +29,6 @@ class AppServiceProvider extends ServiceProvider
     {
         Carbon::mixin(new UserTimeZoneMixin());
 
-        Validator::extend('country_code', fn ($attribute, $value, $params) => in_array($value, array_keys(Countries::getList())));
+        Validator::extend('country_code', fn ($attribute, $value) => in_array($value, array_keys(Countries::getList())));
     }
 }

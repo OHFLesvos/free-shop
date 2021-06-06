@@ -11,12 +11,12 @@ class AddMetadata
 {
     protected ?Request $request;
 
-    private UserAgentParser $uap;
+    private UserAgentParser $userAgentParser;
 
     public function __construct(?Request $request = null)
     {
         $this->request = $request;
-        $this->uap = new UserAgentParser();
+        $this->userAgentParser = new UserAgentParser();
     }
 
     public function __invoke(Logger $logger): void
@@ -30,15 +30,15 @@ class AddMetadata
 
     public function processLogRecord(array $record): array
     {
-        $ua = $this->uap->parse($this->request->userAgent());
+        $userAgent = $this->userAgentParser->parse($this->request->userAgent());
         $record['extra'] += [
             'client.ip' => $this->request->getClientIp(),
             'client.session.id' => session()->getId(),
             'client.locale' => app()->getLocale(),
             'user_agent.original' => $this->request->userAgent(),
-            'user_agent.name' => $ua->browser(),
-            'user_agent.version' => $ua->browserVersion(),
-            'user_agent.device.name' => $ua->platform(),
+            'user_agent.name' => $userAgent->browser(),
+            'user_agent.version' => $userAgent->browserVersion(),
+            'user_agent.device.name' => $userAgent->platform(),
             'url.domain' => $this->request->getHost(),
             'url.path' => $this->request->path(),
             'url.full' => $this->request->fullUrl(),
