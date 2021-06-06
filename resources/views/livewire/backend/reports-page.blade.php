@@ -21,15 +21,15 @@
                 </ul>
                 <input
                     type="date"
-                    wire:model.lazy="date_start"
+                    wire:model.lazy="dateStart"
                     class="form-control w-auto"
-                    @isset($date_end) max="{{ $date_end }}" @endisset
+                    @isset($dateEnd) max="{{ $dateEnd }}" @endisset
                 />
                 <input
                     type="date"
-                    wire:model.lazy="date_end"
+                    wire:model.lazy="dateEnd"
                     class="form-control w-auto"
-                    @isset($date_start) min="{{ $date_start }}" @endisset
+                    @isset($dateStart) min="{{ $dateStart }}" @endisset
                     max="{{ now()->toDateString() }}"
                 />
             </div>

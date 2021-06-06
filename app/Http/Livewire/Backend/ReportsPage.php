@@ -32,17 +32,29 @@ class ReportsPage extends BackendPage
     public string $range = 'this_month';
     public string $sortBy = 'product';
     public string $sortDirection = 'asc';
-    public ?string $date_start = null;
-    public ?string $date_end = null;
+    public ?string $dateStart = null;
+    public ?string $dateEnd = null;
 
     protected array $sortableFields = [
         'product',
         'quantity',
     ];
 
+    /**
+     * @var array
+     */
+    protected $queryString = [
+        'dateStart' => ['except' => ''],
+        'dateEnd' => ['except' => ''],
+    ];
+
     public function mount(): void
     {
         $this->authorize('view reports');
+
+        if (request()->has('dateStart') && request()->has('dateEnd')) {
+            $this->range = 'custom';
+        }
 
         $this->updatedRange($this->range);
     }
@@ -52,12 +64,12 @@ class ReportsPage extends BackendPage
         return parent::view('livewire.backend.reports-page', $this->getData());
     }
 
-    public function updatedDateStart(?string $value): void
+    public function updatedDateStart(): void
     {
         $this->range = 'custom';
     }
 
-    public function updatedDateEnd(?string $value): void
+    public function updatedDateEnd(): void
     {
         $this->range = 'custom';
     }
@@ -65,51 +77,51 @@ class ReportsPage extends BackendPage
     public function updatedRange(string $value): void
     {
         if ($value == 'today') {
-            $this->date_start = now()->toDateString();
-            $this->date_end = now()->toDateString();
+            $this->dateStart = now()->toDateString();
+            $this->dateEnd = now()->toDateString();
         } elseif ($value == 'yesterday') {
-            $this->date_start = now()->subDay()->toDateString();
-            $this->date_end = now()->subDay()->toDateString();
+            $this->dateStart = now()->subDay()->toDateString();
+            $this->dateEnd = now()->subDay()->toDateString();
         } elseif ($value == 'this_week') {
-            $this->date_start = now()->startOfWeek()->toDateString();
-            $this->date_end = now()->toDateString();
+            $this->dateStart = now()->startOfWeek()->toDateString();
+            $this->dateEnd = now()->toDateString();
         } elseif ($value == 'last_week') {
-            $this->date_start = now()->subWeek()->startOfWeek()->toDateString();
-            $this->date_end = now()->subWeek()->endOfWeek()->toDateString();
+            $this->dateStart = now()->subWeek()->startOfWeek()->toDateString();
+            $this->dateEnd = now()->subWeek()->endOfWeek()->toDateString();
         } elseif ($value == 'this_month') {
-            $this->date_start = now()->startOfMonth()->toDateString();
-            $this->date_end = now()->toDateString();
+            $this->dateStart = now()->startOfMonth()->toDateString();
+            $this->dateEnd = now()->toDateString();
         } elseif ($value == 'last_month') {
-            $this->date_start = now()->subMonth()->startOfMonth()->toDateString();
-            $this->date_end = now()->subMonth()->endOfMonth()->toDateString();
+            $this->dateStart = now()->subMonth()->startOfMonth()->toDateString();
+            $this->dateEnd = now()->subMonth()->endOfMonth()->toDateString();
         } elseif ($value == 'this_year') {
-            $this->date_start = now()->startOfYear()->toDateString();
-            $this->date_end = now()->toDateString();
+            $this->dateStart = now()->startOfYear()->toDateString();
+            $this->dateEnd = now()->toDateString();
         } elseif ($value == 'last_year') {
-            $this->date_start = now()->subYear()->startOfYear()->toDateString();
-            $this->date_end = now()->subYear()->endOfYear()->toDateString();
+            $this->dateStart = now()->subYear()->startOfYear()->toDateString();
+            $this->dateEnd = now()->subYear()->endOfYear()->toDateString();
         } elseif ($value == 'all_time') {
-            $this->date_start = null;
-            $this->date_end = null;
+            $this->dateStart = null;
+            $this->dateEnd = null;
         }
     }
 
     public function getDateRangeTitleProperty(): string
     {
-        if (isset($this->date_start) && isset($this->date_end)) {
-            $date_start = (new Carbon($this->date_start))->isoFormat('LL');
-            $date_end = (new Carbon($this->date_end))->isoFormat('LL');
-            if ($date_start != $date_end) {
-                return "Between $date_start and $date_end";
+        if (isset($this->dateStart) && isset($this->dateEnd)) {
+            $dateStart = (new Carbon($this->dateStart))->isoFormat('LL');
+            $dateEnd = (new Carbon($this->dateEnd))->isoFormat('LL');
+            if ($dateStart != $dateEnd) {
+                return "Between $dateStart and $dateEnd";
             }
-            return $date_start;
+            return $dateStart;
         }
         return 'All time';
     }
 
     private function getData(): array
     {
-        $aggregator = new MetricsAggregator($this->date_start, $this->date_end);
+        $aggregator = new MetricsAggregator($this->dateStart, $this->dateEnd);
         return [
             'customersRegistered' => $aggregator->customersRegistered(),
             'ordersRegistered' => $aggregator->ordersRegistered(),

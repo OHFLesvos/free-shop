@@ -26,6 +26,7 @@
     <rule ref="rulesets/controversial.xml"/>
     <rule ref="rulesets/design.xml">
         <exclude name="CouplingBetweenObjects"/>
+        <exclude name="NumberOfChildren"/>
     </rule>
     <!-- beware the façades yo. -->
     <rule ref="rulesets/design.xml/CouplingBetweenObjects">
