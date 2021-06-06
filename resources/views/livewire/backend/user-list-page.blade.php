@@ -26,7 +26,6 @@
     </div>
     <div class="table-responsive">
         <table class="table table-bordered bg-white shadow-sm @can('manage users') table-hover @endcan">
-            <caption>{{ $users->total() }} users found</caption>
             <thead>
                 <th colspan="2">Name</th>
                 <th>E-Mail</th>
@@ -73,5 +72,14 @@
             </tbody>
         </table>
     </div>
-    {{ $users->links() }}
+    @if($users->hasPages())
+        <div class="row">
+            <div class="col">
+                {{ $users->links() }}
+            </div>
+            <div class="col-auto">
+                Showing {{ $users->firstItem() }} to {{ $users->lastItem() }} of {{ $users->total() }} users
+            </div>
+        </div>
+    @endif
 </div>
