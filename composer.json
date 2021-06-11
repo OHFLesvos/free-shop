@@ -1,12 +1,12 @@
 {
-    "name": "laravel/laravel",
+    "name": "OHFLesvos/free-shop",
     "type": "project",
-    "description": "The Laravel Framework.",
+    "description": "A 'free web-shop' application based on the Laravel framework",
     "keywords": [
         "framework",
         "laravel"
     ],
-    "license": "MIT",
+    "license": "GPL-3.0-or-later",
     "require": {
         "php": "^7.4|^8.0",
         "anlutro/l4-settings": "^1.0",
