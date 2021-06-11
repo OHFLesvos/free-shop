@@ -162,7 +162,6 @@
                     </div>
                 </div>
 
-
                 <div class="col-sm-6">
                     <div class="mb-3">
                         <label for="customerWaitingTimeBetweenOrdersInput" class="form-label">
