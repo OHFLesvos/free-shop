@@ -10,8 +10,11 @@
         <x-card title="General settings">
             <div class="mb-3">
                 <label for="timezone" class="form-label">Default timezone:</label>
-                <select id="timezone" wire:model.defer="timezone"
-                    class="form-select @error('timezone') is-invalid @enderror" style="max-width: 20em;">
+                <select
+                    id="timezone"
+                    wire:model.defer="timezone"
+                    class="form-select @error('timezone') is-invalid @enderror"
+                    style="max-width: 20em;">
                     <option value="">- Default timezone ({{ config('app.timezone') }}) -</option>
                     @foreach (listTimezones() as $value => $label)
                         <option value="{{ $value }}">{{ $label }}</option>
@@ -22,8 +25,13 @@
 
             <div class="mb-3">
                 <label for="brandLogoInput" class="form-label">Brand Logo:</label>
-                <input type="file" class="form-control" wire:model="brandLogoUpload" accept="image/*"
-                    id="brandLogoInput" aria-describedby="brandLogoHelp">
+                <input
+                    type="file"
+                    class="form-control"
+                    wire:model="brandLogoUpload"
+                    accept="image/*"
+                    id="brandLogoInput"
+                    aria-describedby="brandLogoHelp">
                 @error('brandLogoUpload') <span class="text-danger">{{ $message }}</span> @enderror
                 <small id="brandLogoHelp" class="form-text">
                     Image will be resized to have a height of 24 pixels.
@@ -41,7 +49,11 @@
                             <img src="{{ storage_url($brandLogo) }}" alt="Current logo" height="24" />
                         </div>
                         <div class="form-check form-switch">
-                            <input type="checkbox" class="form-check-input" id="brandLogoRemoveInput" value="1"
+                            <input
+                                type="checkbox"
+                                class="form-check-input"
+                                id="brandLogoRemoveInput"
+                                value="1"
                                 wire:model.defer="brandLogoRemove">
                             <label class="form-check-label" for="brandLogoRemoveInput">Remove existing logo</label>
                         </div>
@@ -51,8 +63,13 @@
 
             <div>
                 <label for="brandFaviconInput" class="form-label">Favicon:</label>
-                <input type="file" class="form-control" wire:model="brandFaviconUpload" accept="image/*"
-                    id="brandFaviconInput" aria-describedby="brandFaviconHelp">
+                <input
+                    type="file"
+                    class="form-control"
+                    wire:model="brandFaviconUpload"
+                    accept="image/*"
+                    id="brandFaviconInput"
+                    aria-describedby="brandFaviconHelp">
                 @error('brandFaviconUpload') <span class="text-danger">{{ $message }}</span> @enderror
                 <small id="brandFaviconHelp" class="form-text">
                     Image will be resized to 32x32 pixels.
@@ -70,9 +87,15 @@
                             <img src="{{ storage_url($brandFavicon) }}" alt="Current Favicon" height="24" />
                         </div>
                         <div class="form-check form-switch">
-                            <input type="checkbox" class="form-check-input" id="brandFaviconRemoveInput" value="1"
+                            <input
+                                type="checkbox"
+                                class="form-check-input"
+                                id="brandFaviconRemoveInput"
+                                value="1"
                                 wire:model.defer="brandFaviconRemove">
-                            <label class="form-check-label" for="brandFaviconRemoveInput">Remove existing Favicon</label>
+                            <label class="form-check-label" for="brandFaviconRemoveInput">
+                                Remove existing Favicon
+                            </label>
                         </div>
                     </div>
                 @endif
@@ -97,19 +120,30 @@
                         @endif
                     </div>
                     <div class="form-check form-switch mb-3">
-                        <input type="checkbox" class="form-check-input" id="groupProductsByCategoriesInput" value="1"
+                        <input
+                            type="checkbox"
+                            class="form-check-input"
+                            id="groupProductsByCategoriesInput"
+                            value="1"
                             wire:model.defer="groupProductsByCategories">
-                        <label class="form-check-label" for="groupProductsByCategoriesInput">Group products by
-                            categories</label>
+                        <label class="form-check-label" for="groupProductsByCategoriesInput">
+                            Group products by categories
+                        </label>
                     </div>
                 </div>
                 <div class="col-sm">
                     <div>
-                        <label for="shopMaxOrdersPerDayInput" class="form-label">Maximum orders per day:</label>
-                        <input type="number" min="1" id="shopMaxOrdersPerDayInput"
+                        <label for="shopMaxOrdersPerDayInput" class="form-label">
+                            Maximum orders per day:
+                        </label>
+                        <input
+                            type="number"
+                            min="1"
+                            id="shopMaxOrdersPerDayInput"
                             wire:model.defer="shopMaxOrdersPerDay"
                             class="form-control @error('shopMaxOrdersPerDay') is-invalid @enderror"
-                            style="max-width: 10em;" aria-describedby="shopMaxOrdersPerDayHelp">
+                            style="max-width: 10em;"
+                            aria-describedby="shopMaxOrdersPerDayHelp">
                         @error('shopMaxOrdersPerDay') <div class="invalid-feedback">{{ $message }}</div> @enderror
                         <small id="shopMaxOrdersPerDayHelp" class="form-text">
                             Leave empty to disable the limit.
@@ -148,7 +182,10 @@
                         <option value="{{ $key }}">{{ $val }}</option>
                     @endforeach
                 </select>
-                <button class="btn btn-outline-secondary" type="button" wire:click="addToGeoblockWhitelist">
+                <button
+                    class="btn btn-outline-secondary"
+                    type="button"
+                    wire:click="addToGeoblockWhitelist">
                     Add
                 </button>
             </div>
@@ -164,8 +201,10 @@
                         @php
                             $phoneContryCodes = megastruktur\PhoneCountryCodes::getCodesList();
                         @endphp
-                        <select class="form-select @error('orderDefaultPhoneCountry') is-invalid @enderror"
-                            style="max-width: 20em;" wire:model.defer="orderDefaultPhoneCountry"
+                        <select
+                            class="form-select @error('orderDefaultPhoneCountry') is-invalid @enderror"
+                            style="max-width: 20em;"
+                            wire:model.defer="orderDefaultPhoneCountry"
                             id="orderDefaultPhoneCountry">
                             <option value="">-- Select country --</option>
                             @foreach ($countries as $key => $val)
@@ -175,30 +214,39 @@
                                 </option>
                             @endforeach
                         </select>
-                        @error('orderDefaultPhoneCountry') <div class="invalid-feedback">{{ $message }}</div>
+                        @error('orderDefaultPhoneCountry')
+                            <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
                     </div>
                 </div>
                 <div class="col-sm-6">
                     <div class="mb-3">
                         <label for="customerStartingCredit" class="form-label">Starting credit:</label>
-                        <input type="number" min="0" id="customerStartingCredit"
+                        <input
+                            type="number"
+                            min="0"
+                            id="customerStartingCredit"
                             wire:model="customerStartingCredit"
                             placeholder="{{ config('shop.customer.starting_credit') }}"
                             class="form-control @error('customerStartingCredit') is-invalid @enderror"
                             style="max-width: 10em;">
-                        @error('customerStartingCredit') <div class="invalid-feedback">{{ $message }}</div>
+                        @error('customerStartingCredit')
+                            <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
                     </div>
                 </div>
                 <div class="col-sm-6">
                     <div class="mb-3">
-                        <label for="customerIdNumberPatternInput" class="form-label">Required pattern for ID
-                            number:</label>
-                        <input id="customerIdNumberPatternInput" wire:model.defer="customerIdNumberPattern"
+                        <label for="customerIdNumberPatternInput" class="form-label">
+                            Required pattern for ID number:
+                        </label>
+                        <input
+                            id="customerIdNumberPatternInput"
+                            wire:model.defer="customerIdNumberPattern"
                             class="form-control @error('customerIdNumberPattern') is-invalid @enderror"
                             aria-describedby="customerIdNumberPatternHelp">
-                        @error('customerIdNumberPattern') <div class="invalid-feedback">{{ $message }}</div>
+                        @error('customerIdNumberPattern')
+                            <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
                         <small id="customerIdNumberPatternHelp" class="form-text">
                             Define a regular expression pattern in PCRE syntax.<br>
@@ -210,24 +258,37 @@
                 </div>
                 <div class="col-sm-6">
                     <div class="mb-3">
-                        <label for="customerIdNumberExampleInput" class="form-label">ID number example:</label>
-                        <input id="customerIdNumberExampleInput" wire:model.defer="customerIdNumberExample"
-                            class="form-control @error('customerIdNumberExample') is-invalid @enderror">
-                        @error('customerIdNumberExample') <div class="invalid-feedback">{{ $message }}</div>
+                        <label for="customerIdNumberExampleInput" class="form-label">ID number example(s):</label>
+                        <input
+                            id="customerIdNumberExampleInput"
+                            wire:model.defer="customerIdNumberExample"
+                            class="form-control @error('customerIdNumberExample') is-invalid @enderror"
+                            aria-describedby="customerIdNumberExampleHelp">
+                        @error('customerIdNumberExample')
+                            <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
+                        <small id="customerIdNumberExampleHelp" class="form-text">
+                            Separate multiple examples by comma.
+                        </small>
                     </div>
                 </div>
 
                 <div class="col-sm-6">
                     <div class="mb-3">
-                        <label for="customerWaitingTimeBetweenOrdersInput" class="form-label">Waiting time between
-                            orders:</label>
-                        <input type="number" min="1" id="customerWaitingTimeBetweenOrdersInput"
+                        <label for="customerWaitingTimeBetweenOrdersInput" class="form-label">
+                            Waiting time between orders:
+                        </label>
+                        <input
+                            type="number"
+                            min="1"
+                            id="customerWaitingTimeBetweenOrdersInput"
                             wire:model.defer="customerWaitingTimeBetweenOrders"
                             class="form-control @error('customerWaitingTimeBetweenOrders') is-invalid @enderror"
-                            style="max-width: 10em;" aria-describedby="customerWaitingTimeBetweenOrdersHelp">
-                        @error('customerWaitingTimeBetweenOrders') <div class="invalid-feedback">{{ $message }}
-                        </div> @enderror
+                            style="max-width: 10em;"
+                            aria-describedby="customerWaitingTimeBetweenOrdersHelp">
+                        @error('customerWaitingTimeBetweenOrders')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
                         <small id="customerWaitingTimeBetweenOrdersHelp" class="form-text">
                             Time in days. Leave empty to disable the limit.
                         </small>
@@ -236,9 +297,15 @@
 
                 <div class="col-sm-6">
                     <div class="form-check form-switch mb-3">
-                        <input type="checkbox" class="form-check-input" id="skipOrderRegisteredNotificationInput" value="1"
+                        <input
+                            type="checkbox"
+                            class="form-check-input"
+                            id="skipOrderRegisteredNotificationInput"
+                            value="1"
                             wire:model.defer="skipOrderRegisteredNotification">
-                        <label class="form-check-label" for="skipOrderRegisteredNotificationInput">Don't send a notification to the customer when an order has been registered.</label>
+                        <label class="form-check-label" for="skipOrderRegisteredNotificationInput">
+                            Don't send a notification to the customer when an order has been registered.
+                        </label>
                     </div>
                 </div>
             </div>
@@ -247,12 +314,17 @@
                 <div class="col-sm-4">
                     <div class="mb-3">
                         <label for="customerCreditTopUpDays" class="form-label">Top-up timeframe:</label>
-                        <input type="number" min="0" id="customerCreditTopUpDays"
+                        <input
+                            type="number"
+                            min="0"
+                            id="customerCreditTopUpDays"
                             wire:model.defer="customerCreditTopUpDays"
                             class="form-control @error('customerCreditTopUpDays') is-invalid @enderror"
                             style="max-width: 10em;"
                             aria-describedby="customerWaitingTimeBetweenOrdersHelp">
-                        @error('customerCreditTopUpDays') <div class="invalid-feedback">{{ $message }}</div>@enderror
+                        @error('customerCreditTopUpDays')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
                         <small id="customerWaitingTimeBetweenOrdersHelp" class="form-text">
                             Time in days after which a top-up will happen. Leave empty to disable automatic top-up.
                         </small>
@@ -261,29 +333,37 @@
                 <div class="col-sm-4">
                     <div class="mb-3">
                         <label for="customerCreditTopUpAmount" class="form-label">Top-up credit amount:</label>
-                        <input type="number" min="0" id="customerCreditTopUpAmount"
+                        <input
+                            type="number"
+                            min="0"
+                            id="customerCreditTopUpAmount"
                             wire:model.defer="customerCreditTopUpAmount"
                             placeholder="{{ $customerStartingCredit > 0 ? $customerStartingCredit : config('shop.customer.starting_credit') }}"
                             class="form-control @error('customerCreditTopUpAmount') is-invalid @enderror"
                             style="max-width: 10em;">
-                        @error('customerCreditTopUpAmount') <div class="invalid-feedback">{{ $message }}</div>
+                        @error('customerCreditTopUpAmount')
+                            <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
                     </div>
                 </div>
                 <div class="col-sm-4">
                     <div class="mb-3">
                         <label for="customerCreditTopUpMaximum" class="form-label">Top-up credit maximum:</label>
-                        <input type="number" min="0" id="customerCreditTopUpMaximum"
+                        <input
+                            type="number"
+                            min="0"
+                            id="customerCreditTopUpMaximum"
                             wire:model.defer="customerCreditTopUpMaximum"
                             placeholder="{{ $customerStartingCredit > 0 ? $customerStartingCredit : config('shop.customer.starting_credit') }}"
                             class="form-control @error('customerCreditTopUpMaximum') is-invalid @enderror"
                             style="max-width: 10em;">
-                        @error('customerCreditTopUpMaximum') <div class="invalid-feedback">{{ $message }}</div>
+                        @error('customerCreditTopUpMaximum')
+                            <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
                     </div>
                 </div>
-
             </div>
+
         </x-card>
 
         <p>

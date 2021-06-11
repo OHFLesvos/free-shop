@@ -124,8 +124,11 @@ class SettingsPage extends BackendPage
                 'nullable',
                 function ($attribute, $value, $fail) {
                     if (filled($this->customerIdNumberPattern)) {
-                        if (!preg_match($this->customerIdNumberPattern, $value)) {
-                            $fail('The example is invalid.');
+                        $values = preg_split('/\s*,\s*/', $value);
+                        foreach ($values as $testValue) {
+                            if (!preg_match($this->customerIdNumberPattern, $testValue)) {
+                                $fail('The example is invalid.');
+                            }
                         }
                     }
                 }
