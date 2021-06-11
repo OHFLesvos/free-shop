@@ -8,6 +8,7 @@
     <form wire:submit.prevent="submit" class="mb-4" autocomplete="off">
 
         <x-card title="General settings">
+
             <div class="mb-3">
                 <label for="timezone" class="form-label">Default timezone:</label>
                 <select
@@ -100,10 +101,12 @@
                     </div>
                 @endif
             </div>
+
         </x-card>
 
         <x-card title="Shop">
             <div class="row">
+
                 <div class="col-sm">
                     <div class="form-check form-switch mb-3">
                         <input type="checkbox" class="form-check-input" id="shopDisabledInput" value="1"
@@ -119,6 +122,9 @@
                             </p>
                         @endif
                     </div>
+                </div>
+
+                <div class="col-sm">
                     <div class="form-check form-switch mb-3">
                         <input
                             type="checkbox"
@@ -131,7 +137,11 @@
                         </label>
                     </div>
                 </div>
-                <div class="col-sm">
+
+            </div>
+            <div class="row">
+
+                <div class="col-sm-6">
                     <div>
                         <label for="shopMaxOrdersPerDayInput" class="form-label">
                             Maximum orders per day:
@@ -146,10 +156,36 @@
                             aria-describedby="shopMaxOrdersPerDayHelp">
                         @error('shopMaxOrdersPerDay') <div class="invalid-feedback">{{ $message }}</div> @enderror
                         <small id="shopMaxOrdersPerDayHelp" class="form-text">
+                            Nubmber of total orders which can be placed per day.
                             Leave empty to disable the limit.
                         </small>
                     </div>
                 </div>
+
+
+                <div class="col-sm-6">
+                    <div class="mb-3">
+                        <label for="customerWaitingTimeBetweenOrdersInput" class="form-label">
+                            Waiting time between orders:
+                        </label>
+                        <input
+                            type="number"
+                            min="1"
+                            id="customerWaitingTimeBetweenOrdersInput"
+                            wire:model.defer="customerWaitingTimeBetweenOrders"
+                            class="form-control @error('customerWaitingTimeBetweenOrders') is-invalid @enderror"
+                            style="max-width: 10em;"
+                            aria-describedby="customerWaitingTimeBetweenOrdersHelp">
+                        @error('customerWaitingTimeBetweenOrders')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                        <small id="customerWaitingTimeBetweenOrdersHelp" class="form-text">
+                            Time in days a customer has to wait before a new order can be placed.
+                            Leave empty to disable the limit.
+                        </small>
+                    </div>
+                </div>
+
             </div>
         </x-card>
 
@@ -191,8 +227,9 @@
             </div>
         </x-card>
 
-        <x-card title="Customer" no-footer-padding>
+        <x-card title="Customer phone" no-footer-padding>
             <div class="row">
+
                 <div class="col-sm-6">
                     <div class="mb-3">
                         <label for="orderDefaultPhoneCountry" class="form-label">
@@ -219,22 +256,28 @@
                         @enderror
                     </div>
                 </div>
+
                 <div class="col-sm-6">
-                    <div class="mb-3">
-                        <label for="customerStartingCredit" class="form-label">Starting credit:</label>
+                    <div class="form-check form-switch mb-3">
                         <input
-                            type="number"
-                            min="0"
-                            id="customerStartingCredit"
-                            wire:model="customerStartingCredit"
-                            placeholder="{{ config('shop.customer.starting_credit') }}"
-                            class="form-control @error('customerStartingCredit') is-invalid @enderror"
-                            style="max-width: 10em;">
-                        @error('customerStartingCredit')
-                            <div class="invalid-feedback">{{ $message }}</div>
-                        @enderror
+                            type="checkbox"
+                            class="form-check-input"
+                            id="skipOrderRegisteredNotificationInput"
+                            value="1"
+                            wire:model.defer="skipOrderRegisteredNotification">
+                        <label class="form-check-label" for="skipOrderRegisteredNotificationInput">
+                            Don't send a notification to the customer when an order has been registered.
+                        </label>
                     </div>
                 </div>
+            </div>
+
+        </x-card>
+
+        <x-card title="Customer ID number" no-footer-padding>
+
+            <div class="row">
+
                 <div class="col-sm-6">
                     <div class="mb-3">
                         <label for="customerIdNumberPatternInput" class="form-label">
@@ -256,6 +299,7 @@
                         </small>
                     </div>
                 </div>
+
                 <div class="col-sm-6">
                     <div class="mb-3">
                         <label for="customerIdNumberExampleInput" class="form-label">ID number example(s):</label>
@@ -273,45 +317,32 @@
                     </div>
                 </div>
 
-                <div class="col-sm-6">
-                    <div class="mb-3">
-                        <label for="customerWaitingTimeBetweenOrdersInput" class="form-label">
-                            Waiting time between orders:
-                        </label>
-                        <input
-                            type="number"
-                            min="1"
-                            id="customerWaitingTimeBetweenOrdersInput"
-                            wire:model.defer="customerWaitingTimeBetweenOrders"
-                            class="form-control @error('customerWaitingTimeBetweenOrders') is-invalid @enderror"
-                            style="max-width: 10em;"
-                            aria-describedby="customerWaitingTimeBetweenOrdersHelp">
-                        @error('customerWaitingTimeBetweenOrders')
-                            <div class="invalid-feedback">{{ $message }}</div>
-                        @enderror
-                        <small id="customerWaitingTimeBetweenOrdersHelp" class="form-text">
-                            Time in days. Leave empty to disable the limit.
-                        </small>
-                    </div>
-                </div>
-
-                <div class="col-sm-6">
-                    <div class="form-check form-switch mb-3">
-                        <input
-                            type="checkbox"
-                            class="form-check-input"
-                            id="skipOrderRegisteredNotificationInput"
-                            value="1"
-                            wire:model.defer="skipOrderRegisteredNotification">
-                        <label class="form-check-label" for="skipOrderRegisteredNotificationInput">
-                            Don't send a notification to the customer when an order has been registered.
-                        </label>
-                    </div>
-                </div>
             </div>
 
+        </x-card>
+
+        <x-card title="Customer credit" no-footer-padding>
+
             <div class="row">
-                <div class="col-sm-4">
+
+                <div class="col-sm-6">
+                    <div class="mb-3">
+                        <label for="customerStartingCredit" class="form-label">Starting credit:</label>
+                        <input
+                            type="number"
+                            min="0"
+                            id="customerStartingCredit"
+                            wire:model="customerStartingCredit"
+                            placeholder="{{ config('shop.customer.starting_credit') }}"
+                            class="form-control @error('customerStartingCredit') is-invalid @enderror"
+                            style="max-width: 10em;">
+                        @error('customerStartingCredit')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
+                </div>
+
+                <div class="col-sm-6">
                     <div class="mb-3">
                         <label for="customerCreditTopUpDays" class="form-label">Top-up timeframe:</label>
                         <input
@@ -330,7 +361,8 @@
                         </small>
                     </div>
                 </div>
-                <div class="col-sm-4">
+
+                <div class="col-sm-6">
                     <div class="mb-3">
                         <label for="customerCreditTopUpAmount" class="form-label">Top-up credit amount:</label>
                         <input
@@ -346,7 +378,8 @@
                         @enderror
                     </div>
                 </div>
-                <div class="col-sm-4">
+
+                <div class="col-sm-6">
                     <div class="mb-3">
                         <label for="customerCreditTopUpMaximum" class="form-label">Top-up credit maximum:</label>
                         <input
