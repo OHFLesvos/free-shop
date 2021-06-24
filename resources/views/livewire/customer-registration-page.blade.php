@@ -94,8 +94,3 @@
         </x-card>
     </form>
 </div>
-
-@push('scripts')
-<script>
-</script>
-@endpush
