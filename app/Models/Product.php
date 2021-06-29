@@ -97,11 +97,11 @@ class Product extends Model
 
     public function scopeAvailable(Builder $qry): void
     {
-        $qry->where('is_available', DB::raw('true'));
+        $qry->where('is_available', true);
     }
 
     public function scopeDisabled(Builder $qry): void
     {
-        $qry->where('is_available', DB::raw('false'));
+        $qry->where('is_available', false);
     }
 }
