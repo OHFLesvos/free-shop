@@ -21,11 +21,20 @@ class OrderFactory extends Factory
      */
     public function definition()
     {
+        $status = $this->faker->randomElement([
+            'new',
+            'ready',
+            'completed',
+            'cancelled',
+        ]);
+        $created = $this->faker->dateTimeBetween('-1 month', 'now');
         return [
             'ip_address' => $this->faker->ipv4,
             'user_agent' => $this->faker->userAgent,
             'remarks' => $this->faker->optional(0.2)->text,
-            'created_at' => $this->faker->dateTimeBetween('-1 month', 'now'),
+            'created_at' => $created,
+            'status' => $status,
+            'completed_at' => $status == 'completed' ? $this->faker->dateTimeBetween($created, 'now') : null
         ];
     }
 }
