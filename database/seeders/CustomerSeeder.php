@@ -20,7 +20,7 @@ class CustomerSeeder extends Seeder
             ->create();
 
         Customer::factory()
-            ->count(250)
+            ->count(1000)
             ->create()
             ->each(function ($customer) use ($tags) {
                 $selectedTags = $tags
