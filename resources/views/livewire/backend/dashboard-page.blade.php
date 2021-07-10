@@ -1,7 +1,17 @@
 <div class="medium-container">
     @if(setting()->has('shop.disabled', false))
-        <x-alert type="warning">The shop is currently disabled.</x-alert>
+        <x-alert type="warning">
+            The shop is currently disabled.
+            <a href="{{ route('backend.configuration.settings') }}" class="float-end">Change</a>
+        </x-alert>
     @endif
+    @if(!filled(setting()->get('customer.credit_top_up.days')))
+        <x-alert type="info">
+            Automatic top-up is not enabled.
+            <a href="{{ route('backend.configuration.settings') }}" class="float-end">Change</a>
+        </x-alert>
+    @endif
+
     @if(Auth::user()->roles->isEmpty() && Auth::user()->permissions->isEmpty())
         <x-alert type="warning" class="mb-4">
             You don't seem to have any permissions yet.<br>
