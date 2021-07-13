@@ -110,14 +110,13 @@ return [
 
     'supported_languages' => [
         'en' => 'English',
-        // 'el' => 'Ελληνικά',
         'fr' => 'Français',
-        'ar' => 'العربية',
         'fa' => 'فارسی',
+        'ar' => 'العربية',
     ],
     'rtl_languages' => [
-        'ar',
         'fa',
+        'ar',
     ],
 
     /*
