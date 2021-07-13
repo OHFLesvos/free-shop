@@ -166,7 +166,11 @@ class Customer extends Model implements
             $amount = setting()->get('customer.credit_top_up.amount', $startingCredit);
             $maximum = setting()->get('customer.credit_top_up.maximum', $startingCredit);
             if ($this->credit < min($this->credit + $amount, $maximum)) {
-                return $this->topped_up_at ? $this->topped_up_at->clone()->addDays($days) : today();
+                $date = $this->topped_up_at ? $this->topped_up_at->clone()->addDays($days) : today();
+                if ($date->isBefore(today())) {
+                    return today();
+                }
+                return $date;
             }
         }
         return null;
