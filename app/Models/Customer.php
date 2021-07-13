@@ -158,7 +158,7 @@ class Customer extends Model implements
         return null;
     }
 
-    public function getNextTopupDateAttribute(): ?Carbon
+    public function getNextTopUpDateAttribute(): ?Carbon
     {
         $days = setting()->get('customer.credit_top_up.days');
         if ($days > 0) {

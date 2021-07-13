@@ -128,9 +128,9 @@
                     {{-- Credits --}}
                     <x-card :title="__('Credit')">
                         <span class="display-6">{{ __(':amount points', ['amount' => $customer->credit]) }}</span>
-                        @isset($customer->nextTopupDate)
+                        @isset($customer->nextTopUpDate)
                             <span class="card-text d-block mt-2">
-                                {!! __('Next top-up on <strong>:date</strong>.', ['date' => $customer->nextTopupDate->isoFormat('LL') ]) !!}
+                                {!! __('Next top-up on <strong>:date</strong>.', ['date' => $customer->nextTopUpDate->isoFormat('LL') ]) !!}
                             </span>
                         @endif
                     </x-card>
