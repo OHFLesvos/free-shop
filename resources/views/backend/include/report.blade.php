@@ -3,8 +3,8 @@
 </h2>
 <p>
     {{ number_format($customersRegistered) }} customers registered.<br>
-    {{ number_format($ordersRegistered) }} orders registered.<br>
-    {{ number_format($ordersCompleted) }} orders completed for {{ number_format($customersWithCompletedOrders) }} customers.<br>
+    {{ number_format($ordersRegistered) }} orders (~{{ number_format($averageOrdersRegisteredPerDay) }} per day) registered.<br>
+    {{ number_format($ordersCompleted) }} orders (~{{ number_format($averageOrdersCompletedPerDay) }} per day) completed  for {{ number_format($customersWithCompletedOrders) }} customers.<br>
     {{ number_format($totalProductsHandedOut) }} products handed out.<br>
     @if($totalProductsHandedOut > 0)
         {{ round($averageOrderDuration, 1) }} days needed on average to complete an order.
