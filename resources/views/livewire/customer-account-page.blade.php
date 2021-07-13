@@ -128,10 +128,17 @@
                     {{-- Credits --}}
                     <x-card :title="__('Credit')">
                         <span class="display-6">{{ __(':amount points', ['amount' => $customer->credit]) }}</span>
-                        @isset($customer->nextTopUpDate)
-                            <span class="card-text d-block mt-2">
-                                {!! __('Next top-up on <strong>:date</strong>.', ['date' => $customer->nextTopUpDate->isoFormat('LL') ]) !!}
-                            </span>
+                        @if(setting()->has('customer.credit_top_up.days'))
+                            @isset($customer->topped_up_at)
+                                <span class="card-text d-block mt-2">
+                                    {!! __('Last topped up on <strong>:date</strong>.', ['date' => $customer->topped_up_at->isoFormat('LL') ]) !!}
+                                </span>
+                            @endif
+                            @isset($customer->nextTopUpDate)
+                                <span class="card-text d-block mt-2">
+                                    {!! __('Next top-up on <strong>:date</strong>.', ['date' => $customer->nextTopUpDate->isoFormat('LL') ]) !!}
+                                </span>
+                            @endif
                         @endif
                     </x-card>
 
