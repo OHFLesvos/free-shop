@@ -14,7 +14,7 @@
             <tbody>
                 @forelse($products as $product)
                     <tr>
-                        <td class="align-middle">
+                        <td class="align-middle" title="{{ $product->description }}">
                             {{ $product->name }}
                             <br><small class="text-muted">{{ $product->category }}</small>
                         </td>
