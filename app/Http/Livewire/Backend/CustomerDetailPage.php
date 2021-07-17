@@ -20,7 +20,7 @@ class CustomerDetailPage extends BackendPage
 
     public Customer $customer;
 
-    public bool $addComment = false;
+    public bool $showAddComment = false;
 
     public string $newComment = '';
 
@@ -58,12 +58,14 @@ class CustomerDetailPage extends BackendPage
         $comment->user()->associate(Auth::user());
         $this->customer->comments()->save($comment);
 
-        $this->reset(['addComment', 'newComment']);
+        $this->reset(['showAddComment', 'newComment']);
     }
 
-    public function resetComment(): void
+    public function updatingShowAddComment(bool $value): void
     {
-        $this->reset(['addComment', 'newComment']);
+        if (!$value) {
+            $this->reset(['newComment']);
+        }
     }
 
     public function deleteComment(int $id): void

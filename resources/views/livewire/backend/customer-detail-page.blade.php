@@ -75,7 +75,7 @@
     <h3>Comments</h3>
     @if($comments->isNotEmpty())
         @foreach($comments as $comment)
-            <div class="card mb-3 shadow-sm">
+            <div class="card mb-3 shadow-sm" wire:key="comment-{{ $comment->id }}">
                 <div class="card-body">
                     {{ $comment->content }}
                     @can('delete', $comment)
@@ -99,27 +99,45 @@
         @endforeach
         <div class="overflow-auto">{{ $comments->onEachSide(2)->links() }}</div>
     @endif
-    <p>
-        @if($addComment)
-            <form wire:submit.prevent="saveComment" autocomplete="off">
-                <div x-data x-init="$refs.newComment.focus()" class="mb-3">
-                    <textarea
-                        class="form-control @error('newComment') is-invalid @enderror"
-                        id="newCommentInput"
-                        wire:model.defer="newComment"
-                        x-ref="newComment"
-                        rows="3"
-                        placeholder="Add your comment..."
-                        autocomplete="off"></textarea>
-                    @error('newComment') <div class="invalid-feedback">{{ $message }}</div> @enderror
-                </div>
-                <button class="btn btn-primary" type="submit">Save</button>
-                <button class="btn btn-link" wire:click="resetComment">Cancel</button>
-            </form>
-        @else
-            <button class="btn btn-secondary" wire:click="$set('addComment', true)">Add comment</button>
-        @endif
-    </p>
+    <div x-data="{ open: @entangle('showAddComment') }" class="mb-3">
+        <form
+            x-show="open"
+            wire:submit.prevent="saveComment"
+            autocomplete="off"
+        >
+            <div class="mb-3">
+                <textarea
+                    class="form-control @error('newComment') is-invalid @enderror"
+                    id="newCommentInput"
+                    wire:model.defer="newComment"
+                    x-ref="input"
+                    rows="3"
+                    placeholder="Add your comment..."
+                    autocomplete="off"></textarea>
+                @error('newComment') <div class="invalid-feedback">{{ $message }}</div> @enderror
+            </div>
+            <button
+                class="btn btn-primary"
+                type="submit"
+            >
+                Save
+            </button>
+            <button
+                type="button"
+                class="btn btn-link"
+                x-on:click="open = false"
+            >
+                Cancel
+            </button>
+        </form>
+        <button
+            class="btn btn-secondary"
+            x-show="!open"
+            x-on:click="open = true; $nextTick(() => $refs.input.focus());"
+        >
+            Add comment
+        </button>
+    </div>
 
     {{-- Orders --}}
     @if($customer->orders->isNotEmpty())
