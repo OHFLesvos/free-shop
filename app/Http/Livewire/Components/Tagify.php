@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Livewire;
+namespace App\Http\Livewire\Components;
 
 use Illuminate\View\View;
 use Livewire\Component;
@@ -28,7 +28,7 @@ class Tagify extends Component
 
     public function render(): View
     {
-        return view('livewire.tagify', [
+        return view('livewire.components.tagify', [
             'suggestions' => $this->suggestions,
         ]);
     }

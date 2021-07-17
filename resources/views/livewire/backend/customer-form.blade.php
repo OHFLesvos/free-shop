@@ -122,7 +122,7 @@
                         @error('customer.remarks') <div class="invalid-feedback">{{ $message }}</div> @enderror
                     </div>
                     <div class="col-md-12">
-                        @livewire('tagify', [
+                        @livewire('components.tagify', [
                             'suggestions' => App\Models\Tag::orderBy('name')
                                 ->has('customers')
                                 ->get()
