@@ -46,10 +46,10 @@ class CustomerDetailPage extends BackendPage
         $this->customer->comments()->save($comment);
     }
 
-    public function deleteComment(int $id): void
+    public function deleteComment(Comment $comment): void
     {
-        $this->authorize('delete', $this->customer);
+        $this->authorize('delete', $comment);
 
-        Comment::where('id', $id)->delete();
+        $comment->delete();
     }
 }
