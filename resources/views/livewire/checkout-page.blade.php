@@ -7,6 +7,12 @@
             {!! __('Your order has been submitted and your order number is <strong>#:id</strong>.', ['id' => $order->id]) !!}<br>
             {!! __('We will contact you via your phone <strong>:phone</strong> when the order is ready.', ['phone' => $order->customer->phone]) !!}
         </x-alert>
+        @if(isset($nextOrderIn))
+            <x-alert type="info">{{ __('You can place a new order in :time.', ['time' => $nextOrderIn->diffForHumans()]) }}</x-alert>
+        @endif
+        @isset($order->customer->nextTopUpDate)
+            <x-alert type="info">{!! __('Next top-up on <strong>:date</strong>.', ['date' => $order->customer->nextTopUpDate->isoFormat('LL') ]) !!}</x-alert>
+        @endif
         <p class="d-flex justify-content-between">
             <a href="{{ route('my-orders') }}" class="btn btn-primary">{{ __('View your orders') }}</a>
             <a href="{{ route('customer.logout') }}" class="btn btn-secondary">{{ __('Logout') }}</a>

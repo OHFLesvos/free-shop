@@ -122,10 +122,20 @@ class ReportsPage extends BackendPage
     private function getData(): array
     {
         $aggregator = new MetricsAggregator($this->dateStart, $this->dateEnd);
+
+        $dateStart = new Carbon($this->dateStart);
+        $dateEnd = new Carbon($this->dateEnd);
+        $daysInPeriod = $dateEnd->diffInDays($dateStart);
+
+        $ordersRegistered = $aggregator->ordersRegistered();
+        $ordersCompleted = $aggregator->ordersCompleted();
+
         return [
             'customersRegistered' => $aggregator->customersRegistered(),
-            'ordersRegistered' => $aggregator->ordersRegistered(),
-            'ordersCompleted' => $aggregator->ordersCompleted(),
+            'ordersRegistered' => $ordersRegistered,
+            'averageOrdersRegisteredPerDay' => $daysInPeriod > 0 ? $ordersRegistered / $daysInPeriod : $ordersRegistered,
+            'ordersCompleted' => $ordersCompleted,
+            'averageOrdersCompletedPerDay' => $daysInPeriod > 0 ? $ordersCompleted / $daysInPeriod : $ordersCompleted,
             'customersWithCompletedOrders' => $aggregator->customersWithCompletedOrders(),
             'totalProductsHandedOut' => $aggregator->totalProductsHandedOut(),
             'productsHandedOut' => $aggregator->productsHandedOut($this->sortBy == 'quantity', $this->sortDirection == 'desc'),

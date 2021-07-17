@@ -158,11 +158,20 @@ class Customer extends Model implements
         return null;
     }
 
-    public function getNextTopupDateAttribute(): ?Carbon
+    public function getNextTopUpDateAttribute(): ?Carbon
     {
         $days = setting()->get('customer.credit_top_up.days');
         if ($days > 0) {
-            return $this->topped_up_at ? $this->topped_up_at->clone()->addDays($days) : today();
+            $startingCredit = setting()->get('customer.starting_credit', config('shop.customer.starting_credit'));
+            $amount = setting()->get('customer.credit_top_up.amount', $startingCredit);
+            $maximum = setting()->get('customer.credit_top_up.maximum', $startingCredit);
+            if ($this->credit < min($this->credit + $amount, $maximum)) {
+                $date = $this->topped_up_at ? $this->topped_up_at->clone()->addDays($days) : today();
+                if ($date->isBefore(today())) {
+                    return today();
+                }
+                return $date;
+            }
         }
         return null;
     }
