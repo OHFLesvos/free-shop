@@ -2,7 +2,6 @@
 
 namespace App\Http\Livewire\Backend;
 
-use App\Http\Livewire\Traits\TrimEmptyStrings;
 use App\Models\Comment;
 use App\Models\Customer;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
@@ -14,15 +13,12 @@ class CustomerDetailPage extends BackendPage
 {
     use WithPagination;
     use AuthorizesRequests;
-    use TrimEmptyStrings;
 
     protected string $paginationTheme = 'bootstrap';
 
     public Customer $customer;
 
-    public bool $showAddComment = false;
-
-    public string $newComment = '';
+    protected $listeners = ['commentAdded'];
 
     protected function title(): string
     {
@@ -43,29 +39,11 @@ class CustomerDetailPage extends BackendPage
         ]);
     }
 
-    public function saveComment(): void
+    public function commentAdded(array $data): void
     {
-        $this->validate([
-            'newComment' => [
-                'required',
-                'string',
-            ]
-        ]);
-
-        $comment = new Comment([
-            'content' => $this->newComment,
-        ]);
+        $comment = new Comment($data);
         $comment->user()->associate(Auth::user());
         $this->customer->comments()->save($comment);
-
-        $this->reset(['showAddComment', 'newComment']);
-    }
-
-    public function updatingShowAddComment(bool $value): void
-    {
-        if (!$value) {
-            $this->reset(['newComment']);
-        }
     }
 
     public function deleteComment(int $id): void
