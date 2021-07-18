@@ -87,6 +87,11 @@ class Product extends Model
         return $this->stock - $this->reserved_quantity;
     }
 
+    public function setFreeQuantityAttribute(int $value): void
+    {
+        $this->stock = $value + $this->reserved_quantity;
+    }
+
     public function getQuantityAvailableForCustomerAttribute(): int
     {
         if ($this->limit_per_order !== null) {
