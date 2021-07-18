@@ -1,6 +1,9 @@
 <div class="small-container">
     <form wire:submit.prevent="submit" autocomplete="off">
         <x-card title="Edit stock of '{{ $product->name }}'">
+            @isset($product->description)
+                <p>{{ $product->description }}</p>
+            @endisset
             <div class="row">
                 <div class="col-sm mb-3 mb-sm-0">
                     <label for="stockInput" class="form-label">Stock</label>
