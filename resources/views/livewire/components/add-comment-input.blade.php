@@ -1,6 +1,7 @@
 <div x-data="{ open: @entangle('showAddComment') }" class="mb-3">
     <form
         x-show="open"
+        x-cloak
         wire:submit.prevent="saveComment"
         autocomplete="off"
     >
