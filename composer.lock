@@ -1472,16 +1472,16 @@
         },
         {
             "name": "giggsey/libphonenumber-for-php",
-            "version": "8.12.27",
+            "version": "8.12.28",
             "source": {
                 "type": "git",
                 "url": "https://github.com/giggsey/libphonenumber-for-php.git",
-                "reference": "f4d3aab2d2f7e0f82381303019be77fd22c49efe"
+                "reference": "f503d56d269e9b8572440820ef029e296dadaa1e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/giggsey/libphonenumber-for-php/zipball/f4d3aab2d2f7e0f82381303019be77fd22c49efe",
-                "reference": "f4d3aab2d2f7e0f82381303019be77fd22c49efe",
+                "url": "https://api.github.com/repos/giggsey/libphonenumber-for-php/zipball/f503d56d269e9b8572440820ef029e296dadaa1e",
+                "reference": "f503d56d269e9b8572440820ef029e296dadaa1e",
                 "shasum": ""
             },
             "require": {
@@ -1541,7 +1541,7 @@
                 "issues": "https://github.com/giggsey/libphonenumber-for-php/issues",
                 "source": "https://github.com/giggsey/libphonenumber-for-php"
             },
-            "time": "2021-07-07T10:05:03+00:00"
+            "time": "2021-07-20T13:33:24+00:00"
         },
         {
             "name": "giggsey/locale",
@@ -1881,29 +1881,32 @@
         },
         {
             "name": "guzzlehttp/psr7",
-            "version": "1.8.2",
+            "version": "2.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/guzzle/psr7.git",
-                "reference": "dc960a912984efb74d0a90222870c72c87f10c91"
+                "reference": "1dc8d9cba3897165e16d12bb13d813afb1eb3fe7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/guzzle/psr7/zipball/dc960a912984efb74d0a90222870c72c87f10c91",
-                "reference": "dc960a912984efb74d0a90222870c72c87f10c91",
+                "url": "https://api.github.com/repos/guzzle/psr7/zipball/1dc8d9cba3897165e16d12bb13d813afb1eb3fe7",
+                "reference": "1dc8d9cba3897165e16d12bb13d813afb1eb3fe7",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.4.0",
-                "psr/http-message": "~1.0",
-                "ralouphie/getallheaders": "^2.0.5 || ^3.0.0"
+                "php": "^7.2.5 || ^8.0",
+                "psr/http-factory": "^1.0",
+                "psr/http-message": "^1.0",
+                "ralouphie/getallheaders": "^3.0"
             },
             "provide": {
+                "psr/http-factory-implementation": "1.0",
                 "psr/http-message-implementation": "1.0"
             },
             "require-dev": {
-                "ext-zlib": "*",
-                "phpunit/phpunit": "~4.8.36 || ^5.7.27 || ^6.5.14 || ^7.5.20 || ^8.5.8 || ^9.3.10"
+                "bamarni/composer-bin-plugin": "^1.4.1",
+                "http-interop/http-factory-tests": "^0.9",
+                "phpunit/phpunit": "^8.5.8 || ^9.3.10"
             },
             "suggest": {
                 "laminas/laminas-httphandlerrunner": "Emit PSR-7 responses"
@@ -1911,16 +1914,13 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.7-dev"
+                    "dev-master": "2.0-dev"
                 }
             },
             "autoload": {
                 "psr-4": {
                     "GuzzleHttp\\Psr7\\": "src/"
-                },
-                "files": [
-                    "src/functions_include.php"
-                ]
+                }
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
@@ -1935,6 +1935,11 @@
                 {
                     "name": "Tobias Schultze",
                     "homepage": "https://github.com/Tobion"
+                },
+                {
+                    "name": "Márk Sági-Kazár",
+                    "email": "mark.sagikazar@gmail.com",
+                    "homepage": "https://sagikazarmark.hu"
                 }
             ],
             "description": "PSR-7 message implementation that also provides common utility methods",
@@ -1950,34 +1955,34 @@
             ],
             "support": {
                 "issues": "https://github.com/guzzle/psr7/issues",
-                "source": "https://github.com/guzzle/psr7/tree/1.8.2"
+                "source": "https://github.com/guzzle/psr7/tree/2.0.0"
             },
-            "time": "2021-04-26T09:17:50+00:00"
+            "time": "2021-06-30T20:03:07+00:00"
         },
         {
             "name": "http-interop/http-factory-guzzle",
-            "version": "1.0.0",
+            "version": "1.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/http-interop/http-factory-guzzle.git",
-                "reference": "34861658efb9899a6618cef03de46e2a52c80fc0"
+                "reference": "f69b581de4a224b534484c5b777a73cad3412074"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/http-interop/http-factory-guzzle/zipball/34861658efb9899a6618cef03de46e2a52c80fc0",
-                "reference": "34861658efb9899a6618cef03de46e2a52c80fc0",
+                "url": "https://api.github.com/repos/http-interop/http-factory-guzzle/zipball/f69b581de4a224b534484c5b777a73cad3412074",
+                "reference": "f69b581de4a224b534484c5b777a73cad3412074",
                 "shasum": ""
             },
             "require": {
-                "guzzlehttp/psr7": "^1.4.2",
+                "guzzlehttp/psr7": "^1.4.2||^2.0",
                 "psr/http-factory": "^1.0"
             },
             "provide": {
                 "psr/http-factory-implementation": "^1.0"
             },
             "require-dev": {
-                "http-interop/http-factory-tests": "^0.5",
-                "phpunit/phpunit": "^6.5"
+                "http-interop/http-factory-tests": "^0.9",
+                "phpunit/phpunit": "^8.5"
             },
             "type": "library",
             "autoload": {
@@ -2004,9 +2009,9 @@
             ],
             "support": {
                 "issues": "https://github.com/http-interop/http-factory-guzzle/issues",
-                "source": "https://github.com/http-interop/http-factory-guzzle/tree/master"
+                "source": "https://github.com/http-interop/http-factory-guzzle/tree/1.1.0"
             },
-            "time": "2018-07-31T19:32:56+00:00"
+            "time": "2021-07-19T15:00:13+00:00"
         },
         {
             "name": "inpsyde/logzio-monolog",
@@ -2195,16 +2200,16 @@
         },
         {
             "name": "laravel/framework",
-            "version": "v8.50.0",
+            "version": "v8.51.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "d892dbacbe3859cf9303ccda98ac8d782141d5ae"
+                "reference": "208d9c0043b4c192a9bb9b15782cc4ec37f28bb0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/d892dbacbe3859cf9303ccda98ac8d782141d5ae",
-                "reference": "d892dbacbe3859cf9303ccda98ac8d782141d5ae",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/208d9c0043b4c192a9bb9b15782cc4ec37f28bb0",
+                "reference": "208d9c0043b4c192a9bb9b15782cc4ec37f28bb0",
                 "shasum": ""
             },
             "require": {
@@ -2359,7 +2364,7 @@
                 "issues": "https://github.com/laravel/framework/issues",
                 "source": "https://github.com/laravel/framework"
             },
-            "time": "2021-07-13T12:41:53+00:00"
+            "time": "2021-07-20T14:38:36+00:00"
         },
         {
             "name": "laravel/socialite",
@@ -5505,23 +5510,23 @@
         },
         {
             "name": "sentry/sentry",
-            "version": "3.3.1",
+            "version": "3.3.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/getsentry/sentry-php.git",
-                "reference": "fafef24c1bc242e614a1afd9533d5dcb7e9c42fe"
+                "reference": "3d733139a3ba2d1d3a8011580e3acf0ba1d0dc9b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/getsentry/sentry-php/zipball/fafef24c1bc242e614a1afd9533d5dcb7e9c42fe",
-                "reference": "fafef24c1bc242e614a1afd9533d5dcb7e9c42fe",
+                "url": "https://api.github.com/repos/getsentry/sentry-php/zipball/3d733139a3ba2d1d3a8011580e3acf0ba1d0dc9b",
+                "reference": "3d733139a3ba2d1d3a8011580e3acf0ba1d0dc9b",
                 "shasum": ""
             },
             "require": {
                 "ext-json": "*",
                 "ext-mbstring": "*",
                 "guzzlehttp/promises": "^1.4",
-                "guzzlehttp/psr7": "^1.7",
+                "guzzlehttp/psr7": "^1.7|^2.0",
                 "jean85/pretty-package-versions": "^1.5|^2.0.1",
                 "php": "^7.2|^8.0",
                 "php-http/async-client-implementation": "^1.0",
@@ -5531,7 +5536,7 @@
                 "php-http/message": "^1.5",
                 "psr/http-factory": "^1.0",
                 "psr/http-message-implementation": "^1.0",
-                "psr/log": "^1.0",
+                "psr/log": "^1.0|^2.0|^3.0",
                 "symfony/options-resolver": "^3.4.43|^4.4.11|^5.0.11",
                 "symfony/polyfill-php80": "^1.17",
                 "symfony/polyfill-uuid": "^1.13.1"
@@ -5593,7 +5598,7 @@
             ],
             "support": {
                 "issues": "https://github.com/getsentry/sentry-php/issues",
-                "source": "https://github.com/getsentry/sentry-php/tree/3.3.1"
+                "source": "https://github.com/getsentry/sentry-php/tree/3.3.2"
             },
             "funding": [
                 {
@@ -5605,7 +5610,7 @@
                     "type": "custom"
                 }
             ],
-            "time": "2021-06-19T11:37:25+00:00"
+            "time": "2021-07-19T08:09:34+00:00"
         },
         {
             "name": "sentry/sentry-laravel",
@@ -9779,16 +9784,16 @@
         },
         {
             "name": "facade/ignition",
-            "version": "2.11.0",
+            "version": "2.11.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/facade/ignition.git",
-                "reference": "dc6818335f50ccf0b90284784718ea9a82604286"
+                "reference": "7c4e7a7da184cd00c7ce6eacc590200bb9672de7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/facade/ignition/zipball/dc6818335f50ccf0b90284784718ea9a82604286",
-                "reference": "dc6818335f50ccf0b90284784718ea9a82604286",
+                "url": "https://api.github.com/repos/facade/ignition/zipball/7c4e7a7da184cd00c7ce6eacc590200bb9672de7",
+                "reference": "7c4e7a7da184cd00c7ce6eacc590200bb9672de7",
                 "shasum": ""
             },
             "require": {
@@ -9851,7 +9856,7 @@
                 "issues": "https://github.com/facade/ignition/issues",
                 "source": "https://github.com/facade/ignition"
             },
-            "time": "2021-07-12T15:55:51+00:00"
+            "time": "2021-07-20T14:01:22+00:00"
         },
         {
             "name": "facade/ignition-contracts",
@@ -10451,16 +10456,16 @@
         },
         {
             "name": "pdepend/pdepend",
-            "version": "2.9.1",
+            "version": "2.10.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/pdepend/pdepend.git",
-                "reference": "1632f0cee84512ffd6dde71e58536b3b06528c41"
+                "reference": "1fd30f4352b630ad53fec3fd5e8b8ba760f85596"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/pdepend/pdepend/zipball/1632f0cee84512ffd6dde71e58536b3b06528c41",
-                "reference": "1632f0cee84512ffd6dde71e58536b3b06528c41",
+                "url": "https://api.github.com/repos/pdepend/pdepend/zipball/1fd30f4352b630ad53fec3fd5e8b8ba760f85596",
+                "reference": "1fd30f4352b630ad53fec3fd5e8b8ba760f85596",
                 "shasum": ""
             },
             "require": {
@@ -10496,7 +10501,7 @@
             "description": "Official version of pdepend to be handled with Composer",
             "support": {
                 "issues": "https://github.com/pdepend/pdepend/issues",
-                "source": "https://github.com/pdepend/pdepend/tree/2.9.1"
+                "source": "https://github.com/pdepend/pdepend/tree/2.10.0"
             },
             "funding": [
                 {
@@ -10504,20 +10509,20 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-04-15T21:36:28+00:00"
+            "time": "2021-07-20T09:56:09+00:00"
         },
         {
             "name": "phar-io/manifest",
-            "version": "2.0.1",
+            "version": "2.0.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phar-io/manifest.git",
-                "reference": "85265efd3af7ba3ca4b2a2c34dbfc5788dd29133"
+                "reference": "97803eca37d319dfa7826cc2437fc020857acb53"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phar-io/manifest/zipball/85265efd3af7ba3ca4b2a2c34dbfc5788dd29133",
-                "reference": "85265efd3af7ba3ca4b2a2c34dbfc5788dd29133",
+                "url": "https://api.github.com/repos/phar-io/manifest/zipball/97803eca37d319dfa7826cc2437fc020857acb53",
+                "reference": "97803eca37d319dfa7826cc2437fc020857acb53",
                 "shasum": ""
             },
             "require": {
@@ -10562,9 +10567,9 @@
             "description": "Component for reading phar.io manifest information from a PHP Archive (PHAR)",
             "support": {
                 "issues": "https://github.com/phar-io/manifest/issues",
-                "source": "https://github.com/phar-io/manifest/tree/master"
+                "source": "https://github.com/phar-io/manifest/tree/2.0.3"
             },
-            "time": "2020-06-27T14:33:11+00:00"
+            "time": "2021-07-20T11:28:43+00:00"
         },
         {
             "name": "phar-io/version",
@@ -11245,16 +11250,16 @@
         },
         {
             "name": "phpunit/phpunit",
-            "version": "9.5.6",
+            "version": "9.5.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "fb9b8333f14e3dce976a60ef6a7e05c7c7ed8bfb"
+                "reference": "d0dc8b6999c937616df4fb046792004b33fd31c5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/fb9b8333f14e3dce976a60ef6a7e05c7c7ed8bfb",
-                "reference": "fb9b8333f14e3dce976a60ef6a7e05c7c7ed8bfb",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/d0dc8b6999c937616df4fb046792004b33fd31c5",
+                "reference": "d0dc8b6999c937616df4fb046792004b33fd31c5",
                 "shasum": ""
             },
             "require": {
@@ -11332,7 +11337,7 @@
             ],
             "support": {
                 "issues": "https://github.com/sebastianbergmann/phpunit/issues",
-                "source": "https://github.com/sebastianbergmann/phpunit/tree/9.5.6"
+                "source": "https://github.com/sebastianbergmann/phpunit/tree/9.5.7"
             },
             "funding": [
                 {
@@ -11344,7 +11349,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2021-06-23T05:14:38+00:00"
+            "time": "2021-07-19T06:14:47+00:00"
         },
         {
             "name": "react/promise",
