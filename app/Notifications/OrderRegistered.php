@@ -42,7 +42,7 @@ class OrderRegistered extends Notification
                 $channels[] = 'mail';
             }
         }
-        return [];
+        return $channels;
     }
 
     public function toTwilio(Customer $notifiable): TwilioSmsMessage
@@ -67,13 +67,15 @@ class OrderRegistered extends Notification
     {
         return (new MailMessage)
             ->subject(__('Your order has been registered'))
-            ->markdown('mail.customer.order_registered', [
+            ->markdown('mail.customer.order_status changed', [
+                'title' => __('Your order has been registered'),
                 'message' => __($this->textRepo->getPlain('message-order-registered'), [
                     'customer_name' => $notifiable->name,
                     'customer_id' => $notifiable->id_number,
                     'id' => $this->order->id,
                 ]),
                 'url' => route('my-orders'),
+                'products' => $this->order->products->sortBy('name'),
             ]);
     }
 }

@@ -44,7 +44,7 @@ class OrderReadied extends Notification
                 $channels[] = 'mail';
             }
         }
-        return [];
+        return $channels;
     }
 
     public function toTwilio(Customer $notifiable): TwilioSmsMessage
@@ -69,13 +69,15 @@ class OrderReadied extends Notification
     {
         return (new MailMessage)
             ->subject(__('Your order is ready'))
-            ->markdown('mail.customer.order_readied', [
+            ->markdown('mail.customer.order_status changed', [
+                'title' => __('Your order is ready'),
                 'message' => __($this->overrideMessage ?? $this->textRepo->getPlain('message-order-ready'), [
                     'customer_name' => $notifiable->name,
                     'customer_id' => $notifiable->id_number,
                     'id' => $this->order->id,
                 ]),
                 'url' => route('my-orders'),
+                'products' => $this->order->products->sortBy('name'),
             ]);
     }
 }

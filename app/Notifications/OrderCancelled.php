@@ -6,6 +6,7 @@ use App\Models\Customer;
 use App\Models\Order;
 use App\Notifications\Traits\CheckBlockedPhoneNumber;
 use App\Repository\TextBlockRepository;
+use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 use NotificationChannels\Twilio\TwilioChannel;
 use NotificationChannels\Twilio\TwilioSmsMessage;
@@ -33,11 +34,17 @@ class OrderCancelled extends Notification
      */
     public function via($notifiable)
     {
+        $channels = [];
         if ($notifiable instanceof Customer) {
-            $this->checkBlockedPhoneNumber($notifiable->phone);
-            return [TwilioChannel::class];
+            if ($notifiable->phone !== null) {
+                $this->checkBlockedPhoneNumber($notifiable->phone);
+                $channels[] = TwilioChannel::class;
+            }
+            if ($notifiable->email !== null) {
+                $channels[] = 'mail';
+            }
         }
-        return [];
+        return $channels;
     }
 
     public function toTwilio(Customer $notifiable): TwilioSmsMessage
@@ -56,5 +63,21 @@ class OrderCancelled extends Notification
         $message .= "\n";
         $message .= route('my-orders');
         return $message;
+    }
+
+    public function toMail($notifiable): MailMessage
+    {
+        return (new MailMessage)
+            ->subject(__('Your order has been cancelled'))
+            ->markdown('mail.customer.order_status changed', [
+                'title' => __('Your order has been cancelled'),
+                'message' => __($this->overrideMessage ?? $this->textRepo->getPlain('message-order-cancelled'), [
+                    'customer_name' => $notifiable->name,
+                    'customer_id' => $notifiable->id_number,
+                    'id' => $this->order->id,
+                ]),
+                'url' => route('my-orders'),
+                'products' => $this->order->products->sortBy('name'),
+            ]);
     }
 }
