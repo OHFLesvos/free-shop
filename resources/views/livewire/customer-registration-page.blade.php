@@ -43,7 +43,9 @@
                 </small>
             </div>
 
-            <div>
+            <p class="mt-3">{{ __('We need your phone number or your email address so we can contact you:') }}</p>
+
+            <div class="mt-3">
                 <label for="phoneInput" class="form-label">{{ __('Mobile phone number') }}</label>
                 <div class="input-group" dir="ltr">
                     @php
@@ -66,13 +68,26 @@
                         class="form-control @error('phone') is-invalid @enderror"
                         id="phoneInput"
                         wire:model.defer="phone"
-                        required
                         autocomplete="off"
                         aria-describedby="phoneHelp">
                     @error('phone') <div class="invalid-feedback">{{ $message }}</div> @enderror
                 </div>
                 <small id="phoneHelp" class="form-text text-muted">
                     {{ __('We will send updates about your order to this number.') }}
+                </small>
+            </div>
+
+            <div class="mt-3">
+                <label for="emailInput" class="form-label">{{ __('E-mail address') }}</label>
+                <input
+                    type="email"
+                    class="form-control @error('email') is-invalid @enderror"
+                    id="emailInput"
+                    autocomplete="off"
+                    wire:model.defer="email">
+                @error('email') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                <small id="phoneHelp" class="form-text text-muted">
+                    {{ __('We will send updates about your order to this e-mail address.') }}
                 </small>
             </div>
 

@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Backend;
 
+use App\Http\Livewire\Traits\TrimAndNullEmptyStrings;
 use App\Models\Customer;
 use App\Models\Tag;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
@@ -13,10 +14,11 @@ use Propaganistas\LaravelPhone\PhoneNumber;
 class CustomerManagePage extends BackendPage
 {
     use AuthorizesRequests;
+    use TrimAndNullEmptyStrings;
 
     public Customer $customer;
 
-    public string $phone;
+    public ?string $phone;
 
     public string $phoneCountry;
 
@@ -43,10 +45,14 @@ class CustomerManagePage extends BackendPage
                 'unique:customers,id_number,' . $this->customer->id,
             ],
             'phone' => [
-                'required',
+                'required_without:customer.email',
                 'phone:phoneCountry,mobile',
             ],
             'phoneCountry' => 'required_with:phone',
+            'customer.email' => [
+                'required_without:phone',
+                'email',
+            ],
             'tags' => [
                 'array',
             ],
@@ -74,7 +80,7 @@ class CustomerManagePage extends BackendPage
             $this->authorize('create', Customer::class);
         }
 
-        if (! isset($this->customer)) {
+        if (!isset($this->customer)) {
             $this->customer = new Customer();
             $this->customer->credit = setting()->get('customer.starting_credit', config('shop.customer.starting_credit'));
             $this->customer->is_disabled = false;
@@ -116,8 +122,9 @@ class CustomerManagePage extends BackendPage
 
         $this->validate();
 
-        $this->customer->phone = PhoneNumber::make($this->phone, $this->phoneCountry)
-            ->formatE164();
+        $this->customer->phone = filled($this->phone)
+            ? PhoneNumber::make($this->phone, $this->phoneCountry)->formatE164()
+            : null;
 
         if (!$this->customer->is_disabled) {
             $this->customer->disabled_reason = null;

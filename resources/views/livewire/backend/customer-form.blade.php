@@ -76,11 +76,20 @@
                                 type="tel"
                                 class="form-control @error('phone') is-invalid @enderror"
                                 id="phoneInput"
-                                required
                                 autocomplete="off"
                                 wire:model.defer="phone">
                             @error('phone') <div class="invalid-feedback">{{ $message }}</div> @enderror
                         </div>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="emailInput" class="form-label">E-mail address</label>
+                        <input
+                            type="email"
+                            class="form-control @error('customer.email') is-invalid @enderror"
+                            id="emailInput"
+                            autocomplete="off"
+                            wire:model.defer="customer.email">
+                        @error('customer.email') <div class="invalid-feedback">{{ $message }}</div> @enderror
                     </div>
                     <div class="col-md-6">
                         <label for="creditInput" class="form-label">Credit</label>

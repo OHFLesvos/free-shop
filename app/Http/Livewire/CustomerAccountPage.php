@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire;
 
+use App\Http\Livewire\Traits\TrimAndNullEmptyStrings;
 use App\Models\Customer;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
@@ -11,11 +12,14 @@ use Propaganistas\LaravelPhone\PhoneNumber;
 
 class CustomerAccountPage extends FrontendPage
 {
+    use TrimAndNullEmptyStrings;
+
     public Customer $customer;
     public string $name = '';
     public string $idNumber = '';
-    public string $phone = '';
+    public ?string $phone = null;
     public string $phoneCountry;
+    public ?string $email = null;
 
     public bool $shouldDelete = false;
 
@@ -30,10 +34,16 @@ class CustomerAccountPage extends FrontendPage
                 'unique:customers,id_number,' . $this->customer->id,
             ],
             'phone' => [
-                'required',
+                'nullable',
+                'required_without:email',
                 'phone:phoneCountry,mobile',
             ],
             'phoneCountry' => 'required_with:phone',
+            'email' => [
+                'nullable',
+                'required_without:phone',
+                'email',
+            ],
         ];
     }
 
@@ -56,6 +66,7 @@ class CustomerAccountPage extends FrontendPage
             $this->phoneCountry = '';
             $this->phone = $this->customer->phone;
         }
+        $this->email = $this->customer->email;
     }
 
     public function render(): View
@@ -67,10 +78,12 @@ class CustomerAccountPage extends FrontendPage
     {
         $this->validate();
 
-        $this->customer->name = trim($this->name);
-        $this->customer->id_number = trim($this->idNumber);
-        $this->customer->phone = PhoneNumber::make($this->phone, $this->phoneCountry)
-            ->formatE164();
+        $this->customer->name = $this->name;
+        $this->customer->id_number = $this->idNumber;
+        $this->customer->phone = isset($this->phone)
+            ? PhoneNumber::make($this->phone, $this->phoneCountry)->formatE164()
+            : null;
+        $this->customer->email = $this->email;
         $this->customer->save();
 
         Log::info('Customer updated profile.', [
@@ -79,6 +92,7 @@ class CustomerAccountPage extends FrontendPage
             'customer.name' => $this->customer->name,
             'customer.id_number' => $this->customer->idNumber,
             'customer.phone' => $this->customer->phone,
+            'customer.email' => $this->customer->email,
         ]);
 
         session()->flash('submitMessage', __('Customer profile saved.'));

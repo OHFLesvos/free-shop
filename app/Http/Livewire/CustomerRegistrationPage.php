@@ -20,6 +20,8 @@ class CustomerRegistrationPage extends FrontendPage
 
     public string $phoneCountry = '';
 
+    public string $email = '';
+
     /**
      * @var array
      */
@@ -38,10 +40,14 @@ class CustomerRegistrationPage extends FrontendPage
             ],
             'name' => 'required',
             'phone' => [
-                'required',
+                'required_without:email',
                 'phone:phoneCountry,mobile',
             ],
             'phoneCountry' => 'required_with:phone',
+            'email' => [
+                'required_without:phone',
+                'email',
+            ],
         ];
     }
 
@@ -67,7 +73,8 @@ class CustomerRegistrationPage extends FrontendPage
         $customer = Customer::create([
             'name' => $this->name,
             'id_number' => $this->idNumber,
-            'phone' => PhoneNumber::make($this->phone, $this->phoneCountry)->formatE164(),
+            'phone' => filled($this->phone) ? PhoneNumber::make($this->phone, $this->phoneCountry)->formatE164() : null,
+            'email' => filled($this->email) ? $this->email : null,
             'locale' => app()->getLocale(),
             'credit' => setting()->get('customer.starting_credit', config('shop.customer.starting_credit')),
         ]);

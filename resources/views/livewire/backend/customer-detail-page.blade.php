@@ -13,38 +13,44 @@
                     @endisset
                 </dd>
             @endisset
-            <dt class="col-sm-3">Phone</dt>
-            <dd class="col-sm-9">
-                <x-phone-info :value="$customer->phone"/>
-                <div class="d-grid gap-2 d-md-block mt-1">
-                    <x-phone-number-link
-                        :value="$customer->phone"
-                        class="btn btn-outline-primary btn-sm">
-                        <x-icon icon="phone"/> Call
-                    </x-phone-number-link>
-                    <x-phone-number-link
-                        :value="$customer->phone"
-                        :body="'Hello '.$customer->name. '. '"
-                        type="sms"
-                        class="btn btn-outline-primary btn-sm">
-                        <x-icon icon="sms"/> SMS
-                    </x-phone-number-link>
-                    <x-phone-number-link
-                        :value="$customer->phone"
-                        :body="'Hello '.$customer->name.'. '"
-                        type="whatsapp"
-                        class="btn btn-outline-primary btn-sm">
-                        <x-icon icon="whatsapp" type="brands"/> WhatsApp
-                    </x-phone-number-link>
-                    <x-phone-number-link
-                        :value="$customer->phone"
-                        :body="'Hello '.$customer->name.'. '"
-                        type="viber"
-                        class="btn btn-outline-primary btn-sm">
-                        <x-icon icon="viber" type="brands"/> Viber
-                    </x-phone-number-link>
-                </div>
-            </dd>
+            @isset($customer->phone)
+                <dt class="col-sm-3">Phone</dt>
+                <dd class="col-sm-9">
+                    <x-phone-info :value="$customer->phone"/>
+                    <div class="d-grid gap-2 d-md-block mt-1">
+                        <x-phone-number-link
+                            :value="$customer->phone"
+                            class="btn btn-outline-primary btn-sm">
+                            <x-icon icon="phone"/> Call
+                        </x-phone-number-link>
+                        <x-phone-number-link
+                            :value="$customer->phone"
+                            :body="'Hello '.$customer->name. '. '"
+                            type="sms"
+                            class="btn btn-outline-primary btn-sm">
+                            <x-icon icon="sms"/> SMS
+                        </x-phone-number-link>
+                        <x-phone-number-link
+                            :value="$customer->phone"
+                            :body="'Hello '.$customer->name.'. '"
+                            type="whatsapp"
+                            class="btn btn-outline-primary btn-sm">
+                            <x-icon icon="whatsapp" type="brands"/> WhatsApp
+                        </x-phone-number-link>
+                        <x-phone-number-link
+                            :value="$customer->phone"
+                            :body="'Hello '.$customer->name.'. '"
+                            type="viber"
+                            class="btn btn-outline-primary btn-sm">
+                            <x-icon icon="viber" type="brands"/> Viber
+                        </x-phone-number-link>
+                    </div>
+                </dd>
+            @endisset
+            @isset($customer->email)
+                <dt class="col-sm-3">E-Mail address</dt>
+                <dd class="col-sm-9"><a href="mailto:{{ $customer->email }}">{{ $customer->email }}</a></dd>
+            @endisset
             <dt class="col-sm-3">Credit</dt>
             <dd class="col-sm-9">{{ $customer->credit }}</dd>
             @isset($customer->remarks)

@@ -48,6 +48,7 @@ class Customer extends Model implements
         'locale',
         'remarks',
         'credit',
+        'email',
     ];
 
     /**
@@ -60,6 +61,7 @@ class Customer extends Model implements
         'locale',
         'remarks',
         'disabled_reason',
+        'email',
     ];
 
     protected $casts = [
