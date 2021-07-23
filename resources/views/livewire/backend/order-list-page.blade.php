@@ -139,8 +139,7 @@
                             @can('view', $order) class="cursor-pointer" @endcan>
                             @isset($order->customer)
                                 <strong>Name:</strong> {{ $order->customer->name }}<br>
-                                <strong>ID Number:</strong> {{ $order->customer->id_number }}<br>
-                                <strong>Phone:</strong> {{ $order->customer->phone }}
+                                <strong>ID Number:</strong> {{ $order->customer->id_number }}
                             @else
                                 <em>Deleted</em>
                             @endisset

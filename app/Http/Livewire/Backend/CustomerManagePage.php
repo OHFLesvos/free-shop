@@ -18,7 +18,7 @@ class CustomerManagePage extends BackendPage
 
     public Customer $customer;
 
-    public ?string $phone;
+    public ?string $phone = null;
 
     public string $phoneCountry;
 
@@ -45,11 +45,13 @@ class CustomerManagePage extends BackendPage
                 'unique:customers,id_number,' . $this->customer->id,
             ],
             'phone' => [
+                'nullable',
                 'required_without:customer.email',
                 'phone:phoneCountry,mobile',
             ],
             'phoneCountry' => 'required_with:phone',
             'customer.email' => [
+                'nullable',
                 'required_without:phone',
                 'email',
             ],
