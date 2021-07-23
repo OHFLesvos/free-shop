@@ -43,7 +43,7 @@
                 </small>
             </div>
 
-            <p class="mt-3"><em>{{ __('We need your phone number or your email address so we can contact you:') }}</em></p>
+            <p class="mt-3"><strong>{{ __('We need your phone number or your email address so we can contact you:') }}</strong></p>
 
             <div class="mt-3">
                 <label for="phoneInput" class="form-label">{{ __('Mobile phone number') }}</label>
