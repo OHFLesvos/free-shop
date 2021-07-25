@@ -5,7 +5,7 @@ use Spatie\Permission\Exceptions\PermissionDoesNotExist;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 
-class AddWarehouseManagerRole extends Migration
+return new class extends Migration
 {
     private $newPermissions = [
         'manage stock',
@@ -21,7 +21,7 @@ class AddWarehouseManagerRole extends Migration
         foreach ($this->newPermissions as $name) {
             Permission::findOrCreate($name);
         }
-        
+
         Role::findOrCreate('Warehouse Manager')->givePermissionTo($this->newPermissions);
     }
 
@@ -40,4 +40,4 @@ class AddWarehouseManagerRole extends Migration
             } catch (PermissionDoesNotExist $ignored) { }
         }
     }
-}
+};

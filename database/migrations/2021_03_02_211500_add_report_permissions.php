@@ -5,7 +5,7 @@ use Spatie\Permission\Exceptions\PermissionDoesNotExist;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 
-class AddReportPermissions extends Migration
+return new class extends Migration
 {
     private $newPermissions = [
         'view reports',
@@ -40,4 +40,4 @@ class AddReportPermissions extends Migration
             } catch (PermissionDoesNotExist $ignored) { }
         }
     }
-}
+};

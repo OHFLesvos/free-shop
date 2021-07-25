@@ -3,7 +3,7 @@
 use App\Repository\TextBlockRepository;
 use Illuminate\Database\Migrations\Migration;
 
-class InitializeTextblocks extends Migration
+return new class extends Migration
 {
     private TextBlockRepository $textRepo;
 
@@ -31,4 +31,4 @@ class InitializeTextblocks extends Migration
     {
         //
     }
-}
+};

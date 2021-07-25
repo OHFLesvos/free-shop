@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddNotificationChannelsToUsersTable extends Migration
+return new class extends Migration
 {
     /**
      * Run the migrations.
@@ -33,4 +33,4 @@ class AddNotificationChannelsToUsersTable extends Migration
             $table->dropColumn(['phone', 'notify_via_email', 'notify_via_phone']);
         });
     }
-}
+};

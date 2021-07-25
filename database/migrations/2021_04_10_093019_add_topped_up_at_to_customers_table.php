@@ -5,7 +5,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddToppedUpAtToCustomersTable extends Migration
+return new class extends Migration
 {
     /**
      * Run the migrations.
@@ -33,4 +33,4 @@ class AddToppedUpAtToCustomersTable extends Migration
             $table->dropColumn('topped_up_at');
         });
     }
-}
+};

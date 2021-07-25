@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Spatie\Permission\Exceptions\PermissionDoesNotExist;
 use Spatie\Permission\Models\Permission;
 
-class AddTwilioPermissions extends Migration
+return new class extends Migration
 {
     private $newPermissions = [
         'view twilio balance',
@@ -37,4 +37,4 @@ class AddTwilioPermissions extends Migration
             } catch (PermissionDoesNotExist $ignored) { }
         }
     }
-}
+};
