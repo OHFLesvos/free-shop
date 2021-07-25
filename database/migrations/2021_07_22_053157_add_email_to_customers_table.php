@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::table('customers', function (Blueprint $table) {
-            $table->string('email')->nullable();
+            $table->string('email')->nullable()->after('phone');
             $table->string('phone')->nullable()->change();
         });
     }
@@ -28,6 +28,7 @@ return new class extends Migration
     {
         Schema::table('customers', function (Blueprint $table) {
             $table->dropColumn('email');
+            DB::table('customers')->whereNull('phone')->update(['phone' => '']);
             $table->string('phone')->nullable(false)->change();
         });
     }
