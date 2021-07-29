@@ -2,7 +2,6 @@
 
 namespace App\Http\Livewire\Backend;
 
-use App\Http\Livewire\Traits\TrimEmptyStrings;
 use App\Models\Product;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\View\View;
@@ -12,7 +11,7 @@ class StockEditPage extends BackendPage
     use AuthorizesRequests;
 
     public Product $product;
-    public int $freeQuantity;
+    public $freeQuantity;
 
     protected array $rules = [
         'product.stock' => [
