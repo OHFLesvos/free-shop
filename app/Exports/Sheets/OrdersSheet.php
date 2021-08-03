@@ -24,7 +24,8 @@ class OrdersSheet implements FromQuery, WithMapping, WithHeadings, WithColumnFor
 
     public function query()
     {
-        return Order::orderBy('created_at');
+        return Order::orderBy('created_at')
+            ->with('customer', 'products');
     }
 
     public function headings(): array

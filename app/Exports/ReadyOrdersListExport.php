@@ -26,6 +26,7 @@ class ReadyOrdersListExport implements WithProperties, FromQuery, WithMapping, W
     public function query()
     {
         return Order::status('ready')
+            ->with('customer')
             ->orderBy('created_at');
     }
 
