@@ -4,6 +4,7 @@ namespace App\Http\Livewire\Backend;
 
 use App\Models\Comment;
 use App\Models\Customer;
+use App\Models\Tag;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
@@ -17,6 +18,7 @@ class CustomerDetailPage extends BackendPage
     protected string $paginationTheme = 'bootstrap';
 
     public Customer $customer;
+    public $newTag;
 
     protected $listeners = ['commentAdded'];
 
@@ -36,6 +38,10 @@ class CustomerDetailPage extends BackendPage
             'comments' => $this->customer->comments()
                 ->orderBy('created_at', 'asc')
                 ->paginate(10),
+            'tags' => Tag::orderBy('name')
+                ->has('customers')
+                ->whereNotIn('slug', $this->customer->tags->pluck('slug'))
+                ->get(),
         ]);
     }
 
@@ -51,5 +57,15 @@ class CustomerDetailPage extends BackendPage
         $this->authorize('delete', $comment);
 
         $comment->delete();
+    }
+
+    public function updatedNewTag($value): void
+    {
+        $this->authorize('update', $this->customer);
+
+        if (filled($value)) {
+            $this->customer->tags()->attach(Tag::findBySlug($value));
+            $this->customer->refresh();
+        }
     }
 }
