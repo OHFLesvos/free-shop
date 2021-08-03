@@ -111,8 +111,12 @@
                 {{ $customers->onEachSide(2)->links() }}
             </div>
             <div class="col-sm-auto">
-                <small>Showing {{ $customers->firstItem() }} to {{ $customers->lastItem() }} of {{ $customers->total() }} customers</small>
+                <small>Showing {{ $customers->firstItem() }} to {{ $customers->lastItem() }} of {{ $customers->total() }} records</small>
             </div>
+        </div>
+    @elseif($customers->total() > 0)
+        <div class="d-flex justify-content-end">
+            <small>Showing {{ $customers->total() }} records</small>
         </div>
     @endif
     @can('create', App\Model\Customer::class)

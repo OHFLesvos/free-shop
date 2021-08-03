@@ -184,8 +184,12 @@
                 {{ $orders->onEachSide(2)->links() }}
             </div>
             <div class="col-sm-auto">
-                <small>Showing {{ $orders->firstItem() }} to {{ $orders->lastItem() }} of {{ $orders->total() }} orders</small>
+                <small>Showing {{ $orders->firstItem() }} to {{ $orders->lastItem() }} of {{ $orders->total() }} records</small>
             </div>
+        </div>
+    @elseif($orders->total() > 0)
+        <div class="d-flex justify-content-end">
+            <small>Showing {{ $orders->total() }} records</small>
         </div>
     @endif
 </div>
