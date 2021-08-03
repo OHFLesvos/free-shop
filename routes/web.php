@@ -9,7 +9,7 @@ use App\Http\Livewire\Backend\CustomerDetailPage;
 use App\Http\Livewire\Backend\CustomerListPage;
 use App\Http\Livewire\Backend\CustomerManagePage;
 use App\Http\Livewire\Backend\DashboardPage;
-use App\Http\Livewire\Backend\DataImportExportPage;
+use App\Http\Livewire\Backend\DataExportPage;
 use App\Http\Livewire\Backend\OrderDetailPage;
 use App\Http\Livewire\Backend\OrderListPage;
 use App\Http\Livewire\Backend\ProductManagePage;
@@ -133,8 +133,8 @@ Route::middleware('auth')
                     ->name('stock');
                 Route::get('stock/{product}', StockEditPage::class)
                     ->name('stock.edit');
-                Route::get('import-export', DataImportExportPage::class)
-                    ->name('import-export');
+                Route::get('export', DataExportPage::class)
+                    ->name('export');
                 Route::get('reports', ReportsPage::class)
                     ->name('reports');
                 Route::get('configuration', function () {

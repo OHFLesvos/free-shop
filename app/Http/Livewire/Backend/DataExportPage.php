@@ -4,9 +4,6 @@ namespace App\Http\Livewire\Backend;
 
 use App\Exports\DataExport;
 use App\Exports\ReadyOrdersListExport;
-use App\Imports\DataImport;
-use App\Models\Customer;
-use App\Models\Product;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\Rule;
@@ -15,12 +12,12 @@ use Livewire\WithFileUploads;
 use Maatwebsite\Excel\Facades\Excel;
 use Symfony\Component\HttpFoundation\Response;
 
-class DataImportExportPage extends BackendPage
+class DataExportPage extends BackendPage
 {
     use WithFileUploads;
     use AuthorizesRequests;
 
-    protected string $title = 'Data Import & Export';
+    protected string $title = 'Data Export';
 
     /**
      * @var \Illuminate\Http\UploadedFile|null
@@ -47,7 +44,7 @@ class DataImportExportPage extends BackendPage
 
     public function render(): View
     {
-        return parent::view('livewire.backend.data-import-export-page');
+        return parent::view('livewire.backend.data-export-page');
     }
 
     public function getTypesProperty(): array
@@ -88,34 +85,5 @@ class DataImportExportPage extends BackendPage
         $exportable = $types[$this->type]['exportable'];
 
         return Excel::download($exportable, $filename);
-    }
-
-    public function import(): void
-    {
-        $this->authorize('import data');
-
-        $this->validate([
-            'upload' => [
-                'file',
-                'max:1024',
-            ],
-        ]);
-
-        if ($this->deleteExistingData) {
-            Product::destroy(Product::pluck('id'));
-            Customer::destroy(Customer::pluck('id'));
-        }
-
-        $import = new DataImport();
-        $import->import($this->upload);
-
-        Log::info('Imported data from file.', [
-            'event.kind' => 'event',
-            'event.category' => 'database',
-            'event.types' => 'change',
-            'file.name' => $this->upload->getClientOriginalName(),
-        ]);
-
-        session()->flash('message', 'Import successful.');
     }
 }
