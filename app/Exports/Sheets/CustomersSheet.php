@@ -23,7 +23,8 @@ class CustomersSheet implements FromQuery, WithMapping, WithHeadings, WithColumn
 
     public function query()
     {
-        return Customer::orderBy('name');
+        return Customer::orderBy('name')
+            ->with('tags');
     }
 
     public function headings(): array
@@ -35,6 +36,7 @@ class CustomersSheet implements FromQuery, WithMapping, WithHeadings, WithColumn
             'Phone',
             'Language',
             'Credit',
+            'Tags',
             'Remarks',
             'Registered',
             'Updated',
@@ -50,6 +52,7 @@ class CustomersSheet implements FromQuery, WithMapping, WithHeadings, WithColumn
             $this->mapPhone($customer->phone),
             strtoupper($customer->locale),
             $customer->credit,
+            $customer->tags->sortBy('name')->pluck('name')->implode(','),
             $customer->remarks,
             $this->mapDateTime($customer->created_at),
             $this->mapDateTime($customer->updated_at),
