@@ -3,7 +3,11 @@
 namespace App\Http\Livewire\Backend;
 
 use App\Exports\DataExport;
+use App\Exports\ProductExport;
 use App\Exports\ReadyOrdersListExport;
+use App\Exports\Sheets\CommentsSheet;
+use App\Exports\Sheets\CustomersSheet;
+use App\Exports\Sheets\OrdersSheet;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\Rule;
@@ -40,7 +44,7 @@ class DataExportPage extends BackendPage
 
     public string $format = 'xlsx';
 
-    public string $type = 'complete';
+    public string $type = 'orders';
 
     public function render(): View
     {
@@ -50,9 +54,21 @@ class DataExportPage extends BackendPage
     public function getTypesProperty(): array
     {
         return [
-            'complete' => [
-                'label' => 'Data export',
-                'exportable' => new DataExport,
+            'orders' => [
+                'label' => 'Orders',
+                'exportable' => new OrdersSheet,
+            ],
+            'customers' => [
+                'label' => 'Customers',
+                'exportable' => new CustomersSheet,
+            ],
+            'comments' => [
+                'label' => 'Comments',
+                'exportable' => new CommentsSheet,
+            ],
+            'products' => [
+                'label' => 'Products',
+                'exportable' => new ProductExport,
             ],
             'ready_orders' => [
                 'label' => 'List of ready orders',

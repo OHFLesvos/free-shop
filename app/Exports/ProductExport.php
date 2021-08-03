@@ -10,7 +10,7 @@ use Maatwebsite\Excel\Concerns\Exportable;
 use Maatwebsite\Excel\Concerns\WithMultipleSheets;
 use Maatwebsite\Excel\Concerns\WithProperties;
 
-class DataExport implements WithMultipleSheets, WithProperties
+class ProductExport implements WithMultipleSheets, WithProperties
 {
     use Exportable;
 
@@ -20,20 +20,17 @@ class DataExport implements WithMultipleSheets, WithProperties
     public function sheets(): array
     {
         $sheets = [];
-        $sheets[] = new OrdersSheet();
-        $sheets[] = new CustomersSheet();
         foreach(array_keys(config('app.supported_languages')) as $locale)
         {
             $sheets[] = new ProductsSheet($locale);
         }
-        $sheets[] = new CommentsSheet();
         return $sheets;
     }
 
     public function properties(): array
     {
         return [
-            'title'   => config('app.name') . ' Data Export',
+            'title'   => config('app.name') . ' Products',
             'creator' => config('app.name'),
         ];
     }
