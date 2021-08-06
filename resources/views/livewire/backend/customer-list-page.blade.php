@@ -25,7 +25,7 @@
         </div>
     </div>
     @if($allTags->isNotEmpty())
-        <div class="overflow-auto mb-3 px-1">
+        <div class="overflow-auto mb-3 px-1 d-flex justify-content-between">
             <div class="btn-group" role="group" aria-label="Tags">
                 @foreach($allTags as $tag)
                     <input
@@ -49,6 +49,11 @@
                     </button>
                 @endif
             </div>
+            <a
+                href="{{ route('backend.tags') }}"
+                class="btn btn-secondary btn-sm ms-2">
+                Manage tags
+            </a>
         </div>
     @endif
     <div class="table-responsive">

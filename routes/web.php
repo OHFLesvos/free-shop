@@ -10,6 +10,7 @@ use App\Http\Livewire\Backend\CustomerListPage;
 use App\Http\Livewire\Backend\CustomerManagePage;
 use App\Http\Livewire\Backend\DashboardPage;
 use App\Http\Livewire\Backend\DataExportPage;
+use App\Http\Livewire\Backend\ManageTagsPage;
 use App\Http\Livewire\Backend\OrderDetailPage;
 use App\Http\Livewire\Backend\OrderListPage;
 use App\Http\Livewire\Backend\ProductManagePage;
@@ -123,6 +124,8 @@ Route::middleware('auth')
                     ->name('customers.show');
                 Route::get('customers/{customer}/edit', CustomerManagePage::class)
                     ->name('customers.edit');
+                Route::get('tags', ManageTagsPage::class)
+                    ->name('tags');
                 Route::get('products', ProductListPage::class)
                     ->name('products');
                 Route::get('products/_create', ProductManagePage::class)
