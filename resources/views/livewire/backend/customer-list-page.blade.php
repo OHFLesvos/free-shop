@@ -52,7 +52,8 @@
             <a
                 href="{{ route('backend.tags') }}"
                 class="btn btn-secondary btn-sm ms-2">
-                Manage tags
+                <x-icon icon="cog" class="d-md-none"/>
+                <span class="d-none d-md-inline">Manage tags</span>
             </a>
         </div>
     @endif
