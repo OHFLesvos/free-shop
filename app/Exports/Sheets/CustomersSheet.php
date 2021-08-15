@@ -4,6 +4,7 @@ namespace App\Exports\Sheets;
 
 use App\Exports\DefaultWorksheetStyles;
 use App\Models\Customer;
+use App\Models\Tag;
 use Maatwebsite\Excel\Concerns\FromQuery;
 use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 use Maatwebsite\Excel\Concerns\WithColumnFormatting;
@@ -21,14 +22,24 @@ class CustomersSheet implements FromQuery, WithMapping, WithHeadings, WithColumn
 
     protected $worksheetTitle = 'Customers';
 
+    protected $tags;
+
+    public function __construct()
+    {
+        $this->tags = Tag::orderBy('name')
+            ->has('customers')
+            ->pluck('name');
+    }
+
     public function query()
     {
-        return Customer::orderBy('name');
+        return Customer::orderBy('name')
+            ->with('tags');
     }
 
     public function headings(): array
     {
-        return [
+        $data = [
             'ID',
             'Name',
             'ID Number',
@@ -39,11 +50,18 @@ class CustomersSheet implements FromQuery, WithMapping, WithHeadings, WithColumn
             'Registered',
             'Updated',
         ];
+
+        foreach ($this->tags as $tag) {
+            $data[] = $tag;
+        }
+
+        return $data;
     }
 
     public function map($customer): array
     {
-        return [
+        $tags = $customer->tags->sortBy('name')->pluck('name');
+        $data = [
             $customer->id,
             $customer->name,
             $customer->id_number,
@@ -54,6 +72,12 @@ class CustomersSheet implements FromQuery, WithMapping, WithHeadings, WithColumn
             $this->mapDateTime($customer->created_at),
             $this->mapDateTime($customer->updated_at),
         ];
+
+        foreach ($this->tags as $tag) {
+            $data[] = $tags->contains($tag) ? 'X' : null;
+        }
+
+        return $data;
     }
 
     private function mapPhone($value)

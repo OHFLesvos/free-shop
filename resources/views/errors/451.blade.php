@@ -7,4 +7,4 @@
     $country = Countries::getOne(GeoIP::getLocation()['iso_code'], app()->getLocale());
 @endphp
 
-@section('message', "This site is not available in $country.")
+@section('message', "This site is not available in $country. If you are using VPN, please disable it and reload this page.")

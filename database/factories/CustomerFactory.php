@@ -24,7 +24,8 @@ class CustomerFactory extends Factory
         return [
             'name' => $this->faker->name,
             'id_number' => $this->faker->randomNumber(9, true),
-            'phone' => $this->faker->e164PhoneNumber,
+            'phone' => $this->faker->optional(0.9)->e164PhoneNumber,
+            'email' => $this->faker->optional(0.3)->email,
             'credit' => $this->faker->numberBetween(0, 30),
             'remarks' => $this->faker->optional(0.2)->text,
             'created_at' => $this->faker->dateTimeBetween('-1 month', 'now'),

@@ -16,8 +16,7 @@
             <dd class="col-sm-9">
                 @isset($order->customer)
                     <a href="{{ route('backend.customers.show', $order->customer) }}">{{ $order->customer->name }}</a><br>
-                    <strong>ID Number:</strong> {{ $order->customer->id_number }}<br>
-                    <strong>Phone:</strong> {{ $order->customer->phone }}
+                    <strong>ID Number:</strong> {{ $order->customer->id_number }}
                 @else
                     <em>Deleted</em>
                 @endisset

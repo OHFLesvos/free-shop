@@ -33,11 +33,11 @@ $navItems = [
             ->can('manage stock'),
     ],
     [
-        'label' => 'Import & Export',
-        'route' => 'backend.import-export',
+        'label' => 'Export',
+        'route' => 'backend.export',
         'authorized' => auth()
             ->user()
-            ->canAny(['export data', 'import data']),
+            ->can('export data'),
     ],
     [
         'label' => 'Reports',

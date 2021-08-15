@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddEmailToCustomersTable extends Migration
+return new class extends Migration
 {
     /**
      * Run the migrations.
@@ -14,7 +14,7 @@ class AddEmailToCustomersTable extends Migration
     public function up()
     {
         Schema::table('customers', function (Blueprint $table) {
-            $table->string('email')->nullable();
+            $table->string('email')->nullable()->after('phone');
             $table->string('phone')->nullable()->change();
         });
     }
@@ -28,7 +28,8 @@ class AddEmailToCustomersTable extends Migration
     {
         Schema::table('customers', function (Blueprint $table) {
             $table->dropColumn('email');
+            DB::table('customers')->whereNull('phone')->update(['phone' => '']);
             $table->string('phone')->nullable(false)->change();
         });
     }
-}
+};

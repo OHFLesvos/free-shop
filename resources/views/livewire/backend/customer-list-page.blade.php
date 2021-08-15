@@ -25,7 +25,7 @@
         </div>
     </div>
     @if($allTags->isNotEmpty())
-        <div class="overflow-auto mb-3 px-1">
+        <div class="overflow-auto mb-3 px-1 d-flex justify-content-between">
             <div class="btn-group" role="group" aria-label="Tags">
                 @foreach($allTags as $tag)
                     <input
@@ -49,6 +49,12 @@
                     </button>
                 @endif
             </div>
+            <a
+                href="{{ route('backend.tags') }}"
+                class="btn btn-secondary btn-sm ms-2">
+                <x-icon icon="cog" class="d-md-none"/>
+                <span class="d-none d-md-inline">Manage tags</span>
+            </a>
         </div>
     @endif
     <div class="table-responsive">
@@ -60,6 +66,7 @@
                 </th>
                 <th>ID Number</th>
                 <th>Phone</th>
+                <th>E-Mail</th>
                 <th class="text-end">Orders</th>
                 <th class="text-end">Credit</th>
                 <th class="fit">
@@ -80,6 +87,7 @@
                             {{ $customer->id_number }}
                         </td>
                         <td><x-phone-info :value="$customer->phone"/></td>
+                        <td>{{ $customer->email }}</td>
                         <td class="text-end">{{ $customer->orders()->count() }}</td>
                         <td class="text-end">{{ $customer->credit }}</td>
                         <td class="fit">
@@ -109,8 +117,12 @@
                 {{ $customers->onEachSide(2)->links() }}
             </div>
             <div class="col-sm-auto">
-                <small>Showing {{ $customers->firstItem() }} to {{ $customers->lastItem() }} of {{ $customers->total() }} customers</small>
+                <small>Showing {{ $customers->firstItem() }} to {{ $customers->lastItem() }} of {{ $customers->total() }} records</small>
             </div>
+        </div>
+    @elseif($customers->total() > 0)
+        <div class="d-flex justify-content-end">
+            <small>Showing {{ $customers->total() }} records</small>
         </div>
     @endif
     @can('create', App\Model\Customer::class)

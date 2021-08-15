@@ -1,17 +1,10 @@
 <?php
 
-use App\Repository\TextBlockRepository;
 use Illuminate\Database\Migrations\Migration;
+use Spatie\Permission\Models\Permission;
 
 return new class extends Migration
 {
-    private TextBlockRepository $textRepo;
-
-    public function __construct()
-    {
-        $this->textRepo = app(TextBlockRepository::class);
-    }
-
     /**
      * Run the migrations.
      *
@@ -19,7 +12,7 @@ return new class extends Migration
      */
     public function up()
     {
-        $this->textRepo->initialize();
+        Permission::findOrCreate('import data')->delete();
     }
 
     /**
@@ -29,6 +22,6 @@ return new class extends Migration
      */
     public function down()
     {
-        //
+        Permission::findOrCreate('import data');
     }
 };

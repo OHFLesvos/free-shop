@@ -7,7 +7,7 @@ use Spatie\Permission\Exceptions\PermissionDoesNotExist;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 
-class CreateBlockedPhoneNumbersTable extends Migration
+return new class extends Migration
 {
     private $newPermissions = [
         'manage blocked numbers',
@@ -30,7 +30,7 @@ class CreateBlockedPhoneNumbersTable extends Migration
         foreach ($this->newPermissions as $name) {
             Permission::findOrCreate($name);
         }
-        
+
         Role::findOrCreate('Dispatcher')->givePermissionTo($this->newPermissions);
     }
 
@@ -46,7 +46,7 @@ class CreateBlockedPhoneNumbersTable extends Migration
                 Permission::findByName($name)->delete();
             } catch (PermissionDoesNotExist $ignored) { }
         }
-        
+
         Schema::dropIfExists('blocked_phone_numbers');
     }
-}
+};
