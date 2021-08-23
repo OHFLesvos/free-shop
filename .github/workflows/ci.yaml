@@ -38,7 +38,7 @@ jobs:
     - name: Deploy to remote
       uses: easingthemes/ssh-deploy@v2.1.5
       env:
-        ARGS: "-rltgoDzvO --delete --exclude '.env' --exclude '.git' --exclude 'storage/app/' --exclude 'storage/framework/' --exclude 'storage/logs/' --exclude 'node_modules'"
+        ARGS: "-rltgoDzvO --delete --exclude '.env' --exclude '.git' --exclude 'storage/app/' --exclude 'storage/framework/' --exclude 'storage/logs/' --exclude 'node_modules' --exclude '.vscode'"
         REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
         REMOTE_PORT: ${{ secrets.REMOTE_PORT }}
         REMOTE_USER: ${{ secrets.REMOTE_USER }}
