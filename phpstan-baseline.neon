@@ -1,0 +1,97 @@
+parameters:
+	ignoreErrors:
+		-
+			message: "#^Access to an undefined property App\\\\Models\\\\Product\\:\\:\\$pivot\\.$#"
+			count: 3
+			path: app/Actions/CompleteOrder.php
+
+		-
+			message: "#^Part \\$product\\-\\>name \\(array\\) of encapsed string cannot be cast to string\\.$#"
+			count: 1
+			path: app/Actions/CompleteOrder.php
+
+		-
+			message: "#^Method App\\\\Exports\\\\ReadyOrdersListExport\\:\\:query\\(\\) should return Illuminate\\\\Database\\\\Query\\\\Builder but returns Illuminate\\\\Database\\\\Eloquent\\\\Builder\\<App\\\\Models\\\\Order\\>\\.$#"
+			count: 1
+			path: app/Exports/ReadyOrdersListExport.php
+
+		-
+			message: "#^Access to an undefined property App\\\\Exports\\\\Sheets\\\\CommentsSheet\\:\\:\\$orientation\\.$#"
+			count: 1
+			path: app/Exports/Sheets/CommentsSheet.php
+
+		-
+			message: "#^Method App\\\\Exports\\\\Sheets\\\\CommentsSheet\\:\\:query\\(\\) should return Illuminate\\\\Database\\\\Query\\\\Builder but returns Illuminate\\\\Database\\\\Eloquent\\\\Builder\\<App\\\\Models\\\\Comment\\>\\.$#"
+			count: 1
+			path: app/Exports/Sheets/CommentsSheet.php
+
+		-
+			message: "#^Access to an undefined property App\\\\Exports\\\\Sheets\\\\CustomersSheet\\:\\:\\$orientation\\.$#"
+			count: 1
+			path: app/Exports/Sheets/CustomersSheet.php
+
+		-
+			message: "#^Method App\\\\Exports\\\\Sheets\\\\CustomersSheet\\:\\:query\\(\\) should return Illuminate\\\\Database\\\\Query\\\\Builder but returns Illuminate\\\\Database\\\\Eloquent\\\\Builder\\<App\\\\Models\\\\Customer\\>\\.$#"
+			count: 1
+			path: app/Exports/Sheets/CustomersSheet.php
+
+		-
+			message: "#^Access to an undefined property App\\\\Exports\\\\Sheets\\\\OrdersSheet\\:\\:\\$orientation\\.$#"
+			count: 1
+			path: app/Exports/Sheets/OrdersSheet.php
+
+		-
+			message: "#^Method App\\\\Exports\\\\Sheets\\\\OrdersSheet\\:\\:query\\(\\) should return Illuminate\\\\Database\\\\Query\\\\Builder but returns Illuminate\\\\Database\\\\Eloquent\\\\Builder\\<App\\\\Models\\\\Order\\>\\.$#"
+			count: 1
+			path: app/Exports/Sheets/OrdersSheet.php
+
+		-
+			message: "#^Access to an undefined property App\\\\Exports\\\\Sheets\\\\ProductsSheet\\:\\:\\$orientation\\.$#"
+			count: 1
+			path: app/Exports/Sheets/ProductsSheet.php
+
+		-
+			message: "#^Method App\\\\Exports\\\\Sheets\\\\ProductsSheet\\:\\:query\\(\\) should return Illuminate\\\\Database\\\\Query\\\\Builder but returns Illuminate\\\\Database\\\\Eloquent\\\\Builder\\<App\\\\Models\\\\Product\\>\\.$#"
+			count: 1
+			path: app/Exports/Sheets/ProductsSheet.php
+
+		-
+			message: "#^Binary operation \"\\.\" between 'Edit Product ' and array results in an error\\.$#"
+			count: 1
+			path: app/Http/Livewire/Backend/ProductManagePage.php
+
+		-
+			message: "#^Parameter \\#2 \\$subject of function preg_match expects string, null given\\.$#"
+			count: 1
+			path: app/Http/Livewire/Backend/SettingsPage.php
+
+		-
+			message: "#^Binary operation \"\\.\" between 'Edit Stock of ' and array results in an error\\.$#"
+			count: 1
+			path: app/Http/Livewire/Backend/StockEditPage.php
+
+		-
+			message: "#^Binary operation \"\\.\" between 'Stock of \\\\'' and array results in an error\\.$#"
+			count: 1
+			path: app/Http/Livewire/Backend/StockEditPage.php
+
+		-
+			message: "#^Call to an undefined method Monolog\\\\Handler\\\\HandlerInterface\\:\\:pushProcessor\\(\\)\\.$#"
+			count: 1
+			path: app/Logging/AddMetadata.php
+
+		-
+			message: "#^Call to an undefined method App\\\\Providers\\\\AppServiceProvider\\:\\:dropForeign\\(\\)\\.$#"
+			count: 1
+			path: app/Providers/AppServiceProvider.php
+
+		-
+			message: "#^Parameter \\#1 \\$string of static method Illuminate\\\\Support\\\\Str\\:\\:of\\(\\) expects string, array given\\.$#"
+			count: 1
+			path: app/Repository/TextBlockRepository.php
+
+		-
+			message: "#^Call to an undefined static method App\\\\Util\\\\Carbon\\\\UserTimeZoneMixin\\:\\:this\\(\\)\\.$#"
+			count: 1
+			path: app/Util/Carbon/UserTimeZoneMixin.php
+

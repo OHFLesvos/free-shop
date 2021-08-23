@@ -90,7 +90,7 @@ class CustomerAccountPage extends FrontendPage
             'event.kind' => 'event',
             'event.outcome' => 'success',
             'customer.name' => $this->customer->name,
-            'customer.id_number' => $this->customer->idNumber,
+            'customer.id_number' => $this->customer->id_number,
             'customer.phone' => $this->customer->phone,
             'customer.email' => $this->customer->email,
         ]);
