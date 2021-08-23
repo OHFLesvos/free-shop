@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::table('orders', function (Blueprint $table) {
             $table->foreignId('customer_id')->nullable()->change();
-            $table->dropForeign(['customer_id']);
+            $table->dropForeignSafe(['customer_id']);
             $table->foreign('customer_id')
                 ->references('id')
                 ->on('customers')
@@ -31,7 +31,7 @@ return new class extends Migration
     public function down()
     {
         Schema::table('orders', function (Blueprint $table) {
-            $table->dropForeign(['customer_id']);
+            $table->dropForeignSafe(['customer_id']);
         });
         Schema::table('orders', function (Blueprint $table) {
             $table->foreign('customer_id')

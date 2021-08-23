@@ -50,3 +50,13 @@ jobs:
         SESSION_DRIVER: array
         QUEUE_DRIVER: sync
       run: vendor/bin/phpunit
+
+  php-security-checker:
+    name: Local PHP Security Checker
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Local PHP Security Checker
+        uses: docker://pplotka/local-php-security-checker-github-actions
