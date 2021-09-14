@@ -114,7 +114,7 @@ class Order extends Model implements Auditable
 
     public function scopeFilter(Builder $qry, string $filter): void
     {
-        $qry->where('id', is_numeric($filter) ? $filter : 0)
+        $qry->where('id', is_integer($filter) ? $filter : 0)
             ->orWhereHas('customer', function ($cqry) use ($filter) {
                 $cqry->where(DB::raw('LOWER(name)'), 'LIKE', '%' . strtolower($filter) . '%')
                     ->orWhere('id_number', 'LIKE', $filter . '%')
