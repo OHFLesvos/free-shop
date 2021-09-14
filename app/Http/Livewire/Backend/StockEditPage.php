@@ -44,14 +44,14 @@ class StockEditPage extends BackendPage
 
     public function updatingProductStock($value)
     {
-        if (is_integer($value)) {
+        if (is_numeric($value)) {
             $this->freeQuantity = $value - $this->product->reserved_quantity;
         }
     }
 
     public function updatingFreeQuantity($value)
     {
-        if (is_integer($value)) {
+        if (is_numeric($value)) {
             $this->product->stock = $value + $this->product->reserved_quantity;
         }
     }
