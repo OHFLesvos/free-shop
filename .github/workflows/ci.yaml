@@ -113,6 +113,7 @@ jobs:
         key: ${{ secrets.SERVER_SSH_KEY }}
         script: |
           cd ${{ secrets.REMOTE_TARGET }}
+          mkdir -p storage/framework/{sessions,views,cache}
           php artisan optimize
           php artisan migrate --force
           php artisan storage:link
