@@ -63,3 +63,57 @@ jobs:
 
       - name: Local PHP Security Checker
         uses: docker://pplotka/local-php-security-checker-github-actions
+
+  deploy-to-staging:
+    environment: staging
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+    - name: Log git hash
+      shell: bash
+      run: |
+        echo "Commit: $(git rev-parse --short HEAD)" >> .gitinfo
+        echo "Branch: ${GITHUB_REF#refs/heads/}" >> .gitinfo
+        echo "Build date: $(date)" >> .gitinfo
+    - name: Install Dependencies
+      run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist  --optimize-autoloader --no-dev
+    - name: Use Node.js
+      uses: actions/setup-node@v2
+      with:
+        node-version: '14.x'
+    - run: npm ci
+    - run: npm run prod
+    - name: Enable maintenance mode on remote
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.REMOTE_HOST }}
+        port: ${{ secrets.REMOTE_PORT }}
+        username: ${{ secrets.REMOTE_USER }}
+        key: ${{ secrets.SERVER_SSH_KEY }}
+        script: |
+          cd ${{ secrets.REMOTE_TARGET }}
+          if [ -f .env ]; then php artisan down; fi
+    - name: Deploy to remote
+      uses: easingthemes/ssh-deploy@v2.1.5
+      env:
+        ARGS: "-rltgoDzvO --delete --exclude '.env' --exclude '.git' --exclude 'storage/app/' --exclude 'storage/framework/' --exclude 'storage/logs/' --exclude 'node_modules' --exclude '.vscode' --exclude '.github'"
+        REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
+        REMOTE_PORT: ${{ secrets.REMOTE_PORT }}
+        REMOTE_USER: ${{ secrets.REMOTE_USER }}
+        SSH_PRIVATE_KEY: ${{ secrets.SERVER_SSH_KEY }}
+        TARGET: ${{ secrets.REMOTE_TARGET }}
+    - name: Publish on remote
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.REMOTE_HOST }}
+        port: ${{ secrets.REMOTE_PORT }}
+        username: ${{ secrets.REMOTE_USER }}
+        key: ${{ secrets.SERVER_SSH_KEY }}
+        script: |
+          cd ${{ secrets.REMOTE_TARGET }}
+          php artisan optimize
+          php artisan migrate --force
+          php artisan storage:link
+          php artisan up
