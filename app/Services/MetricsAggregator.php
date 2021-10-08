@@ -108,4 +108,13 @@ class MetricsAggregator
             ->pluck('cnt', 'locale')
             ->sortDesc();
     }
+
+    public function communicationChannels(): Collection
+    {
+        return collect([
+            'Phone' => Customer::whereNotNull('phone')->whereNull('email')->count(),
+            'E-mail' => Customer::whereNull('phone')->whereNotNull('email')->count(),
+            'Phone & E-mail' => Customer::whereNotNull('phone')->whereNotNull('phone')->count(),
+        ]);
+    }
 }

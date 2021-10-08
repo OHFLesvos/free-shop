@@ -142,6 +142,7 @@ class ReportsPage extends BackendPage
             'averageOrderDuration' => $aggregator->averageOrderDuration(),
             'userAgents' => $aggregator->userAgents(),
             'customerLocales' => $aggregator->customerLocales(),
+            'communicationChannels' => $aggregator->communicationChannels(),
         ];
     }
 

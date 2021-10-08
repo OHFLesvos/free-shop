@@ -122,4 +122,29 @@
         </table>
     @endif
 
+    @if($communicationChannels->isNotEmpty())
+    <table class="table table-bordered bg-white shadow-sm">
+        <thead>
+            <th>Communication channels</th>
+            <th class="fit text-end">Quantity</th>
+            <th class="fit text-end">Percent</th>
+        </thead>
+        <tbody>
+            @foreach($communicationChannels as $channel => $quantity)
+                <tr>
+                    <td>
+                        {{ $channel }}
+                    </td>
+                    <td class="fit text-end">
+                        {{ number_format($quantity) }}
+                    </td>
+                    <td class="fit text-end">
+                        {{ round($quantity / $communicationChannels->sum() * 100, 1) }}%
+                    </td>
+                </tr>
+            @endforeach
+        </tbody>
+    </table>
+@endif
+
 </div>
