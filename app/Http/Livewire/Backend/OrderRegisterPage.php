@@ -2,10 +2,14 @@
 
 namespace App\Http\Livewire\Backend;
 
+use App\Exceptions\PhoneNumberBlockedByAdminException;
 use App\Models\Customer;
 use App\Models\Order;
+use App\Models\Product;
+use App\Notifications\OrderRegistered;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Illuminate\View\View;
 
 class OrderRegisterPage extends BackendPage
@@ -16,10 +20,14 @@ class OrderRegisterPage extends BackendPage
 
     public Order $order;
 
+    public array $selection = [];
+
     protected function rules(): array
     {
         return [
             'order.remarks' => 'nullable',
+            'selection' => ['array', 'min:1'],
+            'selection.*' => ['integer', 'min:1'],
         ];
     }
 
@@ -39,23 +47,55 @@ class OrderRegisterPage extends BackendPage
 
     public function render(): View
     {
-        return parent::view('livewire.backend.order-register-page');
+        return parent::view('livewire.backend.order-register-page', [
+            'products' => Product::query()
+                ->orderBy('category->' . config('app.fallback_locale'))
+                ->orderBy('sequence')
+                ->orderBy('name->' . config('app.fallback_locale'))
+                ->get()
+                ->filter(fn ($product) => $product->quantity_available_for_customer > 0),
+        ]);
     }
 
     public function submit(Request $request)
     {
         $this->authorize('create', Order::class);
 
-        $totalPrice = 1;
+        $this->validate();
 
         $this->order->fill([
-            'costs' => $totalPrice,
+            'costs' => 0,
             'ip_address' => $request->ip(),
             'user_agent' => $request->userAgent(),
         ]);
 
         $this->order->customer()->associate($this->customer);
         $this->order->save();
+
+        $this->order->products()->sync(collect($this->selection)
+            ->mapWithKeys(fn ($quantity, $id) => [$id => [
+                'quantity' => $quantity,
+            ]]));
+
+        Log::info('Administrator registered order.', [
+            'event.kind' => 'event',
+            'event.outcome' => 'success',
+            'customer.name' => $this->customer->name,
+            'customer.id_number' => $this->customer->id_number,
+            'customer.phone' => $this->customer->phone,
+            'customer.credit' => $this->customer->credit,
+            'order.id' => $this->order->id,
+        ]);
+
+        if (!setting()->has('customer.skip_order_registered_notification')) {
+            try {
+                $this->customer->notify(new OrderRegistered($this->order));
+            } catch (PhoneNumberBlockedByAdminException $ex) {
+                session()->flash('error', __('The phone number :phone has been blocked by an administrator.', ['phone' => $ex->getPhone()]));
+            } catch (\Exception $ex) {
+                Log::warning('[' . get_class($ex) . '] Cannot send notification: ' . $ex->getMessage());
+            }
+        }
 
         return redirect()->route('backend.orders.show', $this->order);
     }
