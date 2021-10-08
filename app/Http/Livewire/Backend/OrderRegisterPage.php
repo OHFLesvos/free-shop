@@ -9,6 +9,7 @@ use App\Models\Product;
 use App\Notifications\OrderRegistered;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Log;
 use Illuminate\View\View;
 
@@ -21,6 +22,8 @@ class OrderRegisterPage extends BackendPage
     public Order $order;
 
     public array $selection = [];
+
+    public Collection $products;
 
     protected function rules(): array
     {
@@ -40,21 +43,26 @@ class OrderRegisterPage extends BackendPage
     {
         $this->authorize('create', Order::class);
 
-        if (!isset($this->order)) {
-            $this->order = new Order();
-        }
+        $this->order = new Order();
+        $this->products = Product::query()
+            ->orderBy('category->' . config('app.fallback_locale'))
+            ->orderBy('sequence')
+            ->orderBy('name->' . config('app.fallback_locale'))
+            ->get()
+            ->filter(fn ($product) => $product->quantity_available_for_customer > 0);
     }
 
     public function render(): View
     {
         return parent::view('livewire.backend.order-register-page', [
-            'products' => Product::query()
-                ->orderBy('category->' . config('app.fallback_locale'))
-                ->orderBy('sequence')
-                ->orderBy('name->' . config('app.fallback_locale'))
-                ->get()
-                ->filter(fn ($product) => $product->quantity_available_for_customer > 0),
         ]);
+    }
+
+    public function getTotalPriceProperty()
+    {
+        return collect($this->selection)
+            ->map(fn ($quantity, $productId) => Product::find($productId)->price * $quantity)
+            ->sum();
     }
 
     public function submit(Request $request)
@@ -64,7 +72,7 @@ class OrderRegisterPage extends BackendPage
         $this->validate();
 
         $this->order->fill([
-            'costs' => 0,
+            'costs' => $this->getTotalPriceProperty(),
             'ip_address' => $request->ip(),
             'user_agent' => $request->userAgent(),
         ]);
