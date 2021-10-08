@@ -61,6 +61,7 @@ class OrderRegisterPage extends BackendPage
     public function getTotalPriceProperty()
     {
         return collect($this->selection)
+            ->filter(fn ($quantity) => $quantity > 0)
             ->map(fn ($quantity, $productId) => Product::find($productId)->price * $quantity)
             ->sum();
     }

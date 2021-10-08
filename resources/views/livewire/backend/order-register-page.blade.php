@@ -18,7 +18,7 @@
                         {{ $product->name }}
                         <br>
                         <small class="form-text text-muted">
-                            Price: {{ $product->price }}, available: {{ $product->quantity_available_for_customer }}
+                            Price: {{ $product->price }}, Limit: {{ $product->quantity_available_for_customer }}
                         </small>
                     </label>
 
