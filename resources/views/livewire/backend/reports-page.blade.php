@@ -47,6 +47,10 @@
     </div>
     @include('backend.include.report', ['dateRangeTitle' => $this->dateRangeTitle ])
 
+    <h2 class="display-6">
+        General Statistics
+    </h2>
+
     @if($userAgents['browser']->isNotEmpty())
         <table class="table table-bordered bg-white shadow-sm">
             <thead>
