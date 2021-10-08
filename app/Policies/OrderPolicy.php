@@ -24,6 +24,13 @@ class OrderPolicy
         }
     }
 
+    public function create(User $user)
+    {
+        if ($user->canAny(['manage customers', 'update orders'])) {
+            return true;
+        }
+    }
+
     public function update(User $user, Order $order)
     {
         if (!$order->isOpen) {
