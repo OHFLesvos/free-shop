@@ -19,6 +19,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
+        $this->app->bind(
+            \App\Verify\Service::class,
+            \App\Services\Twilio\Verification::class
+        );
     }
 
     /**
