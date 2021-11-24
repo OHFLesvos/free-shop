@@ -83,6 +83,13 @@ Access the backend via http://your-site.com/backend
 
 ## Development
 
+## Compile assets
+
+Install and compile JavaScript and CSS files for the public web directory:
+
+    npm install
+    num run dev
+
 ### Database seeding
 
 To seed the database with random entries, run:
