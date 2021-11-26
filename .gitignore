@@ -15,3 +15,5 @@ npm-debug.log
 yarn-error.log
 _ide_helper.php
 .phpstorm.meta.php
+public/mix-manifest.json
+public/mix-manifest.json
