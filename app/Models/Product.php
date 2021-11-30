@@ -10,12 +10,14 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Spatie\Translatable\HasTranslations;
+use OwenIt\Auditing\Contracts\Auditable;
 
-class Product extends Model
+class Product extends Model implements Auditable
 {
     use HasFactory;
     use NullableFields;
     use HasTranslations;
+    use \OwenIt\Auditing\Auditable;
 
     /**
      * The attributes that should be set to null in the database
