@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Services\GeoBlockChecker;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -9,6 +10,13 @@ use Torann\GeoIP\Facades\GeoIP;
 
 class GeoBlockWhitelist
 {
+    protected GeoBlockChecker $geoBlockChecker;
+
+    public function __construct(GeoBlockChecker $geoBlockChecker)
+    {
+      $this->geoBlockChecker = $geoBlockChecker;
+    }
+
     /**
      * Handle an incoming request.
      *
@@ -18,8 +26,7 @@ class GeoBlockWhitelist
      */
     public function handle(Request $request, Closure $next)
     {
-        $countries = setting()->get('geoblock.whitelist', []);
-        if (count($countries) > 0 && ! in_array(GeoIP::getLocation()['iso_code'], $countries)) {
+        if ($this->geoBlockChecker->isBlocked()) {
             abort(Response::HTTP_UNAVAILABLE_FOR_LEGAL_REASONS);
         }
 
