@@ -14,16 +14,9 @@
             @if($products->isNotEmpty())
                 <div class="row">
                     <div class="col-md-4 order-md-2">
-                        @inject('geoBlockChecker', 'App\Services\GeoBlockChecker')
-                        @if($geoBlockChecker->isBlocked())
-                            <x-alert type="warning">
-                            {{  __('The shop not available in your country. If you are using VPN, please disable it and reload this page.') }}
-                            </x-alert>
-                        @else
                         @unless(isset($nextOrderIn))
                             @include('livewire.shop-front.basket')
                         @endunless
-                        @endif
                     </div>
                     <div class="col-md order-md-1">
                         @isset($nextOrderIn)

@@ -1,4 +1,3 @@
-@inject('geoBlockChecker', 'App\Services\GeoBlockChecker')
 @php
 $navItems = [
     [
@@ -31,7 +30,7 @@ $rNavItems = [
         'label' => __('Login'),
         'route' => 'customer.login',
         'icon' => 'sign-in-alt',
-        'authorized' => !$geoBlockChecker->isBlocked() && !auth('customer')->check(),
+        'authorized' => !auth('customer')->check(),
     ],
     [
         'label' => optional(auth('customer')->user())->name,

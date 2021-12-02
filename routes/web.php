@@ -48,7 +48,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware(['set-language'])
+Route::middleware(['geoblock.whitelist', 'set-language'])
     ->group(function () {
         Route::redirect('/', 'shop')
             ->name('home');
@@ -59,32 +59,29 @@ Route::middleware(['set-language'])
         Route::get('shop', ShopFrontPage::class)
             ->name('shop-front')
             ->middleware('customer-disabled-check');
-        Route::middleware(['geoblock.whitelist'])
+        Route::middleware('guest:customer')
             ->group(function () {
-                Route::middleware('guest:customer')
-                    ->group(function () {
-                        Route::get('customer/login', CustomerLoginPage::class)
-                            ->name('customer.login');
-                        Route::get('customer/registration', CustomerRegistrationPage::class)
-                            ->name('customer.registration');
-                    });
-                Route::middleware(['auth:customer', 'customer-disabled-check'])
-                    ->group(function () {
-                        Route::get('checkout', CheckoutPage::class)
-                            ->name('checkout');
-                        Route::get('my-orders', MyOrdersPage::class)
-                            ->name('my-orders');
-                        Route::redirect('order-lookup', 'my-orders');
-                        Route::get('customer/account', CustomerAccountPage::class)
-                            ->name('customer.account');
-                        Route::get('customer/logout', function (Request $request) {
-                            Auth::guard('customer')->logout();
-                            $request->session()->invalidate();
-                            $request->session()->regenerateToken();
-                            return redirect()->route('home');
-                        })
-                            ->name('customer.logout');
-                    });
+                Route::get('customer/login', CustomerLoginPage::class)
+                    ->name('customer.login');
+                Route::get('customer/registration', CustomerRegistrationPage::class)
+                    ->name('customer.registration');
+            });
+        Route::middleware(['auth:customer', 'customer-disabled-check'])
+            ->group(function () {
+                Route::get('checkout', CheckoutPage::class)
+                    ->name('checkout');
+                Route::get('my-orders', MyOrdersPage::class)
+                    ->name('my-orders');
+                Route::redirect('order-lookup', 'my-orders');
+                Route::get('customer/account', CustomerAccountPage::class)
+                    ->name('customer.account');
+                Route::get('customer/logout', function (Request $request) {
+                    Auth::guard('customer')->logout();
+                    $request->session()->invalidate();
+                    $request->session()->regenerateToken();
+                    return redirect()->route('home');
+                })
+                    ->name('customer.logout');
             });
     });
 
