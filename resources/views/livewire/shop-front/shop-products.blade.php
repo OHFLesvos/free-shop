@@ -1,3 +1,7 @@
+@inject('geoBlockChecker', 'App\Services\GeoBlockChecker')
+@php
+    $geoblocked = $geoBlockChecker->isBlocked();
+@endphp
 <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 row-cols-xxl-4">
     @foreach($products as $product)
         <div class="col mb-4">
@@ -29,8 +33,7 @@
                             {{ __('Free') }}
                         @endif
                     </strong>
-                    @inject('geoBlockChecker', 'App\Services\GeoBlockChecker')
-                    @unless($geoBlockChecker->isBlocked())
+                    @unless($geoblocked)
                         @unless(isset($nextOrderIn))
                             @isset($customer)
                                 <button
