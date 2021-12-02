@@ -29,23 +29,32 @@
                             {{ __('Free') }}
                         @endif
                     </strong>
-                    @unless(isset($nextOrderIn))
-                        @isset($customer)
-                            <button
-                                class="btn @unless(($basket->get($product->id) ?? 0) < $product->quantity_available_for_customer && $product->price <= $this->availableCredit) btn-secondary @else btn-primary @endunless"
-                                wire:click="add({{ $product->id }})"
-                                wire:loading.attr="disabled"
-                                wire:target="add"
-                                @unless(($basket->get($product->id) ?? 0) < $product->quantity_available_for_customer && $product->price <= $this->availableCredit) disabled @endunless>
-                                {{ __('Add') }}
-                            </button>
-                        @else
-                            <a
-                                href="{{ route('customer.login') }}"
-                                class="btn btn-primary">
-                                {{ __('Get') }}
-                            </a>
-                        @endisset
+                    @inject('geoBlockChecker', 'App\Services\GeoBlockChecker')
+                    @unless($geoBlockChecker->isBlocked())
+                        @unless(isset($nextOrderIn))
+                            @isset($customer)
+                                <button
+                                    class="btn @unless(($basket->get($product->id) ?? 0) < $product->quantity_available_for_customer && $product->price <= $this->availableCredit) btn-secondary @else btn-primary @endunless"
+                                    wire:click="add({{ $product->id }})"
+                                    wire:loading.attr="disabled"
+                                    wire:target="add"
+                                    @unless(($basket->get($product->id) ?? 0) < $product->quantity_available_for_customer && $product->price <= $this->availableCredit) disabled @endunless>
+                                    {{ __('Add') }}
+                                </button>
+                            @else
+                                <a
+                                    href="{{ route('customer.login') }}"
+                                    class="btn btn-primary">
+                                    {{ __('Get') }}
+                                </a>
+                            @endisset
+                        @endunless
+                    @else
+                    <button
+                        class="btn btn-secondary"
+                        disabled>
+                        {{ __('Get') }}
+                    </button>
                     @endunless
                 </div>
             </div>
