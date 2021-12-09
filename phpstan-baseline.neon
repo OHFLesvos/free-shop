@@ -41,11 +41,6 @@ parameters:
 			path: app/Exports/Sheets/OrdersSheet.php
 
 		-
-			message: "#^Method App\\\\Exports\\\\Sheets\\\\OrdersSheet\\:\\:query\\(\\) should return Illuminate\\\\Database\\\\Query\\\\Builder but returns Illuminate\\\\Database\\\\Eloquent\\\\Builder\\<App\\\\Models\\\\Order\\>\\.$#"
-			count: 1
-			path: app/Exports/Sheets/OrdersSheet.php
-
-		-
 			message: "#^Access to an undefined property App\\\\Exports\\\\Sheets\\\\ProductsSheet\\:\\:\\$orientation\\.$#"
 			count: 1
 			path: app/Exports/Sheets/ProductsSheet.php
