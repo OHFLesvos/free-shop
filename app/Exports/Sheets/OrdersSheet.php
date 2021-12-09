@@ -5,6 +5,7 @@ namespace App\Exports\Sheets;
 use donatj\UserAgent\UserAgentParser;
 use App\Exports\DefaultWorksheetStyles;
 use App\Models\Order;
+use Carbon\Carbon;
 use Maatwebsite\Excel\Concerns\FromQuery;
 use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 use Maatwebsite\Excel\Concerns\WithColumnFormatting;
@@ -22,9 +23,17 @@ class OrdersSheet implements FromQuery, WithMapping, WithHeadings, WithColumnFor
 
     protected $worksheetTitle = 'Orders';
 
+    private ?Carbon $startDate;
+
+    public function __construct(?Carbon $startDate = null)
+    {
+        $this->startDate = $startDate;
+    }
+
     public function query()
     {
-        return Order::orderBy('created_at')
+        return Order::orderBy('created_at', 'desc')
+            ->when($this->startDate !== null, fn ($qry) => $qry->whereDate('created_at', '>=', $this->startDate))
             ->with('customer', 'products');
     }
 

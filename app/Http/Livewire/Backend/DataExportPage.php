@@ -2,12 +2,12 @@
 
 namespace App\Http\Livewire\Backend;
 
-use App\Exports\DataExport;
 use App\Exports\ProductExport;
 use App\Exports\ReadyOrdersListExport;
 use App\Exports\Sheets\CommentsSheet;
 use App\Exports\Sheets\CustomersSheet;
 use App\Exports\Sheets\OrdersSheet;
+use Carbon\Carbon;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\Rule;
@@ -46,6 +46,13 @@ class DataExportPage extends BackendPage
 
     public string $type = 'orders';
 
+    public ?string $startDate = null;
+
+    public function mount()
+    {
+        $this->startDate = now()->subMonth()->toDateString();
+    }
+
     public function render(): View
     {
         return parent::view('livewire.backend.data-export-page');
@@ -56,7 +63,10 @@ class DataExportPage extends BackendPage
         return [
             'orders' => [
                 'label' => 'Orders',
-                'exportable' => new OrdersSheet,
+                'exportable' => function() {
+                    $startDate = !blank($this->startDate) ? new Carbon($this->startDate) : null;
+                    return new OrdersSheet($startDate);
+                },
             ],
             'customers' => [
                 'label' => 'Customers',
@@ -100,6 +110,6 @@ class DataExportPage extends BackendPage
 
         $exportable = $types[$this->type]['exportable'];
 
-        return Excel::download($exportable, $filename);
+        return Excel::download(is_callable($exportable) ? $exportable() : $exportable, $filename);
     }
 }
