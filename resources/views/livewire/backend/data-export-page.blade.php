@@ -18,6 +18,18 @@
                                         {{ $value['label'] }}
                                     </label>
                                 </div>
+                                @if($type == 'orders' && $key == 'orders')
+                                    <div class="mb-3">
+                                        <label for="startDateInput" class="form-label">Registered since:</label>
+                                        <input
+                                            id="startDateInput"
+                                            class="form-control"
+                                            type="date"
+                                            max="{{ today()->toDateString() }}"
+                                            wire:model="startDate"
+                                        />
+                                    </div>
+                                @endif
                             @endforeach
                         </div>
                         <div>
