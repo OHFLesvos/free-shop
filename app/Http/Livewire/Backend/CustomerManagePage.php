@@ -42,7 +42,7 @@ class CustomerManagePage extends BackendPage
                 setting()->has('customer.id_number_pattern')
                     ? 'regex:' . setting()->get('customer.id_number_pattern')
                     : null,
-                'unique:customers,id_number,' . $this->customer->id,
+                Rule::unique('customers', 'id_number')->ignore($this->customer->id),
             ],
             'phone' => [
                 'nullable',
