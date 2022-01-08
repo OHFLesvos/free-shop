@@ -51,9 +51,19 @@ parameters:
 			path: app/Exports/Sheets/ProductsSheet.php
 
 		-
+			message: "#^Cannot call method getName\\(\\) on object\\|string\\.$#"
+			count: 1
+			path: app/Http/Livewire/Backend/BlockedPhoneNumbersPage.php
+
+		-
 			message: "#^Binary operation \"\\.\" between 'Edit Product ' and array results in an error\\.$#"
 			count: 1
 			path: app/Http/Livewire/Backend/ProductManagePage.php
+
+		-
+			message: "#^Cannot call method getName\\(\\) on object\\|string\\.$#"
+			count: 1
+			path: app/Http/Livewire/Backend/SettingsPage.php
 
 		-
 			message: "#^Parameter \\#2 \\$subject of function preg_match expects string, null given\\.$#"
@@ -69,6 +79,11 @@ parameters:
 			message: "#^Binary operation \"\\.\" between 'Stock of \\\\'' and array results in an error\\.$#"
 			count: 1
 			path: app/Http/Livewire/Backend/StockEditPage.php
+
+		-
+			message: "#^Cannot call method getName\\(\\) on object\\|string\\.$#"
+			count: 1
+			path: app/Http/Livewire/Backend/TextBlockListPage.php
 
 		-
 			message: "#^Call to an undefined method Monolog\\\\Handler\\\\HandlerInterface\\:\\:pushProcessor\\(\\)\\.$#"
@@ -89,4 +104,9 @@ parameters:
 			message: "#^Call to an undefined static method App\\\\Util\\\\Carbon\\\\UserTimeZoneMixin\\:\\:this\\(\\)\\.$#"
 			count: 1
 			path: app/Util/Carbon/UserTimeZoneMixin.php
+
+		-
+			message: "#^Cannot call method getName\\(\\) on object\\|string\\.$#"
+			count: 1
+			path: app/View/Components/NavItem.php
 
