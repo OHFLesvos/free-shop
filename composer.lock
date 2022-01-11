@@ -1556,16 +1556,16 @@
         },
         {
             "name": "giggsey/libphonenumber-for-php",
-            "version": "8.12.40",
+            "version": "8.12.41",
             "source": {
                 "type": "git",
                 "url": "https://github.com/giggsey/libphonenumber-for-php.git",
-                "reference": "cafb3497dce678e9643ec3eba38be251a67d7469"
+                "reference": "c7b9f89a25e37e8bb650a378c3eabcbdafedeafd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/giggsey/libphonenumber-for-php/zipball/cafb3497dce678e9643ec3eba38be251a67d7469",
-                "reference": "cafb3497dce678e9643ec3eba38be251a67d7469",
+                "url": "https://api.github.com/repos/giggsey/libphonenumber-for-php/zipball/c7b9f89a25e37e8bb650a378c3eabcbdafedeafd",
+                "reference": "c7b9f89a25e37e8bb650a378c3eabcbdafedeafd",
                 "shasum": ""
             },
             "require": {
@@ -1625,7 +1625,7 @@
                 "issues": "https://github.com/giggsey/libphonenumber-for-php/issues",
                 "source": "https://github.com/giggsey/libphonenumber-for-php"
             },
-            "time": "2021-12-23T11:54:39+00:00"
+            "time": "2022-01-11T10:10:37+00:00"
         },
         {
             "name": "giggsey/locale",
@@ -11029,16 +11029,16 @@
         },
         {
             "name": "nunomaduro/collision",
-            "version": "v5.10.0",
+            "version": "v5.11.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nunomaduro/collision.git",
-                "reference": "3004cfa49c022183395eabc6d0e5207dfe498d00"
+                "reference": "8b610eef8582ccdc05d8f2ab23305e2d37049461"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nunomaduro/collision/zipball/3004cfa49c022183395eabc6d0e5207dfe498d00",
-                "reference": "3004cfa49c022183395eabc6d0e5207dfe498d00",
+                "url": "https://api.github.com/repos/nunomaduro/collision/zipball/8b610eef8582ccdc05d8f2ab23305e2d37049461",
+                "reference": "8b610eef8582ccdc05d8f2ab23305e2d37049461",
                 "shasum": ""
             },
             "require": {
@@ -11100,7 +11100,7 @@
             },
             "funding": [
                 {
-                    "url": "https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=66BYDWAT92N6L",
+                    "url": "https://www.paypal.com/paypalme/enunomaduro",
                     "type": "custom"
                 },
                 {
@@ -11112,7 +11112,7 @@
                     "type": "patreon"
                 }
             ],
-            "time": "2021-09-20T15:06:32+00:00"
+            "time": "2022-01-10T16:22:52+00:00"
         },
         {
             "name": "nunomaduro/larastan",
