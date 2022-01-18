@@ -25,6 +25,8 @@ class OrderRegisterPage extends BackendPage
 
     public Collection $products;
 
+    public int $numberOfOrders = 1;
+
     protected function rules(): array
     {
         return [

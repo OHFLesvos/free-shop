@@ -18,7 +18,7 @@
                         {{ $product->name }}
                         <br>
                         <small class="form-text text-muted">
-                            Price: {{ $product->price }}, Limit: {{ $product->quantity_available_for_customer }}
+                            Price: {{ $product->price }}@isset($product->limit_per_order), Limit per order: {{ $product->limit_per_order }}@endisset
                         </small>
                     </label>
 
@@ -31,17 +31,33 @@
                             placeholder="0"
                             class="form-control"
                             id="product{{ $product->id }}Input">
+                            <small class="form-text text-muted">
+                                Stock: {{ $product->quantity_available_for_customer }}
+                            </small>
+
                     </div>
                 </div>
             @endforeach
 
             <p class="text-end">Total price: {{ $this->totalPrice }}</p>
 
-            <div>
+            <div class="mb-3">
                 <label for="remarksInput" class="form-label">Remarks</label>
                 <textarea class="form-control @error('order.remarks') is-invalid @enderror" id="remarksInput"
                     autocomplete="off" rows="3" wire:model.defer="order.remarks"></textarea>
                 @error('order.remarks') <div class="invalid-feedback">{{ $message }}</div> @enderror
+            </div>
+
+            <div class="row mb-3">
+                <label for="remarksInput" class="col-sm-10 col-form-label">Number of orders to place:</label>
+                <div class="col-sm-2">
+                <input
+                    type="number"
+                    min="1"
+                    wire:model="numberOfOrders"
+                    placeholder="1"
+                    class="form-control">
+                </div>
             </div>
 
             <x-slot name="footer">
