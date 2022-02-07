@@ -48,7 +48,7 @@
                 <strong>Bulk change</strong> status of {{ count($selectedItems) }} orders to
                 @php
                     $canReady = $orders->whereIn('id', $selectedItems)->whereNotIn('status', 'new')->isEmpty();
-                    $canComplete = $orders->whereIn('id', $selectedItems)->whereNotIn('status', 'ready')->isEmpty();
+                    $canComplete = $orders->whereIn('id', $selectedItems)->whereNotIn('status', ['new', 'ready'])->isEmpty();
                     $canCancel = $orders->whereIn('id', $selectedItems)->whereNotIn('status', ['new', 'ready'])->isEmpty();
                 @endphp
                 <button

@@ -41,6 +41,7 @@ class OrderDetailPage extends BackendPage
         $statuses = [ $this->order->status ];
         if ($this->order->status == 'new') {
             $statuses[] = 'ready';
+            $statuses[] = 'completed';
             $statuses[] = 'cancelled';
         } elseif ($this->order->status == 'ready') {
             $statuses[] = 'completed';
