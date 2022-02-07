@@ -11,27 +11,12 @@ parameters:
 			path: app/Actions/CompleteOrder.php
 
 		-
-			message: "#^Method App\\\\Exports\\\\ReadyOrdersListExport\\:\\:query\\(\\) should return Illuminate\\\\Database\\\\Query\\\\Builder but returns Illuminate\\\\Database\\\\Eloquent\\\\Builder\\<App\\\\Models\\\\Order\\>\\.$#"
-			count: 1
-			path: app/Exports/ReadyOrdersListExport.php
-
-		-
 			message: "#^Access to an undefined property App\\\\Exports\\\\Sheets\\\\CommentsSheet\\:\\:\\$orientation\\.$#"
 			count: 1
 			path: app/Exports/Sheets/CommentsSheet.php
 
 		-
-			message: "#^Method App\\\\Exports\\\\Sheets\\\\CommentsSheet\\:\\:query\\(\\) should return Illuminate\\\\Database\\\\Query\\\\Builder but returns Illuminate\\\\Database\\\\Eloquent\\\\Builder\\<App\\\\Models\\\\Comment\\>\\.$#"
-			count: 1
-			path: app/Exports/Sheets/CommentsSheet.php
-
-		-
 			message: "#^Access to an undefined property App\\\\Exports\\\\Sheets\\\\CustomersSheet\\:\\:\\$orientation\\.$#"
-			count: 1
-			path: app/Exports/Sheets/CustomersSheet.php
-
-		-
-			message: "#^Method App\\\\Exports\\\\Sheets\\\\CustomersSheet\\:\\:query\\(\\) should return Illuminate\\\\Database\\\\Query\\\\Builder but returns Illuminate\\\\Database\\\\Eloquent\\\\Builder\\<App\\\\Models\\\\Customer\\>\\.$#"
 			count: 1
 			path: app/Exports/Sheets/CustomersSheet.php
 
@@ -42,11 +27,6 @@ parameters:
 
 		-
 			message: "#^Access to an undefined property App\\\\Exports\\\\Sheets\\\\ProductsSheet\\:\\:\\$orientation\\.$#"
-			count: 1
-			path: app/Exports/Sheets/ProductsSheet.php
-
-		-
-			message: "#^Method App\\\\Exports\\\\Sheets\\\\ProductsSheet\\:\\:query\\(\\) should return Illuminate\\\\Database\\\\Query\\\\Builder but returns Illuminate\\\\Database\\\\Eloquent\\\\Builder\\<App\\\\Models\\\\Product\\>\\.$#"
 			count: 1
 			path: app/Exports/Sheets/ProductsSheet.php
 
