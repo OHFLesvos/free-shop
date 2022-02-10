@@ -9,7 +9,6 @@ class GeoBlockChecker
     public function isBlocked()
     {
         $countries = setting()->get('geoblock.whitelist', []);
-        return (count($countries) > 0 && ! in_array(GeoIP::getLocation()['iso_code'], $countries));
+        return (count($countries) > 0 && !in_array(GeoIP::getLocation()['iso_code'], $countries));
     }
-
 }

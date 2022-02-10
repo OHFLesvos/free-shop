@@ -17,8 +17,7 @@ class ProductExport implements WithMultipleSheets, WithProperties
     public function sheets(): array
     {
         $sheets = [];
-        foreach(array_keys(config('app.supported_languages')) as $locale)
-        {
+        foreach (array_keys(config('app.supported_languages')) as $locale) {
             $sheets[] = new ProductsSheet($locale);
         }
         return $sheets;

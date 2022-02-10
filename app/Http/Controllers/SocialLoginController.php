@@ -42,7 +42,7 @@ class SocialLoginController extends Controller
         }
 
         $orgDomain = $this->organizationDomain();
-        if ($orgDomain != null && ! Str::endsWith($socialUser->getEmail(), $orgDomain)) {
+        if ($orgDomain != null && !Str::endsWith($socialUser->getEmail(), $orgDomain)) {
             return redirect()
                 ->route('backend.login')
                 ->withErrors([

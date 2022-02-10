@@ -41,7 +41,7 @@ class ProductManagePage extends BackendPage
         $defaultLocale = config('app.fallback_locale');
         return [
             'name.*' => 'nullable',
-            'name.'. $defaultLocale => 'required',
+            'name.' . $defaultLocale => 'required',
             'category.*' => 'nullable',
             'category.' . $defaultLocale => 'required',
             'description.*' => 'nullable',
@@ -77,7 +77,7 @@ class ProductManagePage extends BackendPage
             $this->authorize('create', Product::class);
         }
 
-        if (! isset($this->product)) {
+        if (!isset($this->product)) {
             $this->product = new Product();
             $this->product->is_available = true;
             $this->product->sequence = Product::count();
@@ -86,12 +86,13 @@ class ProductManagePage extends BackendPage
         $productCategories = Product::select('category')->get();
         $this->categories = collect(config('app.supported_languages'))
             ->keys()
-            ->mapWithKeys(fn ($locale) => [$locale => $productCategories
-                ->map(fn ($p) => $p->getTranslations('category'))->pluck($locale)
-                ->filter()
-                ->sort()
-                ->unique()
-                ->values()
+            ->mapWithKeys(fn ($locale) => [
+                $locale => $productCategories
+                    ->map(fn ($p) => $p->getTranslations('category'))->pluck($locale)
+                    ->filter()
+                    ->sort()
+                    ->unique()
+                    ->values()
             ]);
 
         if ($this->product->exists) {

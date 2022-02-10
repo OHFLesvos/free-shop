@@ -62,14 +62,14 @@ class MetricsAggregator
                 'quantity' => $product->orders()->completedInDateRange($this->dateStart, $this->dateEnd)->sum('quantity')
             ])
             ->sortBy($sortByQuantity
-            ? [
-                ['quantity', $sortDesc ? 'desc' : 'asc'],
-            ]
-            : [
-                ['category', $sortDesc ? 'desc' : 'asc'],
-                ['sequence', $sortDesc ? 'desc' : 'asc'],
-                ['name', $sortDesc ? 'desc' : 'asc'],
-            ])
+                ? [
+                    ['quantity', $sortDesc ? 'desc' : 'asc'],
+                ]
+                : [
+                    ['category', $sortDesc ? 'desc' : 'asc'],
+                    ['sequence', $sortDesc ? 'desc' : 'asc'],
+                    ['name', $sortDesc ? 'desc' : 'asc'],
+                ])
             ->values();
     }
 
@@ -87,8 +87,8 @@ class MetricsAggregator
         $parser = new UserAgentParser();
         $data = Order::registeredInDateRange($this->dateStart, $this->dateEnd)
             ->pluck('user_agent')
-            ->map(fn($value) => $parser->parse($value))
-            ->map(fn($ua) => [
+            ->map(fn ($value) => $parser->parse($value))
+            ->map(fn ($ua) => [
                 'browser' => $ua->browser(),
                 'os' => $ua->platform(),
             ]);

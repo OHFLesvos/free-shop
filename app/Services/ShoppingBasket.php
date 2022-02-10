@@ -21,7 +21,7 @@ class ShoppingBasket
             ->map(fn ($quantity) => intval($quantity))
             ->filter(fn ($quantity) => $quantity > 0);
 
-        if ($items->isNotEmpty())  {
+        if ($items->isNotEmpty()) {
             session()->put(self::SESSION_KEY, $items->toArray());
             return;
         }

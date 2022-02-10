@@ -38,9 +38,9 @@ class CheckoutPage extends FrontendPage
     public function render(ShoppingBasket $basket): View
     {
         return parent::view('livewire.checkout-page', [
-                'basket' => $basket,
-                'nextOrderIn' => $this->customer->getNextOrderIn(),
-            ]);
+            'basket' => $basket,
+            'nextOrderIn' => $this->customer->getNextOrderIn(),
+        ]);
     }
 
     public function submit(Request $request, ShoppingBasket $basket)

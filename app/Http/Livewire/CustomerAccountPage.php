@@ -24,7 +24,8 @@ class CustomerAccountPage extends FrontendPage
 
     public bool $shouldDelete = false;
 
-    protected function rules(): array {
+    protected function rules(): array
+    {
         return [
             'name' => 'required',
             'idNumber' => [

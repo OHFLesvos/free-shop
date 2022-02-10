@@ -20,7 +20,7 @@ class TextBlockEditPage extends BackendPage
         $defaultLocale = $this->getDefaultLocaleProperty();
         return [
             'content.*' => 'nullable',
-            'content.'. $defaultLocale => config('text-blocks.' . $this->textBlock->name . '.required') ? 'required' : 'nullable',
+            'content.' . $defaultLocale => config('text-blocks.' . $this->textBlock->name . '.required') ? 'required' : 'nullable',
         ];
     }
 

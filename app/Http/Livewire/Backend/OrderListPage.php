@@ -70,7 +70,7 @@ class OrderListPage extends BackendPage
                 ->when(filled($this->search), fn ($qry) => $qry->filter(trim($this->search)))
                 ->orderBy($this->sortBy, $this->sortDirection)
                 ->paginate(10),
-            ]);
+        ]);
     }
 
     public function updatingSearch(): void

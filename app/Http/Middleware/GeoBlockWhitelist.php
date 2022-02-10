@@ -14,7 +14,7 @@ class GeoBlockWhitelist
 
     public function __construct(GeoBlockChecker $geoBlockChecker)
     {
-      $this->geoBlockChecker = $geoBlockChecker;
+        $this->geoBlockChecker = $geoBlockChecker;
     }
 
     /**

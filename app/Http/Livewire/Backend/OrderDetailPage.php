@@ -38,7 +38,7 @@ class OrderDetailPage extends BackendPage
 
     public function getStatusesProperty(): array
     {
-        $statuses = [ $this->order->status ];
+        $statuses = [$this->order->status];
         if ($this->order->status == 'new') {
             $statuses[] = 'ready';
             $statuses[] = 'completed';

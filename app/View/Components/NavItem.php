@@ -37,5 +37,4 @@ class NavItem extends Component
         }
         return Str::of(Request::route()->getName())->startsWith($this->item['route']);
     }
-
 }
