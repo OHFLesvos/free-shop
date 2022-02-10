@@ -30,9 +30,13 @@ class ReportsPage extends BackendPage
     ];
 
     public string $range = 'this_month';
+
     public string $sortBy = 'product';
+
     public string $sortDirection = 'asc';
+
     public ?string $dateStart = null;
+
     public ?string $dateEnd = null;
 
     protected array $sortableFields = [
@@ -114,8 +118,10 @@ class ReportsPage extends BackendPage
             if ($dateStart != $dateEnd) {
                 return "Between $dateStart and $dateEnd";
             }
+
             return $dateStart;
         }
+
         return 'All time';
     }
 
@@ -148,7 +154,7 @@ class ReportsPage extends BackendPage
 
     public function generatePdf(): Response
     {
-        $name = 'Report - ' . $this->ranges[$this->range] . ' ('. now()->toDateString() . ')';
+        $name = 'Report - '.$this->ranges[$this->range].' ('.now()->toDateString().')';
 
         $data = $this->getData();
         $mergeData = [
@@ -167,6 +173,6 @@ class ReportsPage extends BackendPage
 
         $pdf = PDF::loadView('backend.pdf-report', $data, $mergeData, $config);
 
-        return response()->streamDownload(fn () => $pdf->stream(), $name . '.pdf');
+        return response()->streamDownload(fn () => $pdf->stream(), $name.'.pdf');
     }
 }

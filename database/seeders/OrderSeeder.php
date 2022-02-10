@@ -33,7 +33,7 @@ class OrderSeeder extends Seeder
                                     $order->products()->attach($product, [
                                         'quantity' => $product->limit_per_order !== null
                                             ? mt_rand(1, $product->limit_per_order)
-                                            : mt_rand(1, 10)
+                                            : mt_rand(1, 10),
                                     ]);
                                 });
                         }

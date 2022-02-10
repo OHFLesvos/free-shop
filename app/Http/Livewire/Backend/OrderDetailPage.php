@@ -26,7 +26,7 @@ class OrderDetailPage extends BackendPage
 
     protected function title(): string
     {
-        return 'Order #' . $this->order->id;
+        return 'Order #'.$this->order->id;
     }
 
     public function mount(): void
@@ -38,7 +38,7 @@ class OrderDetailPage extends BackendPage
 
     public function getStatusesProperty(): array
     {
-        $statuses = [ $this->order->status ];
+        $statuses = [$this->order->status];
         if ($this->order->status == 'new') {
             $statuses[] = 'ready';
             $statuses[] = 'completed';
@@ -47,6 +47,7 @@ class OrderDetailPage extends BackendPage
             $statuses[] = 'completed';
             $statuses[] = 'cancelled';
         }
+
         return $statuses;
     }
 
@@ -69,15 +70,16 @@ class OrderDetailPage extends BackendPage
                     CompleteOrder::run($this->order);
                 }
             } catch (\Twilio\Exceptions\TwilioException | PhoneNumberBlockedByAdminException $ex) {
-                Log::warning('[' . get_class($ex) . '] Unable to notify customer about order change: ' . $ex->getMessage());
+                Log::warning('['.get_class($ex).'] Unable to notify customer about order change: '.$ex->getMessage());
             } catch (\Exception $ex) {
                 session()->flash('error', $ex->getMessage());
+
                 return;
             }
 
             $this->order->refresh();
 
-            session()->flash('message', 'Order marked as ' . $this->newStatus . '.');
+            session()->flash('message', 'Order marked as '.$this->newStatus.'.');
         }
 
         $this->showChangeStatus = false;
@@ -102,9 +104,9 @@ class OrderDetailPage extends BackendPage
         if ($this->newStatus == 'cancelled') {
             return $textRepo->getPlain($this->getMessageTextBlockNameProperty(), optional($this->order->customer)->locale);
         }
+
         return null;
     }
-
 
     public function getMessageTextBlockNameProperty(): ?string
     {
@@ -114,6 +116,7 @@ class OrderDetailPage extends BackendPage
         if ($this->newStatus == 'cancelled') {
             return 'message-order-cancelled';
         }
+
         return null;
     }
 }

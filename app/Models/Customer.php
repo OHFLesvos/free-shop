@@ -5,31 +5,26 @@ namespace App\Models;
 use App\Models\Traits\NumberCompareScope;
 use Carbon\Carbon;
 use Dyrynda\Database\Support\NullableFields;
-use Illuminate\Contracts\Translation\HasLocalePreference;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Notifications\Notifiable;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Auth\Authenticatable;
 use Illuminate\Auth\Passwords\CanResetPassword;
 use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
+use Illuminate\Contracts\Translation\HasLocalePreference;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOneOrMany;
 use Illuminate\Foundation\Auth\Access\Authorizable;
+use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\DB;
 use libphonenumber\NumberParseException;
-use Propaganistas\LaravelPhone\PhoneNumber;
 use OwenIt\Auditing\Contracts\Auditable;
+use Propaganistas\LaravelPhone\PhoneNumber;
 
-class Customer extends Model implements
-    HasLocalePreference,
-    AuthenticatableContract,
-    AuthorizableContract,
-    CanResetPasswordContract,
-    Auditable
+class Customer extends Model implements HasLocalePreference, AuthenticatableContract, AuthorizableContract, CanResetPasswordContract, Auditable
 {
     use HasFactory;
     use Notifiable;
@@ -70,12 +65,12 @@ class Customer extends Model implements
 
     protected static function booted()
     {
-        static::creating(function (Customer $customer) {
+        static::creating(function (self $customer) {
             if ($customer->topped_up_at == null) {
                 $customer->topped_up_at = now();
             }
         });
-        static::deleting(function (Customer $customer) {
+        static::deleting(function (self $customer) {
             $customer->orders()
                 ->whereIn('status', ['new', 'ready'])
                 ->update(['status' => 'cancelled']);
@@ -112,12 +107,12 @@ class Customer extends Model implements
 
     public function scopeFilter(Builder $qry, string $filter): void
     {
-        $qry->where(DB::raw('LOWER(name)'), 'LIKE', '%' . strtolower($filter) . '%')
-            ->orWhere('id_number', 'LIKE', $filter . '%')
+        $qry->where(DB::raw('LOWER(name)'), 'LIKE', '%'.strtolower($filter).'%')
+            ->orWhere('id_number', 'LIKE', $filter.'%')
             ->orWhere(fn ($inner) => $inner->whereNumberCompare('id_number', $filter))
-            ->orWhere('phone', 'LIKE', $filter . '%')
+            ->orWhere('phone', 'LIKE', $filter.'%')
             ->orWhere(fn ($inner) => $inner->whereNumberCompare('phone', $filter))
-            ->orWhere('remarks', 'LIKE', '%' . $filter . '%');
+            ->orWhere('remarks', 'LIKE', '%'.$filter.'%');
     }
 
     public function routeNotificationForTwilio(): ?string
@@ -139,6 +134,7 @@ class Customer extends Model implements
                 return $this->phone;
             }
         }
+
         return null;
     }
 
@@ -156,6 +152,7 @@ class Customer extends Model implements
                 }
             }
         }
+
         return null;
     }
 
@@ -171,9 +168,11 @@ class Customer extends Model implements
                 if ($date->isBefore(today())) {
                     return today();
                 }
+
                 return $date;
             }
         }
+
         return null;
     }
 }

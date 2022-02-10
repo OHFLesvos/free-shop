@@ -29,12 +29,13 @@ class CustomerRegistrationPage extends FrontendPage
         'idNumber' => ['except' => ''],
     ];
 
-    protected function rules(): array {
+    protected function rules(): array
+    {
         return [
             'idNumber' => [
                 'required',
                 setting()->has('customer.id_number_pattern')
-                    ? 'regex:' . setting()->get('customer.id_number_pattern')
+                    ? 'regex:'.setting()->get('customer.id_number_pattern')
                     : null,
                 'unique:customers,id_number',
             ],

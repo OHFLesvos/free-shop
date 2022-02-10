@@ -7,8 +7,7 @@ use Spatie\Permission\Exceptions\PermissionDoesNotExist;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 
-return new class extends Migration
-{
+return new class extends Migration {
     private $newPermissions = [
         'manage blocked numbers',
     ];
@@ -44,7 +43,8 @@ return new class extends Migration
         foreach ($this->newPermissions as $name) {
             try {
                 Permission::findByName($name)->delete();
-            } catch (PermissionDoesNotExist $ignored) { }
+            } catch (PermissionDoesNotExist $ignored) {
+            }
         }
 
         Schema::dropIfExists('blocked_phone_numbers');

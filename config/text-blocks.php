@@ -8,7 +8,7 @@ return [
     'about' => [
         'type' => 'markdown',
         'purpose' => 'Text displayed on the about page',
-    ],    
+    ],
     'privacy-policy' => [
         'type' => 'markdown',
         'purpose' => 'Text of the privacy policy page',
@@ -16,7 +16,7 @@ return [
     'shop-disabled' => [
         'type' => 'plain',
         'purpose' => 'Text displayed when the shop is disbaled',
-    ],    
+    ],
     'post-checkout' => [
         'type' => 'markdown',
         'purpose' => 'Text shown after the customer completes his order',

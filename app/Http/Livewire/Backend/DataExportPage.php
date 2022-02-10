@@ -63,8 +63,9 @@ class DataExportPage extends BackendPage
         return [
             'orders' => [
                 'label' => 'Orders',
-                'exportable' => function() {
-                    $startDate = !blank($this->startDate) ? new Carbon($this->startDate) : null;
+                'exportable' => function () {
+                    $startDate = ! blank($this->startDate) ? new Carbon($this->startDate) : null;
+
                     return new OrdersSheet($startDate);
                 },
             ],
@@ -99,7 +100,7 @@ class DataExportPage extends BackendPage
         ]);
 
         $name = $types[$this->type]['label'];
-        $filename = config('app.name') . ' - ' . $name .' '. now()->toDateString() . '.' . $this->format;
+        $filename = config('app.name').' - '.$name.' '.now()->toDateString().'.'.$this->format;
 
         Log::info('Exported data to file.', [
             'event.kind' => 'event',

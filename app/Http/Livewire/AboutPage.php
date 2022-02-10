@@ -34,6 +34,7 @@ class AboutPage extends FrontendPage
     private function monthlyStats(Carbon $monthStart): array
     {
         $aggregator = new MetricsAggregator($monthStart, $monthStart->clone()->endOfMonth());
+
         return [
             'month_start' => $monthStart,
             'ordersCompleted' => $aggregator->ordersCompleted(),

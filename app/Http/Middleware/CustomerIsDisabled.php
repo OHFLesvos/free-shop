@@ -22,8 +22,9 @@ class CustomerIsDisabled
             Auth::guard('customer')->logout();
             $message = __('Your account has been disabled.');
             if (filled($customer->disabled_reason)) {
-                $message .= ' ' . $customer->disabled_reason;
+                $message .= ' '.$customer->disabled_reason;
             }
+
             return redirect()
                 ->route('customer.login')
                 ->with('error', $message);

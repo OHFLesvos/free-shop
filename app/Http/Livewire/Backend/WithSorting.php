@@ -6,11 +6,11 @@ trait WithSorting
 {
     public function mountWithSorting(): void
     {
-        if (session()->has(get_class() . '.sortBy')) {
-            $this->sortBy = session()->get(get_class() . '.sortBy');
+        if (session()->has(get_class().'.sortBy')) {
+            $this->sortBy = session()->get(get_class().'.sortBy');
         }
-        if (session()->has(get_class() . '.sortDirection')) {
-            $this->sortDirection = session()->get(get_class() . '.sortDirection');
+        if (session()->has(get_class().'.sortDirection')) {
+            $this->sortDirection = session()->get(get_class().'.sortDirection');
         }
     }
 
@@ -22,8 +22,8 @@ trait WithSorting
                 : 'asc';
             $this->sortBy = $field;
 
-            session()->put(get_class() . '.sortBy', $this->sortBy);
-            session()->put(get_class() . '.sortDirection', $this->sortDirection);
+            session()->put(get_class().'.sortBy', $this->sortBy);
+            session()->put(get_class().'.sortDirection', $this->sortDirection);
         }
     }
 

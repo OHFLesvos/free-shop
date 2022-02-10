@@ -50,7 +50,7 @@ trait DefaultWorksheetStyles
         // Column alignments
         if (isset($this->columnAlignment)) {
             foreach ($this->columnAlignment as $column => $alignment) {
-                $sheet->getStyle($column . '1:' . $column . $sheet->getHighestRow())
+                $sheet->getStyle($column.'1:'.$column.$sheet->getHighestRow())
                     ->getAlignment()->setHorizontal($alignment);
             }
         }

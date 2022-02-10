@@ -28,9 +28,12 @@ class CustomerListPage extends BackendPage
     ];
 
     public string $search = '';
+
     public array $tags = [];
+
     public string $sortBy = 'name';
-    public string $sortDirection  = 'asc';
+
+    public string $sortDirection = 'asc';
 
     protected array $sortableFields = [
         'name',

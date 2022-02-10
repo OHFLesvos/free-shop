@@ -26,15 +26,18 @@ class TwilioWidget extends Component
                 } catch (\Twilio\Exceptions\TwilioException $ex) {
                     $data['error'] = $ex->getMessage();
                 }
+
                 return view('components.backend.dashboard.twilio-widget', $data);
             }
         }
+
         return '';
     }
 
     private function getTwilioBalance(?string $sid, ?string $token): BalanceInstance
     {
         $client = new Client($sid, $token);
+
         return $client->balance->fetch();
     }
 }

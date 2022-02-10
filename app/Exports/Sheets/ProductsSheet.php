@@ -33,13 +33,13 @@ class ProductsSheet implements FromQuery, WithMapping, WithHeadings, WithColumnF
     public function __construct($locale)
     {
         $this->locale = $locale;
-        $this->worksheetTitle .= ' (' . strtoupper($locale) . ')';
+        $this->worksheetTitle .= ' ('.strtoupper($locale).')';
     }
 
     public function query()
     {
-        return Product::orderBy('name->' . $this->locale)
-            ->orderBy('name->' . config('app.fallback_locale'));
+        return Product::orderBy('name->'.$this->locale)
+            ->orderBy('name->'.config('app.fallback_locale'));
     }
 
     public function headings(): array

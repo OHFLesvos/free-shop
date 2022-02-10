@@ -16,21 +16,27 @@ class CustomerAccountPage extends FrontendPage
     use TrimAndNullEmptyStrings;
 
     public Customer $customer;
+
     public string $name = '';
+
     public string $idNumber = '';
+
     public ?string $phone = null;
+
     public string $phoneCountry;
+
     public ?string $email = null;
 
     public bool $shouldDelete = false;
 
-    protected function rules(): array {
+    protected function rules(): array
+    {
         return [
             'name' => 'required',
             'idNumber' => [
                 'required',
                 setting()->has('customer.id_number_pattern')
-                    ? 'regex:' . setting()->get('customer.id_number_pattern')
+                    ? 'regex:'.setting()->get('customer.id_number_pattern')
                     : null,
                 Rule::unique('customers', 'id_number')->ignore($this->customer->id),
             ],
@@ -101,7 +107,7 @@ class CustomerAccountPage extends FrontendPage
 
     public function getCanDeleteProperty(): bool
     {
-        return !$this->customer->orders()->exists();
+        return ! $this->customer->orders()->exists();
     }
 
     public function delete()

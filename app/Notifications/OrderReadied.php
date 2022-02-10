@@ -16,7 +16,9 @@ class OrderReadied extends Notification
     use CheckBlockedPhoneNumber;
 
     private Order $order;
+
     private ?string $overrideMessage;
+
     private TextBlockRepository $textRepo;
 
     public function __construct(Order $order, ?string $overrideMessage = null)
@@ -44,6 +46,7 @@ class OrderReadied extends Notification
                 $channels[] = 'mail';
             }
         }
+
         return $channels;
     }
 
@@ -62,6 +65,7 @@ class OrderReadied extends Notification
         ]);
         $message .= "\n";
         $message .= route('my-orders');
+
         return $message;
     }
 

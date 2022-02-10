@@ -33,7 +33,7 @@ class OrderPolicy
 
     public function update(User $user, Order $order)
     {
-        if (!$order->isOpen) {
+        if (! $order->isOpen) {
             return false;
         }
 

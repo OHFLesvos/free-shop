@@ -23,6 +23,7 @@ class UserFactory extends Factory
     public function definition()
     {
         $lastLogin = $this->faker->boolean(30);
+
         return [
             'name' => $this->faker->name,
             'email' => $this->faker->unique()->safeEmail,

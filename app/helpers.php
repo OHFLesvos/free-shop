@@ -24,6 +24,7 @@ if (! function_exists('storage_url')) {
         if (filter_var($path, FILTER_VALIDATE_URL)) {
             return $path;
         }
+
         return url(Storage::url($path));
     }
 }

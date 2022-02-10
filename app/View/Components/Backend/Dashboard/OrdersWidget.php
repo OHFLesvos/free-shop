@@ -22,6 +22,7 @@ class OrdersWidget extends Component
                 'completedOrders' => Order::status('completed')->count(),
             ]);
         }
+
         return '';
     }
 }

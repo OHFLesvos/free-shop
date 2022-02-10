@@ -16,6 +16,7 @@ class OrderRegistered extends Notification
     use CheckBlockedPhoneNumber;
 
     private Order $order;
+
     private TextBlockRepository $textRepo;
 
     public function __construct(Order $order)
@@ -42,6 +43,7 @@ class OrderRegistered extends Notification
                 $channels[] = 'mail';
             }
         }
+
         return $channels;
     }
 
@@ -60,6 +62,7 @@ class OrderRegistered extends Notification
         ]);
         $message .= "\n";
         $message .= route('my-orders');
+
         return $message;
     }
 

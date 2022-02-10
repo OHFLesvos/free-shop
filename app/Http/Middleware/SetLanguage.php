@@ -21,10 +21,12 @@ class SetLanguage
             app()->setLocale($lang);
             session()->put('lang', $lang);
         }
-        if (!session()->has('lang')) {
+        if (! session()->has('lang')) {
             session()->put('requested-url', $request->fullUrl());
+
             return redirect()->route('languages');
         }
+
         return $next($request);
     }
 }

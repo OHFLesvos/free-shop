@@ -70,7 +70,7 @@ class OrderListPage extends BackendPage
                 ->when(filled($this->search), fn ($qry) => $qry->filter(trim($this->search)))
                 ->orderBy($this->sortBy, $this->sortDirection)
                 ->paginate(10),
-            ]);
+        ]);
     }
 
     public function updatingSearch(): void
@@ -121,15 +121,16 @@ class OrderListPage extends BackendPage
                         CompleteOrder::run($order);
                     }
                 } catch (\Twilio\Exceptions\TwilioException | PhoneNumberBlockedByAdminException $ex) {
-                    Log::warning('[' . get_class($ex) . '] Unable to notify customer about order change: ' . $ex->getMessage());
+                    Log::warning('['.get_class($ex).'] Unable to notify customer about order change: '.$ex->getMessage());
                 } catch (\Exception $ex) {
                     session()->flash('error', $ex->getMessage());
+
                     return;
                 }
                 $updated++;
             }
         }
-        session()->flash('message', 'Updated ' . $updated . ' orders.');
+        session()->flash('message', 'Updated '.$updated.' orders.');
 
         $this->selectedItems = [];
     }

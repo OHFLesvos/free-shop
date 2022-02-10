@@ -40,7 +40,7 @@ class CustomerManagePage extends BackendPage
             'customer.id_number' => [
                 'required',
                 setting()->has('customer.id_number_pattern')
-                    ? 'regex:' . setting()->get('customer.id_number_pattern')
+                    ? 'regex:'.setting()->get('customer.id_number_pattern')
                     : null,
                 Rule::unique('customers', 'id_number')->ignore($this->customer->id),
             ],
@@ -70,7 +70,7 @@ class CustomerManagePage extends BackendPage
             'customer.is_disabled' => 'boolean',
             'customer.disabled_reason' => [
                 'required_if:customer.is_disabled,true',
-            ]
+            ],
         ];
     }
 
@@ -82,7 +82,7 @@ class CustomerManagePage extends BackendPage
             $this->authorize('create', Customer::class);
         }
 
-        if (!isset($this->customer)) {
+        if (! isset($this->customer)) {
             $this->customer = new Customer();
             $this->customer->credit = setting()->get('customer.starting_credit', config('shop.customer.starting_credit'));
             $this->customer->is_disabled = false;
@@ -107,7 +107,7 @@ class CustomerManagePage extends BackendPage
     protected function title(): string
     {
         return $this->customer->exists
-            ? 'Edit Customer ' . $this->customer->name
+            ? 'Edit Customer '.$this->customer->name
             : 'Register Customer';
     }
 
@@ -128,7 +128,7 @@ class CustomerManagePage extends BackendPage
             ? PhoneNumber::make($this->phone, $this->phoneCountry)->formatE164()
             : null;
 
-        if (!$this->customer->is_disabled) {
+        if (! $this->customer->is_disabled) {
             $this->customer->disabled_reason = null;
         }
 

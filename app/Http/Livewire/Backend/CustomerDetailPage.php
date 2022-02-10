@@ -18,13 +18,14 @@ class CustomerDetailPage extends BackendPage
     protected string $paginationTheme = 'bootstrap';
 
     public Customer $customer;
+
     public $newTag;
 
     protected $listeners = ['commentAdded'];
 
     protected function title(): string
     {
-        return 'Customer ' . $this->customer->name;
+        return 'Customer '.$this->customer->name;
     }
 
     public function render(): View

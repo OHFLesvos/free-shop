@@ -21,8 +21,9 @@ class ShoppingBasket
             ->map(fn ($quantity) => intval($quantity))
             ->filter(fn ($quantity) => $quantity > 0);
 
-        if ($items->isNotEmpty())  {
+        if ($items->isNotEmpty()) {
             session()->put(self::SESSION_KEY, $items->toArray());
+
             return;
         }
         session()->forget(self::SESSION_KEY);
@@ -49,6 +50,7 @@ class ShoppingBasket
         if ($quantity > 0) {
             $this->items[$productId] = $quantity;
             $this->save();
+
             return;
         }
         $this->remove($productId);
@@ -66,7 +68,7 @@ class ShoppingBasket
 
     public function remove(int $productId): void
     {
-        $this->items->forget((string)$productId);
+        $this->items->forget((string) $productId);
         $this->save();
     }
 

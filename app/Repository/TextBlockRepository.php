@@ -11,7 +11,7 @@ class TextBlockRepository
     {
         foreach (config('text-blocks') as $key => $item) {
             TextBlock::firstOrCreate([
-                'name' => $key
+                'name' => $key,
             ], [
                 'name' => $key,
                 'content' => $item['default_content'] ?? '',
@@ -34,7 +34,7 @@ class TextBlockRepository
             ->filter(fn (TextBlock $textBlock) => filled($textBlock->content))
             ->map(fn (TextBlock $textBlock) => Str::of($textBlock->content)->markdown())
             ->first()
-            ?? config('text-blocks.' . $name . '.default_content');
+            ?? config('text-blocks.'.$name.'.default_content');
     }
 
     public function getPlain(string $name, ?string $locale = null): ?string
@@ -43,6 +43,6 @@ class TextBlockRepository
             ->get()
             ->map(fn (TextBlock $textBlock) => isset($locale) ? $textBlock->getTranslation('content', $locale) : $textBlock->content)
             ->first(fn (string $content) => filled($content))
-            ?? config('text-blocks.' . $name . '.default_content');
+            ?? config('text-blocks.'.$name.'.default_content');
     }
 }

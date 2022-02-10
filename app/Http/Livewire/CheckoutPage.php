@@ -38,9 +38,9 @@ class CheckoutPage extends FrontendPage
     public function render(ShoppingBasket $basket): View
     {
         return parent::view('livewire.checkout-page', [
-                'basket' => $basket,
-                'nextOrderIn' => $this->customer->getNextOrderIn(),
-            ]);
+            'basket' => $basket,
+            'nextOrderIn' => $this->customer->getNextOrderIn(),
+        ]);
     }
 
     public function submit(Request $request, ShoppingBasket $basket)
@@ -57,6 +57,7 @@ class CheckoutPage extends FrontendPage
                 'customer.credit' => $this->customer->credit,
             ]);
             session()->flash('error', __('No products have been selected.'));
+
             return redirect()->route('shop-front');
         }
 
@@ -73,6 +74,7 @@ class CheckoutPage extends FrontendPage
                 'customer.credit' => $this->customer->credit,
             ]);
             session()->flash('error', __('Not enough credit.'));
+
             return;
         }
 
@@ -105,13 +107,13 @@ class CheckoutPage extends FrontendPage
             'order.costs' => $order->costs,
         ]);
 
-        if (!setting()->has('customer.skip_order_registered_notification')) {
+        if (! setting()->has('customer.skip_order_registered_notification')) {
             try {
                 $this->customer->notify(new OrderRegistered($order));
             } catch (PhoneNumberBlockedByAdminException $ex) {
                 session()->flash('error', __('The phone number :phone has been blocked by an administrator.', ['phone' => $ex->getPhone()]));
             } catch (\Exception $ex) {
-                Log::warning('[' . get_class($ex) . '] Cannot send notification: ' . $ex->getMessage());
+                Log::warning('['.get_class($ex).'] Cannot send notification: '.$ex->getMessage());
             }
         }
 

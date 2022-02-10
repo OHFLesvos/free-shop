@@ -25,6 +25,7 @@ class RedirectIfAuthenticated
                 if ($guard == 'customer') {
                     return redirect()->route('shop-front');
                 }
+
                 return redirect(RouteServiceProvider::HOME);
             }
         }

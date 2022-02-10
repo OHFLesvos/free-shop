@@ -2,12 +2,12 @@
 
 use App\Logging\AddMetadata;
 use Inpsyde\LogzIoMonolog\Formatter\LogzIoFormatter;
+use Inpsyde\LogzIoMonolog\Handler\LogzIoHandler;
 use Monolog\Formatter\LogglyFormatter;
 use Monolog\Handler\LogglyHandler;
 use Monolog\Handler\NullHandler;
 use Monolog\Handler\StreamHandler;
 use Monolog\Handler\SyslogUdpHandler;
-use Inpsyde\LogzIoMonolog\Handler\LogzIoHandler;
 
 return [
 

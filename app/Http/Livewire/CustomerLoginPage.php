@@ -19,7 +19,7 @@ class CustomerLoginPage extends FrontendPage
             'idNumber' => [
                 'required',
                 setting()->has('customer.id_number_pattern')
-                    ? 'regex:' . setting()->get('customer.id_number_pattern')
+                    ? 'regex:'.setting()->get('customer.id_number_pattern')
                     : null,
             ],
         ];
@@ -44,14 +44,17 @@ class CustomerLoginPage extends FrontendPage
             if ($customer->is_disabled) {
                 $message = __('Your account has been disabled.');
                 if (filled($customer->disabled_reason)) {
-                    $message .= ' ' . $customer->disabled_reason;
+                    $message .= ' '.$customer->disabled_reason;
                 }
                 session()->flash('error', $message);
+
                 return;
             }
             Auth::guard('customer')->login($customer);
+
             return redirect()->route('shop-front');
         }
+
         return redirect()->route('customer.registration', [
             'idNumber' => $this->idNumber,
         ]);

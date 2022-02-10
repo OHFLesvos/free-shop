@@ -14,6 +14,7 @@ class UserRolesChanged
     use SerializesModels;
 
     public User $user;
+
     public array $previousRoles;
 
     /**

@@ -23,16 +23,18 @@ class SystemInfoWidget extends Component
                 'Web server' => request()->server('SERVER_SOFTWARE'),
                 'PHP' => phpversion(),
                 'Laravel' => app()->version(),
-                'Database' => sprintf("%s (%s)", DB::connection()->getPdo()->getAttribute(PDO::ATTR_DRIVER_NAME), DB::connection()->getPdo()->getAttribute(PDO::ATTR_SERVER_VERSION))
+                'Database' => sprintf('%s (%s)', DB::connection()->getPdo()->getAttribute(PDO::ATTR_DRIVER_NAME), DB::connection()->getPdo()->getAttribute(PDO::ATTR_SERVER_VERSION)),
             ];
             $gitInfoFile = base_path('.gitinfo');
             if (file_exists($gitInfoFile)) {
                 $data['Code revision'] = file_get_contents($gitInfoFile);
             }
+
             return view('components.backend.dashboard.system-info-widget', [
                 'data' => $data,
             ]);
         }
+
         return '';
     }
 }

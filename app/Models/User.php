@@ -76,7 +76,7 @@ class User extends Authenticatable
     public static function boot()
     {
         parent::boot();
-        static::deleted(function($user) {
+        static::deleted(function ($user) {
             if ($user->avatar !== null && Storage::exists($user->avatar)) {
                 Storage::delete($user->avatar);
             }
@@ -85,7 +85,7 @@ class User extends Authenticatable
 
     public function scopeFilter(Builder $qry, string $filter): void
     {
-        $qry->where('name', 'LIKE', '%' . $filter . '%')
-            ->orWhere('email', 'LIKE', '%' . $filter . '%');
+        $qry->where('name', 'LIKE', '%'.$filter.'%')
+            ->orWhere('email', 'LIKE', '%'.$filter.'%');
     }
 }
