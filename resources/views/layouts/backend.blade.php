@@ -121,7 +121,7 @@ $navItems = [
                                 </a>
                                 <form id="logout-form" class="d-none" action="{{ route('backend.logout') }}"
                                     method="POST">
-                                    {{ csrf_field() }}
+                                    @csrf
                                 </form>
                             </li>
                         </ul>

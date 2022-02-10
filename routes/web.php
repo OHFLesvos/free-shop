@@ -90,8 +90,8 @@ Route::middleware(['set-language'])
 
 Route::get('languages', [LanguageSelectController::class, 'index'])
     ->name('languages');
-Route::get('languages/{lang}', [LanguageSelectController::class, 'change'])
-    ->name('languages.change');
+Route::get('languages/{lang}', [LanguageSelectController::class, 'update'])
+    ->name('languages.update');
 
 Route::prefix('backend')
     ->name('backend.')

@@ -2,12 +2,12 @@
 
 namespace App\Http\Livewire;
 
-use App;
 use App\Models\Customer;
 use App\Models\Order;
 use App\Models\Product;
 use App\Services\ShoppingBasket;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
 

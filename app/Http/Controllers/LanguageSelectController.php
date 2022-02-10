@@ -15,7 +15,7 @@ class LanguageSelectController extends Controller
         ]);
     }
 
-    public function change(string $lang)
+    public function update(string $lang)
     {
         if (! isset(config('app.supported_languages')[$lang])) {
             $lang = config('app.fallback_locale');
