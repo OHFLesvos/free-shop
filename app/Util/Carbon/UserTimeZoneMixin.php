@@ -7,7 +7,8 @@ use Illuminate\Support\Facades\Auth;
 
 class UserTimeZoneMixin
 {
-    public function toUserTimezone() {
+    public function toUserTimezone()
+    {
         return static function () {
             $date = self::this();
             if (Auth::check() && filled(Auth::user()->timezone)) {

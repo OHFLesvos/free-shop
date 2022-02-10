@@ -86,7 +86,7 @@ $rtl = in_array(app()->getLocale(), config('app.rtl_languages', []));
                                     <li>
                                         <a
                                             class="dropdown-item"
-                                            href="{{ route('languages.change', $key) }}">
+                                            href="{{ route('languages.update', $key) }}">
                                             @if(session()->get('lang') == $key)
                                                 <strong>{{ $val }}</strong>
                                             @else

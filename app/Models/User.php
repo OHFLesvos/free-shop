@@ -76,7 +76,7 @@ class User extends Authenticatable
     public static function boot()
     {
         parent::boot();
-        static::deleted(function($user) {
+        static::deleted(function ($user) {
             if ($user->avatar !== null && Storage::exists($user->avatar)) {
                 Storage::delete($user->avatar);
             }

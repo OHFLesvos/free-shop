@@ -11,7 +11,7 @@ class Taggable extends MorphPivot
     public static function boot()
     {
         parent::boot();
-        static::deleted(function($item) {
+        static::deleted(function ($item) {
             if (self::where('tag_id', $item->tag_id)->count() == 0) {
                 Tag::destroy($item->tag_id);
             }

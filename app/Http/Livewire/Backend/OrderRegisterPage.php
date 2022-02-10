@@ -54,8 +54,7 @@ class OrderRegisterPage extends BackendPage
 
     public function render(): View
     {
-        return parent::view('livewire.backend.order-register-page', [
-        ]);
+        return parent::view('livewire.backend.order-register-page', []);
     }
 
     public function getTotalPriceProperty()

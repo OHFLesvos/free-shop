@@ -7,7 +7,7 @@
         <div class="list-group shadow-sm my-4">
             @foreach($languages as $key => $value)
                 <a
-                    href="{{ route('languages.change', $key) }}"
+                    href="{{ route('languages.update', $key) }}"
                     class="list-group-item list-group-item-action py-3">
                     {{ $value }}
                 </a>

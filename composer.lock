@@ -8,25 +8,24 @@
     "packages": [
         {
             "name": "anlutro/l4-settings",
-            "version": "v1.0.0",
+            "version": "v1.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/anlutro/laravel-settings.git",
-                "reference": "179b2719b13d37f054895193cfd82bd0f32adbca"
+                "reference": "90e82711d0a2c158d12c4b6df3202cd688eeadd4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/anlutro/laravel-settings/zipball/179b2719b13d37f054895193cfd82bd0f32adbca",
-                "reference": "179b2719b13d37f054895193cfd82bd0f32adbca",
+                "url": "https://api.github.com/repos/anlutro/laravel-settings/zipball/90e82711d0a2c158d12c4b6df3202cd688eeadd4",
+                "reference": "90e82711d0a2c158d12c4b6df3202cd688eeadd4",
                 "shasum": ""
             },
             "require": {
-                "illuminate/cache": ">=4.2 <9.0",
-                "illuminate/support": ">=4.2 <9.0",
-                "php": ">=5.4.0"
+                "illuminate/cache": ">=4.2 <=9.0",
+                "illuminate/support": ">=4.2 <=9.0"
             },
             "require-dev": {
-                "laravel/framework": ">=4.2",
+                "laravel/framework": ">=5.7",
                 "mockery/mockery": "^1.2",
                 "phpunit/phpunit": "^8.0"
             },
@@ -66,9 +65,9 @@
             "description": "Persistent settings in Laravel.",
             "support": {
                 "issues": "https://github.com/anlutro/laravel-settings/issues",
-                "source": "https://github.com/anlutro/laravel-settings/tree/v1.0.0"
+                "source": "https://github.com/anlutro/laravel-settings/tree/v1.1.0"
             },
-            "time": "2020-09-09T13:15:05+00:00"
+            "time": "2022-02-10T08:17:35+00:00"
         },
         {
             "name": "asm89/stack-cors",
@@ -1479,16 +1478,16 @@
         },
         {
             "name": "giggsey/libphonenumber-for-php",
-            "version": "8.12.42",
+            "version": "8.12.43",
             "source": {
                 "type": "git",
                 "url": "https://github.com/giggsey/libphonenumber-for-php.git",
-                "reference": "33c8dc586ab0d430193dc721d597a3aa79803d06"
+                "reference": "27bc97a4941f42d320fb6da3de0dcaaf7db69f5d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/giggsey/libphonenumber-for-php/zipball/33c8dc586ab0d430193dc721d597a3aa79803d06",
-                "reference": "33c8dc586ab0d430193dc721d597a3aa79803d06",
+                "url": "https://api.github.com/repos/giggsey/libphonenumber-for-php/zipball/27bc97a4941f42d320fb6da3de0dcaaf7db69f5d",
+                "reference": "27bc97a4941f42d320fb6da3de0dcaaf7db69f5d",
                 "shasum": ""
             },
             "require": {
@@ -1548,7 +1547,7 @@
                 "issues": "https://github.com/giggsey/libphonenumber-for-php/issues",
                 "source": "https://github.com/giggsey/libphonenumber-for-php"
             },
-            "time": "2022-01-28T08:38:37+00:00"
+            "time": "2022-02-09T07:46:55+00:00"
         },
         {
             "name": "giggsey/locale",
@@ -2293,16 +2292,16 @@
         },
         {
             "name": "laravel/framework",
-            "version": "v8.82.0",
+            "version": "v8.83.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "411d5243c58cbf12b0fc89cab1ceb50088968c27"
+                "reference": "29bc8779103909ebc428478b339ee6fa8703e193"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/411d5243c58cbf12b0fc89cab1ceb50088968c27",
-                "reference": "411d5243c58cbf12b0fc89cab1ceb50088968c27",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/29bc8779103909ebc428478b339ee6fa8703e193",
+                "reference": "29bc8779103909ebc428478b339ee6fa8703e193",
                 "shasum": ""
             },
             "require": {
@@ -2462,7 +2461,7 @@
                 "issues": "https://github.com/laravel/framework/issues",
                 "source": "https://github.com/laravel/framework"
             },
-            "time": "2022-02-01T16:13:57+00:00"
+            "time": "2022-02-08T15:44:51+00:00"
         },
         {
             "name": "laravel/serializable-closure",
@@ -2525,16 +2524,16 @@
         },
         {
             "name": "laravel/socialite",
-            "version": "v5.5.0",
+            "version": "v5.5.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/socialite.git",
-                "reference": "cb5b5538c207efa19aa5d7f46cd76acb03ec3055"
+                "reference": "9b96dfd69e9c1de69c23205cb390550bc71c357e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/socialite/zipball/cb5b5538c207efa19aa5d7f46cd76acb03ec3055",
-                "reference": "cb5b5538c207efa19aa5d7f46cd76acb03ec3055",
+                "url": "https://api.github.com/repos/laravel/socialite/zipball/9b96dfd69e9c1de69c23205cb390550bc71c357e",
+                "reference": "9b96dfd69e9c1de69c23205cb390550bc71c357e",
                 "shasum": ""
             },
             "require": {
@@ -2590,7 +2589,7 @@
                 "issues": "https://github.com/laravel/socialite/issues",
                 "source": "https://github.com/laravel/socialite"
             },
-            "time": "2022-02-01T16:31:36+00:00"
+            "time": "2022-02-07T16:08:19+00:00"
         },
         {
             "name": "laravel/tinker",
@@ -4757,12 +4756,12 @@
                 }
             },
             "autoload": {
-                "psr-4": {
-                    "Http\\Message\\": "src/"
-                },
                 "files": [
                     "src/filters.php"
-                ]
+                ],
+                "psr-4": {
+                    "Http\\Message\\": "src/"
+                }
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
@@ -9146,16 +9145,16 @@
         },
         {
             "name": "twilio/sdk",
-            "version": "6.33.1",
+            "version": "6.34.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/twilio/twilio-php.git",
-                "reference": "569441b5e63e41d8fea3907298718eb569c980b0"
+                "reference": "336cc54d70a6e05f397ee25777d79482a4574efd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/twilio/twilio-php/zipball/569441b5e63e41d8fea3907298718eb569c980b0",
-                "reference": "569441b5e63e41d8fea3907298718eb569c980b0",
+                "url": "https://api.github.com/repos/twilio/twilio-php/zipball/336cc54d70a6e05f397ee25777d79482a4574efd",
+                "reference": "336cc54d70a6e05f397ee25777d79482a4574efd",
                 "shasum": ""
             },
             "require": {
@@ -9163,8 +9162,7 @@
             },
             "require-dev": {
                 "guzzlehttp/guzzle": "^6.3 || ^7.0",
-                "phpunit/phpunit": ">=4.5",
-                "theseer/phpdox": "^0.12.0"
+                "phpunit/phpunit": ">=7.0"
             },
             "suggest": {
                 "guzzlehttp/guzzle": "An HTTP client to execute the API requests"
@@ -9186,7 +9184,7 @@
                 }
             ],
             "description": "A PHP wrapper for Twilio's API",
-            "homepage": "http://github.com/twilio/twilio-php",
+            "homepage": "https://github.com/twilio/twilio-php",
             "keywords": [
                 "api",
                 "sms",
@@ -9194,9 +9192,9 @@
             ],
             "support": {
                 "issues": "https://github.com/twilio/twilio-php/issues",
-                "source": "https://github.com/twilio/twilio-php/tree/6.33.1"
+                "source": "https://github.com/twilio/twilio-php/tree/6.34.0"
             },
-            "time": "2022-01-26T20:19:36+00:00"
+            "time": "2022-02-09T23:51:45+00:00"
         },
         {
             "name": "umpirsky/country-list",
@@ -9460,16 +9458,16 @@
     "packages-dev": [
         {
             "name": "barryvdh/laravel-debugbar",
-            "version": "v3.6.6",
+            "version": "v3.6.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/barryvdh/laravel-debugbar.git",
-                "reference": "f92fe967b40b36ad1ee8ed2fd59c05ae67a1ebba"
+                "reference": "b96f9820aaf1ff9afe945207883149e1c7afb298"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/barryvdh/laravel-debugbar/zipball/f92fe967b40b36ad1ee8ed2fd59c05ae67a1ebba",
-                "reference": "f92fe967b40b36ad1ee8ed2fd59c05ae67a1ebba",
+                "url": "https://api.github.com/repos/barryvdh/laravel-debugbar/zipball/b96f9820aaf1ff9afe945207883149e1c7afb298",
+                "reference": "b96f9820aaf1ff9afe945207883149e1c7afb298",
                 "shasum": ""
             },
             "require": {
@@ -9483,7 +9481,7 @@
             },
             "require-dev": {
                 "mockery/mockery": "^1.3.3",
-                "orchestra/testbench-dusk": "^4|^5|^6",
+                "orchestra/testbench-dusk": "^4|^5|^6|^7",
                 "phpunit/phpunit": "^8.5|^9.0",
                 "squizlabs/php_codesniffer": "^3.5"
             },
@@ -9502,12 +9500,12 @@
                 }
             },
             "autoload": {
-                "psr-4": {
-                    "Barryvdh\\Debugbar\\": "src/"
-                },
                 "files": [
                     "src/helpers.php"
-                ]
+                ],
+                "psr-4": {
+                    "Barryvdh\\Debugbar\\": "src/"
+                }
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
@@ -9529,7 +9527,7 @@
             ],
             "support": {
                 "issues": "https://github.com/barryvdh/laravel-debugbar/issues",
-                "source": "https://github.com/barryvdh/laravel-debugbar/tree/v3.6.6"
+                "source": "https://github.com/barryvdh/laravel-debugbar/tree/v3.6.7"
             },
             "funding": [
                 {
@@ -9541,25 +9539,25 @@
                     "type": "github"
                 }
             ],
-            "time": "2021-12-21T18:20:10+00:00"
+            "time": "2022-02-09T07:52:32+00:00"
         },
         {
             "name": "barryvdh/laravel-ide-helper",
-            "version": "v2.12.1",
+            "version": "v2.12.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/barryvdh/laravel-ide-helper.git",
-                "reference": "999167d4c21e2ae748847f7c0e4565ae45f5c9f9"
+                "reference": "7917cce7c991c7203545ea2e59a1dd366d1b60af"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/barryvdh/laravel-ide-helper/zipball/999167d4c21e2ae748847f7c0e4565ae45f5c9f9",
-                "reference": "999167d4c21e2ae748847f7c0e4565ae45f5c9f9",
+                "url": "https://api.github.com/repos/barryvdh/laravel-ide-helper/zipball/7917cce7c991c7203545ea2e59a1dd366d1b60af",
+                "reference": "7917cce7c991c7203545ea2e59a1dd366d1b60af",
                 "shasum": ""
             },
             "require": {
                 "barryvdh/reflection-docblock": "^2.0.6",
-                "composer/composer": "^1.10.23 || ^2.1.9",
+                "composer/pcre": "^1.0",
                 "doctrine/dbal": "^2.6 || ^3",
                 "ext-json": "*",
                 "illuminate/console": "^8 || ^9",
@@ -9623,7 +9621,7 @@
             ],
             "support": {
                 "issues": "https://github.com/barryvdh/laravel-ide-helper/issues",
-                "source": "https://github.com/barryvdh/laravel-ide-helper/tree/v2.12.1"
+                "source": "https://github.com/barryvdh/laravel-ide-helper/tree/v2.12.2"
             },
             "funding": [
                 {
@@ -9635,7 +9633,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2022-01-24T21:36:43+00:00"
+            "time": "2022-02-08T19:30:33+00:00"
         },
         {
             "name": "barryvdh/reflection-docblock",
@@ -10416,12 +10414,12 @@
                 }
             },
             "autoload": {
-                "psr-4": {
-                    "Facade\\Ignition\\": "src"
-                },
                 "files": [
                     "src/helpers.php"
-                ]
+                ],
+                "psr-4": {
+                    "Facade\\Ignition\\": "src"
+                }
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
@@ -11200,16 +11198,16 @@
         },
         {
             "name": "phar-io/version",
-            "version": "3.1.0",
+            "version": "3.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phar-io/version.git",
-                "reference": "bae7c545bef187884426f042434e561ab1ddb182"
+                "reference": "15a90844ad40f127afd244c0cad228de2a80052a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phar-io/version/zipball/bae7c545bef187884426f042434e561ab1ddb182",
-                "reference": "bae7c545bef187884426f042434e561ab1ddb182",
+                "url": "https://api.github.com/repos/phar-io/version/zipball/15a90844ad40f127afd244c0cad228de2a80052a",
+                "reference": "15a90844ad40f127afd244c0cad228de2a80052a",
                 "shasum": ""
             },
             "require": {
@@ -11245,9 +11243,9 @@
             "description": "Library for handling version information and constraints",
             "support": {
                 "issues": "https://github.com/phar-io/version/issues",
-                "source": "https://github.com/phar-io/version/tree/3.1.0"
+                "source": "https://github.com/phar-io/version/tree/3.1.1"
             },
-            "time": "2021-02-23T14:00:09+00:00"
+            "time": "2022-02-07T21:56:48+00:00"
         },
         {
             "name": "phpdocumentor/reflection-common",
@@ -11920,11 +11918,11 @@
                 }
             },
             "autoload": {
-                "classmap": [
-                    "src/"
-                ],
                 "files": [
                     "src/Framework/Assert/Functions.php"
+                ],
+                "classmap": [
+                    "src/"
                 ]
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -12517,16 +12515,16 @@
         },
         {
             "name": "sebastian/global-state",
-            "version": "5.0.3",
+            "version": "5.0.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/global-state.git",
-                "reference": "23bd5951f7ff26f12d4e3242864df3e08dec4e49"
+                "reference": "19c519631c5a511b7ed0ad64a6713fdb3fd25fe4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/global-state/zipball/23bd5951f7ff26f12d4e3242864df3e08dec4e49",
-                "reference": "23bd5951f7ff26f12d4e3242864df3e08dec4e49",
+                "url": "https://api.github.com/repos/sebastianbergmann/global-state/zipball/19c519631c5a511b7ed0ad64a6713fdb3fd25fe4",
+                "reference": "19c519631c5a511b7ed0ad64a6713fdb3fd25fe4",
                 "shasum": ""
             },
             "require": {
@@ -12569,7 +12567,7 @@
             ],
             "support": {
                 "issues": "https://github.com/sebastianbergmann/global-state/issues",
-                "source": "https://github.com/sebastianbergmann/global-state/tree/5.0.3"
+                "source": "https://github.com/sebastianbergmann/global-state/tree/5.0.4"
             },
             "funding": [
                 {
@@ -12577,7 +12575,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2021-06-11T13:31:12+00:00"
+            "time": "2022-02-10T07:01:19+00:00"
         },
         {
             "name": "sebastian/lines-of-code",
@@ -13278,5 +13276,5 @@
         "php": "^7.4|^8.0"
     },
     "platform-dev": [],
-    "plugin-api-version": "2.1.0"
+    "plugin-api-version": "2.0.0"
 }

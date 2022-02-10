@@ -148,7 +148,7 @@ class ReportsPage extends BackendPage
 
     public function generatePdf(): Response
     {
-        $name = 'Report - ' . $this->ranges[$this->range] . ' ('. now()->toDateString() . ')';
+        $name = 'Report - ' . $this->ranges[$this->range] . ' (' . now()->toDateString() . ')';
 
         $data = $this->getData();
         $mergeData = [

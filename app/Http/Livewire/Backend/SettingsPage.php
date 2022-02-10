@@ -71,7 +71,8 @@ class SettingsPage extends BackendPage
 
     public bool $skipOrderRegisteredNotification;
 
-    protected function rules(): array {
+    protected function rules(): array
+    {
         return [
             'shopDisabled' => [
                 'boolean',
@@ -175,7 +176,7 @@ class SettingsPage extends BackendPage
 
     public function addToGeoblockWhitelist(): void
     {
-        if (filled($this->selectedCountry) && ! $this->geoblockWhitelist->contains($this->selectedCountry)) {
+        if (filled($this->selectedCountry) && !$this->geoblockWhitelist->contains($this->selectedCountry)) {
             $this->geoblockWhitelist->push($this->selectedCountry);
         }
         $this->selectedCountry = null;

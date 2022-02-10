@@ -60,7 +60,8 @@ return new class extends Migration
         foreach ($this->newPermissions as $name) {
             try {
                 Permission::findByName($name)->delete();
-            } catch (PermissionDoesNotExist $ignored) { }
+            } catch (PermissionDoesNotExist $ignored) {
+            }
         }
     }
 };
