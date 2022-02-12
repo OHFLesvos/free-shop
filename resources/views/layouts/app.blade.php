@@ -25,6 +25,12 @@ $navItems = [
         'icon' => 'info-circle',
         'authorized' => true,
     ],
+    [
+        'label' => __('Statistics'),
+        'route' => 'statistics',
+        'icon' => 'chart-bar',
+        'authorized' => true,
+    ],
 ];
 $rNavItems = [
     [
