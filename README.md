@@ -56,6 +56,7 @@ Create/migrate database tables:
 Cache routes and configuration for increased performance (don't use during development!):
 
     php artisan optimize
+    php artisan view:clear
 
 ## Deployment
 
