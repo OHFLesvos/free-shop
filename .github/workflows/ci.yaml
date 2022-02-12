@@ -115,6 +115,7 @@ jobs:
           cd ${{ secrets.REMOTE_TARGET }}
           mkdir -p storage/framework/{sessions,views,cache}
           php artisan optimize
+          php artisan view:clear
           php artisan migrate --force
           php artisan storage:link
           php artisan up

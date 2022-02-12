@@ -31,6 +31,7 @@ use App\Http\Livewire\CustomerLoginPage;
 use App\Http\Livewire\CustomerRegistrationPage;
 use App\Http\Livewire\MyOrdersPage;
 use App\Http\Livewire\ShopFrontPage;
+use App\Http\Livewire\StatisticsPage;
 use App\Models\BlockedPhoneNumber;
 use App\Models\TextBlock;
 use Illuminate\Http\Request;
@@ -56,6 +57,8 @@ Route::middleware(['set-language'])
             ->name('privacy-policy');
         Route::get('about', AboutPage::class)
             ->name('about');
+        Route::get('statistics', StatisticsPage::class)
+            ->name('statistics');
         Route::get('shop', ShopFrontPage::class)
             ->name('shop-front')
             ->middleware('customer-disabled-check');
