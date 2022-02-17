@@ -3582,20 +3582,20 @@
         },
         {
             "name": "monarobase/country-list",
-            "version": "3.2.0",
+            "version": "3.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Monarobase/country-list.git",
-                "reference": "c3726af5e7113a7c12710f2c2d0ca4e1b733d876"
+                "reference": "6fa307de681cd1aa236145eb7c8ed133a97e12e9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Monarobase/country-list/zipball/c3726af5e7113a7c12710f2c2d0ca4e1b733d876",
-                "reference": "c3726af5e7113a7c12710f2c2d0ca4e1b733d876",
+                "url": "https://api.github.com/repos/Monarobase/country-list/zipball/6fa307de681cd1aa236145eb7c8ed133a97e12e9",
+                "reference": "6fa307de681cd1aa236145eb7c8ed133a97e12e9",
                 "shasum": ""
             },
             "require": {
-                "illuminate/support": "^5.8|^6|^7|^8",
+                "illuminate/support": "^5.8|^6|^7|^8|^9",
                 "php": ">=5.6.0",
                 "umpirsky/country-list": "2.0.*"
             },
@@ -3637,9 +3637,9 @@
             ],
             "support": {
                 "issues": "https://github.com/Monarobase/country-list/issues",
-                "source": "https://github.com/Monarobase/country-list/tree/3.2.0"
+                "source": "https://github.com/Monarobase/country-list/tree/3.3.0"
             },
-            "time": "2020-09-09T11:59:52+00:00"
+            "time": "2022-02-14T12:04:26+00:00"
         },
         {
             "name": "monolog/monolog",
@@ -10756,27 +10756,29 @@
         },
         {
             "name": "kkomelin/laravel-translatable-string-exporter",
-            "version": "1.15.1",
+            "version": "1.16.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/kkomelin/laravel-translatable-string-exporter.git",
-                "reference": "87c330b7c5827d19ff3b00b6aa2c4431575ac873"
+                "reference": "4714516a8f3c52759f1de503ba1bc978442ed7f4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kkomelin/laravel-translatable-string-exporter/zipball/87c330b7c5827d19ff3b00b6aa2c4431575ac873",
-                "reference": "87c330b7c5827d19ff3b00b6aa2c4431575ac873",
+                "url": "https://api.github.com/repos/kkomelin/laravel-translatable-string-exporter/zipball/4714516a8f3c52759f1de503ba1bc978442ed7f4",
+                "reference": "4714516a8f3c52759f1de503ba1bc978442ed7f4",
                 "shasum": ""
             },
             "require": {
                 "ext-json": "*",
                 "illuminate/support": "^5.4|^6|^7|^8|^9",
                 "illuminate/translation": "^5.4|^6|^7|^8|^9",
-                "php": ">=5.4.0",
+                "php": "^7.2|^8.0",
                 "symfony/finder": "^3.2|^4|^5|^6"
             },
             "require-dev": {
-                "orchestra/testbench": "^3.4|^4.0|^5.0|^6.0|^7.0"
+                "nunomaduro/larastan": "^1.0|^2.0",
+                "orchestra/testbench": "^3.4|^4.0|^5.0|^6.0|^7.0",
+                "phpunit/phpunit": "^6.0|^7.0|^8.0|^9.0"
             },
             "type": "library",
             "extra": {
@@ -10813,9 +10815,9 @@
             ],
             "support": {
                 "issues": "https://github.com/kkomelin/laravel-translatable-string-exporter/issues",
-                "source": "https://github.com/kkomelin/laravel-translatable-string-exporter/tree/1.15.1"
+                "source": "https://github.com/kkomelin/laravel-translatable-string-exporter/tree/1.16.0"
             },
-            "time": "2022-02-12T06:48:38+00:00"
+            "time": "2022-02-16T05:53:46+00:00"
         },
         {
             "name": "maximebf/debugbar",
