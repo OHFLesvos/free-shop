@@ -18,6 +18,7 @@ use App\Http\Livewire\Backend\ProductManagePage;
 use App\Http\Livewire\Backend\ProductListPage;
 use App\Http\Livewire\Backend\ReportsPage;
 use App\Http\Livewire\Backend\SettingsPage;
+use App\Http\Livewire\Backend\StockChangePage;
 use App\Http\Livewire\Backend\StockEditPage;
 use App\Http\Livewire\Backend\StockPage;
 use App\Http\Livewire\Backend\TextBlockEditPage;
@@ -143,6 +144,8 @@ Route::middleware('auth')
                     ->name('products.edit');
                 Route::get('stock', StockPage::class)
                     ->name('stock');
+                Route::get('stock/_changes', StockChangePage::class)
+                    ->name('stock.changes');
                 Route::get('stock/{product}', StockEditPage::class)
                     ->name('stock.edit');
                 Route::get('export', DataExportPage::class)

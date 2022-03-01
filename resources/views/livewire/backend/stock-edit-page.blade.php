@@ -37,6 +37,23 @@
                 </div>
             </div>
 
+            <div class="mt-3">
+                <label for="descriptionInput" class="form-label">Description/reason for change</label>
+                <textarea
+                    class="form-control
+                    @error('description') is-invalid @enderror"
+                    id="descriptionInput"
+                    autocomplete="off"
+                    placeholder="(optional)"
+                    wire:model="description"></textarea>
+                @error('description') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                @if(session()->has('stock.edit.description'))
+                <small id="descriptionHelp" class="form-text text-muted">
+                    Using value from last change
+                </small>
+                @endif
+            </div>
+
             <x-slot name="footer">
                 <div class="d-flex justify-content-end">
                     <a

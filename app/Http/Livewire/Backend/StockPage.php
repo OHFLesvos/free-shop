@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Backend;
 
+use App\Http\Livewire\Traits\CurrentRouteName;
 use App\Models\Product;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\View\View;
@@ -9,6 +10,7 @@ use Illuminate\View\View;
 class StockPage extends BackendPage
 {
     use AuthorizesRequests;
+    use CurrentRouteName;
 
     protected string $title = 'Stock';
 
