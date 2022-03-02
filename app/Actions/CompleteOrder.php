@@ -3,6 +3,7 @@
 namespace App\Actions;
 
 use App\Models\Order;
+use App\Models\StockChange;
 use Exception;
 use Lorisleiva\Actions\Concerns\AsAction;
 
@@ -19,8 +20,16 @@ class CompleteOrder
             }
         }
         foreach ($order->products as $product) {
-            $product->stock -= $product->pivot->quantity;
+            $quantity = $product->pivot->quantity;
+            $product->stock -= $quantity;
             $product->save();
+
+            $change = new StockChange();
+            $change->quantity = -$quantity;
+            $change->total = $product->stock;
+            $change->product()->associate($product);
+            $change->order()->associate($order);
+            $change->save();
         }
 
         $order->status = 'completed';

@@ -1,5 +1,7 @@
 <div class="medium-container">
 
+    @include('livewire.backend.stock-nav')
+
     @if (session()->has('message'))
         <x-alert type="success" dismissible>{{ session()->get('message') }}</x-alert>
     @endif
