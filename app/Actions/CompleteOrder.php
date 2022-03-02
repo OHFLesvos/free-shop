@@ -5,6 +5,7 @@ namespace App\Actions;
 use App\Models\Order;
 use App\Models\StockChange;
 use Exception;
+use Illuminate\Support\Facades\Auth;
 use Lorisleiva\Actions\Concerns\AsAction;
 
 class CompleteOrder
