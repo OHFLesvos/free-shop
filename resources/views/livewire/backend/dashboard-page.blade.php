@@ -23,9 +23,9 @@
         <x-backend.dashboard.orders-widget/>
         <x-backend.dashboard.customers-widget/>
         <x-backend.dashboard.products-widget/>
-        <x-backend.dashboard.stock-change-widget/>
         <x-backend.dashboard.users-widget/>
         <x-backend.dashboard.twilio-widget/>
+        <x-backend.dashboard.stock-change-widget/>
         <x-backend.dashboard.system-info-widget/>
         @php
             $content = ob_get_clean();

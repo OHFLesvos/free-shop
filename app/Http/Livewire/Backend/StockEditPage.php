@@ -27,7 +27,7 @@ class StockEditPage extends BackendPage
             'integer',
         ],
         'description' => [
-            'nullable',
+            'required',
         ],
     ];
 

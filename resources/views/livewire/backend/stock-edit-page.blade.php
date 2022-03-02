@@ -44,7 +44,7 @@
                     @error('description') is-invalid @enderror"
                     id="descriptionInput"
                     autocomplete="off"
-                    placeholder="(optional)"
+                    required
                     wire:model="description"></textarea>
                 @error('description') <div class="invalid-feedback">{{ $message }}</div> @enderror
                 @if(session()->has('stock.edit.description'))
