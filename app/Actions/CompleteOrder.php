@@ -29,6 +29,7 @@ class CompleteOrder
             $change->total = $product->stock;
             $change->product()->associate($product);
             $change->order()->associate($order);
+            $change->user()->associate(Auth::user());
             $change->save();
         }
 
