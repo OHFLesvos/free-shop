@@ -30,7 +30,13 @@
                     <tr>
                         <td class="fit" title="{{ $change->created_at->toUserTimezone()->isoFormat('LLLL') }}">{{ $change->created_at->diffForHumans() }}</td>
                         <td>{{ $change->product->name }}</td>
-                        <td class="fit text-end">{{ $change->quantity }}</td>
+                        <td class="fit text-end">
+                            @if ($change->quantity > 0)
+                                <span class="text-success">+{{ $change->quantity }}</span>
+                            @else
+                                <span class="text-danger">{{ $change->quantity }}</span>
+                            @endif
+                        </td>
                         <td class="fit text-end">{{ $change->total }}</td>
                         <td>{{ $change->description }}</td>
                         <td class="fit">{{ optional($change->user)->name }}</td>
