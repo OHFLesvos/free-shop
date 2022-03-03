@@ -36,7 +36,7 @@ class OrderEditPage extends BackendPage
                         ->sum();
                     $difference = $totalPrice - $this->order->costs;
                     if ($this->order->customer->credit < $difference) {
-                        $fail('Customer has not enough credit. '.$difference.' required, '.$this->order->customer->credit.' available.');
+                        $fail('Customer has not enough credit. ' . $difference . ' required, ' . $this->order->customer->credit . ' available.');
                     }
                 }
             ],
@@ -109,5 +109,4 @@ class OrderEditPage extends BackendPage
 
         return redirect()->route('backend.orders.show', $this->order);
     }
-
 }

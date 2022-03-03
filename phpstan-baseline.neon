@@ -36,6 +36,11 @@ parameters:
 			path: app/Http/Livewire/Backend/BlockedPhoneNumbersPage.php
 
 		-
+			message: "#^Access to an undefined property App\\\\Models\\\\Product\\:\\:\\$pivot\\.$#"
+			count: 1
+			path: app/Http/Livewire/Backend/OrderEditPage.php
+
+		-
 			message: "#^Binary operation \"\\.\" between 'Edit Product ' and array results in an error\\.$#"
 			count: 1
 			path: app/Http/Livewire/Backend/ProductManagePage.php
@@ -84,6 +89,11 @@ parameters:
 			message: "#^Call to an undefined method Monolog\\\\Handler\\\\HandlerInterface\\:\\:pushProcessor\\(\\)\\.$#"
 			count: 1
 			path: app/Logging/AddMetadata.php
+
+		-
+			message: "#^Access to an undefined property App\\\\Models\\\\Product\\:\\:\\$pivot\\.$#"
+			count: 1
+			path: app/Models/Order.php
 
 		-
 			message: "#^Call to an undefined method App\\\\Providers\\\\AppServiceProvider\\:\\:dropForeign\\(\\)\\.$#"
