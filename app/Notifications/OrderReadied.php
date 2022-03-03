@@ -67,7 +67,7 @@ class OrderReadied extends Notification
 
     public function toMail($notifiable): MailMessage
     {
-        return (new MailMessage)
+        return (new MailMessage())
             ->subject(__('Your order is ready'))
             ->markdown('mail.customer.order_status changed', [
                 'title' => __('Your order is ready'),

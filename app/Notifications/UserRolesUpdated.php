@@ -17,7 +17,7 @@ class UserRolesUpdated extends Notification
 
     public function toMail($notifiable): MailMessage
     {
-        return (new MailMessage)
+        return (new MailMessage())
             ->subject('User roles have been updated')
             ->markdown('mail.user.roles_updated', [
                 'name' => $notifiable->name,

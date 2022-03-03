@@ -14,7 +14,7 @@ trait CheckBlockedPhoneNumber
      * @throws PhoneNumberBlockedByAdminException in case the phone number is blocked
      * @return void
      */
-    function checkBlockedPhoneNumber(string $phone): void
+    public function checkBlockedPhoneNumber(string $phone): void
     {
         if (BlockedPhoneNumber::where('phone', $phone)->exists()) {
             throw new PhoneNumberBlockedByAdminException($phone);

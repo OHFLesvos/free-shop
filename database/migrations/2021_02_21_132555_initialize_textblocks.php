@@ -3,8 +3,7 @@
 use App\Repository\TextBlockRepository;
 use Illuminate\Database\Migrations\Migration;
 
-return new class extends Migration
-{
+return new class () extends Migration {
     private TextBlockRepository $textRepo;
 
     public function __construct()

@@ -70,19 +70,19 @@ class DataExportPage extends BackendPage
             ],
             'customers' => [
                 'label' => 'Customers',
-                'exportable' => new CustomersSheet,
+                'exportable' => new CustomersSheet(),
             ],
             'comments' => [
                 'label' => 'Comments',
-                'exportable' => new CommentsSheet,
+                'exportable' => new CommentsSheet(),
             ],
             'products' => [
                 'label' => 'Products',
-                'exportable' => new ProductExport,
+                'exportable' => new ProductExport(),
             ],
             'ready_orders' => [
                 'label' => 'List of ready orders',
-                'exportable' => new ReadyOrdersListExport,
+                'exportable' => new ReadyOrdersListExport(),
             ],
         ];
     }

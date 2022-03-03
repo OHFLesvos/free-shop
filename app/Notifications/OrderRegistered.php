@@ -47,7 +47,7 @@ class OrderRegistered extends Notification
 
     public function toTwilio(Customer $notifiable): TwilioSmsMessage
     {
-        return (new TwilioSmsMessage)
+        return (new TwilioSmsMessage())
             ->content($this->twilioMessage($notifiable));
     }
 
@@ -65,7 +65,7 @@ class OrderRegistered extends Notification
 
     public function toMail($notifiable): MailMessage
     {
-        return (new MailMessage)
+        return (new MailMessage())
             ->subject(__('Your order has been registered'))
             ->markdown('mail.customer.order_status changed', [
                 'title' => __('Your order has been registered'),

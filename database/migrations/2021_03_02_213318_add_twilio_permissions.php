@@ -4,8 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Spatie\Permission\Exceptions\PermissionDoesNotExist;
 use Spatie\Permission\Models\Permission;
 
-return new class extends Migration
-{
+return new class () extends Migration {
     private $newPermissions = [
         'view twilio balance',
     ];
