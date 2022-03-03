@@ -142,7 +142,8 @@ Route::middleware('auth')
                 Route::get('products/_create', ProductManagePage::class)
                     ->name('products.create');
                 Route::get('products/{product}/edit', ProductManagePage::class)
-                    ->name('products.edit');
+                    ->name('products.edit')
+                    ->whereNumber('product');
                 Route::get('stock', StockPage::class)
                     ->name('stock');
                 Route::get('stock/_add', StockAddPage::class)
@@ -150,7 +151,8 @@ Route::middleware('auth')
                 Route::get('stock/_changes', StockChangePage::class)
                     ->name('stock.changes');
                 Route::get('stock/{product}', StockEditPage::class)
-                    ->name('stock.edit');
+                    ->name('stock.edit')
+                    ->whereNumber('product');
                 Route::get('export', DataExportPage::class)
                     ->name('export');
                 Route::get('reports', ReportsPage::class)
