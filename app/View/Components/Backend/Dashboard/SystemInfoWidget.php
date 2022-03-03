@@ -2,7 +2,6 @@
 
 namespace App\View\Components\Backend\Dashboard;
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\View\Component;

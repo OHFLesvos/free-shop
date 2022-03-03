@@ -3,7 +3,6 @@
 namespace App\Http\Livewire\Components;
 
 use App\Http\Livewire\Traits\TrimEmptyStrings;
-use App\Models\Comment;
 use Livewire\Component;
 
 class AddCommentInput extends Component

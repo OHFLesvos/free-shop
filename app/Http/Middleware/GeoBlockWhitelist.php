@@ -6,7 +6,6 @@ use App\Services\GeoBlockChecker;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use Torann\GeoIP\Facades\GeoIP;
 
 class GeoBlockWhitelist
 {
