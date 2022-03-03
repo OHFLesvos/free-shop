@@ -124,4 +124,11 @@ class Order extends Model implements Auditable
             })
             ->orWhere('remarks', 'LIKE', '%' . $filter . '%');
     }
+
+    public function calculateTotalPrice(): int
+    {
+        return $this->products()->get()
+            ->map(fn (Product $product) => $product->price *  $product->pivot->quantity)
+            ->sum();
+    }
 }

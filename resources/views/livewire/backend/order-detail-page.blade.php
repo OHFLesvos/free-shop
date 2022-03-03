@@ -15,7 +15,7 @@
             <dt class="col-sm-3">Customer</dt>
             <dd class="col-sm-9">
                 @isset($order->customer)
-                    <a href="{{ route('backend.customers.show', $order->customer) }}">{{ $order->customer->name }}</a><br>
+                    <strong>Name:</strong> <a href="{{ route('backend.customers.show', $order->customer) }}">{{ $order->customer->name }}</a><br>
                     <strong>ID Number:</strong> {{ $order->customer->id_number }}
                 @else
                     <em>Deleted</em>
@@ -68,7 +68,7 @@
                         @endif
                         <td>
                             {{ $product->name }}<br>
-                            <small>{{ $product->category }}</small>
+                            <small class="text-muted">{{ $product->category }}</small>
                         </td>
                         <td class="fit text-end align-middle">
                             <strong><big>{{ $product->pivot->quantity }}</big></strong>
@@ -182,9 +182,16 @@
                     <button
                         wire:click="$set('showChangeStatus', true)"
                         class="btn btn-primary">
-                        Change
+                        Change status
                     </button>
                 @endcan
+            @endif
+            @can('update', $order)
+                <a
+                    href="{{ route('backend.orders.edit', $order) }}"
+                    class="btn btn-secondary">
+                    Edit order
+                </a>
             @endif
         </span>
         <a
