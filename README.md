@@ -115,6 +115,14 @@ Run:
 
 More information here: https://github.com/nunomaduro/larastan
 
+## Fix PHP Coding Standards
+
+Run:
+
+    php artisan fixer:fix
+
+More information here: https://github.com/stechstudio/Laravel-PHP-CS-Fixer
+
 ### Recommended software for development
 
 * [Visual Studio Code](https://code.visualstudio.com/)
