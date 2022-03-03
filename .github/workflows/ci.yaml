@@ -67,6 +67,7 @@ jobs:
   deploy-to-staging:
     environment: staging
     runs-on: ubuntu-latest
+    needs: [laravel-tests, php-security-checker]
 
     steps:
     - name: Checkout
