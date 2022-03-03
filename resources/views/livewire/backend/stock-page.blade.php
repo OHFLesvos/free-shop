@@ -38,4 +38,7 @@
             </tbody>
         </table>
     </div>
+    @if($hasDisabled)
+        <p class="text-muted"><small>Note: Only products marked as available are shown.</small></p>
+    @endif
 </div>
