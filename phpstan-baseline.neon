@@ -53,6 +53,11 @@ parameters:
 		-
 			message: "#^Cannot call method getName\\(\\) on object\\|string\\.$#"
 			count: 1
+			path: app/Http/Livewire/Backend/StockAddPage.php
+
+		-
+			message: "#^Cannot call method getName\\(\\) on object\\|string\\.$#"
+			count: 1
 			path: app/Http/Livewire/Backend/StockChangePage.php
 
 		-
