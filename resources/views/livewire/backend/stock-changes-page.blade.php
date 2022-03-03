@@ -2,6 +2,10 @@
 
     @include('livewire.backend.stock-nav')
 
+    @if (session()->has('message'))
+        <x-alert type="success" dismissible>{{ session()->get('message') }}</x-alert>
+    @endif
+
     <div class="mb-2 d-flex justify-content-end">
         <div class="form-check form-switch">
             <input

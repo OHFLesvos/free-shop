@@ -5,6 +5,7 @@
     @if (session()->has('message'))
         <x-alert type="success" dismissible>{{ session()->get('message') }}</x-alert>
     @endif
+
     <div class="table-responsive">
         <table class="table table-bordered bg-white shadow-sm table-hover">
             <thead>

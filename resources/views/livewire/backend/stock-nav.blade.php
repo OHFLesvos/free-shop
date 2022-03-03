@@ -8,6 +8,13 @@ $items = [
             ->can('manage stock'),
     ],
     [
+        'label' => 'Add stock',
+        'route' => 'backend.stock.add',
+        'authorized' => auth()
+            ->user()
+            ->can('manage stock'),
+    ],
+    [
         'label' => 'Changes',
         'route' => 'backend.stock.changes',
         'authorized' => auth()
