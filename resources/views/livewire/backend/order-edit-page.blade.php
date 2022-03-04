@@ -6,7 +6,9 @@
             <dt class="col-sm-3">Customer</dt>
             <dd class="col-sm-9">
                 @isset($order->customer)
-                    {{ $order->customer->name }}, {{ $order->customer->id_number }}
+                    <strong>Name:</strong> {{ $order->customer->name }}<br>
+                    <strong>ID Number:</strong> {{ $order->customer->id_number }}<br>
+                    <strong>Credit:</strong> {{ $order->customer->credit }}
                 @else
                     <em>Deleted</em>
                 @endisset
@@ -25,12 +27,9 @@
         {{-- Products --}}
         <div class="table-responsive">
             <table class="table table-bordered bg-white shadow-sm">
-                @php
-                    $hasPictures = $order->products->whereNotNull('pictureUrl')->isNotEmpty();
-                @endphp
                 <thead>
                     <tr>
-                        <th @if ($hasPictures) colspan="2" @endif>Product</th>
+                        <th>Product</th>
                         <th class="fit text-end">Costs</th>
                         <th class="fit">Quantity</th>
                     </tr>
@@ -38,16 +37,6 @@
                 <tbody>
                     @foreach ($order->products->sortBy('name') as $product)
                         <tr>
-                            @if ($hasPictures)
-                                <td class="fit">
-                                    @isset($product->pictureUrl)
-                                        <img
-                                            src="{{ url($product->pictureUrl) }}"
-                                            alt="Product Image"
-                                            style="max-width: 100px; max-height: 75px" />
-                                    @endisset
-                                </td>
-                            @endif
                             <td>
                                 {{ $product->name }}<br>
                                 <small class="text-muted">{{ $product->category }}</small>
@@ -66,12 +55,43 @@
                                     "
                                     style="width: 6em"
                                     autocomplete="off"
-                                    wire:model="selection.{{ $product->id }}">
+                                    wire:model.defer="selection.{{ $product->id }}">
                                     @error('selection') <div class="invalid-feedback">{{ $message }}</div> @enderror
                                     @error('selection.'.$product->id) <div class="invalid-feedback">{{ $message }}</div> @enderror
                             </td>
                         </tr>
                     @endforeach
+                    <tr>
+                        <td>
+                            <select
+                                class="form-select"
+                                wire:model="newProductId">
+                                <option value="0">-- Add product --</option>
+                                @foreach($this->otherProducts as $product)
+                                    <option value="{{ $product->id }}">
+                                        {{ $product->name }}
+                                        @isset($product->category)({{ $product->category }})@endisset
+                                    </option>
+                                @endforeach
+                            </select>
+                        </td>
+                        <td class="fit align-middle text-end">
+
+                        </td>
+                        <td class="fit align-middle">
+                            <input
+                                type="number"
+                                placeholder="0"
+                                min="0"
+                                class="form-control
+                                @error('newProductQuantity') is-invalid @enderror
+                                "
+                                style="width: 6em"
+                                autocomplete="off"
+                                wire:model="newProductQuantity">
+                                @error('newProductQuantity') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                        </td>
+                    </tr>
                 </tbody>
             </table>
         </div>

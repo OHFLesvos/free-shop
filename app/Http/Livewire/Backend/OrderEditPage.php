@@ -16,6 +16,9 @@ class OrderEditPage extends BackendPage
 
     public array $selection = [];
 
+    public int $newProductId = 0;
+    public int $newProductQuantity = 0;
+
     protected function rules(): array
     {
         return [
@@ -64,6 +67,17 @@ class OrderEditPage extends BackendPage
     public function render(): View
     {
         return parent::view('livewire.backend.order-edit-page');
+    }
+
+    public function getOtherProductsProperty()
+    {
+        return Product::query()
+            ->available()
+            ->whereNotIn('id', array_keys($this->selection))
+            ->orderBy('category->' . config('app.fallback_locale'))
+            ->orderBy('sequence')
+            ->orderBy('name->' . config('app.fallback_locale'))
+            ->get();
     }
 
     public function submit()
