@@ -4,7 +4,7 @@ use App\Models\Product;
 use Gumlet\ImageResize;
 use Illuminate\Database\Migrations\Migration;
 
-return new class () extends Migration {
+return new class extends Migration {
     /**
      * Run the migrations.
      *
