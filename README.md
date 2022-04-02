@@ -13,7 +13,7 @@ is marked as ready, the customer receives a notification by SMS informing about 
 * A web server like:
   * Apache (tested with 2.4.x)
   * Nginx
-* PHP >= 7.4 with the following extensions:
+* PHP >= 8.0 with the following extensions:
   * BCMath
   * Ctype
   * Fileinfo
