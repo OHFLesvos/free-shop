@@ -111,7 +111,7 @@ jobs:
         key: ${{ secrets.SERVER_SSH_KEY }}
         script: |
           cd ${{ secrets.REMOTE_TARGET }}
-          if [ -f .env ] && [ -f artisan ]; then $PHP_BIN artisan down; fi
+          if [ -f .env ] && [ -f artisan ]; then ${{ env.PHP_BIN }} artisan down; fi
     - name: Deploy to remote
       uses: easingthemes/ssh-deploy@v2.1.5
       env:
@@ -131,8 +131,8 @@ jobs:
         script: |
           cd ${{ secrets.REMOTE_TARGET }}
           mkdir -p storage/framework/{sessions,views,cache}
-          $PHP_BIN artisan optimize
-          $PHP_BIN artisan view:clear
-          $PHP_BIN artisan migrate --force
-          $PHP_BIN artisan storage:link
-          $PHP_BIN artisan up
+          ${{ env.PHP_BIN }} artisan optimize
+          ${{ env.PHP_BIN }} artisan view:clear
+          ${{ env.PHP_BIN }} artisan migrate --force
+          ${{ env.PHP_BIN }} artisan storage:link
+          ${{ env.PHP_BIN }} artisan up
