@@ -52,17 +52,8 @@ return [
             'bucket' => env('AWS_BUCKET'),
             'url' => env('AWS_URL'),
             'endpoint' => env('AWS_ENDPOINT'),
+            'use_path_style_endpoint' => env('AWS_USE_PATH_STYLE_ENDPOINT', false),
             'throw' => false,
-        ],
-
-        'ftp' => [
-            'driver' => 'ftp',
-            'host' => env('FTP_HOST'),
-            'username' => env('FTP_USERNAME'),
-            'password' => env('FTP_PASSWORD'),
-            'port' => env('FTP_PORT', 21),
-            'ssl' => env('FTP_SSL', true),
-            'timeout' => env('FTP_TIMEOUT', 30),
         ],
 
     ],

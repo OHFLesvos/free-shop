@@ -10,7 +10,7 @@ class ExampleTest extends TestCase
     use RefreshDatabase;
 
     /**
-     * A basic feature test example.
+     * A basic test example.
      *
      * @return void
      */
