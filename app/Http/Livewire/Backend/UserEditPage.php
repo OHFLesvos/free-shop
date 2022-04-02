@@ -8,11 +8,9 @@ use App\Notifications\UserRolesUpdated;
 use App\Providers\AuthServiceProvider;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\Rule;
 use Illuminate\View\View;
 use Spatie\Permission\Models\Role;
-use Swift_SwiftException;
 
 class UserEditPage extends BackendPage
 {
@@ -70,11 +68,7 @@ class UserEditPage extends BackendPage
 
         if ($previousRoles != $this->user->getRoleNames()->toArray()) {
             UserRolesChanged::dispatch($this->user, $previousRoles);
-            try {
-                $this->user->notify(new UserRolesUpdated());
-            } catch (Swift_SwiftException $ex) {
-                Log::warning('Could not send notification: ' . $ex->getMessage());
-            }
+            $this->user->notify(new UserRolesUpdated());
         }
 
         session()->flash('message', 'User updated.');

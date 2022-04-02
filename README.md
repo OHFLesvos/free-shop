@@ -33,7 +33,7 @@ is marked as ready, the customer receives a notification by SMS informing about 
 
 * [REQUIRED] [Google OAuth](https://developers.google.com/identity/protocols/oauth2/web-server) for backend (administrator) login
 * [REQUIRED] [Twilio](https://www.twilio.com/) for sending order updates by SMS
-* [REQUIRED] [SwiftMailer](https://swiftmailer.symfony.com/)-compatible mail service (SMTP, Mailgun, Postmark, Amazon SES, sendmail, ...)
+* [REQUIRED] [Symfony Mailer](https://symfony.com/doc/current/mailer.html)-compatible mail service
 * [OPTIONAL] [Sentry](https://sentry.io/welcome/) for application monitoring
 * [OPTIONAL] [Monolog](https://github.com/Seldaek/monolog)-compatible logging service for log collection and analysis
 
