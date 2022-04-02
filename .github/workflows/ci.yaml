@@ -7,7 +7,8 @@ on:
     branches: [ main ]
 
 env:
-  PHP: php80
+  PHP_BIN: php80
+  PHP_VERSION: '8.0'
 
 jobs:
   npm-build:
@@ -37,7 +38,9 @@ jobs:
       id: setup-php
       uses: shivammathur/setup-php@v2
       with:
-        php-version: '8.0'
+        php-version: $PHP_VERSION
+    - name: Print PHP version
+      run: echo "Using PHP ${{ steps.setup-php.outputs.php-version }}"
     - name: Copy .env
       run: php -r "file_exists('.env') || copy('.env.example', '.env');"
     - name: Install Dependencies
@@ -84,7 +87,7 @@ jobs:
       id: setup-php
       uses: shivammathur/setup-php@v2
       with:
-        php-version: '8.0'
+        php-version: $PHP_VERSION
     - name: Log git hash
       shell: bash
       run: |
@@ -108,7 +111,7 @@ jobs:
         key: ${{ secrets.SERVER_SSH_KEY }}
         script: |
           cd ${{ secrets.REMOTE_TARGET }}
-          if [ -f .env ] && [ -f artisan ]; then $PHP artisan down; fi
+          if [ -f .env ] && [ -f artisan ]; then $PHP_BIN artisan down; fi
     - name: Deploy to remote
       uses: easingthemes/ssh-deploy@v2.1.5
       env:
@@ -128,8 +131,8 @@ jobs:
         script: |
           cd ${{ secrets.REMOTE_TARGET }}
           mkdir -p storage/framework/{sessions,views,cache}
-          $PHP artisan optimize
-          $PHP artisan view:clear
-          $PHP artisan migrate --force
-          $PHP artisan storage:link
-          $PHP artisan up
+          $PHP_BIN artisan optimize
+          $PHP_BIN artisan view:clear
+          $PHP_BIN artisan migrate --force
+          $PHP_BIN artisan storage:link
+          $PHP_BIN artisan up
