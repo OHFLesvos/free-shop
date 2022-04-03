@@ -265,6 +265,8 @@ class SettingsPage extends BackendPage
 
         $this->updateBooleanSetting('customer.skip_order_registered_notification', $this->skipOrderRegisteredNotification);
 
+        setting()->save();
+
         if ($checksum != md5((string)json_encode(Setting::all()))) {
             Log::info('Updated settings.', [
                 'event.kind' => 'event',
