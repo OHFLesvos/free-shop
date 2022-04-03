@@ -52,10 +52,10 @@ $rNavItems = [
         'authorized' => auth('customer')->check(),
     ],
 ];
-$rtl = collect(config('localization.languages'))->contains(fn ($language) => app()->getLocale() == $language['code'] && $language['rtl'] === true);
+@inject('localization', 'App\Services\LocalizationService')
 @endphp
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" @if($rtl) dir="rtl" @endif>
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" @if($localization->isRtlLocale()) dir="rtl" @endif>
     @include('layouts.includes.head')
     <body class="bg-light">
         <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm mb-4">

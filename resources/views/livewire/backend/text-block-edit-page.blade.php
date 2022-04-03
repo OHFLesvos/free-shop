@@ -54,7 +54,8 @@
                             @if($this->defaultLocale == $locale && config('text-blocks.' . $textBlock->name . '.required')) required @endif
                             rows="13"
                             class="form-control font-monospace @error('content.' . $locale)  is-invalid @enderror"
-                            @if(in_array($locale, config('app.rtl_languages', []))) dir="rtl" @endif
+                            @inject('localization', 'App\Services\LocalizationService')
+                            @if($localization->isRtl($locale)) dir="rtl" @endif
                             @if(filled(config('text-blocks.' . $textBlock->name . '.help'))) aria-describedby="contentHelp" @endif
                         ></textarea>
                         @error('content.' . $locale) <div class="invalid-feedback">{{ $message }}</div> @enderror
