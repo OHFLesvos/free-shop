@@ -142,7 +142,8 @@
                 <label for="messageInput" class="form-label">
                     Message to customer
                     @isset($order->customer->locale)
-                        ({{ collect(config('localization.languages'))->firstWhere('code', $order->customer->locale)['name'] ?? strtoupper($order->customer->locale) }})
+                        @inject('localization', 'App\Services\LocalizationService')
+                        {{ $localization->getLanguageName($order->customer->locale) }}
                     @endisset
                 </label>
                 <textarea

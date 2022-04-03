@@ -7,10 +7,10 @@
                     <select
                         class="form-select w-auto"
                         wire:model.lazy="locale">
-                        @foreach(config('localization.languages') as $language)
-                            <option
-                                value="{{ $language['code'] }}">
-                                {{ $language['name'] }} ({{ strtoupper($language['code']) }})
+                        @inject('localization', 'App\Services\LocalizationService')
+                        @foreach($localization->getLanguageNames() as $key => $value)
+                            <option value="{{ $key }}">
+                                {{ $value }}
                             </option>
                         @endforeach
                     </select>

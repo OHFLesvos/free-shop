@@ -32,30 +32,15 @@
             <x-card :title="$title">
                 <x-slot name="header">
                     <div class="d-flex justify-content-end align-items-center">
-                        @if(count($languages) < 3)
-                            <div class="btn-group">
-                                @foreach($languages as $language)
-                                    <button
-                                        type="button"
-                                        class="btn @if($language['code'] == $locale) btn-primary @else btn-outline-primary @endif"
-                                        wire:click="$set('locale', '{{ $language['code'] }}')"
-                                        wire:loading.attr="disabled"
-                                    >
-                                        {{ $language['name'] }}
-                                    </button>
-                                @endforeach
-                            </div>
-                        @else
-                            <span class="me-2">Language:</span>
-                            <select class="form-select w-auto" wire:model.lazy="locale">
-                                @foreach($languages as $language)
-                                    <option
-                                        value="{{ $language['code'] }}">
-                                        {{ $language['name'] }}
-                                    </option>
-                                @endforeach
-                            </select>
-                        @endif
+                        <span class="me-2">Language:</span>
+                        <select class="form-select w-auto" wire:model.lazy="locale">
+                            @inject('localization', 'App\Services\LocalizationService')
+                            @foreach($localization->getLanguageNames() as $key => $value)
+                                <option value="{{ $key }}">
+                                    {{ $value }}
+                                </option>
+                            @endforeach
+                        </select>
                     </div>
                 </x-slot>
 

@@ -3,6 +3,7 @@
 namespace App\Http\Livewire\Backend;
 
 use App\Models\Product;
+use App\Services\LocalizationService;
 use Gumlet\ImageResize;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Support\Collection;
@@ -69,7 +70,7 @@ class ProductManagePage extends BackendPage
         ];
     }
 
-    public function mount(): void
+    public function mount(LocalizationService $localization): void
     {
         if (isset($this->product)) {
             $this->authorize('update', $this->product);
@@ -84,8 +85,7 @@ class ProductManagePage extends BackendPage
         }
 
         $productCategories = Product::select('category')->get();
-        $this->categories = collect(config('localization.languages'))
-            ->pluck('code')
+        $this->categories = collect($localization->getLanguageCodes())
             ->mapWithKeys(fn ($locale) => [
                 $locale => $productCategories
                     ->map(fn ($p) => $p->getTranslations('category'))->pluck($locale)
@@ -117,7 +117,6 @@ class ProductManagePage extends BackendPage
     {
         return parent::view('livewire.backend.product-form', [
             'title' => $this->product->exists ? 'Edit Product' : 'Register Product',
-            'languages' => config('localization.languages'),
         ]);
     }
 

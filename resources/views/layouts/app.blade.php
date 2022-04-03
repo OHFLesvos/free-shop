@@ -88,15 +88,15 @@ $rNavItems = [
                                 {{ __('Switch language') }}
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                @foreach(config('localization.languages') as $language)
+                                @foreach($localization->getLocalizedNames() as $key => $value)
                                     <li>
                                         <a
                                             class="dropdown-item"
-                                            href="{{ route('languages.update', $language['code']) }}">
-                                            @if(session()->get('lang') == $language['code'])
-                                                <strong>{{ $language['name_localized'] }}</strong>
+                                            href="{{ route('languages.update', $key) }}">
+                                            @if(session()->get('lang') == $key)
+                                                <strong>{{ $value }}</strong>
                                             @else
-                                                {{ $language['name_localized'] }}
+                                                {{ $value }}
                                             @endif
                                         </a>
                                     </li>

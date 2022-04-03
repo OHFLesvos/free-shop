@@ -22,7 +22,8 @@
                             {{ config('text-blocks.' . $textBlock->name . '.purpose') }}
                         </td>
                         <td class="fit">
-                            {{ collect(config('localization.languages'))
+                            @inject('localization', 'App\Services\LocalizationService')
+                            {{ $localization->getLanguageCollection()
                                 ->filter(fn(array $language) => $textBlock->hasTranslation('content', $language['code']))
                                 ->map(fn(array $language) => $language['name'])
                                 ->join(', ') }}

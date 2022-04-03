@@ -6,7 +6,8 @@
             @isset($customer->locale)
                 <dt class="col-sm-3">Language</dt>
                 <dd class="col-sm-9">
-                    {{ collect(config('localization.languages'))->firstWhere('code', $customer->locale)['name'] ?? strtoupper($customer->locale) }}
+                    @inject('localization', 'App\Services\LocalizationService')
+                    {{ $localization->getLanguageName($customer->locale) }}
                 </dd>
             @endisset
             @isset($customer->phone)
