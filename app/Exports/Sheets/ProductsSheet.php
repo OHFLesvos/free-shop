@@ -28,11 +28,9 @@ class ProductsSheet implements FromQuery, WithMapping, WithHeadings, WithColumnF
         'H' => Alignment::HORIZONTAL_RIGHT,
     ];
 
-    private string $locale;
-
-    public function __construct($locale)
-    {
-        $this->locale = $locale;
+    public function __construct(
+        private string $locale
+    ) {
         $this->worksheetTitle .= ' (' . strtoupper($locale) . ')';
     }
 

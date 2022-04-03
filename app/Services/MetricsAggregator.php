@@ -10,13 +10,10 @@ use Illuminate\Support\Collection;
 
 class MetricsAggregator
 {
-    public ?string $dateStart = null;
-    public ?string $dateEnd = null;
-
-    public function __construct(?string $dateStart, ?string $dateEnd)
-    {
-        $this->dateStart = $dateStart;
-        $this->dateEnd = $dateEnd;
+    public function __construct(
+        public ?string $dateStart,
+        public ?string $dateEnd
+    ) {
     }
 
     public function customersRegistered(): int

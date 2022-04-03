@@ -15,14 +15,12 @@ class OrderCancelled extends Notification
 {
     use CheckBlockedPhoneNumber;
 
-    private Order $order;
-    private ?string $overrideMessage;
     private TextBlockRepository $textRepo;
 
-    public function __construct(Order $order, ?string $overrideMessage = null)
-    {
-        $this->order = $order;
-        $this->overrideMessage = $overrideMessage;
+    public function __construct(
+        private Order $order,
+        private ?string $overrideMessage = null
+    ) {
         $this->textRepo = app()->make(TextBlockRepository::class);
     }
 

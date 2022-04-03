@@ -9,13 +9,11 @@ use Illuminate\Log\Logger;
 
 class AddMetadata
 {
-    protected ?Request $request;
-
     private UserAgentParser $userAgentParser;
 
-    public function __construct(?Request $request = null)
-    {
-        $this->request = $request;
+    public function __construct(
+        protected ?Request $request = null
+    ) {
         $this->userAgentParser = new UserAgentParser();
     }
 

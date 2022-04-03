@@ -13,18 +13,15 @@ class UserRolesChanged
     use InteractsWithSockets;
     use SerializesModels;
 
-    public User $user;
-    public array $previousRoles;
-
     /**
      * Create a new event instance.
      *
      * @param User $user the user whose roles have been changes
      * @param array $previousRoles the names of the user's roles before the change
      */
-    public function __construct(User $user, array $previousRoles)
-    {
-        $this->user = $user;
-        $this->previousRoles = $previousRoles;
+    public function __construct(
+        public User $user,
+        public array $previousRoles
+    ) {
     }
 }

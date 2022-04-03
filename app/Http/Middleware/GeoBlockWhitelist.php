@@ -9,11 +9,9 @@ use Illuminate\Http\Response;
 
 class GeoBlockWhitelist
 {
-    protected GeoBlockChecker $geoBlockChecker;
-
-    public function __construct(GeoBlockChecker $geoBlockChecker)
-    {
-        $this->geoBlockChecker = $geoBlockChecker;
+    public function __construct(
+        protected GeoBlockChecker $geoBlockChecker
+    ) {
     }
 
     /**

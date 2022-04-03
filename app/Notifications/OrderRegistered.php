@@ -15,11 +15,11 @@ class OrderRegistered extends Notification
 {
     use CheckBlockedPhoneNumber;
 
-    private Order $order;
     private TextBlockRepository $textRepo;
 
-    public function __construct(Order $order)
-    {
+    public function __construct(
+        private Order $order
+    ) {
         $this->order = $order;
         $this->textRepo = app()->make(TextBlockRepository::class);
     }

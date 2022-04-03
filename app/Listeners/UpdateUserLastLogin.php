@@ -8,25 +8,11 @@ use Illuminate\Http\Request;
 
 class UpdateUserLastLogin
 {
-    protected Request $request;
-
-    /**
-     * Create the event listener.
-     *
-     * @param Request $request
-     * @return void
-     */
-    public function __construct(Request $request)
-    {
-        $this->request = $request;
+    public function __construct(
+        protected Request $request
+    ) {
     }
 
-    /**
-     * Handle the event.
-     *
-     * @param Login $event
-     * @return void
-     */
     public function handle(Login $event)
     {
         if ($event->user instanceof User) {

@@ -6,23 +6,18 @@ use Illuminate\View\Component;
 
 class PhoneNumberLink extends Component
 {
-    public string $value;
-    public string $type;
-    public ?string $body;
-
     /**
      * Create a new component instance.
      *
      * @return void
      */
-    public function __construct(string $value, string $type = 'tel', ?string $body = null)
-    {
+    public function __construct(
+        public string $value,
+        public string $type = 'tel',
+        public ?string $body = null
+    ) {
         $types = ['tel', 'sms', 'whatsapp', 'viber'];
         assert(in_array($type, $types), '$type must be one of [' . implode(', ', $types) . ']');
-
-        $this->value = $value;
-        $this->type = $type;
-        $this->body = $body;
     }
 
     /**

@@ -23,11 +23,9 @@ class OrdersSheet implements FromQuery, WithMapping, WithHeadings, WithColumnFor
 
     protected $worksheetTitle = 'Orders';
 
-    private ?Carbon $startDate;
-
-    public function __construct(?Carbon $startDate = null)
-    {
-        $this->startDate = $startDate;
+    public function __construct(
+        private ?Carbon $startDate = null
+    ) {
     }
 
     public function query()
