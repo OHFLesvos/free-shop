@@ -88,15 +88,15 @@ $rtl = in_array(app()->getLocale(), config('app.rtl_languages', []));
                                 {{ __('Switch language') }}
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                @foreach(config('app.supported_languages') as $key => $val)
+                                @foreach(config('localization.languages') as $language)
                                     <li>
                                         <a
                                             class="dropdown-item"
-                                            href="{{ route('languages.update', $key) }}">
-                                            @if(session()->get('lang') == $key)
-                                                <strong>{{ $val }}</strong>
+                                            href="{{ route('languages.update', $language['code']) }}">
+                                            @if(session()->get('lang') == $language['code'])
+                                                <strong>{{ $language['name_localized'] }}</strong>
                                             @else
-                                                {{ $val }}
+                                                {{ $language['name_localized'] }}
                                             @endif
                                         </a>
                                     </li>

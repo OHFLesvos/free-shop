@@ -1,6 +1,6 @@
 <div class="medium-container">
     @include('livewire.backend.configuration-nav')
-    
+
     @if (session()->has('message'))
         <x-alert type="success" dismissible>{{ session()->get('message') }}</x-alert>
     @endif
@@ -22,7 +22,10 @@
                             {{ config('text-blocks.' . $textBlock->name . '.purpose') }}
                         </td>
                         <td class="fit">
-                            {{ collect(config('app.supported_languages'))->keys()->filter(fn($key) => $textBlock->hasTranslation('content', $key))->map(fn($key) => strtoupper($key))->join(', ') }}
+                            {{ collect(config('localization.languages'))
+                                ->filter(fn(array $language) => $textBlock->hasTranslation('content', $language['code']))
+                                ->map(fn(array $language) => $language['name'])
+                                ->join(', ') }}
                         </td>
                         <td class="fit">
                             <x-date-time-info :value="$textBlock->updated_at" line-break />

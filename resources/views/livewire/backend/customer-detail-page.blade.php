@@ -6,11 +6,7 @@
             @isset($customer->locale)
                 <dt class="col-sm-3">Language</dt>
                 <dd class="col-sm-9">
-                    @isset(config('app.supported_languages')[$customer->locale])
-                        {{ config('app.supported_languages')[$customer->locale] }} ({{ strtoupper($customer->locale) }})
-                    @else
-                        {{ strtoupper($customer->locale) }}
-                    @endisset
+                    {{ collect(config('localization.languages'))->firstWhere('code', $customer->locale)['name'] ?? strtoupper($customer->locale) }}
                 </dd>
             @endisset
             @isset($customer->phone)

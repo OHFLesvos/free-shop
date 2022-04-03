@@ -31,7 +31,7 @@ class ProductsSheet implements FromQuery, WithMapping, WithHeadings, WithColumnF
     public function __construct(
         private string $locale
     ) {
-        $this->worksheetTitle .= ' (' . strtoupper($locale) . ')';
+        $this->worksheetTitle .= ' (' . collect(config('localization.languages'))->firstWhere('code', $locale)['name'] ?? strtoupper($locale) . ')';
     }
 
     public function query()

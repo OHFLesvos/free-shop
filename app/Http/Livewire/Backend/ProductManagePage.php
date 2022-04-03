@@ -84,8 +84,8 @@ class ProductManagePage extends BackendPage
         }
 
         $productCategories = Product::select('category')->get();
-        $this->categories = collect(config('app.supported_languages'))
-            ->keys()
+        $this->categories = collect(config('localization.languages'))
+            ->pluck('code')
             ->mapWithKeys(fn ($locale) => [
                 $locale => $productCategories
                     ->map(fn ($p) => $p->getTranslations('category'))->pluck($locale)
@@ -117,6 +117,7 @@ class ProductManagePage extends BackendPage
     {
         return parent::view('livewire.backend.product-form', [
             'title' => $this->product->exists ? 'Edit Product' : 'Register Product',
+            'languages' => config('localization.languages'),
         ]);
     }
 

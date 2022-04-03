@@ -142,7 +142,7 @@
                 <label for="messageInput" class="form-label">
                     Message to customer
                     @isset(optional($order->customer)->locale)
-                        ({{ config('app.supported_languages.' . $order->customer->locale) }} ({{ strtoupper($order->customer->locale) }}))
+                        ({{ collect(config('localization.languages'))->firstWhere('code', $order->customer->locale)['name'] ?? strtoupper($order->customer->locale) }})
                     @endisset
                 </label>
                 <textarea

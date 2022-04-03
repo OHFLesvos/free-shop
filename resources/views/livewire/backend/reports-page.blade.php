@@ -108,11 +108,7 @@
                 @foreach($customerLocales as $locale => $quantity)
                     <tr>
                         <td>
-                            @isset(config('app.supported_languages')[$locale])
-                                {{  config('app.supported_languages')[$locale] }} ({{ strtoupper($locale) }})
-                            @else
-                                {{ strtoupper($locale) }}
-                            @endisset
+                            {{ collect(config('localization.languages'))->firstWhere('code', $locale)['name'] ?? strtoupper($locale) }}
                         </td>
                         <td class="fit text-end">
                             {{ number_format($quantity) }}

@@ -32,26 +32,26 @@
             <x-card :title="$title">
                 <x-slot name="header">
                     <div class="d-flex justify-content-end align-items-center">
-                        @if(count(config('app.supported_languages')) < 3)
+                        @if(count($languages) < 3)
                             <div class="btn-group">
-                                @foreach(config('app.supported_languages') as $lang_key => $lang_name)
+                                @foreach($languages as $language)
                                     <button
                                         type="button"
-                                        class="btn @if($lang_key == $locale) btn-primary @else btn-outline-primary @endif"
-                                        wire:click="$set('locale', '{{ $lang_key }}')"
+                                        class="btn @if($language['code'] == $locale) btn-primary @else btn-outline-primary @endif"
+                                        wire:click="$set('locale', '{{ $language['code'] }}')"
                                         wire:loading.attr="disabled"
                                     >
-                                        {{ $lang_name }} ({{ strtoupper($lang_key) }})
+                                        {{ $language['name'] }}
                                     </button>
                                 @endforeach
                             </div>
                         @else
                             <span class="me-2">Language:</span>
                             <select class="form-select w-auto" wire:model.lazy="locale">
-                                @foreach(config('app.supported_languages') as $lang_key => $lang_name)
+                                @foreach($languages as $language)
                                     <option
-                                        value="{{ $lang_key }}">
-                                        {{ $lang_name }} ({{ strtoupper($lang_key) }})
+                                        value="{{ $language['code'] }}">
+                                        {{ $language['name'] }}
                                     </option>
                                 @endforeach
                             </select>
