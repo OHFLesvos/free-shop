@@ -52,7 +52,7 @@ $rNavItems = [
         'authorized' => auth('customer')->check(),
     ],
 ];
-$rtl = in_array(app()->getLocale(), config('app.rtl_languages', []));
+$rtl = collect(config('localization.languages'))->contains(fn ($language) => app()->getLocale() == $language['code'] && $language['rtl'] === true);
 @endphp
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}" @if($rtl) dir="rtl" @endif>
