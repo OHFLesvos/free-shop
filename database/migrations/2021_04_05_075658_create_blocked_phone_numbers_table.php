@@ -7,7 +7,8 @@ use Spatie\Permission\Exceptions\PermissionDoesNotExist;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 
-return new class extends Migration {
+return new class extends Migration
+{
     private $newPermissions = [
         'manage blocked numbers',
     ];
