@@ -88,7 +88,7 @@ $rNavItems = [
                                 {{ __('Switch language') }}
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                @foreach($localization->getLocalizedNames() as $key => $value)
+                                @foreach($localization->getLocalizedNames(true) as $key => $value)
                                     <li>
                                         <a
                                             class="dropdown-item"

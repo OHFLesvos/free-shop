@@ -16,7 +16,7 @@ class LanguageSelectController extends Controller
     public function index(): View
     {
         return view('language-select', [
-            'languages' => $this->localization->getLocalizedNames(),
+            'languages' => $this->localization->getLocalizedNames(true),
         ]);
     }
 

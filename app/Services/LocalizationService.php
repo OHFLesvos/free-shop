@@ -38,9 +38,12 @@ class LocalizationService
         return $this->languages->pluck('name', 'code')->toArray();
     }
 
-    public function getLocalizedNames(): array
+    public function getLocalizedNames(bool $publicOnly = false): array
     {
-        return $this->languages->pluck('name_localized', 'code')->toArray();
+        return $this->languages
+            ->when($publicOnly, fn(Collection $c) => $c->where('public', true))
+            ->pluck('name_localized', 'code')
+            ->toArray();
     }
 
     public function isRtlLocale(): bool
