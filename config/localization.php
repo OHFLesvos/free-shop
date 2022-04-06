@@ -33,7 +33,7 @@ return [
         [
             'code' => 'so',
             'name' => 'Somali',
-            'name_localized' => '𐒖𐒍 𐒈𐒝𐒑𐒛𐒐𐒘',
+            'name_localized' => 'Somali',
             'rtl' => false,
             'public' => false,
         ],
