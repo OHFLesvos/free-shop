@@ -52,8 +52,8 @@ $rNavItems = [
         'authorized' => auth('customer')->check(),
     ],
 ];
-@inject('localization', 'App\Services\LocalizationService')
 @endphp
+@inject('localization', 'App\Services\LocalizationService')
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}" @if($localization->isRtlLocale()) dir="rtl" @endif>
     @include('layouts.includes.head')
