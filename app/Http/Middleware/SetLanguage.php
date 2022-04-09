@@ -2,11 +2,16 @@
 
 namespace App\Http\Middleware;
 
+use App\Services\LocalizationService;
 use Closure;
 use Illuminate\Http\Request;
 
 class SetLanguage
 {
+    public function __construct(private LocalizationService $localization)
+    {
+    }
+
     /**
      * Handle an incoming request.
      *
@@ -17,7 +22,7 @@ class SetLanguage
     public function handle(Request $request, Closure $next)
     {
         $lang = $request->input('lang', session()->get('lang'));
-        if ($lang !== null && isset(config('app.supported_languages')[$lang])) {
+        if ($lang !== null && $this->localization->hasLanguageCode($lang)) {
             app()->setLocale($lang);
             session()->put('lang', $lang);
         }

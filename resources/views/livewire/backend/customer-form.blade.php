@@ -111,9 +111,10 @@
                             style="max-width: 11em;"
                             wire:model.defer="customer.locale">
                             <option value="" selected>-- Select language --</option>
-                            @foreach(config('app.supported_languages') as $key => $val)
+                            @inject('localization', 'App\Services\LocalizationService')
+                            @foreach($localization->getLanguageNames() as $key => $value)
                                 <option value="{{ $key }}">
-                                    {{ $val }} ({{ strtoupper($key) }})
+                                    {{ $value }}
                                 </option>
                             @endforeach
                         </select>

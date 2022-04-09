@@ -52,10 +52,10 @@ $rNavItems = [
         'authorized' => auth('customer')->check(),
     ],
 ];
-$rtl = in_array(app()->getLocale(), config('app.rtl_languages', []));
 @endphp
+@inject('localization', 'App\Services\LocalizationService')
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" @if($rtl) dir="rtl" @endif>
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" @if($localization->isRtlLocale()) dir="rtl" @endif>
     @include('layouts.includes.head')
     <body class="bg-light">
         <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm mb-4">
@@ -88,15 +88,15 @@ $rtl = in_array(app()->getLocale(), config('app.rtl_languages', []));
                                 {{ __('Switch language') }}
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                @foreach(config('app.supported_languages') as $key => $val)
+                                @foreach($localization->getLocalizedNames(true) as $key => $value)
                                     <li>
                                         <a
                                             class="dropdown-item"
                                             href="{{ route('languages.update', $key) }}">
                                             @if(session()->get('lang') == $key)
-                                                <strong>{{ $val }}</strong>
+                                                <strong>{{ $value }}</strong>
                                             @else
-                                                {{ $val }}
+                                                {{ $value }}
                                             @endif
                                         </a>
                                     </li>

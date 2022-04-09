@@ -3,6 +3,7 @@
 namespace App\Exports;
 
 use App\Exports\Sheets\ProductsSheet;
+use App\Services\LocalizationService;
 use Maatwebsite\Excel\Concerns\Exportable;
 use Maatwebsite\Excel\Concerns\WithMultipleSheets;
 use Maatwebsite\Excel\Concerns\WithProperties;
@@ -17,7 +18,8 @@ class ProductExport implements WithMultipleSheets, WithProperties
     public function sheets(): array
     {
         $sheets = [];
-        foreach (array_keys(config('app.supported_languages')) as $locale) {
+        $localization = app()->make(LocalizationService::class);
+        foreach ($localization->getLanguageCodes() as $locale) {
             $sheets[] = new ProductsSheet($locale);
         }
         return $sheets;

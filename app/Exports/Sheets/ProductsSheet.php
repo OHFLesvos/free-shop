@@ -4,6 +4,7 @@ namespace App\Exports\Sheets;
 
 use App\Exports\DefaultWorksheetStyles;
 use App\Models\Product;
+use App\Services\LocalizationService;
 use Maatwebsite\Excel\Concerns\FromQuery;
 use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 use Maatwebsite\Excel\Concerns\WithColumnFormatting;
@@ -31,7 +32,8 @@ class ProductsSheet implements FromQuery, WithMapping, WithHeadings, WithColumnF
     public function __construct(
         private string $locale
     ) {
-        $this->worksheetTitle .= ' (' . strtoupper($locale) . ')';
+        $localization = app()->make(LocalizationService::class);
+        $this->worksheetTitle .= ' (' . $localization->getLanguageName($locale) . ')';
     }
 
     public function query()

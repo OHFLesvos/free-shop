@@ -5,6 +5,7 @@ namespace App\Http\Livewire\Backend;
 use App\Http\Livewire\Traits\TrimAndNullEmptyStrings;
 use App\Models\Customer;
 use App\Models\Tag;
+use App\Services\LocalizationService;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Validation\Rule;
 use Illuminate\View\View;
@@ -64,7 +65,7 @@ class CustomerManagePage extends BackendPage
             ],
             'customer.locale' => [
                 'nullable',
-                Rule::in(array_keys(config('app.supported_languages'))),
+                Rule::in(app()->make(LocalizationService::class)->getLanguageCodes()),
             ],
             'customer.remarks' => 'nullable',
             'customer.is_disabled' => 'boolean',

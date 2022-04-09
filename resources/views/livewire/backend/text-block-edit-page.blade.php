@@ -7,10 +7,10 @@
                     <select
                         class="form-select w-auto"
                         wire:model.lazy="locale">
-                        @foreach(config('app.supported_languages') as $lang_key => $lang_name)
-                            <option
-                                value="{{ $lang_key }}">
-                                {{ $lang_name }} ({{ strtoupper($lang_key) }})
+                        @inject('localization', 'App\Services\LocalizationService')
+                        @foreach($localization->getLanguageNames() as $key => $value)
+                            <option value="{{ $key }}">
+                                {{ $value }}
                             </option>
                         @endforeach
                     </select>
@@ -54,7 +54,8 @@
                             @if($this->defaultLocale == $locale && config('text-blocks.' . $textBlock->name . '.required')) required @endif
                             rows="13"
                             class="form-control font-monospace @error('content.' . $locale)  is-invalid @enderror"
-                            @if(in_array($locale, config('app.rtl_languages', []))) dir="rtl" @endif
+                            @inject('localization', 'App\Services\LocalizationService')
+                            @if($localization->isRtl($locale)) dir="rtl" @endif
                             @if(filled(config('text-blocks.' . $textBlock->name . '.help'))) aria-describedby="contentHelp" @endif
                         ></textarea>
                         @error('content.' . $locale) <div class="invalid-feedback">{{ $message }}</div> @enderror

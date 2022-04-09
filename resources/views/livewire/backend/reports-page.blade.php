@@ -98,6 +98,7 @@
     @endif
 
     @if($customerLocales->isNotEmpty())
+        @inject('localization', 'App\Services\LocalizationService')
         <table class="table table-bordered bg-white shadow-sm">
             <thead>
                 <th>Language</th>
@@ -108,11 +109,7 @@
                 @foreach($customerLocales as $locale => $quantity)
                     <tr>
                         <td>
-                            @isset(config('app.supported_languages')[$locale])
-                                {{  config('app.supported_languages')[$locale] }} ({{ strtoupper($locale) }})
-                            @else
-                                {{ strtoupper($locale) }}
-                            @endisset
+                            {{ $localization->getLanguageName($locale) }}
                         </td>
                         <td class="fit text-end">
                             {{ number_format($quantity) }}

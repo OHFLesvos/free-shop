@@ -3,21 +3,26 @@
 namespace App\Http\Controllers;
 
 use App\Models\Customer;
+use App\Services\LocalizationService;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
 
 class LanguageSelectController extends Controller
 {
+    public function __construct(private LocalizationService $localization)
+    {
+    }
+
     public function index(): View
     {
         return view('language-select', [
-            'languages' => config('app.supported_languages'),
+            'languages' => $this->localization->getLocalizedNames(true),
         ]);
     }
 
     public function update(string $lang)
     {
-        if (!isset(config('app.supported_languages')[$lang])) {
+        if (!$this->localization->hasLanguageCode($lang)) {
             $lang = config('app.fallback_locale');
         }
 

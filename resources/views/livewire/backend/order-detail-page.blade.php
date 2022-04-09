@@ -138,11 +138,12 @@
                     </label>
                 </div>
             @endforeach
-            @if($this->hasMessage)
+            @if($this->hasMessage && $order->customer !== null)
                 <label for="messageInput" class="form-label">
                     Message to customer
-                    @isset(optional($order->customer)->locale)
-                        ({{ config('app.supported_languages.' . $order->customer->locale) }} ({{ strtoupper($order->customer->locale) }}))
+                    @isset($order->customer->locale)
+                        @inject('localization', 'App\Services\LocalizationService')
+                        {{ $localization->getLanguageName($order->customer->locale) }}
                     @endisset
                 </label>
                 <textarea
@@ -152,7 +153,8 @@
                     class="form-control font-monospace @error('message') is-invalid @enderror"
                     wire:model.lazy="message"
                     placeholder="{{ $this->configuredMessage }}"
-                    @if(in_array(optional($order->customer)->locale, config('app.rtl_languages', []))) dir="rtl" @endif
+                    @inject('localization', 'App\Services\LocalizationService')
+                    @if($localization->isRtl($order->customer->locale)) dir="rtl" @endif
                     aria-describedby="messageHelp"
                 ></textarea>
                 @error('message') <div class="invalid-feedback">{{ $message }}</div> @enderror

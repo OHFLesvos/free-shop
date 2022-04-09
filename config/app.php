@@ -110,17 +110,6 @@ return [
 
     'faker_locale' => 'en_US',
 
-    'supported_languages' => [
-        'en' => 'English',
-        'fr' => 'Français',
-        'fa' => 'فارسی',
-        'ar' => 'العربية',
-    ],
-    'rtl_languages' => [
-        'fa',
-        'ar',
-    ],
-
     /*
     |--------------------------------------------------------------------------
     | Encryption Key

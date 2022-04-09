@@ -32,37 +32,23 @@
             <x-card :title="$title">
                 <x-slot name="header">
                     <div class="d-flex justify-content-end align-items-center">
-                        @if(count(config('app.supported_languages')) < 3)
-                            <div class="btn-group">
-                                @foreach(config('app.supported_languages') as $lang_key => $lang_name)
-                                    <button
-                                        type="button"
-                                        class="btn @if($lang_key == $locale) btn-primary @else btn-outline-primary @endif"
-                                        wire:click="$set('locale', '{{ $lang_key }}')"
-                                        wire:loading.attr="disabled"
-                                    >
-                                        {{ $lang_name }} ({{ strtoupper($lang_key) }})
-                                    </button>
-                                @endforeach
-                            </div>
-                        @else
-                            <span class="me-2">Language:</span>
-                            <select class="form-select w-auto" wire:model.lazy="locale">
-                                @foreach(config('app.supported_languages') as $lang_key => $lang_name)
-                                    <option
-                                        value="{{ $lang_key }}">
-                                        {{ $lang_name }} ({{ strtoupper($lang_key) }})
-                                    </option>
-                                @endforeach
-                            </select>
-                        @endif
+                        <span class="me-2">Language:</span>
+                        <select class="form-select w-auto" wire:model.lazy="locale">
+                            @inject('localization', 'App\Services\LocalizationService')
+                            @foreach($localization->getLanguageNames() as $key => $value)
+                                <option value="{{ $key }}">
+                                    {{ $value }}
+                                </option>
+                            @endforeach
+                        </select>
                     </div>
                 </x-slot>
 
+                @inject('localization', 'App\Services\LocalizationService')
                 <div class="row g-3">
                     <div class="col-md-6">
                         <label for="inputName" class="form-label">Name</label>
-                        <div class="input-group" @if(in_array($locale, config('app.rtl_languages', []))) dir="rtl" @endif>
+                        <div class="input-group"  @if($localization->isRtl($locale)) dir="rtl" @endif>
                             <span class="input-group-text">{{ strtoupper($locale) }}</span>
                             <input
                                 type="text"
@@ -78,7 +64,7 @@
                     </div>
                     <div class="col-md-6">
                         <label for="inputCategory" class="form-label">Category</label>
-                        <div class="input-group" @if(in_array($locale, config('app.rtl_languages', []))) dir="rtl" @endif>
+                        <div class="input-group" @if($localization->isRtl($locale)) dir="rtl" @endif>
                             <span class="input-group-text">{{ strtoupper($locale) }}</span>
                             <input
                                 type="text"
@@ -145,7 +131,7 @@
                     </div>
                     <div class="col-md-6">
                         <label for="inputDescription" class="form-label">Description</label>
-                        <div class="input-group" @if(in_array($locale, config('app.rtl_languages', []))) dir="rtl" @endif>
+                        <div class="input-group" @if($localization->isRtl($locale)) dir="rtl" @endif>
                             <span class="input-group-text">{{ strtoupper($locale) }}</span>
                             <textarea
                                 type="text"
