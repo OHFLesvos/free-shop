@@ -9,7 +9,7 @@
                             type="button"
                             class="btn btn-link"
                             wire:loading.attr="disabled"
-                            wire:click="$set('shouldDelete', null)">
+                            wire:click="cancelDeletion()">
                             Cancel
                         </button>
                         <button
@@ -107,7 +107,7 @@
                             </td>
                             <td class="align-middle fit">
                                 @can('delete', $entry)
-                                    <button type="button" class="btn btn-outline-danger" wire:click="$set('shouldDelete', {{ $entry }})">
+                                    <button type="button" class="btn btn-outline-danger" wire:click="markForDeletion({{ $entry->id }})">
                                         <x-icon icon="trash" aria-label="Delete"/>
                                     </button>
                                 @endcan

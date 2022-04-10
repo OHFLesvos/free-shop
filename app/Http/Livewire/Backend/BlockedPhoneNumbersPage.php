@@ -68,9 +68,19 @@ class BlockedPhoneNumbersPage extends BackendPage
         session()->flash('message', "Phone number $entry->phone added.");
     }
 
+    public function markForDeletion(int $id): void
+    {
+        $this->shouldDelete = BlockedPhoneNumber::find($id);
+    }
+
+    public function cancelDeletion(): void
+    {
+        $this->shouldDelete = null;
+    }
+
     public function delete(): void
     {
-        if (isset($this->shouldDelete)) {
+        if ($this->shouldDelete !== null) {
             $entry = BlockedPhoneNumber::find($this->shouldDelete['id']);
             if (isset($entry)) {
                 $this->authorize('delete', $entry);
