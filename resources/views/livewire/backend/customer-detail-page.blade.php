@@ -34,7 +34,7 @@
                 </dd>
             @endisset
             @isset($customer->email)
-                <dt class="col-sm-3">E-Mail address</dt>
+                <dt class="col-sm-3">Email address</dt>
                 <dd class="col-sm-9"><a href="mailto:{{ $customer->email }}">{{ $customer->email }}</a></dd>
             @endisset
             <dt class="col-sm-3">Credit</dt>

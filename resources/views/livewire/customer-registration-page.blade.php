@@ -78,7 +78,7 @@
             </div>
 
             <div class="mt-3">
-                <label for="emailInput" class="form-label">{{ __('E-mail address') }}</label>
+                <label for="emailInput" class="form-label">{{ __('Email address') }}</label>
                 <input
                     type="email"
                     class="form-control @error('email') is-invalid @enderror"
@@ -87,7 +87,7 @@
                     wire:model.defer="email">
                 @error('email') <div class="invalid-feedback">{{ $message }}</div> @enderror
                 <small id="phoneHelp" class="form-text text-muted">
-                    {{ __('We will send updates about your order to this e-mail address.') }}
+                    {{ __('We will send updates about your order to this email address.') }}
                 </small>
             </div>
 

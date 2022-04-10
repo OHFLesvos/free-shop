@@ -1,7 +1,7 @@
 @if($shouldDelete)
     <div class="small-container">
         <x-card :title="__('Delete account')">
-            <p class="card-text">{{ __('Do you really want do delete your customer account?') }}</p>
+            <p class="card-text">{{ __('Do you really want to delete your customer account?') }}</p>
             <x-slot name="footer">
                 <div class="d-flex justify-content-end">
                     <span>
@@ -105,9 +105,9 @@
                             </small>
                         </div>
 
-                        {{-- E-mail address --}}
+                        {{-- Email address --}}
                         <div>
-                            <label for="emailInput" class="form-label">{{ __('E-mail address') }}</label>
+                            <label for="emailInput" class="form-label">{{ __('Email address') }}</label>
                             <input
                                 type="email"
                                 class="form-control @error('email') is-invalid @enderror"
@@ -116,7 +116,7 @@
                                 wire:model.defer="email">
                             @error('email') <div class="invalid-feedback">{{ $message }}</div> @enderror
                             <small id="phoneHelp" class="form-text text-muted">
-                                {{ __('We will send updates about your order to this e-mail address.') }}
+                                {{ __('We will send updates about your order to this email address.') }}
                             </small>
                         </div>
 

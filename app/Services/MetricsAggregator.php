@@ -110,8 +110,8 @@ class MetricsAggregator
     {
         return collect([
             'Phone' => Customer::whereNotNull('phone')->whereNull('email')->count(),
-            'E-mail' => Customer::whereNull('phone')->whereNotNull('email')->count(),
-            'Phone & E-mail' => Customer::whereNotNull('phone')->whereNotNull('email')->count(),
+            'Email' => Customer::whereNull('phone')->whereNotNull('email')->count(),
+            'Phone & email' => Customer::whereNotNull('phone')->whereNotNull('email')->count(),
         ]);
     }
 }

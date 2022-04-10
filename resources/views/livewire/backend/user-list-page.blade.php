@@ -28,7 +28,7 @@
         <table class="table table-bordered bg-white shadow-sm @can('manage users') table-hover @endcan">
             <thead>
                 <th colspan="2">Name</th>
-                <th>E-Mail</th>
+                <th>Email</th>
                 <th>Roles</th>
                 <th>Last login</th>
             </thead>

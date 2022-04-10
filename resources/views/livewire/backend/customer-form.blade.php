@@ -82,7 +82,7 @@
                         </div>
                     </div>
                     <div class="col-md-6">
-                        <label for="emailInput" class="form-label">E-mail address</label>
+                        <label for="emailInput" class="form-label">Email address</label>
                         <input
                             type="email"
                             class="form-control @error('customer.email') is-invalid @enderror"

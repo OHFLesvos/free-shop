@@ -41,7 +41,7 @@
                 <dl class="row mb-0">
                     <dt class="col-sm-3">Name</dt>
                     <dd class="col-sm-9">{{ $user->name }}</dd>
-                    <dt class="col-sm-3">E-Mail</dt>
+                    <dt class="col-sm-3">Email</dt>
                     <dd class="col-sm-9">{{ $user->email }}</dd>
                     @if($user->getRoleNames()->isNotEmpty())
                         <dt class="col-sm-3">Roles</dt>

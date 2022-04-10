@@ -101,7 +101,7 @@ To seed the database with random entries, run:
 
 Export translatable strings for any language:
 
-    php artisan translatable:export fr,ar,fa
+    php artisan translatable:export fr,ar,fa,so
 
 Find untranslated strings in a language file (for example French = fr):
 

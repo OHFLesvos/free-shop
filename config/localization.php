@@ -35,7 +35,7 @@ return [
             'name' => 'Somali',
             'name_localized' => 'Somali',
             'rtl' => false,
-            'public' => false,
+            'public' => true,
         ],
     ],
 ];

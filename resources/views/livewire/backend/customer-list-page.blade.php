@@ -66,7 +66,7 @@
                 </th>
                 <th>ID Number</th>
                 <th>Phone</th>
-                <th>E-Mail</th>
+                <th>Email</th>
                 <th class="text-end">Orders</th>
                 <th class="text-end">Credit</th>
                 <th class="fit">
