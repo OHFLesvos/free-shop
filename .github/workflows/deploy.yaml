@@ -4,6 +4,10 @@ on:
   push:
     branches: [ production ]
 
+env:
+  PHP_BIN: php80
+  PHP_VERSION: '8.0'
+
 jobs:
   deploy-to-prod:
     runs-on: ubuntu-latest
@@ -11,6 +15,11 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@v2
+    - name: Setup PHP
+      id: setup-php
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: ${{ env.PHP_VERSION }}
     - name: Log git hash
       shell: bash
       run: |
@@ -34,7 +43,7 @@ jobs:
         key: ${{ secrets.SERVER_SSH_KEY }}
         script: |
           cd ${{ secrets.REMOTE_TARGET }}
-          if [ -f .env ] && [ -f artisan ]; then php artisan down; fi
+          if [ -f .env ] && [ -f artisan ]; then ${{ env.PHP_BIN }} artisan down; fi
     - name: Deploy to remote
       uses: easingthemes/ssh-deploy@v2.1.5
       env:
@@ -54,8 +63,8 @@ jobs:
         script: |
           cd ${{ secrets.REMOTE_TARGET }}
           mkdir -p storage/framework/{sessions,views,cache}
-          php artisan optimize
-          php artisan view:clear
-          php artisan migrate --force
-          php artisan storage:link
-          php artisan up
+          ${{ env.PHP_BIN }} artisan optimize
+          ${{ env.PHP_BIN }} artisan view:clear
+          ${{ env.PHP_BIN }} artisan migrate --force
+          ${{ env.PHP_BIN }} artisan storage:link
+          ${{ env.PHP_BIN }} artisan up
