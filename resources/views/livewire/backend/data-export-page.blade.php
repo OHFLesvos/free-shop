@@ -26,7 +26,7 @@
                                             class="form-control"
                                             type="date"
                                             max="{{ today()->toDateString() }}"
-                                            wire:model="startDate"
+                                            wire:model.defer="startDate"
                                         />
                                     </div>
                                 @endif
