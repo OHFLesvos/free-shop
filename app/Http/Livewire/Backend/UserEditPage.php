@@ -18,7 +18,6 @@ class UserEditPage extends BackendPage
 
     public User $user;
     public array $userRoles;
-    public bool $shouldDelete = false;
 
     public function rules(): array
     {

@@ -25,8 +25,6 @@ class CustomerManagePage extends BackendPage
 
     public array $tags;
 
-    public bool $shouldDelete = false;
-
     /**
      * @var array
      */

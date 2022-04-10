@@ -12,7 +12,6 @@ class UserProfilePage extends BackendPage
     protected string $title = 'User Profile';
 
     public User $user;
-    public bool $shouldDelete = false;
 
     public array $rules = [
         'user.timezone' => [

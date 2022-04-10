@@ -1,5 +1,5 @@
-@if($shouldDelete)
-    <div class="small-container">
+<div x-data="{ shouldDelete: false }">
+    <div class="small-container" x-show="shouldDelete" x-cloak>
         <x-card :title="__('Delete account')">
             <p class="card-text">{{ __('Do you really want to delete your customer account?') }}</p>
             <x-slot name="footer">
@@ -9,7 +9,7 @@
                             type="button"
                             class="btn btn-link"
                             wire:loading.attr="disabled"
-                            wire:click="$toggle('shouldDelete')">
+                            @click="shouldDelete = false">
                             {{ __('Cancel') }}
                         </button>
                         <button
@@ -26,8 +26,8 @@
             </x-slot>
         </x-card>
     </div>
-@else
-    <div class="medium-container">
+
+    <div class="medium-container" x-show="!shouldDelete">
         <form wire:submit.prevent="submit" class="mb-4" autocomplete="off">
 
             <div class="row">
@@ -128,7 +128,7 @@
                                         type="button"
                                         class="btn btn-outline-danger"
                                         wire:loading.attr="disabled"
-                                        wire:click="$toggle('shouldDelete')">
+                                        @click="shouldDelete = true">
                                         {{ __('Delete account') }}
                                     </button>
                                 @endif
@@ -160,4 +160,4 @@
             </div>
         </form>
     </div>
-@endif
+</div>

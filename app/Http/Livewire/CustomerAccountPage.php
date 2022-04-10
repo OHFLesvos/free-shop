@@ -22,8 +22,6 @@ class CustomerAccountPage extends FrontendPage
     public string $phoneCountry;
     public ?string $email = null;
 
-    public bool $shouldDelete = false;
-
     protected function rules(): array
     {
         return [

@@ -27,8 +27,6 @@ class ProductManagePage extends BackendPage
 
     public bool $removePicture = false;
 
-    public bool $shouldDelete = false;
-
     public string $locale;
 
     public array $name;

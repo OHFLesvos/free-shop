@@ -1,5 +1,5 @@
-@if($shouldDelete)
-    <div class="small-container">
+<div x-data="{ shouldDelete: false }">
+    <div class="small-container" x-show="shouldDelete" x-cloak>
         <x-card title="Delete product">
             <p class="card-text">Really delete the product <strong>{{ $product->name }}</strong>?</p>
             <x-slot name="footer">
@@ -9,7 +9,7 @@
                             type="button"
                             class="btn btn-link"
                             wire:loading.attr="disabled"
-                            wire:click="$toggle('shouldDelete')">
+                            @click="shouldDelete = false">
                             Cancel
                         </button>
                         <button
@@ -26,8 +26,8 @@
             </x-slot>
         </x-card>
     </div>
-@else
-    <div class="medium-container">
+
+    <div class="medium-container" x-show="!shouldDelete">
         <form wire:submit.prevent="submit" autocomplete="off">
             <x-card :title="$title">
                 <x-slot name="header">
@@ -210,7 +210,7 @@
                                         type="button"
                                         class="btn btn-danger"
                                         wire:loading.attr="disabled"
-                                        wire:click="$toggle('shouldDelete')">
+                                        @click="shouldDelete = true">
                                         Delete
                                     </button>
                                 @endif
@@ -236,4 +236,4 @@
             </x-card>
         </form>
     </div>
-@endif
+</div>
