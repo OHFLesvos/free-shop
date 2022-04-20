@@ -1,3 +1,4 @@
+@inject('localization', 'App\Services\LocalizationService')
 <div class="medium-container">
     <form wire:submit.prevent="submit" class="mb-4" autocomplete="off">
         <x-card title="Edit Text Block '{{ $textBlock->name }}'">
@@ -7,7 +8,6 @@
                     <select
                         class="form-select w-auto"
                         wire:model.lazy="locale">
-                        @inject('localization', 'App\Services\LocalizationService')
                         @foreach($localization->getLanguageNames() as $key => $value)
                             <option value="{{ $key }}">
                                 {{ $value }}
@@ -44,17 +44,23 @@
                 @endif
                 @unless($textPreview)
                     <div class="input-group">
-                        <div class="input-group-text">
-                            {{ strtoupper($locale) }}
-                        </div>
+                        @if($this->defaultLocale != $locale)
+                            <span class="input-group-text d-none d-md-flex">{{ $localization->getLanguageName($this->defaultLocale) }}:</span>
+                            <textarea
+                                class="form-control font-monospace d-none d-md-flex"
+                                readonly
+                                rows="5"
+                            >{{ $content[$this->defaultLocale] ?? '' }}</textarea>
+                            <span class="input-group-text">{{ $localization->getLanguageName($locale) }}:</span>
+                        @endif
                         <textarea
                             id="contentInput"
                             wire:model.lazy="content.{{ $locale }}"
+                            @if($localization->isRtl($locale)) dir="rtl" @endif
                             @if($this->defaultLocale != $locale) placeholder="{{ $content[$this->defaultLocale] ?? '' }}" @endif
                             @if($this->defaultLocale == $locale && config('text-blocks.' . $textBlock->name . '.required')) required @endif
                             rows="13"
                             class="form-control font-monospace @error('content.' . $locale)  is-invalid @enderror"
-                            @inject('localization', 'App\Services\LocalizationService')
                             @if($localization->isRtl($locale)) dir="rtl" @endif
                             @if(filled(config('text-blocks.' . $textBlock->name . '.help'))) aria-describedby="contentHelp" @endif
                         ></textarea>

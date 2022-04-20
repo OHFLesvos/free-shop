@@ -46,30 +46,51 @@
 
                 @inject('localization', 'App\Services\LocalizationService')
                 <div class="row g-3">
-                    <div class="col-md-6">
+                    <div class="col-md-12">
                         <label for="inputName" class="form-label">Name</label>
-                        <div class="input-group"  @if($localization->isRtl($locale)) dir="rtl" @endif>
-                            <span class="input-group-text">{{ strtoupper($locale) }}</span>
+                        <div class="input-group">
+                            @if($this->defaultLocale != $locale)
+                                <span class="input-group-text d-none d-md-flex">{{ $localization->getLanguageName($this->defaultLocale) }}:</span>
+                                <input
+                                    type="text"
+                                    class="form-control d-none d-md-flex"
+                                    readonly
+                                    value="{{ $name[$this->defaultLocale] ?? '' }}"
+                                />
+                                <span class="input-group-text">{{ $localization->getLanguageName($locale) }}:</span>
+                            @endif
                             <input
                                 type="text"
                                 class="form-control @error('name.' . $locale) is-invalid @enderror"
                                 id="inputName"
+                                @if($localization->isRtl($locale)) dir="rtl" @endif
                                 @if($this->defaultLocale == $locale) required @endif
                                 @if($this->defaultLocale != $locale) placeholder="{{ $name[$this->defaultLocale] ?? '' }}" @endif
                                 autocomplete="off"
                                 @unless($product->exists) autofocus @endunless
-                                wire:model.lazy="name.{{ $locale }}">
+                                wire:model.lazy="name.{{ $locale }}"
+                            />
                             @error('name.' . $locale) <div class="invalid-feedback">{{ $message }}</div> @enderror
                         </div>
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-12">
                         <label for="inputCategory" class="form-label">Category</label>
-                        <div class="input-group" @if($localization->isRtl($locale)) dir="rtl" @endif>
-                            <span class="input-group-text">{{ strtoupper($locale) }}</span>
+                        <div class="input-group">
+                            @if($this->defaultLocale != $locale)
+                                <span class="input-group-text d-none d-md-flex">{{ $localization->getLanguageName($this->defaultLocale) }}:</span>
+                                <input
+                                    type="text"
+                                    class="form-control d-none d-md-flex"
+                                    readonly
+                                    value="{{ $category[$this->defaultLocale] ?? '' }}"
+                                />
+                                <span class="input-group-text">{{ $localization->getLanguageName($locale) }}:</span>
+                            @endif
                             <input
                                 type="text"
                                 class="form-control @error('category.' . $locale) is-invalid @enderror"
                                 id="inputCategory"
+                                @if($localization->isRtl($locale)) dir="rtl" @endif
                                 @if($this->defaultLocale == $locale) required @endif
                                 @if($this->defaultLocale != $locale) placeholder="{{ $category[$this->defaultLocale] ?? '' }}" @endif
                                 autocomplete="off"
@@ -129,15 +150,23 @@
                             <label class="form-check-label" for="isAvailableInput">Available</label>
                         </div>
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-12">
                         <label for="inputDescription" class="form-label">Description</label>
-                        <div class="input-group" @if($localization->isRtl($locale)) dir="rtl" @endif>
-                            <span class="input-group-text">{{ strtoupper($locale) }}</span>
+                        <div class="input-group">
+                            @if($this->defaultLocale != $locale)
+                                <span class="input-group-text d-none d-md-flex">{{ $localization->getLanguageName($this->defaultLocale) }}:</span>
+                                <textarea
+                                    class="form-control d-none d-md-flex"
+                                    readonly
+                                    rows="5"
+                                >{{ $description[$this->defaultLocale] ?? '' }}</textarea>
+                                <span class="input-group-text">{{ $localization->getLanguageName($locale) }}:</span>
+                            @endif
                             <textarea
-                                type="text"
                                 class="form-control @error('description') is-invalid @enderror"
                                 id="inputDescription"
-                                rows="3"
+                                @if($localization->isRtl($locale)) dir="rtl" @endif
+                                rows="5"
                                 autocomplete="off"
                                 @if($this->defaultLocale != $locale) placeholder="{{ $description[$this->defaultLocale] ?? '' }}" @endif
                                 wire:model.lazy="description.{{ $locale }}"></textarea>
