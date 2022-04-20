@@ -983,16 +983,16 @@
         },
         {
             "name": "donatj/phpuseragentparser",
-            "version": "v1.5.0",
+            "version": "v1.6.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/donatj/PhpUserAgent.git",
-                "reference": "cc9d872cddfc180c52d084d0dff1e4aad653d37f"
+                "reference": "c84fd3c205097843aab93290f2a5744b4159e815"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/donatj/PhpUserAgent/zipball/cc9d872cddfc180c52d084d0dff1e4aad653d37f",
-                "reference": "cc9d872cddfc180c52d084d0dff1e4aad653d37f",
+                "url": "https://api.github.com/repos/donatj/PhpUserAgent/zipball/c84fd3c205097843aab93290f2a5744b4159e815",
+                "reference": "c84fd3c205097843aab93290f2a5744b4159e815",
                 "shasum": ""
             },
             "require": {
@@ -1001,6 +1001,7 @@
             "require-dev": {
                 "camspiers/json-pretty": "~1.0",
                 "donatj/drop": "*",
+                "ext-json": "*",
                 "phpunit/phpunit": "~4.8|~9"
             },
             "type": "library",
@@ -1035,11 +1036,11 @@
             ],
             "support": {
                 "issues": "https://github.com/donatj/PhpUserAgent/issues",
-                "source": "https://github.com/donatj/PhpUserAgent/tree/v1.5.0"
+                "source": "https://github.com/donatj/PhpUserAgent/tree/v1.6.0"
             },
             "funding": [
                 {
-                    "url": "https://www.paypal.me/donatj/5",
+                    "url": "https://www.paypal.me/donatj/15",
                     "type": "custom"
                 },
                 {
@@ -1047,7 +1048,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2021-09-16T17:05:03+00:00"
+            "time": "2022-04-20T03:05:31+00:00"
         },
         {
             "name": "dragonmantank/cron-expression",
@@ -1428,16 +1429,16 @@
         },
         {
             "name": "giggsey/libphonenumber-for-php",
-            "version": "8.12.46",
+            "version": "8.12.47",
             "source": {
                 "type": "git",
                 "url": "https://github.com/giggsey/libphonenumber-for-php.git",
-                "reference": "d0a5e2637b650db38e0cce9b85897df1b9809984"
+                "reference": "e931ce8e68b6ca45a30743181fbdf0b24c1b611e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/giggsey/libphonenumber-for-php/zipball/d0a5e2637b650db38e0cce9b85897df1b9809984",
-                "reference": "d0a5e2637b650db38e0cce9b85897df1b9809984",
+                "url": "https://api.github.com/repos/giggsey/libphonenumber-for-php/zipball/e931ce8e68b6ca45a30743181fbdf0b24c1b611e",
+                "reference": "e931ce8e68b6ca45a30743181fbdf0b24c1b611e",
                 "shasum": ""
             },
             "require": {
@@ -1497,7 +1498,7 @@
                 "issues": "https://github.com/giggsey/libphonenumber-for-php/issues",
                 "source": "https://github.com/giggsey/libphonenumber-for-php"
             },
-            "time": "2022-03-31T08:27:57+00:00"
+            "time": "2022-04-19T12:45:49+00:00"
         },
         {
             "name": "giggsey/locale",
@@ -2189,16 +2190,16 @@
         },
         {
             "name": "laravel/framework",
-            "version": "v9.8.1",
+            "version": "v9.9.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "9f468689964ac80b674a2fe71a56baa7e9e20493"
+                "reference": "4d5a07640891b772188d7737348886a0222737d8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/9f468689964ac80b674a2fe71a56baa7e9e20493",
-                "reference": "9f468689964ac80b674a2fe71a56baa7e9e20493",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/4d5a07640891b772188d7737348886a0222737d8",
+                "reference": "4d5a07640891b772188d7737348886a0222737d8",
                 "shasum": ""
             },
             "require": {
@@ -2364,7 +2365,7 @@
                 "issues": "https://github.com/laravel/framework/issues",
                 "source": "https://github.com/laravel/framework"
             },
-            "time": "2022-04-12T15:43:03+00:00"
+            "time": "2022-04-19T15:01:23+00:00"
         },
         {
             "name": "laravel/serializable-closure",
@@ -2899,16 +2900,16 @@
         },
         {
             "name": "league/mime-type-detection",
-            "version": "1.10.0",
+            "version": "1.11.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thephpleague/mime-type-detection.git",
-                "reference": "3e4a35d756eedc67096f30240a68a3149120dae7"
+                "reference": "ff6248ea87a9f116e78edd6002e39e5128a0d4dd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/mime-type-detection/zipball/3e4a35d756eedc67096f30240a68a3149120dae7",
-                "reference": "3e4a35d756eedc67096f30240a68a3149120dae7",
+                "url": "https://api.github.com/repos/thephpleague/mime-type-detection/zipball/ff6248ea87a9f116e78edd6002e39e5128a0d4dd",
+                "reference": "ff6248ea87a9f116e78edd6002e39e5128a0d4dd",
                 "shasum": ""
             },
             "require": {
@@ -2939,7 +2940,7 @@
             "description": "Mime-type detection for Flysystem",
             "support": {
                 "issues": "https://github.com/thephpleague/mime-type-detection/issues",
-                "source": "https://github.com/thephpleague/mime-type-detection/tree/1.10.0"
+                "source": "https://github.com/thephpleague/mime-type-detection/tree/1.11.0"
             },
             "funding": [
                 {
@@ -2951,7 +2952,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-04-11T12:49:04+00:00"
+            "time": "2022-04-17T13:12:02+00:00"
         },
         {
             "name": "league/oauth1-client",
@@ -10403,16 +10404,16 @@
         },
         {
             "name": "kkomelin/laravel-translatable-string-exporter",
-            "version": "1.16.0",
+            "version": "1.16.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/kkomelin/laravel-translatable-string-exporter.git",
-                "reference": "4714516a8f3c52759f1de503ba1bc978442ed7f4"
+                "reference": "bc8a8eef5e6a86aec303f1601a743d42c6e997a2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kkomelin/laravel-translatable-string-exporter/zipball/4714516a8f3c52759f1de503ba1bc978442ed7f4",
-                "reference": "4714516a8f3c52759f1de503ba1bc978442ed7f4",
+                "url": "https://api.github.com/repos/kkomelin/laravel-translatable-string-exporter/zipball/bc8a8eef5e6a86aec303f1601a743d42c6e997a2",
+                "reference": "bc8a8eef5e6a86aec303f1601a743d42c6e997a2",
                 "shasum": ""
             },
             "require": {
@@ -10462,9 +10463,9 @@
             ],
             "support": {
                 "issues": "https://github.com/kkomelin/laravel-translatable-string-exporter/issues",
-                "source": "https://github.com/kkomelin/laravel-translatable-string-exporter/tree/1.16.0"
+                "source": "https://github.com/kkomelin/laravel-translatable-string-exporter/tree/1.16.1"
             },
-            "time": "2022-02-16T05:53:46+00:00"
+            "time": "2022-04-16T11:49:25+00:00"
         },
         {
             "name": "maximebf/debugbar",
