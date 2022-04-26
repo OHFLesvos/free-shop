@@ -150,8 +150,8 @@ class ProductManagePage extends BackendPage
         $this->product->setTranslations('description', array_map(fn ($val) => trim($val), $this->description));
 
         if (isset($this->product->picture) && ($this->removePicture || isset($this->picture))) {
-            $this->product->picture = null;
             Storage::delete($this->product->picture);
+            $this->product->picture = null;
         }
 
         if (isset($this->picture)) {
