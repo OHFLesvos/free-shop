@@ -9,7 +9,6 @@
         "anlutro/l4-settings": "^1.0",
         "carlos-meneses/laravel-mpdf": "^2.1",
         "cviebrock/eloquent-sluggable": "^9.0",
-        "doctrine/dbal": "^3.0",
         "donatj/phpuseragentparser": "^1.1",
         "dyrynda/laravel-nullable-fields": "^4.1",
         "fruitcake/laravel-cors": "^3.0",
