@@ -88,6 +88,13 @@
     <script>
         Livewire.on('tagAdded', () => {
             document.getElementById('newTagNameInput').focus();
+            showSnackbar('Tag added.')
+        })
+        Livewire.on('tagUpdated', () => {
+            showSnackbar('Tag updated.')
+        })
+        Livewire.on('tagDeleted', () => {
+            showSnackbar('Tag deleted.')
         })
     </script>
 @endpush

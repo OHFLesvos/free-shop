@@ -75,6 +75,8 @@ class ManageTagsPage extends BackendPage
         $this->editTag->save();
 
         $this->reset();
+
+        $this->emit('tagUpdated');
     }
 
     public function delete(int $id)
@@ -82,5 +84,7 @@ class ManageTagsPage extends BackendPage
         Tag::destroy($id);
 
         $this->reset();
+
+        $this->emit('tagDeleted');
     }
 }
