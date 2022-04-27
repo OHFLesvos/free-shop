@@ -10,4 +10,10 @@
         "bootstrap/cache": true
     },
     "intelephense.environment.phpVersion": "8.0.0",
+    "cSpell.words": [
+        "alpinejs",
+        "fontawesome",
+        "fortawesome",
+        "yaireo"
+    ],
 }
