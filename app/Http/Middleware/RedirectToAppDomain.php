@@ -3,17 +3,17 @@
 namespace App\Http\Middleware;
 
 use Closure;
-use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Redirect;
 
 /**
+ * Forces the use of the domain name stated in the APP_URL configuration.
+ *
  * Inspired by https://robindirksen.com/blog/redirect-www-to-non-www-urls-in-laravel
  */
 class RedirectToAppDomain
 {
-    public function handle(Request $request, Closure $next): Response|RedirectResponse
+    public function handle(Request $request, Closure $next)
     {
         if (app()->environment('local') || app()->runningUnitTests()) {
             return $next($request);
