@@ -41,6 +41,7 @@ class Product extends Model implements Auditable
     ];
 
     public $fillable = [
+        'name',
         'sequence',
         'stock',
         'limit_per_order',
