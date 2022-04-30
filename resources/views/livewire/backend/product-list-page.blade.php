@@ -48,7 +48,7 @@
                         <td>{{ $product->name }}</td>
                         <td>{{ $product->category }}</td>
                         <td>{{ $product->description }}</td>
-                        <td class="text-end">{{ $product->price }}</td>
+                        <td class="text-end">{{ $product->price }} {{ $product->currency->name }}</td>
                         <td class="text-end">{{ $product->limit_per_order }}</td>
                     </tr>
                 @empty
