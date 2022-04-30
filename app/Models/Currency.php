@@ -18,4 +18,9 @@ class Currency extends Model
     {
         return $this->hasMany(Product::class);
     }
+
+    public function customers()
+    {
+        return $this->belongsToMany(Customer::class)->withPivot('value');
+    }
 }

@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\Currency;
+use App\Models\Customer;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -35,6 +36,27 @@ return new class extends Migration
         Schema::table('products', function (Blueprint $table) {
             $table->foreignId('currency_id')->default(null)->change();
         });
+
+        Schema::create('currency_customer', function (Blueprint $table) {
+            $table->id();
+            $table->foreignIdFor(Customer::class)
+                ->constrained()
+                ->cascadeOnDelete();
+            $table->foreignIdFor(Currency::class)
+                ->constrained()
+                ->restrictOnDelete();
+            $table->unsignedInteger('value');
+        });
+
+        Customer::all()->each(function(Customer $customer) use($currency) {
+            $customer->currencies()->attach($currency, [
+                'value' => $customer->credit,
+            ]);
+        });
+
+        Schema::table('customers', function (Blueprint $table) {
+            $table->dropColumn('credit');
+        });
     }
 
     /**
@@ -44,6 +66,19 @@ return new class extends Migration
      */
     public function down()
     {
+        Schema::table('customers', function (Blueprint $table) {
+            $table->unsignedInteger('credit')->default(0)->after('phone');
+        });
+
+        Customer::with('currencies')->get()->each(function(Customer $customer) {
+            $customer->credit = $customer->currencies->sum(function ($currency) {
+                return $currency->pivot->value;
+            });
+            $customer->save();
+        });
+
+        Schema::dropIfExists('currency_customer');
+
         Schema::table('products', function (Blueprint $table) {
             $table->dropForeignIdFor(Currency::class);
             $table->dropColumn('currency_id');

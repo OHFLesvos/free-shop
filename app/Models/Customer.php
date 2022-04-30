@@ -91,6 +91,11 @@ class Customer extends Model implements
         return $this->hasMany(Order::class);
     }
 
+    public function currencies()
+    {
+        return $this->belongsToMany(Currency::class)->withPivot('value');
+    }
+
     public function comments(): HasOneOrMany
     {
         return $this->morphMany(Comment::class, 'commentable');
