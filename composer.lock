@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "8e928394c439339f3d935032b904e39b",
+    "content-hash": "42a1450b7e06d65c0b18b715766291f1",
     "packages": [
         {
             "name": "anlutro/l4-settings",
@@ -10274,6 +10274,66 @@
             "time": "2022-04-16T11:49:25+00:00"
         },
         {
+            "name": "laravel/sail",
+            "version": "v1.14.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/laravel/sail.git",
+                "reference": "453c66fde4109eb49e12299ffe3bf0d667983447"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/laravel/sail/zipball/453c66fde4109eb49e12299ffe3bf0d667983447",
+                "reference": "453c66fde4109eb49e12299ffe3bf0d667983447",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/console": "^8.0|^9.0",
+                "illuminate/contracts": "^8.0|^9.0",
+                "illuminate/support": "^8.0|^9.0",
+                "php": "^7.3|^8.0"
+            },
+            "bin": [
+                "bin/sail"
+            ],
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.x-dev"
+                },
+                "laravel": {
+                    "providers": [
+                        "Laravel\\Sail\\SailServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Laravel\\Sail\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Taylor Otwell",
+                    "email": "taylor@laravel.com"
+                }
+            ],
+            "description": "Docker files for running a basic Laravel application.",
+            "keywords": [
+                "docker",
+                "laravel"
+            ],
+            "support": {
+                "issues": "https://github.com/laravel/sail/issues",
+                "source": "https://github.com/laravel/sail"
+            },
+            "time": "2022-04-27T13:10:22+00:00"
+        },
+        {
             "name": "maximebf/debugbar",
             "version": "v1.18.0",
             "source": {
@@ -13251,5 +13311,5 @@
         "php": "^8.0.2"
     },
     "platform-dev": [],
-    "plugin-api-version": "2.0.0"
+    "plugin-api-version": "2.1.0"
 }
