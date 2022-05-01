@@ -11,7 +11,6 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
 use Livewire\WithFileUploads;
-use PhpOffice\PhpSpreadsheet\Calculation\DateTimeExcel\Current;
 
 class ProductManagePage extends BackendPage
 {

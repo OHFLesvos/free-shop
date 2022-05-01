@@ -14,6 +14,8 @@ use App\Listeners\LogUserLogout;
 use App\Listeners\LogUserRolesChanged;
 use App\Listeners\SetUserTimezone;
 use App\Listeners\UpdateUserLastLogin;
+use App\Models\Customer;
+use App\Observers\CustomerObserver;
 use Illuminate\Auth\Events\Failed;
 use Illuminate\Auth\Events\Login;
 use Illuminate\Auth\Events\Logout;
@@ -54,6 +56,15 @@ class EventServiceProvider extends ServiceProvider
         UserRolesChanged::class => [
             LogUserRolesChanged::class,
         ],
+    ];
+
+    /**
+     * The model observers for your application.
+     *
+     * @var array
+     */
+    protected $observers = [
+        Customer::class => [CustomerObserver::class],
     ];
 
     /**

@@ -320,26 +320,9 @@
 
         </x-card>
 
-        <x-card title="Customer credit" no-footer-padding>
+        <x-card title="Customer balance top-up" no-footer-padding>
 
             <div class="row">
-
-                <div class="col-sm-6">
-                    <div class="mb-3">
-                        <label for="customerStartingCredit" class="form-label">Starting credit:</label>
-                        <input
-                            type="number"
-                            min="0"
-                            id="customerStartingCredit"
-                            wire:model="customerStartingCredit"
-                            placeholder="{{ config('shop.customer.starting_credit') }}"
-                            class="form-control @error('customerStartingCredit') is-invalid @enderror"
-                            style="max-width: 10em;">
-                        @error('customerStartingCredit')
-                            <div class="invalid-feedback">{{ $message }}</div>
-                        @enderror
-                    </div>
-                </div>
 
                 <div class="col-sm-6">
                     <div class="mb-3">
@@ -361,39 +344,6 @@
                     </div>
                 </div>
 
-                <div class="col-sm-6">
-                    <div class="mb-3">
-                        <label for="customerCreditTopUpAmount" class="form-label">Top-up credit amount:</label>
-                        <input
-                            type="number"
-                            min="0"
-                            id="customerCreditTopUpAmount"
-                            wire:model.defer="customerCreditTopUpAmount"
-                            placeholder="{{ $customerStartingCredit > 0 ? $customerStartingCredit : config('shop.customer.starting_credit') }}"
-                            class="form-control @error('customerCreditTopUpAmount') is-invalid @enderror"
-                            style="max-width: 10em;">
-                        @error('customerCreditTopUpAmount')
-                            <div class="invalid-feedback">{{ $message }}</div>
-                        @enderror
-                    </div>
-                </div>
-
-                <div class="col-sm-6">
-                    <div class="mb-3">
-                        <label for="customerCreditTopUpMaximum" class="form-label">Top-up credit maximum:</label>
-                        <input
-                            type="number"
-                            min="0"
-                            id="customerCreditTopUpMaximum"
-                            wire:model.defer="customerCreditTopUpMaximum"
-                            placeholder="{{ $customerStartingCredit > 0 ? $customerStartingCredit : config('shop.customer.starting_credit') }}"
-                            class="form-control @error('customerCreditTopUpMaximum') is-invalid @enderror"
-                            style="max-width: 10em;">
-                        @error('customerCreditTopUpMaximum')
-                            <div class="invalid-feedback">{{ $message }}</div>
-                        @enderror
-                    </div>
-                </div>
             </div>
 
         </x-card>

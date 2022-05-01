@@ -3,10 +3,12 @@
 namespace App\Http\Livewire\Backend;
 
 use App\Http\Livewire\Traits\TrimAndNullEmptyStrings;
+use App\Models\Currency;
 use App\Models\Customer;
 use App\Models\Tag;
 use App\Services\LocalizationService;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Illuminate\Support\Collection;
 use Illuminate\Validation\Rule;
 use Illuminate\View\View;
 use libphonenumber\NumberParseException;
@@ -18,6 +20,8 @@ class CustomerManagePage extends BackendPage
     use TrimAndNullEmptyStrings;
 
     public Customer $customer;
+
+    public Collection $currencies;
 
     public ?string $phone = null;
 
@@ -81,9 +85,10 @@ class CustomerManagePage extends BackendPage
             $this->authorize('create', Customer::class);
         }
 
+        $this->currencies = Currency::orderBy('name')->pluck('name', 'id');
+
         if (!isset($this->customer)) {
             $this->customer = new Customer();
-            $this->customer->credit = setting()->get('customer.starting_credit', config('shop.customer.starting_credit'));
             $this->customer->is_disabled = false;
         }
 
@@ -94,7 +99,7 @@ class CustomerManagePage extends BackendPage
                 $phone = PhoneNumber::make($this->customer->phone);
                 $this->phoneCountry = $phone->getCountry();
                 $this->phone = $phone->formatNational();
-            } catch (NumberParseException $ignored) {
+            } catch (NumberParseException) {
                 $this->phoneCountry = '';
                 $this->phone = $this->customer->phone;
             }

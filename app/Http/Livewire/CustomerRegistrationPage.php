@@ -77,7 +77,6 @@ class CustomerRegistrationPage extends FrontendPage
             'phone' => filled($this->phone) ? PhoneNumber::make($this->phone, $this->phoneCountry)->formatE164() : null,
             'email' => filled($this->email) ? $this->email : null,
             'locale' => app()->getLocale(),
-            'credit' => setting()->get('customer.starting_credit', config('shop.customer.starting_credit')),
         ]);
 
         Auth::guard('customer')->login($customer);

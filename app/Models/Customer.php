@@ -69,24 +69,6 @@ class Customer extends Model implements
         'topped_up_at' => 'datetime',
     ];
 
-    protected static function booted()
-    {
-        static::creating(function (Customer $customer) {
-            if ($customer->topped_up_at == null) {
-                $customer->topped_up_at = now();
-            }
-        });
-        static::deleting(function (Customer $customer) {
-            $customer->orders()
-                ->whereIn('status', ['new', 'ready'])
-                ->update(['status' => 'cancelled']);
-            $customer->orders()
-                ->update(['customer_id' => null]);
-            $customer->comments()
-                ->delete();
-        });
-    }
-
     public function orders(): HasMany
     {
         return $this->hasMany(Order::class);

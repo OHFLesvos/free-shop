@@ -2,15 +2,15 @@
 
 namespace App\Console\Commands;
 
+use App\Models\Currency;
 use App\Models\Customer;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Log;
 
 class TopUpCustomerCredits extends Command
 {
-    private int $count = 0;
-
     /**
      * The name and signature of the console command.
      *
@@ -23,15 +23,17 @@ class TopUpCustomerCredits extends Command
      *
      * @var string
      */
-    protected $description = 'Tops up customer credits to a fixed amount';
+    protected $description = 'Tops up customer balance to a fixed amount';
 
     /**
      * Create a new command instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(private ?int $days = null)
     {
+        $this->days = $days ?? setting()->get('customer.credit_top_up.days', 0);
+
         parent::__construct();
     }
 
@@ -42,50 +44,64 @@ class TopUpCustomerCredits extends Command
      */
     public function handle()
     {
-        $days = setting()->get('customer.credit_top_up.days');
-        if ($days > 0) {
-            $date = now()->subDays($days);
-            $this->topUp($date);
+        if ($this->days > 0) {
+            $date = now()->subDays($this->days);
+            $count = $this->topUp($date);
 
-            $this->line("Topped up {$this->count} customers.");
+            $this->line("Topped up $count customers, time range {$this->days} days.");
 
             return 0;
         }
+
         $this->warn("Customer top-up skipped, no time range defined.");
-        Log::info('Customer credit top-up skipped, no time range defined.', [
+        Log::info('Customer balance top-up skipped, no time range defined.', [
             'event.kind' => 'event',
         ]);
 
         return 0;
     }
 
-    private function topUp(Carbon $date): void
+    private function topUp(Carbon $date): int
     {
-        $startingCredit = setting()->get('customer.starting_credit', config('shop.customer.starting_credit'));
-        $amount = setting()->get('customer.credit_top_up.amount', $startingCredit);
-        $maximum = setting()->get('customer.credit_top_up.maximum', $startingCredit);
+        $currencies = Currency::all();
 
-        $this->count = 0;
-        Customer::whereDate('topped_up_at', '<=', $date)
+        return Customer::whereDate('topped_up_at', '<=', $date)
             ->orWhereNull('topped_up_at')
+            ->with('currencies')
             ->get()
-            ->each(function ($customer) use ($amount, $maximum) {
-                $customer->credit = min($customer->credit + $amount, $maximum);
-                if ($customer->isDirty('credit')) {
-                    $customer->topped_up_at = now();
-                    $customer->save();
+            ->reduce(fn (int $carry, Customer $customer) => $carry + (int) $this->topUpCustomer($customer, $currencies), 0);
+    }
 
-                    Log::info('Customer credit topped up.', [
-                        'event.kind' => 'event',
-                        'event.outcome' => 'success',
-                        'customer.name' => $customer->name,
-                        'customer.id_number' => $customer->id_number,
-                        'customer.phone' => $customer->phone,
-                        'customer.credit' => $customer->credit,
-                    ]);
+    private function topUpCustomer(Customer $customer, Collection $currencies): bool
+    {
+        $ids = $customer->currencies
+            ->mapWithKeys(fn (Currency $currency) => [$currency->id => [
+                'value' => min($currency->getRelationValue('pivot')->value + $currency->top_up_amount, $currency->top_up_maximum),
+            ]]);
+        $customer->currencies()->sync($ids);
 
-                    $this->count++;
-                }
-            });
+        $newIds = $currencies->whereNotIn('id', $ids->keys())
+            ->mapWithKeys(fn (Currency $currency) => [$currency->id => [
+                'value' => $currency->initial_value,
+            ]]);
+        $customer->currencies()->syncWithoutDetaching($newIds);
+
+        if ($customer->wasChanged()) {
+            $customer->topped_up_at = now();
+            $customer->save();
+
+            Log::info('Customer balance topped up.', [
+                'event.kind' => 'event',
+                'event.outcome' => 'success',
+                'customer.name' => $customer->name,
+                'customer.id_number' => $customer->id_number,
+                'customer.phone' => $customer->phone,
+                'customer.balance' => $customer->totalBalance(),
+            ]);
+
+            return true;
+        }
+
+        return false;
     }
 }

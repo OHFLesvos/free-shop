@@ -10,10 +10,16 @@
         "bootstrap/cache": true
     },
     "intelephense.environment.phpVersion": "8.0.0",
-    "cSpell.words": [
+    "cSpell.ignoreWords": [
+        "Authorizable",
+        "Gumlet",
+        "Livewire",
+        "Propaganistas",
         "alpinejs",
         "fontawesome",
         "fortawesome",
+        "libphonenumber",
+        "livewire",
         "yaireo"
     ],
 }
