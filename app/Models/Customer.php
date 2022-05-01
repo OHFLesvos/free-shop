@@ -20,6 +20,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOneOrMany;
 use Illuminate\Foundation\Auth\Access\Authorizable;
+use Illuminate\Support\Collection;
 use libphonenumber\NumberParseException;
 use Propaganistas\LaravelPhone\PhoneNumber;
 use OwenIt\Auditing\Contracts\Auditable;
@@ -91,9 +92,24 @@ class Customer extends Model implements
         return $this->hasMany(Order::class);
     }
 
-    public function currencies()
+    public function currencies(): BelongsToMany
     {
-        return $this->belongsToMany(Currency::class)->withPivot('value');
+        return $this->belongsToMany(Currency::class)
+            ->withPivot('value');
+    }
+
+    public function balance(): Collection
+    {
+        return $this->currencies
+            ->sortBy('name', SORT_NATURAL|SORT_FLAG_CASE)
+            ->mapWithKeys(fn (Currency $currency) => [$currency->name => $currency->getRelationValue('pivot')->value]);
+    }
+
+    public function totalBalance(): string
+    {
+        return $this->balance()
+            ->map(fn ($v, $k) => "$v $k")
+            ->join(', ');
     }
 
     public function comments(): HasOneOrMany

@@ -110,7 +110,7 @@ class ProductManagePage extends BackendPage
         $this->category = $this->product->getTranslations('category');
         $this->description = $this->product->getTranslations('description');
 
-        $this->currencies = Currency::orderBy('name')->get()->pluck('name', 'id');
+        $this->currencies = Currency::orderBy('name')->pluck('name', 'id');
     }
 
     protected function title(): string

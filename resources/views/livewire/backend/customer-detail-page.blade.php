@@ -37,8 +37,8 @@
                 <dt class="col-sm-3">Email address</dt>
                 <dd class="col-sm-9"><a href="mailto:{{ $customer->email }}">{{ $customer->email }}</a></dd>
             @endisset
-            <dt class="col-sm-3">Credit</dt>
-            <dd class="col-sm-9">{{ $customer->credit }}</dd>
+            <dt class="col-sm-3">Balance</dt>
+            <dd class="col-sm-9">{!! nl2br(e($customer->balance()->map(fn ($v, $k) => "$v $k")->join("\n") )) !!}</dd>
             @isset($customer->remarks)
                 <dt class="col-sm-3">Remarks</dt>
                 <dd class="col-sm-9">{!! nl2br(e($customer->remarks)) !!}</dd>

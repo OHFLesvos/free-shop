@@ -25,7 +25,7 @@ return new class extends Migration
             'name' => 'Credit',
         ]);
 
-        Schema::table('products', function (Blueprint $table) use($currency) {
+        Schema::table('products', function (Blueprint $table) use ($currency) {
             $table->foreignIdFor(Currency::class)
                 ->default($currency->id)
                 ->after('price')
@@ -48,7 +48,7 @@ return new class extends Migration
             $table->unsignedInteger('value');
         });
 
-        Customer::all()->each(function(Customer $customer) use($currency) {
+        Customer::all()->each(function (Customer $customer) use ($currency) {
             $customer->currencies()->attach($currency, [
                 'value' => $customer->credit,
             ]);
@@ -70,10 +70,8 @@ return new class extends Migration
             $table->unsignedInteger('credit')->default(0)->after('phone');
         });
 
-        Customer::with('currencies')->get()->each(function(Customer $customer) {
-            $customer->credit = $customer->currencies->sum(function ($currency) {
-                return $currency->pivot->value;
-            });
+        Customer::with('currencies')->get()->each(function (Customer $customer) {
+            $customer->credit = $customer->currencies->sum(fn (Currency $currency) => $currency->pivot->value);
             $customer->save();
         });
 

@@ -68,7 +68,7 @@
                 <th>Phone</th>
                 <th>Email</th>
                 <th class="text-end">Orders</th>
-                <th class="text-end">Credit</th>
+                <th class="text-end">Balance</th>
                 <th class="fit">
                     Registered
                     <a href="#" wire:click="sortBy('created_at')"><x-icon icon="sort"/></a>
@@ -89,7 +89,7 @@
                         <td><x-phone-info :value="$customer->phone"/></td>
                         <td>{{ $customer->email }}</td>
                         <td class="text-end">{{ $customer->orders()->count() }}</td>
-                        <td class="text-end">{{ $customer->credit }}</td>
+                        <td class="text-end">{{ $customer->totalBalance() }}</td>
                         <td class="fit">
                             {{ $customer->created_at->toUserTimezone()->isoFormat('LLLL') }}<br>
                             <small>{{ $customer->created_at->diffForHumans() }}</small>
