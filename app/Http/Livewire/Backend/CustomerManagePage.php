@@ -27,6 +27,8 @@ class CustomerManagePage extends BackendPage
 
     public string $phoneCountry;
 
+    public Collection $balance;
+
     public array $tags;
 
     /**
@@ -58,12 +60,16 @@ class CustomerManagePage extends BackendPage
                 'required_without:phone',
                 'email',
             ],
-            'tags' => [
+            'balance' => [
                 'array',
             ],
-            'customer.credit' => [
+            'balance.*' => [
+                'required',
                 'integer',
                 'min:0',
+            ],
+            'tags' => [
+                'array',
             ],
             'customer.locale' => [
                 'nullable',
@@ -85,11 +91,17 @@ class CustomerManagePage extends BackendPage
             $this->authorize('create', Customer::class);
         }
 
-        $this->currencies = Currency::orderBy('name')->pluck('name', 'id');
+        $this->currencies = Currency::orderBy('name')->get();
 
         if (!isset($this->customer)) {
             $this->customer = new Customer();
             $this->customer->is_disabled = false;
+            $this->balance = $this->currencies
+                ->mapWithKeys(fn (Currency $currency) => [$currency->id => $currency->top_up_amount]);
+        } else {
+            $this->balance = $this->customer->currencies
+                ->mapWithKeys(fn (Currency $currency) => [$currency->id => $currency->getRelationValue('pivot')->value]);
+            $this->currencies->whereNotIn('id', $this->balance->keys())->each(fn (Currency $currency) => $this->balance[$currency->id] = 0);
         }
 
         $this->phoneCountry = setting()->get('order.default_phone_country', '');
@@ -135,11 +147,12 @@ class CustomerManagePage extends BackendPage
         if (!$this->customer->is_disabled) {
             $this->customer->disabled_reason = null;
         }
+        if ($this->customer->topped_up_at == null) {
+            $this->customer->topped_up_at = now();
+        }
 
-        $this->customer->topped_up_at = now();
         $this->customer->save();
-
-        $this->customer->initializeBalances();
+        $this->customer->setBalances($this->balance);
 
         $tags = [];
         foreach ($this->tags as $tag) {

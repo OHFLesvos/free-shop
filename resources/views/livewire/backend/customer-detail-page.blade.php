@@ -39,6 +39,14 @@
             @endisset
             <dt class="col-sm-3">Balance</dt>
             <dd class="col-sm-9">{!! nl2br(e($customer->balance()->map(fn ($v, $k) => "$v $k")->join("\n") )) !!}</dd>
+            @isset($customer->topped_up_at)
+                <dt class="col-sm-3">Last top-up</dt>
+                <dd class="col-sm-9">{{ $customer->topped_up_at->isoFormat('LL') }}</dd>
+            @endif
+            @isset($customer->nextTopUpDate)
+                <dt class="col-sm-3">Next top-up</dt>
+                <dd class="col-sm-9">{{ $customer->nextTopUpDate->isoFormat('LL') }}</dd>
+            @endif
             @isset($customer->remarks)
                 <dt class="col-sm-3">Remarks</dt>
                 <dd class="col-sm-9">{!! nl2br(e($customer->remarks)) !!}</dd>
@@ -62,132 +70,133 @@
                             @endforeach
                         </select>
                     @endif
-                    @endif
-                </dd>
-                @if ($customer->is_disabled)
-                    <dt class="col-sm-3">Disabled</dt>
-                    <dd class="col-sm-9">{{ $customer->disabled_reason ?? 'Yes' }}</dd>
                 @endif
-                <dt class="col-sm-3">Registered</dt>
-                <dd class="col-sm-9">
-                    <x-date-time-info :value="$customer->created_at" />
-                </dd>
-            </dl>
-        </x-card>
+            </dd>
+            @if ($customer->is_disabled)
+                <dt class="col-sm-3">Disabled</dt>
+                <dd class="col-sm-9">{{ $customer->disabled_reason ?? 'Yes' }}</dd>
+            @endif
+            <dt class="col-sm-3">Registered</dt>
+            <dd class="col-sm-9">
+                <x-date-time-info :value="$customer->created_at" />
+            </dd>
+        </dl>
 
-        {{-- Comments --}}
-        <h3>Comments</h3>
-        @if ($comments->isNotEmpty())
-            @foreach ($comments as $comment)
-                <div class="card mb-3 shadow-sm" wire:key="comment-{{ $comment->id }}">
-                    <div class="card-body">
-                        {{ $comment->content }}
-                        @can('delete', $comment)
-                            <button class="btn btn-outline-danger btn-sm float-end"
-                                wire:click="deleteComment({{ $comment->id }})"
-                                onclick="confirm('Are you sure you want to remove this comment?') || event.stopImmediatePropagation()">
-                                Delete
-                            </button>
-                        @endcan
-                    </div>
-                    <div class="card-footer d-sm-flex justify-content-between">
-                        <span>
-                            <x-date-time-info :value="$comment->created_at" />
-                        </span>
-                        @isset($comment->user)
-                            <small class="text-muted">{{ $comment->user->name }}</small>
-                        @endisset
-                    </div>
-                </div>
-            @endforeach
-            <div class="overflow-auto">{{ $comments->onEachSide(2)->links() }}</div>
-        @endif
-
-        @livewire('components.add-comment-input')
-
-        {{-- Orders --}}
-        <h3>Orders</h3>
-        @if ($customer->orders->isNotEmpty())
-            <div class="table-responsive">
-                <table class="table table-bordered table-hover shadow-sm bg-white">
-                    <thead>
-                        <tr>
-                            <th class="text-end">Order</th>
-                            <th>Status</th>
-                            <th>Registered</th>
-                            <th class="text-end">Products</th>
-                            <th class="text-end">Costs</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach ($orders as $order)
-                            <tr onclick="window.location='{{ route('backend.orders.show', $order) }}'"
-                                class="cursor-pointer">
-                                <td class="fit text-end">#{{ $order->id }}</td>
-                                <td class="fit">
-                                    <x-order-status-label :order="$order" />
-                                </td>
-                                <td>
-                                    <x-date-time-info :value="$order->created_at" />
-                                </td>
-                                <td class="fit text-end">
-                                    {{ $order->products->map(fn($product) => $product->pivot->quantity)->sum() }}
-                                </td>
-                                <td class="fit text-end">
-                                    {{ $order->costs }}
-                                </td>
-                            </tr>
-                        @endforeach
-                    </tbody>
-                </table>
+        <x-slot name="footer">
+            <div class="d-flex justify-content-between">
+                <a href="{{ route('backend.customers') }}" class="btn btn-link">Back to overview</a>
+                <span>
+                    @can('update', $customer)
+                        <a href="{{ route('backend.customers.edit', $customer) }}" class="btn btn-primary">Edit</a>
+                    @endcan
+                </span>
             </div>
-            <div class="overflow-auto">{{ $orders->onEachSide(2)->links() }}</div>
-        @endif
-        @can('create', App\Models\Order::class)
-            <p><a href="{{ route('backend.customers.registerOrder', $customer) }}" class="btn btn-primary">New order</a></p>
-        @endcan
+        </x-slot>
+    </x-card>
 
-        {{-- Order history --}}
-        @php
-            $audits = $customer
-                ->audits()
-                ->with('user')
-                ->get();
-        @endphp
-        @if ($audits->isNotEmpty())
-            <h3 class="mt-2">Customer history</h3>
-            <ul class="list-group shadow-sm mb-4">
-                @foreach ($audits as $audit)
-                    <li class="list-group-item">
-                        On <strong>
-                            <x-date-time-info :value="$audit->created_at" />
-                        </strong>
-                        <strong>{{ optional($audit->user)->name ?? 'Unknown' }}</strong>
-                        @if ($audit->event == 'created')
-                            registered the customer.
-                        @elseif($audit->event == 'updated')
-                            updated the customer and changed
-                            @php
-                                $modified = $audit->getModified();
-                            @endphp
-                            @foreach ($modified as $key => $val)
-                                <em>{{ $key }}</em>
-                                @isset($val['old']) from <code>{{ $val['old'] }}</code> @endisset
-                                to <code>{{ $val['new'] }}</code>@if ($loop->last).@else,@endif
-                            @endforeach
-                        @endif
-                    </li>
-                @endforeach
-            </ul>
-        @endif
+    {{-- Comments --}}
+    <h3>Comments</h3>
+    @if ($comments->isNotEmpty())
+        @foreach ($comments as $comment)
+            <div class="card mb-3 shadow-sm" wire:key="comment-{{ $comment->id }}">
+                <div class="card-body">
+                    {{ $comment->content }}
+                    @can('delete', $comment)
+                        <button class="btn btn-outline-danger btn-sm float-end"
+                            wire:click="deleteComment({{ $comment->id }})"
+                            onclick="confirm('Are you sure you want to remove this comment?') || event.stopImmediatePropagation()">
+                            Delete
+                        </button>
+                    @endcan
+                </div>
+                <div class="card-footer d-sm-flex justify-content-between">
+                    <span>
+                        <x-date-time-info :value="$comment->created_at" />
+                    </span>
+                    @isset($comment->user)
+                        <small class="text-muted">{{ $comment->user->name }}</small>
+                    @endisset
+                </div>
+            </div>
+        @endforeach
+        <div class="overflow-auto">{{ $comments->onEachSide(2)->links() }}</div>
+    @endif
 
-        <hr>
-        <div class="d-flex justify-content-between mb-3">
-            <span>
-                @can('update', $customer)
-                    <a href="{{ route('backend.customers.edit', $customer) }}" class="btn btn-primary">Edit</a>
-                @endcan
-            </span>
-            <a href="{{ route('backend.customers') }}" class="btn btn-link">Back to overview</a>
+    @livewire('components.add-comment-input')
+
+    {{-- Orders --}}
+    <h3>Orders</h3>
+    @if ($customer->orders->isNotEmpty())
+        <div class="table-responsive">
+            <table class="table table-bordered table-hover shadow-sm bg-white">
+                <thead>
+                    <tr>
+                        <th class="text-end">Order</th>
+                        <th>Status</th>
+                        <th>Registered</th>
+                        <th class="text-end">Products</th>
+                        <th class="text-end">Costs</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach ($orders as $order)
+                        <tr onclick="window.location='{{ route('backend.orders.show', $order) }}'"
+                            class="cursor-pointer">
+                            <td class="fit text-end">#{{ $order->id }}</td>
+                            <td class="fit">
+                                <x-order-status-label :order="$order" />
+                            </td>
+                            <td>
+                                <x-date-time-info :value="$order->created_at" />
+                            </td>
+                            <td class="fit text-end">
+                                {{ $order->products->map(fn($product) => $product->pivot->quantity)->sum() }}
+                            </td>
+                            <td class="fit text-end">
+                                {{ $order->costs }}
+                            </td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
         </div>
-    </div>
+        <div class="overflow-auto">{{ $orders->onEachSide(2)->links() }}</div>
+    @endif
+    @can('create', App\Models\Order::class)
+        <p><a href="{{ route('backend.customers.registerOrder', $customer) }}" class="btn btn-primary">New order</a></p>
+    @endcan
+
+    {{-- Order history --}}
+    @php
+        $audits = $customer
+            ->audits()
+            ->with('user')
+            ->get();
+    @endphp
+    @if ($audits->isNotEmpty())
+        <h3 class="mt-2">Customer history</h3>
+        <ul class="list-group shadow-sm mb-4">
+            @foreach ($audits as $audit)
+                <li class="list-group-item">
+                    On <strong>
+                        <x-date-time-info :value="$audit->created_at" />
+                    </strong>
+                    <strong>{{ optional($audit->user)->name ?? 'Unknown' }}</strong>
+                    @if ($audit->event == 'created')
+                        registered the customer.
+                    @elseif($audit->event == 'updated')
+                        updated the customer and changed
+                        @php
+                            $modified = $audit->getModified();
+                        @endphp
+                        @foreach ($modified as $key => $val)
+                            <em>{{ $key }}</em>
+                            @isset($val['old']) from <code>{{ $val['old'] }}</code> @endisset
+                            to <code>{{ $val['new'] }}</code>@if ($loop->last).@else,@endif
+                        @endforeach
+                    @endif
+                </li>
+            @endforeach
+        </ul>
+    @endif
+</div>
