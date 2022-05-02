@@ -77,7 +77,7 @@ class TopUpCustomerCredits extends Command
         $customer->initializeBalances($currencies);
 
         $customer->currencies->each(function (Currency $currency) use ($customer) {
-            $value = max($currency->getRelationValue('pivot')->value, $currency->top_up_amount);
+            $value = max($customer->getBalance($currency), $currency->top_up_amount);
             $customer->setBalance($currency->id, $value);
         });
 

@@ -97,6 +97,15 @@ class Customer extends Model implements
         $this->currencies()->sync($ids, false);
     }
 
+    public function getBalance(int|Currency $currency): int
+    {
+        if (is_int($currency)) {
+            $currency = $this->currencies->firstWhere('id', $currency);
+        }
+
+        return $currency !== null ? $currency->getRelationValue('pivot')->value : 0;
+    }
+
     public function setBalance(int $currencyId, int $value): void
     {
         if ($this->currencies->firstWhere('id', $currencyId) === null) {
@@ -130,7 +139,7 @@ class Customer extends Model implements
     {
         return $this->currencies
             ->sortBy('name', SORT_NATURAL | SORT_FLAG_CASE)
-            ->mapWithKeys(fn (Currency $currency) => [$currency->name => $currency->getRelationValue('pivot')->value]);
+            ->mapWithKeys(fn (Currency $currency) => [$currency->name => $this->getBalance($currency)]);
     }
 
     public function totalBalance(): string
@@ -148,7 +157,7 @@ class Customer extends Model implements
         }
 
         // TODO: Handle non-assigned currencies
-        $needsTopUp = $this->currencies->contains(fn (Currency $currency) => $currency->getRelationValue('pivot')->value < $currency->top_up_amount);
+        $needsTopUp = $this->currencies->contains(fn (Currency $currency) => $this->getBalance($currency) < $currency->top_up_amount);
         if (!$needsTopUp) {
             return null;
         }

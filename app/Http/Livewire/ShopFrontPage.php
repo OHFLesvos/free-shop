@@ -13,8 +13,14 @@ use Illuminate\View\View;
 
 class ShopFrontPage extends FrontendPage
 {
+    /**
+     * @var Collection<Product>
+     */
     public Collection $products;
 
+    /**
+     * @var Collection<string>
+     */
     public Collection $categories;
 
     public ?Customer $customer = null;
@@ -66,7 +72,9 @@ class ShopFrontPage extends FrontendPage
 
     public function add(ShoppingBasket $basket, int $productId, ?int $quantity = 1): void
     {
-        $price = $this->products->firstWhere('id', $productId)->price * $quantity;
+        $product = $this->products->firstWhere('id', $productId);
+
+        $price = $product->price * $quantity;
         if ($price <= $this->getAvailableCreditProperty($basket)) {
             $basket->add($productId, $quantity);
         }
@@ -77,6 +85,7 @@ class ShopFrontPage extends FrontendPage
         $basketCosts = (int)$basket->items()
             ->map(fn ($quantity, $productId) => $this->products->firstWhere('id', $productId)->price * $quantity)
             ->sum();
+
         return $this->customer->credit - $basketCosts;
     }
 }

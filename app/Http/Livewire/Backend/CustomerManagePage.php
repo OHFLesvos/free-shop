@@ -21,14 +21,23 @@ class CustomerManagePage extends BackendPage
 
     public Customer $customer;
 
+    /**
+     * @var Collection<Currency>
+     */
     public Collection $currencies;
 
     public ?string $phone = null;
 
     public string $phoneCountry;
 
+    /**
+     * @var Collection<int,int>
+     */
     public Collection $balance;
 
+    /**
+     * @var array<string>
+     */
     public array $tags;
 
     /**
@@ -93,15 +102,16 @@ class CustomerManagePage extends BackendPage
 
         $this->currencies = Currency::orderBy('name')->get();
 
-        if (!isset($this->customer)) {
+        if (isset($this->customer)) {
+            $this->balance = $this->customer->currencies
+                ->mapWithKeys(fn (Currency $currency) => [$currency->id => $this->customer->getBalance($currency)]);
+            $this->currencies->whereNotIn('id', $this->balance->keys())
+                ->each(fn (Currency $currency) => $this->balance[$currency->id] = 0);
+        } else {
             $this->customer = new Customer();
             $this->customer->is_disabled = false;
             $this->balance = $this->currencies
                 ->mapWithKeys(fn (Currency $currency) => [$currency->id => $currency->top_up_amount]);
-        } else {
-            $this->balance = $this->customer->currencies
-                ->mapWithKeys(fn (Currency $currency) => [$currency->id => $currency->getRelationValue('pivot')->value]);
-            $this->currencies->whereNotIn('id', $this->balance->keys())->each(fn (Currency $currency) => $this->balance[$currency->id] = 0);
         }
 
         $this->phoneCountry = setting()->get('order.default_phone_country', '');
