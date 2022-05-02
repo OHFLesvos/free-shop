@@ -3,8 +3,8 @@
 namespace App\Http\Livewire;
 
 use App\Models\Customer;
-use App\Models\Order;
 use App\Models\Product;
+use App\Services\OrderManager;
 use App\Services\ShoppingBasket;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\App;
@@ -30,11 +30,11 @@ class ShopFrontPage extends FrontendPage
         return __('Choose your items');
     }
 
-    public function mount(): void
+    public function mount(OrderManager $orderManager): void
     {
         $this->shopDisabled = setting()->has('shop.disabled');
         $this->useCategories = setting()->has('shop.group_products_by_categories');
-        $this->dailyOrdersMaxedOut = $this->dailyOrdersMaxedOut();
+        $this->dailyOrdersMaxedOut = $orderManager->isDailyOrderMaximumReached();
 
         $this->customer = Auth::guard('customer')->user();
 
@@ -54,19 +54,6 @@ class ShopFrontPage extends FrontendPage
                 ->unique()
                 ->values();
         }
-    }
-
-    private function dailyOrdersMaxedOut(): bool
-    {
-        if (setting()->has('shop.max_orders_per_day') && setting()->get('shop.max_orders_per_day') > 0) {
-            $currentOrderCount = Order::whereDate('created_at', today())
-                ->where('status', '!=', 'cancelled')
-                ->count();
-            if (setting()->get('shop.max_orders_per_day') <= $currentOrderCount) {
-                return true;
-            }
-        }
-        return false;
     }
 
     public function render(ShoppingBasket $basket): View
