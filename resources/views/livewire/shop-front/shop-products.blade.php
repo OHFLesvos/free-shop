@@ -88,11 +88,13 @@
                                     </div>
                                 @endif
                             @else
-                                <a
-                                    href="{{ route('customer.login') }}"
-                                    class="btn btn-primary">
-                                    {{ __('Get') }}
-                                </a>
+                                <div class="d-grid">
+                                    <a
+                                        href="{{ route('customer.login') }}"
+                                        class="btn btn-primary">
+                                        {{ __('Get') }}
+                                    </a>
+                                </div>
                             @endisset
                         @endunless
                     @else
