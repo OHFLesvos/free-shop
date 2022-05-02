@@ -19,26 +19,14 @@ return new class extends Migration
             $table->id();
             $table->string('name')
                 ->unique();
-            $table->unsignedInteger('initial_value')
-                ->default(0)
-                ->comment('Initial value for new customers');
             $table->unsignedInteger('top_up_amount')
-                ->default(0)
-                ->comment('Amount to be topped up');
-            $table->unsignedInteger('top_up_maximum')
-                ->default(0)
-                ->comment('Maximum balance after the top-up');
+                ->default(0);
             $table->timestamps();
         });
 
-        $configured_starting_credit = 10;
-        $initial_value = setting()->get('customer.starting_credit', $configured_starting_credit);
-
         $currency = Currency::create([
             'name' => 'Credit',
-            'initial_value' => $initial_value,
-            'top_up_amount' => setting()->get('customer.credit_top_up.amount', $initial_value > 0 ? $initial_value : $configured_starting_credit),
-            'top_up_maximum' => setting()->get('customer.credit_top_up.maximum', $initial_value > 0 ? $initial_value : $configured_starting_credit),
+            'top_up_amount' => setting()->get('customer.credit_top_up.amount', setting()->get('customer.starting_credit', 10)),
         ]);
 
         setting()->forget('customer.starting_credit');
@@ -72,11 +60,10 @@ return new class extends Migration
             $table->unsignedInteger('value');
         });
 
-        Customer::all()->each(function (Customer $customer) use ($currency) {
-            $customer->currencies()->attach($currency, [
-                'value' => $customer->credit,
-            ]);
-        });
+        Customer::with('currencies')->get()
+            ->each(function (Customer $customer) use ($currency) {
+                $customer->setBalance($currency->id, $customer->credit);
+            });
 
         Schema::table('customers', function (Blueprint $table) {
             $table->dropColumn('credit');
@@ -94,10 +81,11 @@ return new class extends Migration
             $table->unsignedInteger('credit')->default(0)->after('phone');
         });
 
-        Customer::with('currencies')->get()->each(function (Customer $customer) {
-            $customer->credit = $customer->currencies->sum(fn (Currency $currency) => $currency->pivot->value);
-            $customer->save();
-        });
+        Customer::with('currencies')->get()
+            ->each(function (Customer $customer) {
+                $customer->credit = $customer->currencies->sum(fn (Currency $currency) => $currency->pivot->value);
+                $customer->save();
+            });
 
         Schema::dropIfExists('currency_customer');
 

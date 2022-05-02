@@ -44,19 +44,19 @@ class TopUpCustomerCredits extends Command
      */
     public function handle()
     {
-        if ($this->days > 0) {
-            $date = now()->subDays($this->days);
-            $count = $this->topUp($date);
-
-            $this->line("Topped up $count customers, time range {$this->days} days.");
+        if ($this->days <= 0) {
+            $this->warn("Customer top-up skipped, no time range defined.");
+            Log::info('Customer balance top-up skipped, no time range defined.', [
+                'event.kind' => 'event',
+            ]);
 
             return 0;
         }
 
-        $this->warn("Customer top-up skipped, no time range defined.");
-        Log::info('Customer balance top-up skipped, no time range defined.', [
-            'event.kind' => 'event',
-        ]);
+        $date = now()->subDays($this->days);
+        $count = $this->topUp($date);
+
+        $this->line("Topped up $count customers, time range {$this->days} days.");
 
         return 0;
     }
@@ -74,19 +74,14 @@ class TopUpCustomerCredits extends Command
 
     private function topUpCustomer(Customer $customer, Collection $currencies): bool
     {
-        $ids = $customer->currencies
-            ->mapWithKeys(fn (Currency $currency) => [$currency->id => [
-                'value' => min($currency->getRelationValue('pivot')->value + $currency->top_up_amount, $currency->top_up_maximum),
-            ]]);
-        $customer->currencies()->sync($ids);
+        $customer->initializeBalances($currencies);
 
-        $newIds = $currencies->whereNotIn('id', $ids->keys())
-            ->mapWithKeys(fn (Currency $currency) => [$currency->id => [
-                'value' => $currency->initial_value,
-            ]]);
-        $customer->currencies()->syncWithoutDetaching($newIds);
+        $customer->currencies->each(function (Currency $currency) use ($customer) {
+            $value = max($currency->getRelationValue('pivot')->value, $currency->top_up_amount);
+            $customer->setBalance($currency->id, $value);
+        });
 
-        if ($customer->wasChanged()) {
+        if ($customer->wasChanged()) { // TODO: Check if wasChanged considers many-to-many relationships
             $customer->topped_up_at = now();
             $customer->save();
 

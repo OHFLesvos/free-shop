@@ -71,13 +71,17 @@ class CustomerRegistrationPage extends FrontendPage
     {
         $this->validate();
 
+        /** @var Customer $customer */
         $customer = Customer::create([
             'name' => $this->name,
             'id_number' => $this->idNumber,
             'phone' => filled($this->phone) ? PhoneNumber::make($this->phone, $this->phoneCountry)->formatE164() : null,
             'email' => filled($this->email) ? $this->email : null,
             'locale' => app()->getLocale(),
+            'topped_up_at' => now(),
         ]);
+
+        $customer->initializeBalances();
 
         Auth::guard('customer')->login($customer);
 

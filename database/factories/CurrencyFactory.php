@@ -17,7 +17,8 @@ class CurrencyFactory extends Factory
     public function definition()
     {
         return [
-            'name' => $this->faker->word(),
+            'name' => ucfirst($this->faker->word()),
+            'top_up_amount' => $this->faker->numberBetween(10, 30),
         ];
     }
 }

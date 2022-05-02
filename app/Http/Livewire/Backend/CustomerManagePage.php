@@ -136,7 +136,10 @@ class CustomerManagePage extends BackendPage
             $this->customer->disabled_reason = null;
         }
 
+        $this->customer->topped_up_at = now();
         $this->customer->save();
+
+        $this->customer->initializeBalances();
 
         $tags = [];
         foreach ($this->tags as $tag) {

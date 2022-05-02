@@ -49,6 +49,7 @@ class Customer extends Model implements
         'remarks',
         'credit',
         'email',
+        'topped_up_at',
     ];
 
     /**
@@ -80,10 +81,55 @@ class Customer extends Model implements
             ->withPivot('value');
     }
 
+    /**
+     * @param ?Collection<Currency> $currencies
+     * @return void
+     */
+    public function initializeBalances(?Collection $currencies = null): void
+    {
+        $currencies = $currencies ?? Currency::all();
+        $existingIds = $this->currencies->pluck('id');
+        $ids = $currencies->whereNotIn('id', $existingIds)
+            ->mapWithKeys(fn (Currency $currency) => [$currency->id => [
+                'value' => $currency->top_up_amount,
+            ]]);
+
+        $this->currencies()->sync($ids, false);
+    }
+
+    public function setBalance(int $currencyId, int $value): void
+    {
+        if ($this->currencies->firstWhere('id', $currencyId) === null) {
+            $this->currencies()->attach($currencyId, [
+                'value' => $value,
+            ]);
+        } else {
+            $this->currencies()->updateExistingPivot($currencyId, [
+                'value' => $value,
+            ]);
+        }
+    }
+
+    /**
+     * @param Collection<int,int> $balances
+     * @return void
+     */
+    public function setBalances(Collection $balances): void
+    {
+        $ids = $balances->mapWithKeys(fn ($v, $k) => [$k => [
+            'value' => $v,
+        ]]);
+
+        $this->currencies()->sync($ids);
+    }
+
+    /**
+     * @return Collection<string,int>
+     */
     public function balance(): Collection
     {
         return $this->currencies
-            ->sortBy('name', SORT_NATURAL|SORT_FLAG_CASE)
+            ->sortBy('name', SORT_NATURAL | SORT_FLAG_CASE)
             ->mapWithKeys(fn (Currency $currency) => [$currency->name => $currency->getRelationValue('pivot')->value]);
     }
 
@@ -92,6 +138,22 @@ class Customer extends Model implements
         return $this->balance()
             ->map(fn ($v, $k) => "$v $k")
             ->join(', ');
+    }
+
+    public function getNextTopUpDateAttribute(): ?Carbon
+    {
+        $days = setting()->get('customer.credit_top_up.days');
+        if ($days <= 0) {
+            return null;
+        }
+
+        $needsTopUp = $this->currencies->contains(fn (Currency $currency) => $currency->getRelationValue('pivot')->value < $currency->top_up_amount);
+        if (!$needsTopUp) {
+            return null;
+        }
+
+        $date = $this->topped_up_at ? $this->topped_up_at->clone()->addDays($days) : today();
+        return $date->isBefore(today()) ? today() : $date;
     }
 
     public function comments(): HasOneOrMany
@@ -157,24 +219,6 @@ class Customer extends Model implements
                 if (now()->subDays($days)->lte($lastOrder->created_at)) {
                     return $lastOrder->created_at->clone()->addDays($days);
                 }
-            }
-        }
-        return null;
-    }
-
-    public function getNextTopUpDateAttribute(): ?Carbon
-    {
-        $days = setting()->get('customer.credit_top_up.days');
-        if ($days > 0) {
-            $startingCredit = setting()->get('customer.starting_credit', config('shop.customer.starting_credit'));
-            $amount = setting()->get('customer.credit_top_up.amount', $startingCredit);
-            $maximum = setting()->get('customer.credit_top_up.maximum', $startingCredit);
-            if ($this->credit < min($this->credit + $amount, $maximum)) {
-                $date = $this->topped_up_at ? $this->topped_up_at->clone()->addDays($days) : today();
-                if ($date->isBefore(today())) {
-                    return today();
-                }
-                return $date;
             }
         }
         return null;
