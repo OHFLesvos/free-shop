@@ -45,7 +45,7 @@ class ShopFrontPage extends FrontendPage
             ->orderBy('name->' . App::getLocale())
             ->with('currency')
             ->get()
-            ->filter(fn (Product $product) => $product->quantityAvailableForCustomer() > 0);
+            ->filter(fn (Product $product) => $product->getQuantityAvailableForOrdering() > 0);
 
         if ($this->useCategories) {
             $this->categories = $this->products->values()

@@ -101,7 +101,7 @@ class Product extends Model implements Auditable
         $this->stock = $value + $this->reserved_quantity;
     }
 
-    public function quantityAvailableForCustomer(): int
+    public function getQuantityAvailableForOrdering(): int
     {
         if ($this->limit_per_order !== null) {
             return min($this->limit_per_order, $this->free_quantity);
