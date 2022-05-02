@@ -25,7 +25,16 @@
                         <p class="card-text">{{ $product->description }}</p>
                     @endif
                     @isset($product->limit_per_order)
-                        <p class="card-text text-warning">{{ __('Maximum :quantity per order.', ['quantity' => $product->limit_per_order]) }}</p>
+                        @php
+                            $label = __('Maximum :quantity per order.', ['quantity' => $product->limit_per_order]);
+                        @endphp
+                        <p class="card-text">
+                            @if(($basket->get($product->id) ?? 0) == $product->limit_per_order)
+                                <strong class="text-warning">{{ $label }}</strong>
+                            @else
+                                <strong class="text-info">{{ $label }}</strong>
+                            @endif
+                        </p>
                     @endisset
                 </div>
                 <div class="card-footer">
@@ -35,18 +44,49 @@
                         <strong class="text-success">{{ __('Free') }}</strong>
                     @endif
                 </div>
-                <div class="card-footer d-grid gap-2">
+                <div class="card-footer">
                     @unless($geoblocked)
                         @unless(isset($nextOrderIn))
                             @isset($customer)
-                                <button
-                                    class="btn @unless(($basket->get($product->id) ?? 0) < $product->quantity_available_for_customer && $product->price <= $this->availableCredit) btn-secondary @else btn-primary @endunless"
-                                    wire:click="add({{ $product->id }})"
-                                    wire:loading.attr="disabled"
-                                    wire:target="add"
-                                    @unless(($basket->get($product->id) ?? 0) < $product->quantity_available_for_customer && $product->price <= $this->availableCredit) disabled @endunless>
-                                    {{ __('Add') }}
-                                </button>
+                                @if($basket->get($product->id) ?? 0 > 0)
+                                    <div class="row align-items-center">
+                                        <div class="col">
+                                            <button
+                                                type="button"
+                                                class="btn btn-danger"
+                                                wire:click="add({{ $product->id }}, -1)"
+                                                wire:loading.attr="disabled"
+                                                aria-label="{{ __('Remove one') }}">
+                                                <x-icon icon="minus"/>
+                                            </button>
+                                        </div>
+                                        <div class="col text-center">
+                                            <strong>{{ $basket->get($product->id) ?? 0 }}</strong>
+                                        </div>
+                                        <div class="col text-end">
+                                            <button
+                                                type="button"
+                                                class="btn @unless($basket->get($product->id) < $product->quantity_available_for_customer && $product->price <= $this->availableCredit) btn-secondary @else btn-success @endunless"
+                                                wire:click="add({{ $product->id }}, 1)"
+                                                wire:loading.attr="disabled"
+                                                @unless($basket->get($product->id) < $product->quantity_available_for_customer && $product->price <= $this->availableCredit) disabled aria-disabled @endunless
+                                                aria-label="{{ __('Add one') }}">
+                                                <x-icon icon="plus"/>
+                                            </button>
+                                        </div>
+                                    </div>
+                                @else
+                                    <div class="d-grid">
+                                        <button
+                                            class="btn @unless(($basket->get($product->id) ?? 0) < $product->quantity_available_for_customer && $product->price <= $this->availableCredit) btn-secondary @else btn-primary @endunless"
+                                            wire:click="add({{ $product->id }})"
+                                            wire:loading.attr="disabled"
+                                            wire:target="add"
+                                            @unless(($basket->get($product->id) ?? 0) < $product->quantity_available_for_customer && $product->price <= $this->availableCredit) disabled @endunless>
+                                            {{ __('Add') }}
+                                        </button>
+                                    </div>
+                                @endif
                             @else
                                 <a
                                     href="{{ route('customer.login') }}"
