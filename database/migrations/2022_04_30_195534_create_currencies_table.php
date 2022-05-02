@@ -43,7 +43,7 @@ return new class extends Migration
         });
 
         Schema::table('products', function (Blueprint $table) {
-            $table->foreignId('currency_id')
+            $table->foreignIdFor(Currency::class)
                 ->default(null)
                 ->change();
         });
@@ -55,7 +55,7 @@ return new class extends Migration
                 ->cascadeOnDelete();
             $table->foreignIdFor(Currency::class)
                 ->constrained()
-                ->restrictOnDelete();
+                ->cascadeOnDelete();
             $table->unique(['customer_id', 'currency_id']);
             $table->unsignedInteger('value');
         });

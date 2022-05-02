@@ -5,6 +5,8 @@ use App\Http\Controllers\LoginController;
 use App\Http\Controllers\SocialLoginController;
 use App\Http\Livewire\AboutPage;
 use App\Http\Livewire\Backend\BlockedPhoneNumbersPage;
+use App\Http\Livewire\Backend\CurrencyEditPage;
+use App\Http\Livewire\Backend\CurrencyListPage;
 use App\Http\Livewire\Backend\CustomerDetailPage;
 use App\Http\Livewire\Backend\CustomerListPage;
 use App\Http\Livewire\Backend\CustomerManagePage;
@@ -179,6 +181,12 @@ Route::middleware('auth')
                     ->name('configuration.text-blocks');
                 Route::get('configuration/text-blocks/{textBlock}/edit', TextBlockEditPage::class)
                     ->name('configuration.text-blocks.edit');
+                Route::get('configuration/currencies', CurrencyListPage::class)
+                    ->name('configuration.currencies');
+                Route::get('configuration/currencies/_create', CurrencyEditPage::class)
+                    ->name('configuration.currencies.create');
+                Route::get('configuration/currencies/{currency}/edit', CurrencyEditPage::class)
+                    ->name('configuration.currencies.edit');
                 Route::get('configuration/blocked-phone-numbers', BlockedPhoneNumbersPage::class)
                     ->name('configuration.blocked-phone-numbers');
                 Route::get('users', UserListPage::class)

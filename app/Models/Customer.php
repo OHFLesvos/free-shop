@@ -147,6 +147,7 @@ class Customer extends Model implements
             return null;
         }
 
+        // TODO: Handle non-assigned currencies
         $needsTopUp = $this->currencies->contains(fn (Currency $currency) => $currency->getRelationValue('pivot')->value < $currency->top_up_amount);
         if (!$needsTopUp) {
             return null;

@@ -15,6 +15,13 @@ $items = [
             ->can('viewAny', App\Models\TextBlock::class),
     ],
     [
+        'label' => 'Currencies',
+        'route' => 'backend.configuration.currencies',
+        'authorized' => auth()
+            ->user()
+            ->can('viewAny', App\Models\Currency::class),
+    ],
+    [
         'label' => 'Blocked Phone Numbhers',
         'route' => 'backend.configuration.blocked-phone-numbers',
         'authorized' => auth()

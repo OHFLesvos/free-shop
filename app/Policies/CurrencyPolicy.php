@@ -36,6 +36,10 @@ class CurrencyPolicy
 
     public function delete(User $user, Currency $currency)
     {
+        if ($currency->products()->exists()) {
+            return false;
+        }
+
         if ($user->can('manage products')) {
             return true;
         }
