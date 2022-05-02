@@ -24,15 +24,16 @@
                     @if(filled($product->description))
                         <p class="card-text">{{ $product->description }}</p>
                     @endif
+                    @isset($product->limit_per_order)
+                        <p class="card-text text-warning">{{ __('Maximum :quantity per order.', ['quantity' => $product->limit_per_order]) }}</p>
+                    @endisset
                 </div>
                 <div class="card-footer">
-                    <strong>
-                        @if($product->price > 0 && $product->currency_id !== null)
-                            {{ $product->price }} {{ $product->currency->name }}
-                        @else
-                            {{ __('Free') }}
-                        @endif
-                    </strong>
+                    @if($product->price > 0 && $product->currency_id !== null)
+                        <strong>{{ $product->price }}</strong> {{ $product->currency->name }}
+                    @else
+                        <strong class="text-success">{{ __('Free') }}</strong>
+                    @endif
                 </div>
                 <div class="card-footer d-grid gap-2">
                     @unless($geoblocked)
