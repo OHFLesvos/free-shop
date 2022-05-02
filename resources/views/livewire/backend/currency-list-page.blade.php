@@ -10,7 +10,7 @@
             <thead>
                 <th>Name</th>
                 <th class="fit text-end">Top-up amount</th>
-                <th class="fit text-end">Assigned Products</th>
+                <th class="fit text-end">Assigned products</th>
             </thead>
             <tbody>
                 @forelse($currencies as $currency)
