@@ -49,7 +49,7 @@ class OrderRegisterPage extends BackendPage
             ->orderBy('sequence')
             ->orderBy('name->' . config('app.fallback_locale'))
             ->get()
-            ->filter(fn ($product) => $product->quantity_available_for_customer > 0);
+            ->filter(fn (Product $product) => $product->quantityAvailableForCustomer() > 0);
     }
 
     public function render(): View

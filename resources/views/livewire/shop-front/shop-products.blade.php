@@ -66,10 +66,10 @@
                                         <div class="col text-end">
                                             <button
                                                 type="button"
-                                                class="btn @unless($basket->get($product->id) < $product->quantity_available_for_customer && $product->price <= $this->availableCredit) btn-secondary @else btn-success @endunless"
+                                                class="btn @unless($basket->get($product->id) < $product->quantityAvailableForCustomer() && $product->price <= $this->availableCredit) btn-secondary @else btn-success @endunless"
                                                 wire:click="add({{ $product->id }}, 1)"
                                                 wire:loading.attr="disabled"
-                                                @unless($basket->get($product->id) < $product->quantity_available_for_customer && $product->price <= $this->availableCredit) disabled aria-disabled @endunless
+                                                @unless($basket->get($product->id) < $product->quantityAvailableForCustomer() && $product->price <= $this->availableCredit) disabled aria-disabled @endunless
                                                 aria-label="{{ __('Add one') }}">
                                                 <x-icon icon="plus"/>
                                             </button>
@@ -78,11 +78,11 @@
                                 @else
                                     <div class="d-grid">
                                         <button
-                                            class="btn @unless(($basket->get($product->id) ?? 0) < $product->quantity_available_for_customer && $product->price <= $this->availableCredit) btn-secondary @else btn-primary @endunless"
+                                            class="btn @unless(($basket->get($product->id) ?? 0) < $product->quantityAvailableForCustomer() && $product->price <= $this->availableCredit) btn-secondary @else btn-primary @endunless"
                                             wire:click="add({{ $product->id }})"
                                             wire:loading.attr="disabled"
                                             wire:target="add"
-                                            @unless(($basket->get($product->id) ?? 0) < $product->quantity_available_for_customer && $product->price <= $this->availableCredit) disabled @endunless>
+                                            @unless(($basket->get($product->id) ?? 0) < $product->quantityAvailableForCustomer() && $product->price <= $this->availableCredit) disabled @endunless>
                                             {{ __('Add') }}
                                         </button>
                                     </div>
