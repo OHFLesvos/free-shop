@@ -139,19 +139,25 @@
                 </div>
                 <div class="col-sm-4">
 
-                    {{-- Credits --}}
-                    <x-card :title="__('Credit')">
-                        <span class="display-6">{{ __(':amount points', ['amount' => $customer->credit]) }}</span>
+                    {{-- Balance --}}
+                    <x-card :title="__('Balance')">
+                        <p class="card-text">
+                            @forelse ($customer->balance() as $k => $v)
+                                <strong>{{ $v }}</strong> {{ $k }} <br>
+                            @empty
+                                <strong class="text-warning">{{ __("You currently don't have any points available to spend.") }}</strong>
+                            @endforelse
+                        </p>
                         @if(setting()->has('customer.credit_top_up.days'))
                             @isset($customer->topped_up_at)
-                                <span class="card-text d-block mt-2">
+                                <p class="card-text">
                                     {!! __('Last topped up on <strong>:date</strong>.', ['date' => $customer->topped_up_at->isoFormat('LL') ]) !!}
-                                </span>
+                                </p>
                             @endif
                             @isset($customer->nextTopUpDate)
-                                <span class="card-text d-block mt-2">
+                                <p class="card-text">
                                     {!! __('Next top-up on <strong>:date</strong>.', ['date' => $customer->nextTopUpDate->isoFormat('LL') ]) !!}
-                                </span>
+                                </p>
                             @endif
                         @endif
                     </x-card>
