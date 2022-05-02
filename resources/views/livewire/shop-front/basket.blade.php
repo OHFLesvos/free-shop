@@ -24,10 +24,10 @@
                                     </button>
                                     <button
                                         type="button"
-                                        class="btn btn-sm @unless($basket->get($product->id) < $product->getQuantityAvailableForOrdering() && $product->price <= $this->availableCredit) btn-secondary @else btn-success @endunless"
+                                        class="btn btn-sm @unless($basket->get($product->id) < $product->getAvailableQuantityPerOrder() && $product->price <= $this->availableCredit) btn-secondary @else btn-success @endunless"
                                         wire:click="add({{ $product->id }}, 1)"
                                         wire:loading.attr="disabled"
-                                        @unless($basket->get($product->id) < $product->getQuantityAvailableForOrdering() && $product->price <= $this->availableCredit) disabled aria-disabled @endunless
+                                        @unless($basket->get($product->id) < $product->getAvailableQuantityPerOrder() && $product->price <= $this->availableCredit) disabled aria-disabled @endunless
                                         aria-label="{{ __('Add one') }}">
                                         <x-icon icon="plus"/>
                                     </button>

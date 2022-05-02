@@ -18,7 +18,7 @@
                         {{ $product->name }}
                         <br>
                         <small class="form-text text-muted">
-                            Price: {{ $product->price }}, Limit: {{ $product->getQuantityAvailableForOrdering() }}
+                            Price: {{ $product->price }}, Limit: {{ $product->getAvailableQuantityPerOrder() }}
                         </small>
                     </label>
 
@@ -26,7 +26,7 @@
                         <input
                             type="number"
                             min="0"
-                            max="{{ $product->getQuantityAvailableForOrdering() }}"
+                            max="{{ $product->getAvailableQuantityPerOrder() }}"
                             wire:model="selection.{{ $product->id }}"
                             placeholder="0"
                             class="form-control"
