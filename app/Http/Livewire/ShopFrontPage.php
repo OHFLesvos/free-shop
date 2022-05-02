@@ -43,6 +43,7 @@ class ShopFrontPage extends FrontendPage
             ->orderBy('category->' . App::getLocale())
             ->orderBy('sequence')
             ->orderBy('name->' . App::getLocale())
+            ->with('currency')
             ->get()
             ->filter(fn ($product) => $product->quantity_available_for_customer > 0);
 

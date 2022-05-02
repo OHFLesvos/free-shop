@@ -25,14 +25,16 @@
                         <p class="card-text">{{ $product->description }}</p>
                     @endif
                 </div>
-                <div class="card-footer d-flex justify-content-between align-items-center">
+                <div class="card-footer">
                     <strong>
-                        @if($product->price > 0)
-                            {{ __('Price: :amount', ['amount' => $product->price]) }}
+                        @if($product->price > 0 && $product->currency_id !== null)
+                            {{ $product->price }} {{ $product->currency->name }}
                         @else
                             {{ __('Free') }}
                         @endif
                     </strong>
+                </div>
+                <div class="card-footer d-grid gap-2">
                     @unless($geoblocked)
                         @unless(isset($nextOrderIn))
                             @isset($customer)
