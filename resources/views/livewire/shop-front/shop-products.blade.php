@@ -48,6 +48,11 @@
                     @unless($geoblocked)
                         @unless(isset($nextOrderIn))
                             @isset($customer)
+                                @php
+                                    $isAvailable = ($basket->get($product->id) ?? 0) < $product->getAvailableQuantityPerOrder();
+                                    $canAfford = $product->price <= $this->getAvailableBalance($product->currency_id);
+                                    $canAdd = $isAvailable && $canAfford;
+                                @endphp
                                 @if($basket->get($product->id) ?? 0 > 0)
                                     <div class="row align-items-center">
                                         <div class="col">
@@ -66,10 +71,10 @@
                                         <div class="col text-end">
                                             <button
                                                 type="button"
-                                                class="btn @unless($basket->get($product->id) < $product->getAvailableQuantityPerOrder() && $product->price <= $this->availableCredit) btn-secondary @else btn-success @endunless"
+                                                class="btn @unless($canAdd) btn-secondary @else btn-success @endunless"
                                                 wire:click="add({{ $product->id }}, 1)"
                                                 wire:loading.attr="disabled"
-                                                @unless($basket->get($product->id) < $product->getAvailableQuantityPerOrder() && $product->price <= $this->availableCredit) disabled aria-disabled @endunless
+                                                @unless($canAdd) disabled aria-disabled @endunless
                                                 aria-label="{{ __('Add one') }}">
                                                 <x-icon icon="plus"/>
                                             </button>
@@ -78,11 +83,11 @@
                                 @else
                                     <div class="d-grid">
                                         <button
-                                            class="btn @unless(($basket->get($product->id) ?? 0) < $product->getAvailableQuantityPerOrder() && $product->price <= $this->availableCredit) btn-secondary @else btn-primary @endunless"
+                                            class="btn @unless($canAdd) btn-secondary @else btn-primary @endunless"
                                             wire:click="add({{ $product->id }})"
                                             wire:loading.attr="disabled"
                                             wire:target="add"
-                                            @unless(($basket->get($product->id) ?? 0) < $product->getAvailableQuantityPerOrder() && $product->price <= $this->availableCredit) disabled @endunless>
+                                            @unless($canAdd) disabled @endunless>
                                             {{ __('Add') }}
                                         </button>
                                     </div>

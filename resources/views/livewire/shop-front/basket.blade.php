@@ -1,9 +1,11 @@
 <x-card :title="__('Your order')" class="sticky">
     @isset($customer)
         <p class="card-text">
-            <strong>
-                {{  __(':amount points available', ['amount' => $this->availableCredit]) }}
-            </strong>
+            @forelse ($this->getAvailableBalances() as $k => $v)
+                <strong>{{ $v }}</strong> {{ $k }} <br>
+            @empty
+                <strong class="text-warning">{{ __("You currently don't have any points available to spend.") }}</strong>
+            @endforelse
         </p>
         @if($basket->isNotEmpty())
             <x-slot name="addon">
@@ -22,12 +24,17 @@
                                         aria-label="{{ __('Remove one') }}">
                                         <x-icon icon="minus"/>
                                     </button>
+                                    @php
+                                        $isAvailable = ($basket->get($product->id) ?? 0) < $product->getAvailableQuantityPerOrder();
+                                        $canAfford = $product->price <= $this->getAvailableBalance($product->currency_id);
+                                        $canAdd = $isAvailable && $canAfford;
+                                    @endphp
                                     <button
                                         type="button"
-                                        class="btn btn-sm @unless($basket->get($product->id) < $product->getAvailableQuantityPerOrder() && $product->price <= $this->availableCredit) btn-secondary @else btn-success @endunless"
+                                        class="btn btn-sm @unless($canAdd) btn-secondary @else btn-success @endunless"
                                         wire:click="add({{ $product->id }}, 1)"
                                         wire:loading.attr="disabled"
-                                        @unless($basket->get($product->id) < $product->getAvailableQuantityPerOrder() && $product->price <= $this->availableCredit) disabled aria-disabled @endunless
+                                        @unless($canAdd) disabled aria-disabled @endunless
                                         aria-label="{{ __('Add one') }}">
                                         <x-icon icon="plus"/>
                                     </button>
@@ -46,7 +53,7 @@
                 </div>
             </x-slot>
         @else
-            @if($this->availableCredit == 0)
+            {{-- @if($this->availableCredit == 0)
                 <p class="card-text">
                     {{ __("You currently don't have any points available to spend.") }}
                     @isset($customer->nextTopUpDate)
@@ -55,7 +62,7 @@
                 </p>
             @else
                 <p class="card-text">{{ __('Please add some products.') }}</p>
-            @endif
+            @endif --}}
         @endif
     @else
         <p class="card-text">{{ __('Please register or login to place an order.') }}</p>

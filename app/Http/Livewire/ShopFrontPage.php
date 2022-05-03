@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire;
 
+use App\Models\Currency;
 use App\Models\Customer;
 use App\Models\Product;
 use App\Services\OrderManager;
@@ -75,17 +76,29 @@ class ShopFrontPage extends FrontendPage
         $product = $this->products->firstWhere('id', $productId);
 
         $price = $product->price * $quantity;
-        if ($price <= $this->getAvailableCreditProperty($basket)) {
+        if ($price <= $this->getAvailableBalance($product->currency_id)) {
             $basket->add($productId, $quantity);
         }
     }
 
-    public function getAvailableCreditProperty(ShoppingBasket $basket): int
+    public function getAvailableBalance(int $currencyId): int
     {
+        $basket = app()->make(ShoppingBasket::class);
+
         $basketCosts = (int)$basket->items()
-            ->map(fn ($quantity, $productId) => $this->products->firstWhere('id', $productId)->price * $quantity)
+            ->map(function (int $quantity, int $productId) use ($currencyId) {
+                $product = $this->products->firstWhere('id', $productId);
+                return ($product->currency_id == $currencyId) ? $product->price * $quantity : 0;
+            })
             ->sum();
 
-        return $this->customer->credit - $basketCosts;
+        return $this->customer->getBalance($currencyId) - $basketCosts;
+    }
+
+    public function getAvailableBalances(): Collection
+    {
+        $basket = app()->make(ShoppingBasket::class);
+
+        return $this->customer->currencies->mapWithKeys(fn(Currency $currency) => [$currency->name => $this->getAvailableBalance($currency->id)]);
     }
 }
