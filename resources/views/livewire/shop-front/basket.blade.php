@@ -7,8 +7,29 @@
 @isset($customer)
     <x-card :title="__('Your account balance')">
         <p class="card-text">
-            @forelse ($balances as $k => $v)
-                <strong>{{ $v }}</strong> {{ $k }} <br>
+            @forelse ($balances as $balance)
+                <div class="row align-items-center">
+                    <div class="col">
+                        <strong>{{ $balance['available'] }}</strong>
+                        @if($balance['available'] != $balance['total'] )
+                            <span class="text-muted">/ {{ $balance['total'] }}</span>
+                        @endif
+                        {{ $balance['name'] }}
+                    </div>
+                    <div class="col">
+                        @php
+                            $percentage = round($balance['available'] / $balance['total']  * 100);
+                        @endphp
+                    <div class="progress">
+                        <div class="progress-bar"
+                            role="progressbar"
+                            style="width: {{ $percentage }}%"
+                            aria-valuenow="{{ $percentage }}"
+                            aria-valuemin="0"
+                            aria-valuemax="100"></div>
+                    </div>
+                    </div>
+                </div>
             @empty
                 <strong class="text-warning">{{ __("You currently don't have any balance available to spend.") }}</strong>
             @endforelse
@@ -68,7 +89,7 @@
                 </div>
             </x-slot>
         @else
-            @if($balances->sum() == 0)
+            @if($balances->sum('available') == 0)
                 <p class="card-text">{{ __("You can't add any products right now.") }}</p>
             @else
                 <p class="card-text">{{ __('Please add some products.') }}</p>
