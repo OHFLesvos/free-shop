@@ -27,7 +27,7 @@
     @elseif ($basket->isNotEmpty())
         <form wire:submit.prevent="submit" autocomplete="off">
             @php
-                $total = 0;
+                $total = [];
             @endphp
             <x-card :title="__('Your Order')">
                 <p class="mb-1">{{ __('Selected products:') }}</p>
@@ -36,37 +36,54 @@
                         @foreach(App\Models\Product::whereIn('id', $basket->items()->keys())->get()->sortBy('name') as $product)
                             <tr>
                                 <td class="fit text-end align-middle">
-                                    <strong>{{ $basket->get($product->id) }}x</strong>
+                                    <strong>{{ $basket->get($product->id) }}</strong>
                                 </td>
                                 <td class="align-middle">
                                     {{ $product->name }}
                                     <small class="text-muted ms-1">{{ $product->category }}</small>
                                 </td>
-                                <td class="align-middle text-end fit">
-                                    @php
-                                        $price = $basket->get($product->id) * $product->price;
-                                        $total += $price;
-                                    @endphp
-                                    {{ $price }}
+                                <td class="align-middle text-start fit">
+                                    @if($product->price > 0 && $product->currency_id !== null)
+                                        @php
+                                            $price = $basket->get($product->id) * $product->price;
+                                            if (isset($total[$product->currency->name])) {
+                                                $total[$product->currency->name] += $price;
+                                            } else {
+                                                $total[$product->currency->name] = $price;
+                                            }
+                                        @endphp
+                                        {{ $price }}
+                                        {{ $product->currency->name }}
+                                    @else
+                                        <span class="text-success">{{ __('Free') }}</span>
+                                    @endif
                                 </td>
                             </tr>
                         @endforeach
                     </tbody>
                     <tfoot>
                         <tr>
-                            <td colspan="2" class="text-end">
-                                <strong>{{ __('Total') }}</strong>
+                            <td colspan="2" class="text-end align-top">
+                                <strong>{{ __('Price') }}</strong>
                             </td>
-                            <td class="text-end fit">
-                                <u><strong>{{ $total }}</strong></u>
+                            <td class="text-start fit">
+                                @php
+                                    ksort($total)
+                                @endphp
+                                @foreach($total as $k => $v)
+                                    <u><strong>{{ $v }}</strong> {{ $k }}</u><br>
+                                @endforeach
                             </td>
                         </tr>
                         <tr>
-                            <td colspan="2" class="text-end">
-                                {{ __('Remaining credit') }}
+                            <td colspan="2" class="text-end align-top">
+                                {{ __('Remaining balance') }}
                             </td>
-                            <td class="text-end fit">
-                                {{ max(0, $customer->credit - $total) }}
+                            <td class="text-start fit">
+                                @foreach($customer->balance() as $k => $v)
+                                    <strong>{{ $v - ($total[$k] ?? 0) }}</strong> {{ $k }}<br>
+                                @endforeach
+                                {{-- {{ max(0, $customer->credit - $total) }} --}}
                             </td>
                         </tr>
                     </tfoot>
