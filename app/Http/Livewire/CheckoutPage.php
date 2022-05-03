@@ -60,20 +60,30 @@ class CheckoutPage extends FrontendPage
             return redirect()->route('shop-front');
         }
 
-        $totalPrice = $basket->items()
-            ->map(fn ($quantity, $productId) => Product::find($productId)->price * $quantity)
-            ->sum();
-        if ($this->customer->credit < $totalPrice) {
-            Log::warning('Customer did not have enough credit to place order.', [
-                'event.kind' => 'event',
-                'event.outcome' => 'failure',
-                'customer.name' => $this->customer->name,
-                'customer.id_number' => $this->customer->id_number,
-                'customer.phone' => $this->customer->phone,
-                'customer.credit' => $this->customer->credit,
-            ]);
-            session()->flash('error', __('Not enough credit.'));
-            return;
+        foreach ($this->customer->currencies as $currency) {
+            $basketCosts = (int)$basket->items()
+                ->map(function (int $quantity, int $productId) use ($currency) {
+                    $product = Product::find($productId);
+                    return ($product->currency_id == $currency->id) ? $product->price * $quantity : 0;
+                })
+                ->sum();
+            $balance = $this->customer->getBalance($currency);
+            if ($balance < $basketCosts) {
+                Log::warning('Customer has insufficient balance to place order.', [
+                    'event.kind' => 'event',
+                    'event.outcome' => 'failure',
+                    'customer.name' => $this->customer->name,
+                    'customer.id_number' => $this->customer->id_number,
+                    'customer.phone' => $this->customer->phone,
+                    'customer.balance' => $this->customer->totalBalance(),
+                ]);
+                session()->flash('error', __("Insufficient account balance. :required :currency required, but only :available available.", [
+                    'currency' => $currency->name,
+                    'required' => $basketCosts,
+                    'available' => $balance,
+                ]));
+                return;
+            }
         }
 
         $order = new Order();
