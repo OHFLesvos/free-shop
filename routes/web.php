@@ -30,7 +30,6 @@ use App\Http\Livewire\Backend\TextBlockListPage;
 use App\Http\Livewire\Backend\UserEditPage;
 use App\Http\Livewire\Backend\UserListPage;
 use App\Http\Livewire\Backend\UserProfilePage;
-use App\Http\Livewire\CheckoutPage;
 use App\Http\Livewire\CustomerAccountPage;
 use App\Http\Livewire\CustomerLoginPage;
 use App\Http\Livewire\CustomerRegistrationPage;
@@ -78,8 +77,6 @@ Route::middleware(['set-language'])
                     });
                 Route::middleware(['auth:customer', 'customer-disabled-check'])
                     ->group(function () {
-                        Route::get('checkout', CheckoutPage::class)
-                            ->name('checkout');
                         Route::get('my-orders', MyOrdersPage::class)
                             ->name('my-orders');
                         Route::redirect('order-lookup', 'my-orders');

@@ -2,15 +2,20 @@
 
 namespace App\Http\Livewire;
 
+use App\Exceptions\PhoneNumberBlockedByAdminException;
 use App\Models\Currency;
 use App\Models\Customer;
+use App\Models\Order;
 use App\Models\Product;
+use App\Notifications\OrderRegistered;
 use App\Services\OrderManager;
 use App\Services\ShoppingBasket;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
+use Log;
+use Request;
 
 class ShopFrontPage extends FrontendPage
 {
@@ -31,6 +36,14 @@ class ShopFrontPage extends FrontendPage
     public bool $dailyOrdersMaxedOut = false;
 
     public bool $useCategories = false;
+
+    public ?Order $order = null;
+
+    public string $remarks = '';
+
+    protected array $rules = [
+        'remarks' => 'nullable',
+    ];
 
     protected function title(): string
     {
@@ -108,5 +121,92 @@ class ShopFrontPage extends FrontendPage
             'total' => $this->customer->getBalance($currency),
             'available' => $this->getAvailableBalance($currency->id)
         ]);
+    }
+
+    public function submit(Request $request, ShoppingBasket $basket)
+    {
+        $this->validate();
+
+        if ($basket->items()->isEmpty()) {
+            Log::warning('Customer tried to place empty order.', [
+                'event.kind' => 'event',
+                'event.outcome' => 'failure',
+                'customer.name' => $this->customer->name,
+                'customer.id_number' => $this->customer->id_number,
+                'customer.phone' => $this->customer->phone,
+                'customer.credit' => $this->customer->credit,
+            ]);
+            session()->flash('error', __('No products have been selected.'));
+            return redirect()->route('shop-front');
+        }
+
+        foreach ($this->customer->currencies as $currency) {
+            $basketCosts = (int)$basket->items()
+                ->map(function (int $quantity, int $productId) use ($currency) {
+                    $product = Product::find($productId);
+                    return ($product->currency_id == $currency->id) ? $product->price * $quantity : 0;
+                })
+                ->sum();
+            $balance = $this->customer->getBalance($currency);
+            if ($balance < $basketCosts) {
+                Log::warning('Customer has insufficient balance to place order.', [
+                    'event.kind' => 'event',
+                    'event.outcome' => 'failure',
+                    'customer.name' => $this->customer->name,
+                    'customer.id_number' => $this->customer->id_number,
+                    'customer.phone' => $this->customer->phone,
+                    'customer.balance' => $this->customer->totalBalance(),
+                ]);
+                session()->flash('error', __("Insufficient account balance. :required :currency required, but only :available available.", [
+                    'currency' => $currency->name,
+                    'required' => $basketCosts,
+                    'available' => $balance,
+                ]));
+                return;
+            }
+        }
+
+        $order = new Order();
+        $order->fill([
+            'costs' => $totalPrice,
+            'remarks' => trim($this->remarks),
+            'ip_address' => $request->ip(),
+            'user_agent' => $request->userAgent(),
+        ]);
+        $order->customer()->associate($this->customer);
+        $order->save();
+
+        $order->products()->sync($basket->items()
+            ->mapWithKeys(fn ($quantity, $id) => [$id => [
+                'quantity' => $quantity,
+            ]]));
+
+        $this->customer->credit = max(0, $this->customer->credit - $totalPrice);
+        $this->customer->save();
+
+        Log::info('Customer placed order.', [
+            'event.kind' => 'event',
+            'event.outcome' => 'success',
+            'customer.name' => $this->customer->name,
+            'customer.id_number' => $this->customer->id_number,
+            'customer.phone' => $this->customer->phone,
+            'customer.credit' => $this->customer->credit,
+            'order.id' => $order->id,
+            'order.costs' => $order->costs,
+        ]);
+
+        if (!setting()->has('customer.skip_order_registered_notification')) {
+            try {
+                $this->customer->notify(new OrderRegistered($order));
+            } catch (PhoneNumberBlockedByAdminException $ex) {
+                session()->flash('error', __('The phone number :phone has been blocked by an administrator.', ['phone' => $ex->getPhone()]));
+            } catch (\Exception $ex) {
+                Log::warning('[' . get_class($ex) . '] Cannot send notification: ' . $ex->getMessage());
+            }
+        }
+
+        $this->order = $order;
+
+        $basket->clear();
     }
 }
