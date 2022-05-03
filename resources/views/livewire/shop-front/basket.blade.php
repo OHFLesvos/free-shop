@@ -1,12 +1,27 @@
-<x-card :title="__('Your order')" class="sticky">
-    @isset($customer)
+<div class="sticky">
+@isset($customer)
+    @php
+        $balances = $this->getAvailableBalances();
+    @endphp
+@endif
+@isset($customer)
+    <x-card :title="__('Your account balance')">
         <p class="card-text">
-            @forelse ($this->getAvailableBalances() as $k => $v)
+            @forelse ($balances as $k => $v)
                 <strong>{{ $v }}</strong> {{ $k }} <br>
             @empty
-                <strong class="text-warning">{{ __("You currently don't have any points available to spend.") }}</strong>
+                <strong class="text-warning">{{ __("You currently don't have any balance available to spend.") }}</strong>
             @endforelse
         </p>
+        @if($customer->nextTopUpDate !== null)
+            <p class="card-text">
+                {!! __('Next top-up on <strong>:date</strong>.', ['date' => $customer->nextTopUpDate->isoFormat('LL') ]) !!}
+            </p>
+        @endif
+    </x-card>
+@endisset
+<x-card :title="__('Your order')">
+    @isset($customer)
         @if($basket->isNotEmpty())
             <x-slot name="addon">
                 <table class="table m-0">
@@ -53,16 +68,11 @@
                 </div>
             </x-slot>
         @else
-            {{-- @if($this->availableCredit == 0)
-                <p class="card-text">
-                    {{ __("You currently don't have any points available to spend.") }}
-                    @isset($customer->nextTopUpDate)
-                        {!! __('Next top-up on <strong>:date</strong>.', ['date' => $customer->nextTopUpDate->isoFormat('LL') ]) !!}
-                    @endif
-                </p>
+            @if($balances->sum() == 0)
+                <p class="card-text">{{ __("You can't add any products right now.") }}</p>
             @else
                 <p class="card-text">{{ __('Please add some products.') }}</p>
-            @endif --}}
+            @endif
         @endif
     @else
         <p class="card-text">{{ __('Please register or login to place an order.') }}</p>
@@ -73,3 +83,4 @@
         </a>
     @endisset
 </x-card>
+</div>

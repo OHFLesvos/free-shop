@@ -97,8 +97,8 @@ class ShopFrontPage extends FrontendPage
 
     public function getAvailableBalances(): Collection
     {
-        $basket = app()->make(ShoppingBasket::class);
-
-        return $this->customer->currencies->mapWithKeys(fn(Currency $currency) => [$currency->name => $this->getAvailableBalance($currency->id)]);
+        return $this->customer->currencies->mapWithKeys(fn (Currency $currency) => [
+            $currency->name => $this->getAvailableBalance($currency->id)
+        ]);
     }
 }
