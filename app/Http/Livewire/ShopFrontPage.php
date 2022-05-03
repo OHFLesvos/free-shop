@@ -10,12 +10,12 @@ use App\Models\Product;
 use App\Notifications\OrderRegistered;
 use App\Services\OrderManager;
 use App\Services\ShoppingBasket;
+use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 use Illuminate\View\View;
-use Log;
-use Request;
 
 class ShopFrontPage extends FrontendPage
 {
