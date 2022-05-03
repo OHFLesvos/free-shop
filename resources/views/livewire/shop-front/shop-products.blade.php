@@ -61,7 +61,8 @@
                                                 class="btn btn-danger"
                                                 wire:click="add({{ $product->id }}, -1)"
                                                 wire:loading.attr="disabled"
-                                                aria-label="{{ __('Remove one') }}">
+                                                aria-label="{{ __('Remove one') }}"
+                                                title="{{ __('Remove one') }}">
                                                 <x-icon icon="minus" fixed-width/>
                                             </button>
                                         </div>
@@ -75,7 +76,8 @@
                                                 wire:click="add({{ $product->id }}, 1)"
                                                 wire:loading.attr="disabled"
                                                 @unless($canAdd) disabled aria-disabled @endunless
-                                                aria-label="{{ __('Add one') }}">
+                                                aria-label="{{ __('Add one') }}"
+                                                title="{{ __('Add one') }}">
                                                 <x-icon icon="plus" fixed-width/>
                                             </button>
                                         </div>

@@ -64,7 +64,8 @@
                                             class="btn btn-sm btn-danger"
                                             wire:click="remove({{ $product->id }})"
                                             wire:loading.attr="disabled"
-                                            aria-label="{{ __('Remove') }}">
+                                            aria-label="{{ __('Remove') }}"
+                                            title="{{ __('Remove') }}">
                                             <x-icon icon="times"/>
                                         </button>
                                     </td>
