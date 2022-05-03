@@ -27,7 +27,7 @@
     @elseif ($basket->isNotEmpty())
         <form wire:submit.prevent="submit" autocomplete="off">
             @php
-                $total = [];
+                $totals = [];
             @endphp
             <x-card :title="__('Your Order')">
                 <p class="mb-1">{{ __('Selected products:') }}</p>
@@ -46,10 +46,10 @@
                                     @if($product->price > 0 && $product->currency_id !== null)
                                         @php
                                             $price = $basket->get($product->id) * $product->price;
-                                            if (isset($total[$product->currency->name])) {
-                                                $total[$product->currency->name] += $price;
+                                            if (isset($totals[$product->currency->name])) {
+                                                $totals[$product->currency->name] += $price;
                                             } else {
-                                                $total[$product->currency->name] = $price;
+                                                $totals[$product->currency->name] = $price;
                                             }
                                         @endphp
                                         {{ $price }}
@@ -68,9 +68,9 @@
                             </td>
                             <td class="text-start fit">
                                 @php
-                                    ksort($total)
+                                    ksort($totals)
                                 @endphp
-                                @foreach($total as $k => $v)
+                                @foreach($totals as $k => $v)
                                     <u><strong>{{ $v }}</strong> {{ $k }}</u><br>
                                 @endforeach
                             </td>
@@ -81,9 +81,8 @@
                             </td>
                             <td class="text-start fit">
                                 @foreach($customer->balance() as $k => $v)
-                                    <strong>{{ $v - ($total[$k] ?? 0) }}</strong> {{ $k }}<br>
+                                    <strong>{{ max(0, $v - ($totals[$k] ?? 0)) }}</strong> {{ $k }}<br>
                                 @endforeach
-                                {{-- {{ max(0, $customer->credit - $total) }} --}}
                             </td>
                         </tr>
                     </tfoot>
@@ -114,17 +113,17 @@
                         <a href="{{ route('shop-front') }}" class="btn btn-secondary">
                             {{ __('Change') }}
                         </a>
-                        @if($total <= $customer->credit)
+                        @if($customer->balance()->contains(fn ($v, $k) => $v < ($totals[$k] ?? 0)))
+                            <span class="text-danger">
+                                {{ __('Not enough credit.') }}
+                            </span>
+                        @else
                             <button
                                 type="submit"
                                 class="btn btn-primary">
                                 <x-spinner wire:loading wire:target="submit"/>
                                 {{ __('Send order') }}
                             </button>
-                        @else
-                            <span class="text-danger">
-                                {{ __('Not enough credit.') }}
-                            </span>
                         @endif
                     </div>
                 </x-slot>
