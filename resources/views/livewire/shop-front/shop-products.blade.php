@@ -55,20 +55,20 @@
                                 @endphp
                                 @if($basket->get($product->id) ?? 0 > 0)
                                     <div class="row align-items-center">
-                                        <div class="col">
+                                        <div class="col d-grid">
                                             <button
                                                 type="button"
                                                 class="btn btn-danger"
                                                 wire:click="add({{ $product->id }}, -1)"
                                                 wire:loading.attr="disabled"
                                                 aria-label="{{ __('Remove one') }}">
-                                                <x-icon icon="minus"/>
+                                                <x-icon icon="minus" fixed-width/>
                                             </button>
                                         </div>
-                                        <div class="col text-center">
-                                            <strong>{{ $basket->get($product->id) ?? 0 }}</strong>
+                                        <div class="col-auto text-center px-0">
+                                            <big><strong>{{ $basket->get($product->id) ?? 0 }}</strong></big>
                                         </div>
-                                        <div class="col text-end">
+                                        <div class="col d-grid text-end">
                                             <button
                                                 type="button"
                                                 class="btn @unless($canAdd) btn-secondary @else btn-success @endunless"
@@ -76,7 +76,7 @@
                                                 wire:loading.attr="disabled"
                                                 @unless($canAdd) disabled aria-disabled @endunless
                                                 aria-label="{{ __('Add one') }}">
-                                                <x-icon icon="plus"/>
+                                                <x-icon icon="plus" fixed-width/>
                                             </button>
                                         </div>
                                     </div>
