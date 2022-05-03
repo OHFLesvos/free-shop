@@ -6,20 +6,19 @@
     @endif
     @isset($customer)
         <x-card :title="__('Your account balance')">
-            <p class="card-text">
-                @forelse ($balances as $balance)
-                    <div class="row align-items-center">
-                        <div class="col">
-                            <strong>{{ $balance['available'] }}</strong>
-                            @if($balance['available'] != $balance['total'] )
-                                <span class="text-muted">/ {{ $balance['total'] }}</span>
-                            @endif
-                            {{ $balance['name'] }}
-                        </div>
-                        <div class="col">
-                            @php
-                                $percentage = round($balance['available'] / $balance['total']  * 100);
-                            @endphp
+            @forelse ($balances as $balance)
+                <div class="row align-items-center">
+                    <div class="col">
+                        <strong>{{ $balance['available'] }}</strong>
+                        @if($balance['available'] != $balance['total'] )
+                            <span class="text-muted">/ {{ $balance['total'] }}</span>
+                        @endif
+                        {{ $balance['name'] }}
+                    </div>
+                    <div class="col">
+                        @php
+                            $percentage = round($balance['available'] / $balance['total']  * 100);
+                        @endphp
                         <div class="progress">
                             <div class="progress-bar"
                                 role="progressbar"
@@ -28,12 +27,13 @@
                                 aria-valuemin="0"
                                 aria-valuemax="100"></div>
                         </div>
-                        </div>
                     </div>
-                @empty
+                </div>
+            @empty
+                <p class="card-text">
                     <strong class="text-warning">{{ __("You currently don't have any balance available to spend.") }}</strong>
-                @endforelse
-            </p>
+                </p>
+            @endforelse
             @if($customer->nextTopUpDate !== null)
                 <p class="card-text">
                     {!! __('Next top-up on <strong>:date</strong>.', ['date' => $customer->nextTopUpDate->isoFormat('LL') ]) !!}
@@ -41,7 +41,7 @@
             @endif
         </x-card>
     @endisset
-    <x-card :title="__('Your order')">
+    <x-card :title="__('Your order')" :noFooterPadding="$basket->isNotEmpty()">
         @isset($customer)
             @if($basket->isNotEmpty())
                 <x-slot name="addon">
@@ -51,28 +51,21 @@
                                 <tr>
                                     <td class="align-middle ps-3 fit text-end"><strong>{{ $basket->get($product->id) }}</strong></td>
                                     <td class="align-middle">{{ $product->name }}</td>
+                                    <td class="align-middle fit">
+                                        @if($product->price > 0 && $product->currency_id !== null)
+                                        {{ $product->price * $basket->get($product->id) }} {{ $product->currency->name }}
+                                            @else
+                                            <span class="text-success">{{ __('Free') }}</span>
+                                        @endif
+                                    </td>
                                     <td class="align-middle pe-3 fit">
                                         <button
                                             type="button"
                                             class="btn btn-sm btn-danger"
-                                            wire:click="add({{ $product->id }}, -1)"
+                                            wire:click="remove({{ $product->id }})"
                                             wire:loading.attr="disabled"
-                                            aria-label="{{ __('Remove one') }}">
-                                            <x-icon icon="minus"/>
-                                        </button>
-                                        @php
-                                            $isAvailable = ($basket->get($product->id) ?? 0) < $product->getAvailableQuantityPerOrder();
-                                            $canAfford = $product->price <= $this->getAvailableBalance($product->currency_id);
-                                            $canAdd = $isAvailable && $canAfford;
-                                        @endphp
-                                        <button
-                                            type="button"
-                                            class="btn btn-sm @unless($canAdd) btn-secondary @else btn-success @endunless"
-                                            wire:click="add({{ $product->id }}, 1)"
-                                            wire:loading.attr="disabled"
-                                            @unless($canAdd) disabled aria-disabled @endunless
-                                            aria-label="{{ __('Add one') }}">
-                                            <x-icon icon="plus"/>
+                                            aria-label="{{ __('Remove') }}">
+                                            <x-icon icon="times"/>
                                         </button>
                                     </td>
                                 </tr>

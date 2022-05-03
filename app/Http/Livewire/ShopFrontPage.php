@@ -81,6 +81,12 @@ class ShopFrontPage extends FrontendPage
         }
     }
 
+    public function remove(ShoppingBasket $basket, int $productId): void
+    {
+        $basket->remove($productId);
+    }
+
+
     public function getAvailableBalance(int $currencyId): int
     {
         $basket = app()->make(ShoppingBasket::class);
