@@ -6,7 +6,7 @@ use App\Models\Customer;
 use Livewire\Component;
 use Livewire\WithPagination;
 
-class CustomerOrders extends Component
+class CustomerHistory extends Component
 {
     use WithPagination;
 
@@ -16,9 +16,10 @@ class CustomerOrders extends Component
 
     public function render()
     {
-        return view('livewire.backend.customer-orders', [
-            'orders' => $this->customer->orders()
-                ->orderBy('created_at', 'desc')
+        return view('livewire.backend.customer-history', [
+            'audits' => $this->customer
+                ->audits()
+                ->with('user')
                 ->paginate(10),
         ]);
     }

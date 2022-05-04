@@ -8,14 +8,10 @@ use App\Models\Tag;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
-use Livewire\WithPagination;
 
 class CustomerDetailPage extends BackendPage
 {
-    use WithPagination;
     use AuthorizesRequests;
-
-    protected string $paginationTheme = 'bootstrap';
 
     public Customer $customer;
     public $newTag;
