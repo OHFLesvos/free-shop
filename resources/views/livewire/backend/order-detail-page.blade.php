@@ -78,7 +78,7 @@
                     @can('update', $order)
                     <button
                         wire:click="$set('showChangeStatus', true)"
-                        class="btn btn-primary btn-sm ms-2">
+                        class="btn btn-outline-primary btn-sm ms-2">
                         Change status
                     </button>
                 @endcan
