@@ -7,70 +7,8 @@
         <x-alert type="success" dismissible>{{ session()->get('message') }}</x-alert>
     @endif
 
-    {{-- Order details --}}
-    <x-card title="Order #{{ $order->id }}" no-footer-padding>
-        <dl class="row mb-2 mt-3">
-            <dt class="col-sm-3">Status</dt>
-            <dd class="col-sm-9"><x-order-status-label :order="$order" /></dd>
-            <dt class="col-sm-3">Customer</dt>
-            <dd class="col-sm-9">
-                @isset($order->customer)
-                    <strong>Name:</strong> <a href="{{ route('backend.customers.show', $order->customer) }}">{{ $order->customer->name }}</a><br>
-                    <strong>ID Number:</strong> {{ $order->customer->id_number }}
-                @else
-                    <em>Deleted</em>
-                @endisset
-            </dd>
-            <dt class="col-sm-3">IP Address</dt>
-            <dd class="col-sm-9"><x-ip-info :value="$order->ip_address" /></dd>
-            <dt class="col-sm-3">Geo Location</dt>
-            <dd class="col-sm-9"><x-geo-location-info :value="$order->ip_address" /></dd>
-            <dt class="col-sm-3">User Agent</dt>
-            <dd class="col-sm-9"><x-user-agent-info :value="$order->user_agent" /></dd>
-            <dt class="col-sm-3">Registered</dt>
-            <dd class="col-sm-9"><x-date-time-info :value="$order->created_at" /></dd>
-        </dl>
-
-        <x-slot name="footer">
-            <div class="d-flex justify-content-between">
-                <a href="{{ route('backend.orders') }}" class="btn btn-link">Back to overview</a>
-                <span>
-                    @can('update', $order)
-                        <a href="{{ route('backend.orders.edit', $order) }}" class="btn btn-secondary">Edit</a>
-                    @endcan
-                </span>
-            </div>
-        </x-slot>
-    </x-card>
-
-    {{-- Remarks --}}
-    @isset($order->remarks)
-        <x-alert type="info mb-4">
-            <strong>Remarks from customer:</strong><br>
-            {!! nl2br(e($order->remarks)) !!}
-        </x-alert>
-    @endisset
-
-    <ul class="nav nav-tabs mb-4">
-        @foreach($tabs as $value => $label)
-            <li class="nav-item">
-                <a
-                    class="nav-link @if($tab == $value)active @endif"
-                    href="#"
-                    wire:click.prevent="$set('tab', '{{ $value }}')"
-                >
-                {{ $label }}</a>
-            </li>
-        @endforeach
-    </ul>
-    @if($tab == 'products')
-        @livewire('backend.order-products', ['order' => $order])
-    @elseif($tab == 'history')
-        @livewire('backend.order-history', ['order' => $order])
-    @endif
-
-    {{-- Change status --}}
     @if($showChangeStatus)
+        {{-- Change status --}}
         <x-card title="Change order #{{ $order->id }}">
             <p class="form-label">New status:</p>
             @foreach($this->statuses as $key)
@@ -124,22 +62,82 @@
                     <x-spinner wire:loading wire:target="submit"/>
                     Apply
                 </button>
+                <button
+                    wire:click="$set('showChangeStatus', false)"
+                    class="btn btn-link">
+                    Cancel
+                </button>
+            </x-slot>
+        </x-card>
+    @else
+        {{-- Order details --}}
+        <x-card title="Order #{{ $order->id }}" no-footer-padding>
+            <dl class="row mb-2 mt-3">
+                <dt class="col-sm-3">Status</dt>
+                <dd class="col-sm-9"><x-order-status-label :order="$order" />
+                    @can('update', $order)
+                    <button
+                        wire:click="$set('showChangeStatus', true)"
+                        class="btn btn-primary btn-sm ms-2">
+                        Change status
+                    </button>
+                @endcan
+                </dd>
+                <dt class="col-sm-3">Customer</dt>
+                <dd class="col-sm-9">
+                    @isset($order->customer)
+                        <strong>Name:</strong> <a href="{{ route('backend.customers.show', $order->customer) }}">{{ $order->customer->name }}</a><br>
+                        <strong>ID Number:</strong> {{ $order->customer->id_number }}
+                    @else
+                        <em>Deleted</em>
+                    @endisset
+                </dd>
+                <dt class="col-sm-3">IP Address</dt>
+                <dd class="col-sm-9"><x-ip-info :value="$order->ip_address" /></dd>
+                <dt class="col-sm-3">Geo Location</dt>
+                <dd class="col-sm-9"><x-geo-location-info :value="$order->ip_address" /></dd>
+                <dt class="col-sm-3">User Agent</dt>
+                <dd class="col-sm-9"><x-user-agent-info :value="$order->user_agent" /></dd>
+                <dt class="col-sm-3">Registered</dt>
+                <dd class="col-sm-9"><x-date-time-info :value="$order->created_at" /></dd>
+            </dl>
+            <x-slot name="footer">
+                <div class="d-flex justify-content-between">
+                    <a href="{{ route('backend.orders') }}" class="btn btn-link">Back to overview</a>
+                    <span>
+                        @can('update', $order)
+                            <a href="{{ route('backend.orders.edit', $order) }}" class="btn btn-secondary">Edit</a>
+                        @endcan
+                    </span>
+                </div>
             </x-slot>
         </x-card>
     @endif
 
-    {{-- Buttons --}}
-    <div class="d-flex justify-content-between mb-3">
-        <span>
-            @if(!$showChangeStatus)
-                @can('update', $order)
-                    <button
-                        wire:click="$set('showChangeStatus', true)"
-                        class="btn btn-primary">
-                        Change status
-                    </button>
-                @endcan
-            @endif
-        </span>
-    </div>
+    {{-- Remarks --}}
+    @isset($order->remarks)
+        <x-alert type="info mb-4">
+            <strong>Remarks from customer:</strong><br>
+            {!! nl2br(e($order->remarks)) !!}
+        </x-alert>
+    @endisset
+
+    <ul class="nav nav-tabs mb-4">
+        @foreach($tabs as $value => $label)
+            <li class="nav-item">
+                <a
+                    class="nav-link @if($tab == $value)active @endif"
+                    href="#"
+                    wire:click.prevent="$set('tab', '{{ $value }}')"
+                >
+                {{ $label }}</a>
+            </li>
+        @endforeach
+    </ul>
+    @if($tab == 'products')
+        @livewire('backend.order-products', ['order' => $order])
+    @elseif($tab == 'history')
+        @livewire('backend.order-history', ['order' => $order])
+    @endif
+
 </div>
