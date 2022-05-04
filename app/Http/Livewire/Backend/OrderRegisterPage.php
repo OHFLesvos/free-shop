@@ -52,7 +52,6 @@ class OrderRegisterPage extends BackendPage
     {
         $this->authorize('create', Order::class);
 
-        $this->order = new Order();
         $this->products = Product::query()
             ->orderBy('category->' . config('app.fallback_locale'))
             ->orderBy('sequence')

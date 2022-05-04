@@ -12,7 +12,7 @@
                     @elseif($audit->event == 'updated')
                         updated the order and changed
                         @php
-                        $modified = $audit->getModified();
+                            $modified = $audit->getModified();
                         @endphp
                         @foreach ($modified as $key => $val)
                             <em>{{ $key }}</em>
