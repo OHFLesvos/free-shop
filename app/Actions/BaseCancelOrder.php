@@ -2,7 +2,7 @@
 
 namespace App\Actions;
 
-use App\Models\Dto\CostsDto;
+use App\Dto\CostsDto;
 use App\Models\Order;
 use Lorisleiva\Actions\Concerns\AsAction;
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models\Dto;
+namespace App\Dto;
 
 use Spatie\DataTransferObject\DataTransferObject;
 use Stringable;

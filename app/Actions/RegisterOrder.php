@@ -3,7 +3,7 @@
 namespace App\Actions;
 
 use App\Models\Customer;
-use App\Models\Dto\CostsDto;
+use App\Dto\CostsDto;
 use App\Models\Order;
 use Illuminate\Support\Collection;
 use Lorisleiva\Actions\Concerns\AsAction;

@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Models\Dto\CostsDto;
+use App\Dto\CostsDto;
 use App\Models\Traits\NumberCompareScope;
 use Dyrynda\Database\Support\NullableFields;
 use Illuminate\Database\Eloquent\Builder;
