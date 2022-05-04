@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire;
 
+use App\Actions\RegisterOrder;
 use App\Exceptions\PhoneNumberBlockedByAdminException;
 use App\Models\Currency;
 use App\Models\Customer;
@@ -134,10 +135,10 @@ class ShopFrontPage extends FrontendPage
                 'customer.name' => $this->customer->name,
                 'customer.id_number' => $this->customer->id_number,
                 'customer.phone' => $this->customer->phone,
-                'customer.credit' => $this->customer->credit,
+                'customer.balance' => $this->customer->totalBalance(),
             ]);
             session()->flash('error', __('No products have been selected.'));
-            return redirect()->route('shop-front');
+            return;
         }
 
         foreach ($this->customer->currencies as $currency) {
@@ -166,23 +167,11 @@ class ShopFrontPage extends FrontendPage
             }
         }
 
-        $order = new Order();
-        $order->fill([
-            'costs' => $totalPrice,
-            'remarks' => trim($this->remarks),
-            'ip_address' => $request->ip(),
-            'user_agent' => $request->userAgent(),
-        ]);
-        $order->customer()->associate($this->customer);
-        $order->save();
-
-        $order->products()->sync($basket->items()
-            ->mapWithKeys(fn ($quantity, $id) => [$id => [
-                'quantity' => $quantity,
-            ]]));
-
-        $this->customer->credit = max(0, $this->customer->credit - $totalPrice);
-        $this->customer->save();
+        $order = RegisterOrder::run(
+            customer: $this->customer,
+            items: $basket->items(),
+            remarks: $this->remarks,
+        );
 
         Log::info('Customer placed order.', [
             'event.kind' => 'event',
@@ -190,12 +179,13 @@ class ShopFrontPage extends FrontendPage
             'customer.name' => $this->customer->name,
             'customer.id_number' => $this->customer->id_number,
             'customer.phone' => $this->customer->phone,
-            'customer.credit' => $this->customer->credit,
+            'customer.balance' => $this->customer->totalBalance(),
             'order.id' => $order->id,
-            'order.costs' => $order->costs,
+            'order.costs' => $order->getCosts()->join(', '),
         ]);
 
-        if (!setting()->has('customer.skip_order_registered_notification')) {
+        $notifyCustomer = !setting()->has('customer.skip_order_registered_notification');
+        if ($notifyCustomer) {
             try {
                 $this->customer->notify(new OrderRegistered($order));
             } catch (PhoneNumberBlockedByAdminException $ex) {

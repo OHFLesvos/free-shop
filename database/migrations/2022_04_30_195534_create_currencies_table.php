@@ -68,6 +68,10 @@ return new class extends Migration
         Schema::table('customers', function (Blueprint $table) {
             $table->dropColumn('credit');
         });
+
+        Schema::table('orders', function (Blueprint $table) {
+            $table->dropColumn('costs');
+        });
     }
 
     /**
@@ -77,6 +81,10 @@ return new class extends Migration
      */
     public function down()
     {
+        Schema::table('orders', function (Blueprint $table) {
+            $table->unsignedInteger('costs')->default(0)->after('status');
+        });
+
         Schema::table('customers', function (Blueprint $table) {
             $table->unsignedInteger('credit')->default(0)->after('phone');
         });

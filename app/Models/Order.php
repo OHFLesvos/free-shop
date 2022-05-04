@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Dto\CostsDto;
 use App\Models\Traits\NumberCompareScope;
 use Dyrynda\Database\Support\NullableFields;
 use Illuminate\Database\Eloquent\Builder;
@@ -9,6 +10,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use OwenIt\Auditing\Contracts\Auditable;
 
@@ -33,7 +35,6 @@ class Order extends Model implements Auditable
     }
 
     protected $fillable = [
-        'costs',
         'ip_address',
         'user_agent',
         'remarks',
@@ -130,5 +131,19 @@ class Order extends Model implements Auditable
         return $this->products()->get()
             ->map(fn (Product $product) => $product->price *  $product->pivot->quantity)
             ->sum();
+    }
+
+    /**
+     * @return Collection<CostsDto>
+     */
+    public function getCosts(): Collection
+    {
+        return $this->products
+            ->filter(fn (Product $product) => $product->price > 0 && $product->currency_id !== null)
+            ->map(fn (Product $product) => new CostsDto(
+                currency_id: $product->currency->id,
+                currency_name: $product->currency->name,
+                value: $product->price * $product->getRelationValue('pivot')->quantity,
+            ));
     }
 }

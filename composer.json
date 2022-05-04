@@ -27,6 +27,7 @@
         "owen-it/laravel-auditing": "^13.0",
         "propaganistas/laravel-phone": "^4.2",
         "sentry/sentry-laravel": "^2.3",
+        "spatie/data-transfer-object": "^3.7",
         "spatie/laravel-permission": "^5.0",
         "spatie/laravel-translatable": "^6.0",
         "torann/geoip": "^3.0"

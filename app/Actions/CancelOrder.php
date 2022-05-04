@@ -3,29 +3,21 @@
 namespace App\Actions;
 
 use App\Models\Order;
-use Lorisleiva\Actions\Concerns\AsAction;
+use Illuminate\Support\Facades\Log;
 
-class CancelOrder
+class CancelOrder extends BaseCancelOrder
 {
-    use AsAction;
-
-    public function handle(Order $order): void
+    protected function after(Order $order): void
     {
-        $order->status = 'cancelled';
-        $order->save();
-
-        if ($order->customer != null) {
-            $startingCredit = setting()->get('customer.starting_credit', config('shop.customer.starting_credit'));
-            $maximum = setting()->get('customer.credit_top_up.maximum', $startingCredit);
-            $order->customer->credit = max($order->customer->credit, min($order->customer->credit + $order->costs, $maximum));
-            $order->customer->save();
-        }
-
-        $this->notify($order);
-    }
-
-    protected function notify(Order $order): void
-    {
-        // NOOP
+        Log::info('Customer cancelled order.', [
+            'event.kind' => 'event',
+            'event.outcome' => 'success',
+            'customer.name' => $order->customer?->name,
+            'customer.id_number' => $order->customer?->id_number,
+            'customer.phone' => $order->customer?->phone,
+            'customer.balance' => $order->customer->totalBalance(),
+            'order.id' => $order->id,
+            'order.costs' => $order->getCosts()->join(', '),
+        ]);
     }
 }

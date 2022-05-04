@@ -119,6 +119,41 @@ class Customer extends Model implements
         }
     }
 
+    public function addBalance(int $currencyId, int $value): void
+    {
+        assert($value > 0, "Value must be positive");
+
+        $currency = $this->currencies->firstWhere('id', $currencyId);
+        if ($currency === null) {
+            $this->currencies()->attach($currencyId, [
+                'value' => $value,
+            ]);
+        } else {
+            $this->currencies()->updateExistingPivot($currencyId, [
+                'value' => $currency->getRelationValue('pivot')->value + $value,
+            ]);
+        }
+    }
+
+    public function subtractBalance(int $currencyId, int $value): void
+    {
+        assert($value > 0, "Value must be positive");
+
+        $currency = $this->currencies->firstWhere('id', $currencyId);
+        if ($currency === null) {
+            throw new \Exception("Customer does not have the requested currency ($currencyId).");
+        }
+
+        $currentValue = $currency->getRelationValue('pivot')->value;
+        if ($currentValue - $value < 0) {
+            throw new \Exception("Customer does have insufficient balance of {$currentValue->name}.");
+        }
+
+        $this->currencies()->updateExistingPivot($currencyId, [
+            'value' => $currentValue - $value,
+        ]);
+    }
+
     /**
      * @param Collection<int,int> $balances
      * @return void
