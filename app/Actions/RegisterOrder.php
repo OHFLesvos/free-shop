@@ -8,6 +8,7 @@ use App\Exceptions\EmptyOrderException;
 use App\Exceptions\PhoneNumberBlockedByAdminException;
 use App\Models\Order;
 use App\Notifications\OrderRegistered;
+use Exception;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Log;
 use Lorisleiva\Actions\Concerns\AsAction;
@@ -73,7 +74,7 @@ class RegisterOrder
                 $customer->notify(new OrderRegistered($order));
             } catch (PhoneNumberBlockedByAdminException $ex) {
                 Log::warning("The phone number {$ex->getPhone()} has been blocked by an administrator.");
-            } catch (\Exception $ex) {
+            } catch (Exception $ex) {
                 Log::warning('[' . get_class($ex) . '] Cannot send notification: ' . $ex->getMessage());
             }
         }
