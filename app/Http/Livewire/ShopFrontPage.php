@@ -3,15 +3,12 @@
 namespace App\Http\Livewire;
 
 use App\Actions\RegisterOrder;
-use App\Exceptions\PhoneNumberBlockedByAdminException;
 use App\Models\Currency;
 use App\Models\Customer;
 use App\Models\Order;
 use App\Models\Product;
-use App\Notifications\OrderRegistered;
 use App\Services\OrderService;
 use App\Services\ShoppingBasket;
-use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
@@ -124,7 +121,7 @@ class ShopFrontPage extends FrontendPage
         ]);
     }
 
-    public function submit(Request $request, ShoppingBasket $basket)
+    public function submit(ShoppingBasket $basket)
     {
         $this->validate();
 
