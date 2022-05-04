@@ -31,7 +31,7 @@
         </button>
     </form>
     <button
-        class="btn btn-secondary"
+        class="btn btn-primary"
         x-show="!open"
         x-on:click="open = true; $nextTick(() => $refs.input.focus());"
     >
