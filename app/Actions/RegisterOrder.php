@@ -12,7 +12,7 @@ class RegisterOrder
 {
     use AsAction;
 
-    public function handle(Customer $customer, Collection $items, string $remarks)
+    public function handle(Customer $customer, Collection $items, string $remarks): Order
     {
         $order = new Order();
         $order->fill([
@@ -29,5 +29,7 @@ class RegisterOrder
         $order->products()->sync($itemIds);
 
         $order->getCosts()->each(fn (CostsDto $costs) => $customer->subtractBalance($costs->currency_id, $costs->value));
+
+        return $order;
     }
 }
