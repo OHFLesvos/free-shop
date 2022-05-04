@@ -1,5 +1,4 @@
 <div>
-    <h3>Orders</h3>
     @if ($orders->isNotEmpty())
         <div class="table-responsive">
             <table class="table table-bordered table-hover shadow-sm bg-white">

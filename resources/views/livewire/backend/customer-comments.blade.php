@@ -1,6 +1,4 @@
 <div>
-    <h3>Comments</h3>
-
     @livewire('components.add-comment-input')
 
     @if ($comments->isNotEmpty())

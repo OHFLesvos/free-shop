@@ -12,6 +12,18 @@ class CustomerDetailPage extends BackendPage
 
     public Customer $customer;
 
+    public string $tab = 'comments';
+
+    protected $queryString = [
+        'tab' => ['except' => 'comments'],
+    ];
+
+    public array $tabs = [
+        'comments' => 'Comments',
+        'orders' => 'Orders',
+        'history' => 'History',
+    ];
+
     protected function title(): string
     {
         return 'Customer ' . $this->customer->name;

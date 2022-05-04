@@ -77,8 +77,23 @@
         </x-slot>
     </x-card>
 
-    @livewire('backend.customer-comments', ['customer' => $customer])
-    @livewire('backend.customer-orders', ['customer' => $customer])
-    @livewire('backend.customer-history', ['customer' => $customer])
-
+    <ul class="nav nav-tabs mb-4">
+        @foreach($tabs as $value => $label)
+            <li class="nav-item">
+                <a
+                    class="nav-link @if($tab == $value)active @endif"
+                    href="#"
+                    wire:click.prevent="$set('tab', '{{ $value }}')"
+                >
+                {{ $label }}</a>
+            </li>
+        @endforeach
+    </ul>
+    @if($tab == 'comments')
+        @livewire('backend.customer-comments', ['customer' => $customer])
+    @elseif($tab == 'orders')
+        @livewire('backend.customer-orders', ['customer' => $customer])
+    @elseif($tab == 'history')
+        @livewire('backend.customer-history', ['customer' => $customer])
+    @endif
 </div>

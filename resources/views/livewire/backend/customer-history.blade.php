@@ -1,5 +1,4 @@
 <div>
-    <h3 class="mt-2">Customer history</h3>
     @if ($audits->isNotEmpty())
         <ul class="list-group shadow-sm mb-4">
             @foreach ($audits as $audit)
