@@ -20,11 +20,12 @@ class OrderHistory extends Component
 
     public function render()
     {
-        return view('livewire.backend.order-history', [
+        return view('livewire.backend.audit-history', [
             'audits' => $this->order
                 ->audits()
                 ->with('user')
                 ->paginate(10),
+            'label' => "order",
         ]);
     }
 }

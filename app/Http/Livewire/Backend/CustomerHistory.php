@@ -16,11 +16,12 @@ class CustomerHistory extends Component
 
     public function render()
     {
-        return view('livewire.backend.customer-history', [
+        return view('livewire.backend.audit-history', [
             'audits' => $this->customer
                 ->audits()
                 ->with('user')
                 ->paginate(10),
+            'label' => "customer",
         ]);
     }
 }

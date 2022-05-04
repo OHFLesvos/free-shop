@@ -8,17 +8,16 @@
                     </strong>
                     <strong>{{ optional($audit->user)->name ?? 'Unknown' }}</strong>
                     @if ($audit->event == 'created')
-                        registered the customer.
+                        registered the {{ $label }}.
                     @elseif($audit->event == 'updated')
-                        updated the customer and changed
-                        @php
-                            $modified = $audit->getModified();
-                        @endphp
-                        @foreach ($modified as $key => $val)
+                        updated the {{ $label }} and changed
+                        @foreach ($audit->getModified() as $key => $val)
                             <em>{{ $key }}</em>
                             @isset($val['old']) from <code>{{ $val['old'] }}</code> @endisset
                             to <code>{{ $val['new'] }}</code>@if ($loop->last).@else,@endif
                         @endforeach
+                    @elseif ($audit->event == 'deleted')
+                        removed the {{ $label }}.
                     @endif
                 </li>
             @endforeach

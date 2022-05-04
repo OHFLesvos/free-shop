@@ -7,7 +7,7 @@
             <thead>
                 <tr>
                     <th @if ($hasPictures) colspan="2" @endif>Product</th>
-                    <th class="text-end">Quantity</th>
+                    <th class="text-center">Quantity</th>
                 </tr>
             </thead>
             <tbody>
@@ -27,7 +27,7 @@
                             {{ $product->name }}<br>
                             <small class="text-muted">{{ $product->category }}</small>
                         </td>
-                        <td class="fit text-end align-middle">
+                        <td class="fit text-center align-middle">
                             <strong><big>{{ $product->pivot->quantity }}</big></strong>
                         </td>
                     </tr>

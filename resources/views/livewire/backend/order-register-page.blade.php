@@ -82,7 +82,7 @@
                         class="btn btn-primary"
                         wire:target="submit"
                         wire:loading.attr="disabled"
-                        @if($order->exists) disabled @endif>
+                        @isset($order) disabled @endif>
                         <x-spinner wire:loading wire:target="submit" />
                         Save
                     </button>

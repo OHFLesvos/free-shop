@@ -26,6 +26,8 @@ class OrderRegisterPage extends BackendPage
 
     public Collection $products;
 
+    public ?Order $order = null;
+
     protected function rules(): array
     {
         return [
@@ -93,6 +95,8 @@ class OrderRegisterPage extends BackendPage
             'order.id' => $order->id,
             'order.costs' => $order->getCostsString(),
         ]);
+
+        $this->order = $order;
 
         return redirect()->route('backend.orders.show', $order);
     }

@@ -146,7 +146,7 @@ class Customer extends Model implements
 
         $currentValue = $currency->getRelationValue('pivot')->value;
         if ($currentValue - $value < 0) {
-            throw new \Exception("Customer does have insufficient balance of {$currentValue->name}.");
+            throw new \Exception("Customer does have insufficient balance of {$currency->name}.");
         }
 
         $this->currencies()->updateExistingPivot($currencyId, [
