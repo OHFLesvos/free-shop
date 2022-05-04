@@ -40,84 +40,22 @@
         </x-alert>
     @endisset
 
-    {{-- Products --}}
-    <h3>Products</h3>
-    <div class="table-responsive">
-        <table class="table table-bordered bg-white shadow-sm">
-            @php
-                $hasPictures = $order->products->whereNotNull('pictureUrl')->isNotEmpty();
-            @endphp
-            <thead>
-                <tr>
-                    <th @if ($hasPictures) colspan="2" @endif>Product</th>
-                    <th class="text-end">Quantity</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach ($order->products->sortBy('name') as $product)
-                    <tr>
-                        @if ($hasPictures)
-                            <td class="fit">
-                                @isset($product->pictureUrl)
-                                    <img
-                                        src="{{ url($product->pictureUrl) }}"
-                                        alt="Product Image"
-                                        style="max-width: 100px; max-height: 75px" />
-                                @endisset
-                            </td>
-                        @endif
-                        <td>
-                            {{ $product->name }}<br>
-                            <small class="text-muted">{{ $product->category }}</small>
-                        </td>
-                        <td class="fit text-end align-middle">
-                            <strong><big>{{ $product->pivot->quantity }}</big></strong>
-                        </td>
-                    </tr>
-                @endforeach
-            </tbody>
-            <tfoot>
-                <tr>
-                    <td colspan="3">
-                        <div  class="d-flex justify-content-between">
-                            <strong>Total costs:</strong>
-                            {{ $order->getCostsString() }}
-                        </div>
-                    </td>
-                </tr>
-            </tfoot>
-        </table>
-    </div>
-
-    {{-- Order history --}}
-    @php
-        $audits = $order->audits()->with('user')->get();
-    @endphp
-    @if ($audits->isNotEmpty())
-        <h3 class="mt-2">Order history</h3>
-        <ul class="list-group shadow-sm mb-4">
-            @foreach ($audits as $audit)
-                <li class="list-group-item">
-                    On <strong>
-                        <x-date-time-info :value="$audit->created_at" />
-                    </strong>
-                    <strong>{{ optional($audit->user)->name ?? 'Unknown' }}</strong>
-                    @if ($audit->event == 'created')
-                        registered the order.
-                    @elseif($audit->event == 'updated')
-                        updated the order and changed
-                        @php
-                        $modified = $audit->getModified();
-                        @endphp
-                        @foreach ($modified as $key => $val)
-                            <em>{{ $key }}</em>
-                            @isset($val['old']) from <code>{{ $val['old'] }}</code> @endisset
-                            to <code>{{ $val['new'] }}</code>@if ($loop->last).@else,@endif
-                        @endforeach
-                    @endif
-                </li>
-            @endforeach
-        </ul>
+    <ul class="nav nav-tabs mb-4">
+        @foreach($tabs as $value => $label)
+            <li class="nav-item">
+                <a
+                    class="nav-link @if($tab == $value)active @endif"
+                    href="#"
+                    wire:click.prevent="$set('tab', '{{ $value }}')"
+                >
+                {{ $label }}</a>
+            </li>
+        @endforeach
+    </ul>
+    @if($tab == 'products')
+        @livewire('backend.order-products', ['order' => $order])
+    @elseif($tab == 'history')
+        @livewire('backend.order-history', ['order' => $order])
     @endif
 
     {{-- Change status --}}
