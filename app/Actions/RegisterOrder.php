@@ -4,8 +4,11 @@ namespace App\Actions;
 
 use App\Models\Customer;
 use App\Dto\CostsDto;
+use App\Exceptions\PhoneNumberBlockedByAdminException;
 use App\Models\Order;
+use App\Notifications\OrderRegistered;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Log;
 use Lorisleiva\Actions\Concerns\AsAction;
 
 class RegisterOrder
@@ -16,7 +19,7 @@ class RegisterOrder
     {
         $order = new Order();
         $order->fill([
-            'remarks' => trim($remarks),
+            'remarks' => $remarks,
             'ip_address' => request()->ip(),
             'user_agent' => request()->userAgent(),
         ]);
@@ -29,6 +32,17 @@ class RegisterOrder
         $order->products()->sync($itemIds);
 
         $order->getCosts()->each(fn (CostsDto $costs) => $customer->subtractBalance($costs->currency_id, $costs->value));
+
+        $notifyCustomer = !setting()->has('customer.skip_order_registered_notification');
+        if ($notifyCustomer) {
+            try {
+                $this->customer->notify(new OrderRegistered($order));
+            } catch (PhoneNumberBlockedByAdminException $ex) {
+                session()->flash('error', __('The phone number :phone has been blocked by an administrator.', ['phone' => $ex->getPhone()]));
+            } catch (\Exception $ex) {
+                Log::warning('[' . get_class($ex) . '] Cannot send notification: ' . $ex->getMessage());
+            }
+        }
 
         return $order;
     }

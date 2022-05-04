@@ -167,6 +167,7 @@ class ShopFrontPage extends FrontendPage
             }
         }
 
+        /** @var Order $order */
         $order = RegisterOrder::run(
             customer: $this->customer,
             items: $basket->items(),
@@ -183,17 +184,6 @@ class ShopFrontPage extends FrontendPage
             'order.id' => $order->id,
             'order.costs' => $order->getCostsString(),
         ]);
-
-        $notifyCustomer = !setting()->has('customer.skip_order_registered_notification');
-        if ($notifyCustomer) {
-            try {
-                $this->customer->notify(new OrderRegistered($order));
-            } catch (PhoneNumberBlockedByAdminException $ex) {
-                session()->flash('error', __('The phone number :phone has been blocked by an administrator.', ['phone' => $ex->getPhone()]));
-            } catch (\Exception $ex) {
-                Log::warning('[' . get_class($ex) . '] Cannot send notification: ' . $ex->getMessage());
-            }
-        }
 
         $this->order = $order;
 

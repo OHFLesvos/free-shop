@@ -63,12 +63,12 @@
                     <div>
                         <label for="remarksInput" class="form-label">Remarks</label>
                         <textarea
-                            class="form-control @error('order.remarks') is-invalid @enderror"
+                            class="form-control @error('remarks') is-invalid @enderror"
                             id="remarksInput"
                             autocomplete="off"
                             rows="3"
-                            wire:model.defer="order.remarks"></textarea>
-                        @error('order.remarks') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                            wire:model.defer="remarks"></textarea>
+                        @error('remarks') <div class="invalid-feedback">{{ $message }}</div> @enderror
                     </div>
                 </div>
             </x-slot>

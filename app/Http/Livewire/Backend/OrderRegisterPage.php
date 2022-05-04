@@ -2,14 +2,13 @@
 
 namespace App\Http\Livewire\Backend;
 
-use App\Exceptions\PhoneNumberBlockedByAdminException;
+use App\Actions\RegisterOrder;
+use App\Http\Livewire\Traits\TrimAndNullEmptyStrings;
 use App\Models\Customer;
 use App\Models\Order;
 use App\Models\Product;
-use App\Notifications\OrderRegistered;
 use App\Services\OrderService;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
-use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Log;
 use Illuminate\View\View;
@@ -17,10 +16,11 @@ use Illuminate\View\View;
 class OrderRegisterPage extends BackendPage
 {
     use AuthorizesRequests;
+    use TrimAndNullEmptyStrings;
 
     public Customer $customer;
 
-    public Order $order;
+    public string $remarks = '';
 
     public array $selection = [];
 
@@ -29,9 +29,17 @@ class OrderRegisterPage extends BackendPage
     protected function rules(): array
     {
         return [
-            'order.remarks' => 'nullable',
-            'selection' => ['array', 'min:1'],
-            'selection.*' => ['integer', 'min:1'],
+            'remarks' => [
+                'nullable'
+            ],
+            'selection' => [
+                'array',
+                'min:1'
+            ],
+            'selection.*' => [
+                'integer',
+                'min:1'
+            ],
         ];
     }
 
@@ -63,24 +71,18 @@ class OrderRegisterPage extends BackendPage
         return $orderService->calculateTotalCostsString($this->selection);
     }
 
-    public function submit(Request $request)
+    public function submit()
     {
         $this->authorize('create', Order::class);
 
         $this->validate();
 
-        $this->order->fill([
-            'ip_address' => $request->ip(),
-            'user_agent' => $request->userAgent(),
-        ]);
-
-        $this->order->customer()->associate($this->customer);
-        $this->order->save();
-
-        $this->order->products()->sync(collect($this->selection)
-            ->mapWithKeys(fn ($quantity, $id) => [$id => [
-                'quantity' => $quantity,
-            ]]));
+        /** @var Order $order */
+        $order = RegisterOrder::run(
+            customer: $this->customer,
+            items: collect($this->selection),
+            remarks: $this->remarks,
+        );
 
         Log::info('Administrator registered order.', [
             'event.kind' => 'event',
@@ -89,20 +91,10 @@ class OrderRegisterPage extends BackendPage
             'customer.id_number' => $this->customer->id_number,
             'customer.phone' => $this->customer->phone,
             'customer.balance' => $this->customer->totalBalance(),
-            'order.id' => $this->order->id,
-            // 'order.costs' => $this->order->getCostsString(),
+            'order.id' => $order->id,
+            'order.costs' => $order->getCostsString(),
         ]);
 
-        if (!setting()->has('customer.skip_order_registered_notification')) {
-            try {
-                $this->customer->notify(new OrderRegistered($this->order));
-            } catch (PhoneNumberBlockedByAdminException $ex) {
-                session()->flash('error', __('The phone number :phone has been blocked by an administrator.', ['phone' => $ex->getPhone()]));
-            } catch (\Exception $ex) {
-                Log::warning('[' . get_class($ex) . '] Cannot send notification: ' . $ex->getMessage());
-            }
-        }
-
-        return redirect()->route('backend.orders.show', $this->order);
+        return redirect()->route('backend.orders.show', $order);
     }
 }
