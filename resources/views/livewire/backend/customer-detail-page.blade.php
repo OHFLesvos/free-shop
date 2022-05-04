@@ -53,24 +53,7 @@
             @endisset
             <dt class="col-sm-3">Tags</dt>
             <dd class="col-sm-9">
-                @foreach ($customer->tags->sortBy('name', SORT_STRING | SORT_FLAG_CASE) as $tag)
-                    <a href="{{ route('backend.customers', ['tags[]' => $tag->slug]) }}"
-                        class="btn btn-sm btn-primary">
-                        {{ $tag->name }}</a>
-                @endforeach
-                @can('update', $customer)
-                    @if (count($tags) > 0)
-                        <select class="form-select form-select-sm @if (count($customer->tags) > 0) mt-2 @endif" style="max-width: 11em;"
-                            wire:model="newTag" wire:loading.attr="disabled">
-                            <option value="" selected>-- Add tag --</option>
-                            @foreach ($tags as $tag)
-                                <option value="{{ $tag->slug }}">
-                                    {{ $tag->name }}
-                                </option>
-                            @endforeach
-                        </select>
-                    @endif
-                @endif
+                @livewire('backend.customer-tags', ['customer' => $customer])
             </dd>
             @if ($customer->is_disabled)
                 <dt class="col-sm-3">Disabled</dt>
