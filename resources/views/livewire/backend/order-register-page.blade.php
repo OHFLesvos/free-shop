@@ -32,7 +32,7 @@
                                         @endif
                                     </div>
                                     <div class="col-sm-2">
-                                        <small>
+                                        <small class="text-muted">
                                             Available: {{ $product->freeQuantity }}<br>
                                             Limit: {{ $product->getAvailableQuantityPerOrder() }}
                                         </small>
@@ -51,7 +51,7 @@
                             </li>
                         @endforeach
                     @endforeach
-                    <li class="list-group-item text-end">
+                    <li class="list-group-item list-group-item-info">
                         <strong>Total costs:</strong>
                         {{ $this->totalPrice }}
                         <br>
