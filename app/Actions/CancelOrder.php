@@ -17,7 +17,7 @@ class CancelOrder extends BaseCancelOrder
             'customer.phone' => $order->customer?->phone,
             'customer.balance' => $order->customer->totalBalance(),
             'order.id' => $order->id,
-            'order.costs' => $order->getCosts()->join(', '),
+            'order.costs' => $order->getCostsString(),
         ]);
     }
 }

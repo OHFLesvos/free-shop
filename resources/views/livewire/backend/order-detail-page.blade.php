@@ -76,13 +76,16 @@
                     </tr>
                 @endforeach
             </tbody>
-            @isset($order->costs)
             <tfoot>
                 <tr>
-                    <td colspan="3"><strong>Total costs:</strong> {{ $order->costs }} points</td>
+                    <td colspan="3">
+                        <div  class="d-flex justify-content-between">
+                            <strong>Total costs:</strong>
+                            {{ $order->getCostsString() }}
+                        </div>
+                    </td>
                 </tr>
             </tfoot>
-            @endif
         </table>
     </div>
 

@@ -17,7 +17,7 @@
                     </div>
                     <div class="col">
                         @php
-                            $percentage = round($balance['available'] / $balance['total']  * 100);
+                            $percentage = $balance['total'] > 0 ? round($balance['available'] / $balance['total']  * 100) : 0;
                         @endphp
                         <div class="progress">
                             <div class="progress-bar"

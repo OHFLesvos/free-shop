@@ -181,7 +181,7 @@ class ShopFrontPage extends FrontendPage
             'customer.phone' => $this->customer->phone,
             'customer.balance' => $this->customer->totalBalance(),
             'order.id' => $order->id,
-            'order.costs' => $order->getCosts()->join(', '),
+            'order.costs' => $order->getCostsString(),
         ]);
 
         $notifyCustomer = !setting()->has('customer.skip_order_registered_notification');

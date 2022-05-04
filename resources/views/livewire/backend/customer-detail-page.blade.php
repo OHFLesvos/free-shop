@@ -153,7 +153,7 @@
                                 {{ $order->products->map(fn($product) => $product->pivot->quantity)->sum() }}
                             </td>
                             <td class="fit text-end">
-                                {{ $order->costs }}
+                                {{ $order->getCostsString() }}
                             </td>
                         </tr>
                     @endforeach

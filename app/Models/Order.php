@@ -138,12 +138,26 @@ class Order extends Model implements Auditable
      */
     public function getCosts(): Collection
     {
+        $names = $this->products->mapWithKeys(fn (Product $product) => [$product->currency_id => $product->currency->name]);
+
         return $this->products
             ->filter(fn (Product $product) => $product->price > 0 && $product->currency_id !== null)
-            ->map(fn (Product $product) => new CostsDto(
-                currency_id: $product->currency->id,
-                currency_name: $product->currency->name,
-                value: $product->price * $product->getRelationValue('pivot')->quantity,
+            ->map(fn (Product $product) => [
+                'currency' => $product->currency->id,
+                'value' => $product->price * $product->getRelationValue('pivot')->quantity,
+            ])
+            ->groupBy('currency')
+            ->map(fn (Collection $v, int $k) => new CostsDto(
+                currency_id: $k,
+                currency_name: $names[$k],
+                value: $v->sum('value'),
             ));
+    }
+
+    public function getCostsString(): string
+    {
+        $value = $this->getCosts()->map(fn (CostsDto $cost) => (string) $cost)->join(', ');
+
+        return filled($value) ? $value : '-';
     }
 }
