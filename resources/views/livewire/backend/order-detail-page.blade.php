@@ -30,6 +30,17 @@
             <dt class="col-sm-3">Registered</dt>
             <dd class="col-sm-9"><x-date-time-info :value="$order->created_at" /></dd>
         </dl>
+
+        <x-slot name="footer">
+            <div class="d-flex justify-content-between">
+                <a href="{{ route('backend.orders') }}" class="btn btn-link">Back to overview</a>
+                <span>
+                    @can('update', $order)
+                        <a href="{{ route('backend.orders.edit', $order) }}" class="btn btn-secondary">Edit</a>
+                    @endcan
+                </span>
+            </div>
+        </x-slot>
     </x-card>
 
     {{-- Remarks --}}
@@ -129,18 +140,6 @@
                     </button>
                 @endcan
             @endif
-            @can('update', $order)
-                <a
-                    href="{{ route('backend.orders.edit', $order) }}"
-                    class="btn btn-secondary">
-                    Edit order
-                </a>
-            @endif
         </span>
-        <a
-            href="{{ route('backend.orders') }}"
-            class="btn btn-link">
-            Back to overview
-        </a>
     </div>
 </div>
