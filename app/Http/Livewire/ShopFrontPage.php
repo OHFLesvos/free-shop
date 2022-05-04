@@ -3,12 +3,14 @@
 namespace App\Http\Livewire;
 
 use App\Actions\RegisterOrder;
+use App\Exceptions\EmptyOrderException;
 use App\Models\Currency;
 use App\Models\Customer;
 use App\Models\Order;
 use App\Models\Product;
 use App\Services\OrderService;
 use App\Services\ShoppingBasket;
+use Exception;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
@@ -147,7 +149,7 @@ class ShopFrontPage extends FrontendPage
                 ->sum();
             $balance = $this->customer->getBalance($currency);
             if ($balance < $basketCosts) {
-                Log::warning('Customer has insufficient balance to place order.', [
+                Log::warning("Customer doesn't have sufficient balance to place order.", [
                     'event.kind' => 'event',
                     'event.outcome' => 'failure',
                     'customer.name' => $this->customer->name,
@@ -164,26 +166,23 @@ class ShopFrontPage extends FrontendPage
             }
         }
 
-        /** @var Order $order */
-        $order = RegisterOrder::run(
-            customer: $this->customer,
-            items: $basket->items(),
-            remarks: $this->remarks,
-        );
+        try {
+            /** @var Order $order */
+            $order = RegisterOrder::run(
+                customer: $this->customer,
+                items: $basket->items(),
+                remarks: $this->remarks,
+                logMessage: 'Customer placed order.',
+            );
 
-        Log::info('Customer placed order.', [
-            'event.kind' => 'event',
-            'event.outcome' => 'success',
-            'customer.name' => $this->customer->name,
-            'customer.id_number' => $this->customer->id_number,
-            'customer.phone' => $this->customer->phone,
-            'customer.balance' => $this->customer->totalBalance(),
-            'order.id' => $order->id,
-            'order.costs' => $order->getCostsString(),
-        ]);
+            $this->order = $order;
 
-        $this->order = $order;
-
-        $basket->clear();
+            $basket->clear();
+        } catch (EmptyOrderException $ex) {
+            session()->flash('error', $ex->getMessage());
+        } catch (Exception $ex) {
+            session()->flash('error', $ex->getMessage());
+            Log::error($ex);
+        }
     }
 }

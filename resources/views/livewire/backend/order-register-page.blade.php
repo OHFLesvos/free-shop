@@ -1,6 +1,9 @@
 <div class="medium-container">
     <form wire:submit.prevent="submit" class="mb-4" autocomplete="off">
 
+        @if (session()->has('error'))
+            <x-alert type="danger" dismissible>{{ session()->get('error') }}</x-alert>
+        @endif
         @if ($errors->any())
             <x-alert type="danger">
                 @foreach ($errors->all() as $error)
@@ -51,7 +54,7 @@
                             </li>
                         @endforeach
                     @endforeach
-                    <li class="list-group-item list-group-item-info">
+                    <li class="list-group-item text-center">
                         <strong>Total costs:</strong>
                         {{ $this->totalPrice }}
                         <br>
@@ -82,7 +85,7 @@
                         class="btn btn-primary"
                         wire:target="submit"
                         wire:loading.attr="disabled"
-                        @isset($order) disabled @endif>
+                        @if($success) disabled @endif>
                         <x-spinner wire:loading wire:target="submit" />
                         Save
                     </button>
@@ -90,5 +93,6 @@
                 </div>
             </x-slot>
         </x-card>
+
     </form>
 </div>

@@ -31,7 +31,7 @@ class OrderService
     public function calculateTotalCostsString(array $selection): string
     {
         $value = collect($selection)
-            ->filter(fn ($quantity) => $quantity > 0)
+            ->filter(fn ($quantity) => is_numeric($quantity) && $quantity > 0)
             ->map(function(int $quantity, int $productId) {
                 $product = Product::find($productId);
                 return [

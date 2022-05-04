@@ -3,11 +3,13 @@
 namespace App\Http\Livewire\Backend;
 
 use App\Actions\RegisterOrder;
-use App\Http\Livewire\Traits\TrimAndNullEmptyStrings;
+use App\Exceptions\EmptyOrderException;
+use App\Http\Livewire\Traits\TrimEmptyStrings;
 use App\Models\Customer;
 use App\Models\Order;
 use App\Models\Product;
 use App\Services\OrderService;
+use Exception;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Log;
@@ -16,7 +18,7 @@ use Illuminate\View\View;
 class OrderRegisterPage extends BackendPage
 {
     use AuthorizesRequests;
-    use TrimAndNullEmptyStrings;
+    use TrimEmptyStrings;
 
     public Customer $customer;
 
@@ -26,7 +28,7 @@ class OrderRegisterPage extends BackendPage
 
     public Collection $products;
 
-    public ?Order $order = null;
+    public bool $success = false;
 
     protected function rules(): array
     {
@@ -36,7 +38,12 @@ class OrderRegisterPage extends BackendPage
             ],
             'selection' => [
                 'array',
-                'min:1'
+                'min:1',
+                function ($attribute, $value, $fail) {
+                    if (count($value) > 0 && collect($value)->filter(fn ($quantity) => is_numeric($quantity) && $quantity > 0)->isEmpty()) {
+                        $fail(__('validation.min.array', ['attribute' => $attribute, 'min' => 1]));
+                    }
+                },
             ],
             'selection.*' => [
                 'integer',
@@ -78,26 +85,23 @@ class OrderRegisterPage extends BackendPage
 
         $this->validate();
 
-        /** @var Order $order */
-        $order = RegisterOrder::run(
-            customer: $this->customer,
-            items: collect($this->selection),
-            remarks: $this->remarks,
-        );
+        try {
+            /** @var Order $order */
+            $order = RegisterOrder::run(
+                customer: $this->customer,
+                items: collect($this->selection)->filter(fn ($quantity) => is_numeric($quantity) && $quantity > 0),
+                remarks: $this->remarks,
+                logMessage: 'Administrator registered order.',
+            );
 
-        Log::info('Administrator registered order.', [
-            'event.kind' => 'event',
-            'event.outcome' => 'success',
-            'customer.name' => $this->customer->name,
-            'customer.id_number' => $this->customer->id_number,
-            'customer.phone' => $this->customer->phone,
-            'customer.balance' => $this->customer->totalBalance(),
-            'order.id' => $order->id,
-            'order.costs' => $order->getCostsString(),
-        ]);
+            $this->success = true;
 
-        $this->order = $order;
-
-        return redirect()->route('backend.orders.show', $order);
+            return redirect()->route('backend.orders.show', $order);
+        } catch (EmptyOrderException $ex) {
+            session()->flash('error', $ex->getMessage());
+        } catch (Exception $ex) {
+            session()->flash('error', $ex->getMessage());
+            Log::error($ex);
+        }
     }
 }
