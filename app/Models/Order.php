@@ -143,7 +143,7 @@ class Order extends Model implements Auditable
         return $this->products
             ->filter(fn (Product $product) => $product->price > 0 && $product->currency_id !== null)
             ->map(fn (Product $product) => [
-                'currency' => $product->currency->id,
+                'currency' => $product->currency_id,
                 'value' => $product->price * $product->getRelationValue('pivot')->quantity,
             ])
             ->groupBy('currency')

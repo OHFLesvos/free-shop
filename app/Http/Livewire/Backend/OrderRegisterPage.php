@@ -7,6 +7,7 @@ use App\Models\Customer;
 use App\Models\Order;
 use App\Models\Product;
 use App\Notifications\OrderRegistered;
+use App\Services\OrderService;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
@@ -57,12 +58,9 @@ class OrderRegisterPage extends BackendPage
         return parent::view('livewire.backend.order-register-page', []);
     }
 
-    public function getTotalPriceProperty()
+    public function getTotalPriceProperty(OrderService $orderService)
     {
-        return collect($this->selection)
-            ->filter(fn ($quantity) => $quantity > 0)
-            ->map(fn ($quantity, $productId) => Product::find($productId)->price * $quantity)
-            ->sum();
+        return $orderService->calculateTotalCostsString($this->selection);
     }
 
     public function submit(Request $request)
@@ -72,7 +70,6 @@ class OrderRegisterPage extends BackendPage
         $this->validate();
 
         $this->order->fill([
-            'costs' => $this->getTotalPriceProperty(),
             'ip_address' => $request->ip(),
             'user_agent' => $request->userAgent(),
         ]);
@@ -91,8 +88,9 @@ class OrderRegisterPage extends BackendPage
             'customer.name' => $this->customer->name,
             'customer.id_number' => $this->customer->id_number,
             'customer.phone' => $this->customer->phone,
-            'customer.credit' => $this->customer->credit,
+            'customer.balance' => $this->customer->totalBalance(),
             'order.id' => $this->order->id,
+            // 'order.costs' => $this->order->getCostsString(),
         ]);
 
         if (!setting()->has('customer.skip_order_registered_notification')) {

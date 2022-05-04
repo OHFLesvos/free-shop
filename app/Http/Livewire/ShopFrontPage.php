@@ -9,7 +9,7 @@ use App\Models\Customer;
 use App\Models\Order;
 use App\Models\Product;
 use App\Notifications\OrderRegistered;
-use App\Services\OrderManager;
+use App\Services\OrderService;
 use App\Services\ShoppingBasket;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
@@ -51,11 +51,11 @@ class ShopFrontPage extends FrontendPage
         return __('Choose your items');
     }
 
-    public function mount(OrderManager $orderManager): void
+    public function mount(OrderService $orderService): void
     {
         $this->shopDisabled = setting()->has('shop.disabled');
         $this->useCategories = setting()->has('shop.group_products_by_categories');
-        $this->dailyOrdersMaxedOut = $orderManager->isDailyOrderMaximumReached();
+        $this->dailyOrdersMaxedOut = $orderService->isDailyOrderMaximumReached();
 
         $this->customer = Auth::guard('customer')->user();
 

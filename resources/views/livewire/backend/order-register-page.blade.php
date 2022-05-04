@@ -10,18 +10,26 @@
         @endif
 
         <x-card title="Register order for {{ $customer->name }}">
-            @foreach ($products as $product)
-                <div class="row mb-3">
-                    <label
-                        for="product{{ $product->id }}Input"
-                        class="col-sm-10 col-form-label">
-                        {{ $product->name }}
-                        <br>
-                        <small class="form-text text-muted">
-                            Price: {{ $product->price }}, Limit: {{ $product->getAvailableQuantityPerOrder() }}
-                        </small>
-                    </label>
-
+            <div class="pt-3">
+            @foreach ($products->groupBy('category') as $k => $v)
+                <h6 class="card-subtitle mb-2">{{ $k }}</h6>
+                @foreach ($v as $product)
+                <div class="row mb-2 align-items-center g-2">
+                    <div class="col-sm">
+                        <label for="product{{ $product->id }}Input">
+                            {{ $product->name }}
+                        </label>
+                    </div>
+                    <div class="col-sm-2">
+                        @if($product->price > 0 && $product->currency_id !== null)
+                            <strong>{{ $product->price }}</strong> {{ $product->currency->name }}
+                        @else
+                            <strong class="text-success">Free</strong>
+                        @endif
+                    </div>
+                    <div class="col-sm-2">
+                        Limit: <strong>{{ $product->getAvailableQuantityPerOrder() }}</strong>
+                    </div>
                     <div class="col-sm-2">
                         <input
                             type="number"
@@ -34,8 +42,14 @@
                     </div>
                 </div>
             @endforeach
+            <hr>
+            @endforeach
+        </div>
 
-            <p class="text-end">Total price: {{ $this->totalPrice }}</p>
+        <p class="text-end">
+            <strong>Total costs:</strong>
+            {{ $this->totalPrice }}
+        </p>
 
             <div>
                 <label for="remarksInput" class="form-label">Remarks</label>
