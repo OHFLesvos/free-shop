@@ -3,6 +3,8 @@
 namespace Tests\Feature;
 
 use App\Actions\RegisterOrder;
+use App\Exceptions\EmptyOrderException;
+use App\Exceptions\InsufficientBalanceException;
 use App\Models\Currency;
 use App\Models\Customer;
 use App\Models\Order;
@@ -15,12 +17,7 @@ class RegisterOrderTest extends TestCase
 {
     use RefreshDatabase;
 
-    /**
-     * A basic test example.
-     *
-     * @return void
-     */
-    public function test_register_order()
+    public function test_register_order(): void
     {
         $currency = Currency::factory()->create();
 
@@ -67,5 +64,65 @@ class RegisterOrderTest extends TestCase
         $this->assertEquals($selection, $order->products->mapWithKeys(fn (Product $product) => [$product->id => $product->pivot->quantity]));
         $this->assertEquals("5 $currency->name", $order->getCostsString());
         $this->assertEquals("0 $currency->name", $customer->totalBalance());
+    }
+
+    public function test_register_order_without_items(): void
+    {
+        $customer = Customer::factory()->create();
+
+        $selection = collect([]);
+
+        $this->expectException(EmptyOrderException::class);
+
+        RegisterOrder::run(
+            customer: $customer,
+            items: $selection,
+        );
+    }
+
+    public function test_register_order_with_empty_items(): void
+    {
+        $currency = Currency::factory()->create();
+
+        $customer = Customer::factory()->create();
+
+        $product1 = Product::factory()->create([
+            'price' => 1,
+            'currency_id' => $currency->id,
+        ]);
+
+        $selection = collect([
+            $product1->id => '',
+        ]);
+
+        $this->expectException(EmptyOrderException::class);
+
+        RegisterOrder::run(
+            customer: $customer,
+            items: $selection,
+        );
+    }
+
+    public function test_register_order_with_zero_items(): void
+    {
+        $currency = Currency::factory()->create();
+
+        $customer = Customer::factory()->create();
+
+        $product1 = Product::factory()->create([
+            'price' => 1,
+            'currency_id' => $currency->id,
+        ]);
+
+        $selection = collect([
+            $product1->id => 0,
+        ]);
+
+        $this->expectException(EmptyOrderException::class);
+
+        RegisterOrder::run(
+            customer: $customer,
+            items: $selection,
+        );
     }
 }

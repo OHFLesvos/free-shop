@@ -5,8 +5,10 @@ namespace App\Actions;
 use App\Models\Customer;
 use App\Dto\CostsDto;
 use App\Exceptions\EmptyOrderException;
+use App\Exceptions\InsufficientBalanceException;
 use App\Exceptions\PhoneNumberBlockedByAdminException;
 use App\Models\Order;
+use App\Models\Product;
 use App\Notifications\OrderRegistered;
 use Exception;
 use Illuminate\Support\Collection;
@@ -23,6 +25,7 @@ class RegisterOrder
      * @param ?string $remarks
      * @return Order
      * @throws EmptyOrderException
+     * @throws InsufficientBalanceException
      */
     public function handle(
         Customer $customer,
@@ -30,10 +33,29 @@ class RegisterOrder
         ?string $remarks = null,
         string $logMessage = 'An order has been registered.',
     ): Order {
-        // Check if items are defined
+
+        // Check if any items are defined
         $items = $items->filter(fn ($quantity) => is_numeric($quantity) && $quantity > 0);
         if ($items->isEmpty()) {
             throw new EmptyOrderException(__('No products have been selected.'));
+        }
+
+        // Check balance
+        foreach ($customer->currencies as $currency) {
+            $basketCosts = (int)$items
+                ->map(function (int $quantity, int $productId) use ($currency) {
+                    $product = Product::find($productId);
+                    return ($product->currency_id == $currency->id) ? $product->price * $quantity : 0;
+                })
+                ->sum();
+            $balance = $customer->getBalance($currency);
+            if ($balance < $basketCosts) {
+                throw new InsufficientBalanceException(__("Insufficient account balance. :required :currency required, but only :available available.", [
+                    'currency' => $currency->name,
+                    'required' => $basketCosts,
+                    'available' => $balance,
+                ]));
+            }
         }
 
         // Register order

@@ -4,6 +4,7 @@ namespace App\Http\Livewire;
 
 use App\Actions\RegisterOrder;
 use App\Exceptions\EmptyOrderException;
+use App\Exceptions\InsufficientBalanceException;
 use App\Models\Currency;
 use App\Models\Customer;
 use App\Models\Order;
@@ -99,7 +100,6 @@ class ShopFrontPage extends FrontendPage
         $basket->remove($productId);
     }
 
-
     public function getAvailableBalance(int $currencyId): int
     {
         $basket = app()->make(ShoppingBasket::class);
@@ -127,45 +127,6 @@ class ShopFrontPage extends FrontendPage
     {
         $this->validate();
 
-        if ($basket->items()->isEmpty()) {
-            Log::warning('Customer tried to place empty order.', [
-                'event.kind' => 'event',
-                'event.outcome' => 'failure',
-                'customer.name' => $this->customer->name,
-                'customer.id_number' => $this->customer->id_number,
-                'customer.phone' => $this->customer->phone,
-                'customer.balance' => $this->customer->totalBalance(),
-            ]);
-            session()->flash('error', __('No products have been selected.'));
-            return;
-        }
-
-        foreach ($this->customer->currencies as $currency) {
-            $basketCosts = (int)$basket->items()
-                ->map(function (int $quantity, int $productId) use ($currency) {
-                    $product = Product::find($productId);
-                    return ($product->currency_id == $currency->id) ? $product->price * $quantity : 0;
-                })
-                ->sum();
-            $balance = $this->customer->getBalance($currency);
-            if ($balance < $basketCosts) {
-                Log::warning("Customer doesn't have sufficient balance to place order.", [
-                    'event.kind' => 'event',
-                    'event.outcome' => 'failure',
-                    'customer.name' => $this->customer->name,
-                    'customer.id_number' => $this->customer->id_number,
-                    'customer.phone' => $this->customer->phone,
-                    'customer.balance' => $this->customer->totalBalance(),
-                ]);
-                session()->flash('error', __("Insufficient account balance. :required :currency required, but only :available available.", [
-                    'currency' => $currency->name,
-                    'required' => $basketCosts,
-                    'available' => $balance,
-                ]));
-                return;
-            }
-        }
-
         try {
             /** @var Order $order */
             $order = RegisterOrder::run(
@@ -178,8 +139,26 @@ class ShopFrontPage extends FrontendPage
             $this->order = $order;
 
             $basket->clear();
+        } catch (InsufficientBalanceException $ex) {
+            session()->flash('error', $ex->getMessage());
+            Log::warning("Customer doesn't have sufficient balance to place order.", [
+                'event.kind' => 'event',
+                'event.outcome' => 'failure',
+                'customer.name' => $this->customer->name,
+                'customer.id_number' => $this->customer->id_number,
+                'customer.phone' => $this->customer->phone,
+                'customer.balance' => $this->customer->totalBalance(),
+            ]);
         } catch (EmptyOrderException $ex) {
             session()->flash('error', $ex->getMessage());
+            Log::warning('Customer tried to place empty order.', [
+                'event.kind' => 'event',
+                'event.outcome' => 'failure',
+                'customer.name' => $this->customer->name,
+                'customer.id_number' => $this->customer->id_number,
+                'customer.phone' => $this->customer->phone,
+                'customer.balance' => $this->customer->totalBalance(),
+            ]);
         } catch (Exception $ex) {
             session()->flash('error', $ex->getMessage());
             Log::error($ex);
