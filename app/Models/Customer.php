@@ -134,6 +134,7 @@ class Customer extends Model implements
                 'value' => $currency->getRelationValue('pivot')->value + $value,
             ]);
         }
+        $this->refresh();
     }
 
     public function subtractBalance(int $currencyId, int $value): void
@@ -153,6 +154,7 @@ class Customer extends Model implements
         $this->currencies()->updateExistingPivot($currencyId, [
             'value' => $currentValue - $value,
         ]);
+        $this->refresh();
     }
 
     /**
