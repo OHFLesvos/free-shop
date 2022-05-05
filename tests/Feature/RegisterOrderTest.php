@@ -187,4 +187,40 @@ class RegisterOrderTest extends TestCase
             items: $selection,
         );
     }
+
+    public function test_register_order_with_insufficient_balance_ignore_costs(): void
+    {
+        $currency1 = Currency::factory()->create();
+        $currency2 = Currency::factory()->create();
+
+        $customer = Customer::factory()->create();
+
+        $product1 = Product::factory()->create([
+            'price' => 1,
+            'currency_id' => $currency1->id,
+        ]);
+        $product2 = Product::factory()->create([
+            'price' => 3,
+            'currency_id' => $currency2->id,
+        ]);
+
+        $selection = collect([
+            $product1->id => 1,
+            $product2->id => 1,
+        ]);
+
+        $customer->addBalance($currency1->id, 1);
+        $customer->addBalance($currency2->id, 1);
+
+        $order = RegisterOrder::run(
+            customer: $customer,
+            items: $selection,
+            ignoreCosts: true,
+        );
+
+        $this->assertNotNull($order);
+        $this->assertModelExists($order);
+        $this->assertEquals($customer->id, $order->customer_id);
+        $this->assertSameSize($selection, $order->products);
+    }
 }

@@ -33,13 +33,18 @@ class RegisterOrder
         ?string $remarks = null,
         string $logMessage = 'An order has been registered.',
         bool $notifyCustomer = false,
+        bool $ignoreCosts = false,
     ): Order {
 
         $this->ensureAnyItemsDefined($items);
-        $this->checkBalance($customer, $items);
+        if (!$ignoreCosts) {
+            $this->checkBalance($customer, $items);
+        }
         $order = $this->createOrder($customer, $remarks);
         $this->assignProducts($order, $items);
-        $this->subtractCosts($customer, $order);
+        if (!$ignoreCosts) {
+            $this->subtractCosts($customer, $order);
+        }
 
         Log::info($logMessage, [
             'event.kind' => 'event',

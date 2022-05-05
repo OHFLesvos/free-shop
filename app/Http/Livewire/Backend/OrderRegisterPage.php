@@ -92,6 +92,7 @@ class OrderRegisterPage extends BackendPage
                 items: collect($this->selection)->filter(fn ($quantity) => is_numeric($quantity) && $quantity > 0),
                 remarks: $this->remarks,
                 logMessage: 'Administrator registered order.',
+                ignoreCosts: true,
             );
 
             $this->success = true;
