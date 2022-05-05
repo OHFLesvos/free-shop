@@ -2,10 +2,10 @@
 
 namespace App\Models;
 
+use App\Exceptions\InsufficientBalanceException;
 use App\Models\Traits\NumberCompareScope;
 use Carbon\Carbon;
 use Dyrynda\Database\Support\NullableFields;
-use Exception;
 use Illuminate\Contracts\Translation\HasLocalePreference;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -137,18 +137,24 @@ class Customer extends Model implements
         $this->refresh();
     }
 
+    /**
+     * @param integer $currencyId
+     * @param integer $value
+     * @return void
+     * @throws InsufficientBalanceException
+     */
     public function subtractBalance(int $currencyId, int $value): void
     {
         assert($value > 0, "Value must be positive");
 
         $currency = $this->currencies->firstWhere('id', $currencyId);
         if ($currency === null) {
-            throw new Exception("Customer doesn't have the requested currency ($currencyId).");
+            throw new InsufficientBalanceException("Customer doesn't have the requested currency ($currencyId).");
         }
 
         $currentValue = $currency->getRelationValue('pivot')->value;
         if ($currentValue - $value < 0) {
-            throw new Exception("Customer doesn't have sufficient balance of {$currency->name}.");
+            throw new InsufficientBalanceException("Customer doesn't have sufficient balance of {$currency->name}.");
         }
 
         $this->currencies()->updateExistingPivot($currencyId, [
