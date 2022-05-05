@@ -8,7 +8,7 @@ use App\Models\Customer;
 use App\Models\Order;
 use App\Models\Product;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Log;
+use Illuminate\Support\Facades\Log;
 use Tests\TestCase;
 
 class RegisterOrderTest extends TestCase
@@ -64,6 +64,7 @@ class RegisterOrderTest extends TestCase
         $this->assertEquals($customer->id, $order->customer_id);
         $this->assertEquals($remarks, $order->remarks);
         $this->assertSameSize($selection, $order->products);
+        $this->assertEquals($selection, $order->products->mapWithKeys(fn (Product $product) => [$product->id => $product->pivot->quantity]));
         $this->assertEquals("5 $currency->name", $order->getCostsString());
         $this->assertEquals("0 $currency->name", $customer->totalBalance());
     }
