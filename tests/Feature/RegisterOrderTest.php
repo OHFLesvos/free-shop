@@ -155,4 +155,36 @@ class RegisterOrderTest extends TestCase
             $product1->id => 1,
         ]), $order->products->mapWithKeys(fn (Product $product) => [$product->id => $product->pivot->quantity]));
     }
+
+    public function test_register_order_with_insufficient_balance(): void
+    {
+        $currency1 = Currency::factory()->create();
+        $currency2 = Currency::factory()->create();
+
+        $customer = Customer::factory()->create();
+
+        $product1 = Product::factory()->create([
+            'price' => 1,
+            'currency_id' => $currency1->id,
+        ]);
+        $product2 = Product::factory()->create([
+            'price' => 3,
+            'currency_id' => $currency2->id,
+        ]);
+
+        $selection = collect([
+            $product1->id => 1,
+            $product2->id => 1,
+        ]);
+
+        $customer->addBalance($currency1->id, 1);
+        $customer->addBalance($currency2->id, 1);
+
+        $this->expectException(InsufficientBalanceException::class);
+
+        RegisterOrder::run(
+            customer: $customer,
+            items: $selection,
+        );
+    }
 }
