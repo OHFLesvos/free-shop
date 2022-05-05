@@ -126,11 +126,19 @@ class Order extends Model implements Auditable
             ->orWhere('remarks', 'LIKE', '%' . $filter . '%');
     }
 
-    public function calculateTotalPrice(): int
+    /**
+     * @param Collection<int,int> $items list of item quantities keyed by product ID
+     * @return void
+     */
+    public function assignProducts(Collection $items)
     {
-        return $this->products()->get()
-            ->map(fn (Product $product) => $product->price *  $product->pivot->quantity)
-            ->sum();
+        $itemIds = $items
+            ->filter(fn ($quantity) => is_numeric($quantity) && $quantity > 0)
+            ->mapWithKeys(fn ($quantity, $id) => [$id => [
+                'quantity' => $quantity,
+            ]]);
+
+        $this->products()->sync($itemIds);
     }
 
     /**

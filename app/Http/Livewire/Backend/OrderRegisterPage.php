@@ -89,7 +89,7 @@ class OrderRegisterPage extends BackendPage
             /** @var Order $order */
             $order = RegisterOrder::run(
                 customer: $this->customer,
-                items: collect($this->selection)->filter(fn ($quantity) => is_numeric($quantity) && $quantity > 0),
+                items: collect($this->selection),
                 remarks: $this->remarks,
                 logMessage: 'Administrator registered order.',
                 ignoreCosts: true,
@@ -97,7 +97,9 @@ class OrderRegisterPage extends BackendPage
 
             $this->success = true;
 
-            return redirect()->route('backend.orders.show', $order);
+            return redirect()
+                ->route('backend.orders.show', $order)
+                ->with('message', "Order registered.");
         } catch (EmptyOrderException $ex) {
             session()->flash('error', $ex->getMessage());
         } catch (Exception $ex) {

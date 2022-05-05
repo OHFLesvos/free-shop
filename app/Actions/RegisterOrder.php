@@ -40,8 +40,11 @@ class RegisterOrder
         if (!$ignoreCosts) {
             $this->checkBalance($customer, $items);
         }
+
+        // TODO: Check product availability
+
         $order = $this->createOrder($customer, $remarks);
-        $this->assignProducts($order, $items);
+        $order->assignProducts($items);
         if (!$ignoreCosts) {
             $this->subtractCosts($customer, $order);
         }
@@ -112,22 +115,6 @@ class RegisterOrder
         $order->save();
 
         return $order;
-    }
-
-    /**
-     * @param Order $order
-     * @param Collection<int,int> $items
-     * @return void
-     */
-    private function assignProducts(Order $order, Collection $items)
-    {
-        $itemIds = $items
-            ->filter(fn ($quantity) => is_numeric($quantity) && $quantity > 0)
-            ->mapWithKeys(fn ($quantity, $id) => [$id => [
-                'quantity' => $quantity,
-            ]]);
-
-        $order->products()->sync($itemIds);
     }
 
     private function subtractCosts(Customer $customer, Order $order)
