@@ -45,8 +45,6 @@ class RegisterOrderTest extends TestCase
         Log::shouldReceive('info')
             ->once()
             ->withArgs(fn ($message) => strpos($message, $logMessage) !== false);
-        Log::shouldReceive('warning')
-            ->once();
 
         /** @var Order $order */
         $order = RegisterOrder::run(
@@ -124,5 +122,37 @@ class RegisterOrderTest extends TestCase
             customer: $customer,
             items: $selection,
         );
+    }
+
+    public function test_register_order_with_some_zero_items(): void
+    {
+        $currency = Currency::factory()->create();
+
+        $customer = Customer::factory()->create();
+
+        $product1 = Product::factory()->create([
+            'price' => 1,
+            'currency_id' => $currency->id,
+        ]);
+        $product2 = Product::factory()->create([
+            'price' => 1,
+            'currency_id' => $currency->id,
+        ]);
+
+        $selection = collect([
+            $product1->id => 1,
+            $product2->id => 0,
+        ]);
+
+        $customer->addBalance($currency->id, 1);
+
+        $order = RegisterOrder::run(
+            customer: $customer,
+            items: $selection,
+        );
+
+        $this->assertEquals(collect([
+            $product1->id => 1,
+        ]), $order->products->mapWithKeys(fn (Product $product) => [$product->id => $product->pivot->quantity]));
     }
 }

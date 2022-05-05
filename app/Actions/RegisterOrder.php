@@ -32,15 +32,51 @@ class RegisterOrder
         Collection $items,
         ?string $remarks = null,
         string $logMessage = 'An order has been registered.',
+        bool $notifyCustomer = false,
     ): Order {
 
-        // Check if any items are defined
+        $this->ensureAnyItemsDefined($items);
+        $this->checkBalance($customer, $items);
+        $order = $this->createOrder($customer, $remarks);
+        $this->assignProducts($order, $items);
+        $this->subtractCosts($customer, $order);
+
+        Log::info($logMessage, [
+            'event.kind' => 'event',
+            'event.outcome' => 'success',
+            'customer.name' => $customer->name,
+            'customer.id_number' => $customer->id_number,
+            'customer.phone' => $customer->phone,
+            'customer.balance' => $customer->totalBalance(),
+            'order.id' => $order->id,
+            'order.costs' => $order->getCostsString(),
+        ]);
+
+        if ($notifyCustomer) {
+            $this->notifyCustomer($customer, $order);
+        }
+
+        return $order;
+    }
+
+    /**
+     * @param Collection<int,int> $items
+     */
+    private function ensureAnyItemsDefined(Collection $items)
+    {
         $items = $items->filter(fn ($quantity) => is_numeric($quantity) && $quantity > 0);
         if ($items->isEmpty()) {
             throw new EmptyOrderException(__('No products have been selected.'));
         }
+    }
 
-        // Check balance
+    /**
+     * @param Customer $customer
+     * @param Collection<int,int> $items
+     * @return void
+     */
+    private function checkBalance(Customer $customer, Collection $items): void
+    {
         foreach ($customer->currencies as $currency) {
             $basketCosts = (int)$items
                 ->map(function (int $quantity, int $productId) use ($currency) {
@@ -57,8 +93,10 @@ class RegisterOrder
                 ]));
             }
         }
+    }
 
-        // Register order
+    private function createOrder(Customer $customer, ?string $remarks): Order
+    {
         $order = new Order();
         $order->fill([
             'remarks' => $remarks,
@@ -68,39 +106,38 @@ class RegisterOrder
         $order->customer()->associate($customer);
         $order->save();
 
-        // Assign products to order
-        $itemIds = $items->mapWithKeys(fn ($quantity, $id) => [$id => [
-            'quantity' => $quantity,
-        ]]);
-        $order->products()->sync($itemIds);
-
-        // Subtract costs from customer
-        $order->getCosts()->each(fn (CostsDto $costs) => $customer->subtractBalance($costs->currency_id, $costs->value));
-
-        // Logging
-        Log::info($logMessage, [
-            'event.kind' => 'event',
-            'event.outcome' => 'success',
-            'customer.name' => $customer->name,
-            'customer.id_number' => $customer->id_number,
-            'customer.phone' => $customer->phone,
-            'customer.balance' => $customer->totalBalance(),
-            'order.id' => $order->id,
-            'order.costs' => $order->getCostsString(),
-        ]);
-
-        // Notify customer
-        $notifyCustomer = !setting()->has('customer.skip_order_registered_notification');
-        if ($notifyCustomer) {
-            try {
-                $customer->notify(new OrderRegistered($order));
-            } catch (PhoneNumberBlockedByAdminException $ex) {
-                Log::warning("The phone number {$ex->getPhone()} has been blocked by an administrator.");
-            } catch (Exception $ex) {
-                Log::warning('[' . get_class($ex) . '] Cannot send notification: ' . $ex->getMessage());
-            }
-        }
-
         return $order;
+    }
+
+    /**
+     * @param Order $order
+     * @param Collection<int,int> $items
+     * @return void
+     */
+    private function assignProducts(Order $order, Collection $items)
+    {
+        $itemIds = $items
+            ->filter(fn ($quantity) => is_numeric($quantity) && $quantity > 0)
+            ->mapWithKeys(fn ($quantity, $id) => [$id => [
+                'quantity' => $quantity,
+            ]]);
+
+        $order->products()->sync($itemIds);
+    }
+
+    private function subtractCosts(Customer $customer, Order $order)
+    {
+        $order->getCosts()->each(fn (CostsDto $costs) => $customer->subtractBalance($costs->currency_id, $costs->value));
+    }
+
+    private function notifyCustomer(Customer $customer, Order $order)
+    {
+        try {
+            $customer->notify(new OrderRegistered($order));
+        } catch (PhoneNumberBlockedByAdminException $ex) {
+            Log::warning("The phone number {$ex->getPhone()} has been blocked by an administrator.");
+        } catch (Exception $ex) {
+            Log::warning('[' . get_class($ex) . '] Cannot send notification: ' . $ex->getMessage());
+        }
     }
 }

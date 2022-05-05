@@ -134,6 +134,7 @@ class ShopFrontPage extends FrontendPage
                 items: $basket->items(),
                 remarks: $this->remarks,
                 logMessage: 'Customer placed order.',
+                notifyCustomer: !setting()->has('customer.skip_order_registered_notification'),
             );
 
             $this->order = $order;
