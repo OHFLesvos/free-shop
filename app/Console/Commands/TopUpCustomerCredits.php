@@ -26,25 +26,14 @@ class TopUpCustomerCredits extends Command
     protected $description = 'Tops up customer balance to a fixed amount';
 
     /**
-     * Create a new command instance.
-     *
-     * @return void
-     */
-    public function __construct(private ?int $days = null)
-    {
-        $this->days = $days ?? setting()->get('customer.credit_top_up.days', 0);
-
-        parent::__construct();
-    }
-
-    /**
      * Execute the console command.
      *
      * @return int
      */
     public function handle()
     {
-        if ($this->days <= 0) {
+        $days = setting()->get('customer.credit_top_up.days', 0);
+        if ($days <= 0) {
             $this->warn("Customer top-up skipped, no time range defined.");
             Log::info('Customer balance top-up skipped, no time range defined.', [
                 'event.kind' => 'event',
@@ -53,10 +42,10 @@ class TopUpCustomerCredits extends Command
             return 0;
         }
 
-        $date = now()->subDays($this->days);
+        $date = now()->subDays($days);
         $count = $this->topUp($date);
 
-        $this->line("Topped up $count customers, time range {$this->days} days.");
+        $this->line("Topped up $count customers, time range {$days} days.");
 
         return 0;
     }
