@@ -48,6 +48,7 @@ class Product extends Model implements Auditable
         'limit_per_order',
         'is_available',
         'price',
+        'currency_id',
     ];
 
     protected $casts = [
