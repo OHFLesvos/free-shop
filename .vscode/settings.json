@@ -11,9 +11,11 @@
     },
     "intelephense.environment.phpVersion": "8.0.0",
     "cSpell.ignoreWords": [
+        "Authenticatable",
         "Authorizable",
         "Dyrynda",
         "Gumlet",
+        "Laravel",
         "Livewire",
         "Lorisleiva",
         "Propaganistas",
