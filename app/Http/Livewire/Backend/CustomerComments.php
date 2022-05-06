@@ -5,7 +5,6 @@ namespace App\Http\Livewire\Backend;
 use App\Models\Comment;
 use App\Models\Customer;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
-use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -29,11 +28,9 @@ class CustomerComments extends Component
         ]);
     }
 
-    public function commentAdded(array $data): void
+    public function commentAdded(string $content): void
     {
-        $comment = new Comment($data);
-        $comment->user()->associate(Auth::user());
-        $this->customer->comments()->save($comment);
+        $this->customer->addUserComment($content);
     }
 
     public function deleteComment(Comment $comment): void

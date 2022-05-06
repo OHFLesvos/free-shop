@@ -1,11 +1,17 @@
 <div>
+    @if ($comments->isEmpty())
+        <x-alert type="info">
+            No comments registered.
+        </x-alert>
+    @endif
+
     @livewire('components.add-comment-input')
 
     @if ($comments->isNotEmpty())
         @foreach ($comments as $comment)
             <div class="card mb-3 shadow-sm" wire:key="comment-{{ $comment->id }}">
                 <div class="card-body">
-                    {{ $comment->content }}
+                    {!! nl2br(e($comment->content)) !!}
                     @can('delete', $comment)
                         <button class="btn btn-outline-danger btn-sm float-end"
                             wire:click="deleteComment({{ $comment->id }})"

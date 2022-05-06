@@ -12,13 +12,14 @@ class CustomerDetailPage extends BackendPage
 
     public Customer $customer;
 
-    public string $tab = 'comments';
+    public string $tab = 'overview';
 
     protected $queryString = [
-        'tab' => ['except' => 'comments'],
+        'tab' => ['except' => 'overview'],
     ];
 
     public array $tabs = [
+        'overview' => 'Overview',
         'comments' => 'Comments',
         'orders' => 'Orders',
         'history' => 'History',

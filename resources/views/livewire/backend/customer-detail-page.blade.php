@@ -89,7 +89,10 @@
             </li>
         @endforeach
     </ul>
-    @if($tab == 'comments')
+    @if($tab == 'overview')
+        @livewire('backend.customer-latest-order', ['customer' => $customer])
+        @livewire('backend.customer-latest-comment', ['customer' => $customer])
+    @elseif($tab == 'comments')
         @livewire('backend.customer-comments', ['customer' => $customer])
     @elseif($tab == 'orders')
         @livewire('backend.customer-orders', ['customer' => $customer])

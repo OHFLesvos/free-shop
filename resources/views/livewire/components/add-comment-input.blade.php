@@ -1,4 +1,4 @@
-<div x-data="{ open: @entangle('showAddComment') }" class="mb-3">
+<div x-data="{ open: @entangle('isEditing') }" class="mb-3">
     <form
         x-show="open"
         x-cloak
@@ -7,14 +7,13 @@
     >
         <div class="mb-3">
             <textarea
-                class="form-control @error('newComment') is-invalid @enderror"
-                id="newCommentInput"
-                wire:model.defer="newComment"
+                class="form-control @error('content') is-invalid @enderror"
+                wire:model.defer="content"
                 x-ref="input"
                 rows="3"
                 placeholder="Add your comment..."
                 autocomplete="off"></textarea>
-            @error('newComment') <div class="invalid-feedback">{{ $message }}</div> @enderror
+            @error('content') <div class="invalid-feedback">{{ $message }}</div> @enderror
         </div>
         <button
             class="btn btn-primary"

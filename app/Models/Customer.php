@@ -22,6 +22,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOneOrMany;
 use Illuminate\Foundation\Auth\Access\Authorizable;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Auth;
 use libphonenumber\NumberParseException;
 use Propaganistas\LaravelPhone\PhoneNumber;
 use OwenIt\Auditing\Contracts\Auditable;
@@ -276,5 +277,14 @@ class Customer extends Model implements
             }
         }
         return null;
+    }
+
+    public function addUserComment(string $content)
+    {
+        $comment = new Comment([
+            'content' => $content,
+        ]);
+        $comment->user()->associate(Auth::user());
+        $this->comments()->save($comment);
     }
 }
