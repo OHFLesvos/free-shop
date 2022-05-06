@@ -22,9 +22,10 @@ class CustomerLatestComment extends Component
         ]);
     }
 
-    public function commentAdded(string $content): void
+    public function commentAdded(string $content)
     {
         $this->customer->addUserComment($content);
-        $this->tab = 'comments';
+
+        return redirect()->route('backend.customers.show', [$this->customer, 'tab' => 'comments']);
     }
 }
