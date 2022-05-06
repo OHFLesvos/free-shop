@@ -25,12 +25,9 @@ class OrderEditPage extends BackendPage
                 'array',
                 'min:1',
                 function ($attribute, $value, $fail) {
-                    foreach ($this->selection as $id => $quantity) {
-                        if ($quantity > 0) {
-                            return;
-                        }
+                    if (collect($this->selection)->filter(fn ($quantity) => $quantity > 0)->isEmpty()) {
+                        $fail('At least one product is required.');
                     }
-                    $fail('At least one product is required.');
                 },
                 function ($attribute, $value, $fail) {
                     $totalPrice = collect($this->selection)
@@ -58,9 +55,7 @@ class OrderEditPage extends BackendPage
     {
         $this->authorize('update', $this->order);
 
-        foreach ($this->order->products as $product) {
-            $this->selection[$product->id] = $product->pivot->quantity;
-        }
+        $this->selection = $this->order->getAssignedProducts()->toArray();
     }
 
     public function render(): View

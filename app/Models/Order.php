@@ -142,6 +142,14 @@ class Order extends Model implements Auditable
     }
 
     /**
+     * @return Collection<int,int>
+     */
+    public function getAssignedProducts(): Collection
+    {
+        return $this->products->mapWithKeys(fn (Product $product) => [$product->id => $product->getRelationValue('pivot')->quantity]);
+    }
+
+    /**
      * @return Collection<CostsDto>
      */
     public function getCosts(): Collection
