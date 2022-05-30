@@ -56,7 +56,7 @@ return [
 
     'url' => env('APP_URL', 'http://localhost'),
     'additional_domains' => preg_split('/,\s*/', env('APP_ADDITIONAL_DOMAINS', ''), -1, PREG_SPLIT_NO_EMPTY),
-    'mix_url' => env('MIX_ASSET_URL'),
+
     'asset_url' => env('ASSET_URL'),
 
     /*

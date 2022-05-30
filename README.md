@@ -115,6 +115,47 @@ Run:
 
 More information here: https://github.com/nunomaduro/larastan
 
+## Set up development environment on WSL with Docker and Laravel Sail
+
+Install WSL (Windows Subsystem for Linux), enable WSL version 2 and make it the default version. Run in an elevated command or PowerShell window:
+
+    wsl --install
+
+See https://docs.microsoft.com/en-us/windows/wsl/install for more info.
+
+Install Ubuntu for WSL from the Microsoft Store.
+
+Install Docker for Windows or Rancher Desktop. 
+
+In case of Rancher Desktop, change the settings to expose Docker to Ubuntu, and fix socket permissions as needed:
+
+    sudo chmod 666 /var/run/docker.sock
+    sudo usermod -aG docker ${USER}
+
+Install Visual Studio Code and the Remote - WSL extension. Open a new WSL window, and checkout the code from Github.
+
+Setup Laravel sail:
+
+    docker run --rm -u "$(id -u):$(id -g)" -v $(pwd):/opt -w /opt laravelsail/php80-composer:latest composer install --ignore-platform-reqs
+
+Configure the sail bash alias by adding the following line to `.bashrc`:
+
+    alias sail='[ -f sail ] && bash sail || bash vendor/bin/sail'
+
+Copy `.env.example` to `.env`.
+
+Set 
+
+    DB_HOST=mysql
+
+Run the following commands:
+
+    sail up -d
+    sail artisan key:generate
+    sail artisan migrate --seed
+    sail npm run install
+    sail npm run dev
+
 ### Recommended software for development
 
 * [Visual Studio Code](https://code.visualstudio.com/)
