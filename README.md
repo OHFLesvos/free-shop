@@ -144,6 +144,10 @@ Configure the sail bash alias by adding the following line to `.bashrc`:
 
 Copy `.env.example` to `.env`.
 
+Set 
+
+    DB_HOST=mysql
+
 Run the following commands:
 
     sail up -d
