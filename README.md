@@ -115,6 +115,14 @@ Run:
 
 More information here: https://github.com/nunomaduro/larastan
 
+## Code style fixer
+
+Run:
+
+   ./vendor/bin/pint
+
+More information here: https://github.com/laravel/pint
+
 ## Set up development environment on WSL with Docker and Laravel Sail
 
 Install WSL (Windows Subsystem for Linux), enable WSL version 2 and make it the default version. Run in an elevated command or PowerShell window:
