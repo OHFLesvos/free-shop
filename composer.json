@@ -38,6 +38,7 @@
         "composer/composer": "^2.3",
         "fakerphp/faker": "^1.9.1",
         "kkomelin/laravel-translatable-string-exporter": "^1.11",
+        "laravel/pint": "^0.2.1",
         "laravel/sail": "^1.14",
         "laravel/tinker": "^2.7",
         "mockery/mockery": "^1.4.4",
