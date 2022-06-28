@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Product::whereNotNull('picture')
             ->get()
-            ->filter(fn ($product) => !preg_match('#^http[s]?://#', $product->picture))
+            ->filter(fn ($product) => ! preg_match('#^http[s]?://#', $product->picture))
             ->map(fn ($product) => Storage::path($product->picture))
             ->filter(fn ($path) => is_file($path))
             ->each(function ($path) {

@@ -15,7 +15,7 @@ class OrderHistory extends Component
     public Order $order;
 
     protected $listeners = [
-        '$refresh'
+        '$refresh',
     ];
 
     public function render()
@@ -25,7 +25,7 @@ class OrderHistory extends Component
                 ->audits()
                 ->with('user')
                 ->paginate(10),
-            'label' => "order",
+            'label' => 'order',
         ]);
     }
 }

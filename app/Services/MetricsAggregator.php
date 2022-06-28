@@ -56,7 +56,7 @@ class MetricsAggregator
                 'name' => $product->name,
                 'category' => $product->category,
                 'sequence' => $product->sequence,
-                'quantity' => $product->orders()->completedInDateRange($this->dateStart, $this->dateEnd)->sum('quantity')
+                'quantity' => $product->orders()->completedInDateRange($this->dateStart, $this->dateEnd)->sum('quantity'),
             ])
             ->sortBy($sortByQuantity
                 ? [
@@ -89,6 +89,7 @@ class MetricsAggregator
                 'browser' => $ua->browser(),
                 'os' => $ua->platform(),
             ]);
+
         return [
             'browser' => $data->pluck('browser')->countBy()->sortDesc(),
             'os' => $data->pluck('os')->countBy()->sortDesc(),

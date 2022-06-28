@@ -12,8 +12,8 @@ class ModifyOrder
     use AsAction;
 
     /**
-     * @param Order $order
-     * @param Collection<int,int> $items
+     * @param  Order  $order
+     * @param  Collection<int,int>  $items
      * @return void
      */
     public function handle(

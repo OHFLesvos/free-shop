@@ -34,7 +34,7 @@ class CurrencyEditPage extends BackendPage
             $this->authorize('create', Currency::class);
         }
 
-        if (!isset($this->currency)) {
+        if (! isset($this->currency)) {
             $this->currency = new Currency();
         }
     }
@@ -42,7 +42,7 @@ class CurrencyEditPage extends BackendPage
     protected function title(): string
     {
         return $this->currency->exists
-            ? 'Edit currency ' . $this->currency->name
+            ? 'Edit currency '.$this->currency->name
             : 'Add new currency';
     }
 

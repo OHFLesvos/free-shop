@@ -27,7 +27,7 @@ class CustomerDetailPage extends BackendPage
 
     protected function title(): string
     {
-        return 'Customer ' . $this->customer->name;
+        return 'Customer '.$this->customer->name;
     }
 
     public function render(): View

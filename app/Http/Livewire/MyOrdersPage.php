@@ -6,7 +6,6 @@ use App\Actions\CancelOrder;
 use App\Models\Customer;
 use App\Models\Order;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Log;
 use Illuminate\View\View;
 
 class MyOrdersPage extends FrontendPage

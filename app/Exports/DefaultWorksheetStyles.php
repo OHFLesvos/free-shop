@@ -33,7 +33,7 @@ trait DefaultWorksheetStyles
         $sheet->getPageSetup()->setRowsToRepeatAtTopByStartAndEnd(1, 1);
 
         // Styling of header row
-        $sheet->getStyle('A1:' . $sheet->getHighestColumn() . '1')
+        $sheet->getStyle('A1:'.$sheet->getHighestColumn().'1')
             ->getFont()
             ->setBold(true);
 
@@ -42,7 +42,7 @@ trait DefaultWorksheetStyles
             ->getBorders()
             ->getAllBorders()
             ->setBorderStyle(Border::BORDER_THIN);
-        $sheet->getStyle('A1:' . $sheet->getHighestColumn() . '1')
+        $sheet->getStyle('A1:'.$sheet->getHighestColumn().'1')
             ->getBorders()
             ->getBottom()
             ->setBorderStyle(Border::BORDER_MEDIUM);
@@ -50,7 +50,7 @@ trait DefaultWorksheetStyles
         // Column alignments
         if (isset($this->columnAlignment)) {
             foreach ($this->columnAlignment as $column => $alignment) {
-                $sheet->getStyle($column . '1:' . $column . $sheet->getHighestRow())
+                $sheet->getStyle($column.'1:'.$column.$sheet->getHighestRow())
                     ->getAlignment()->setHorizontal($alignment);
             }
         }

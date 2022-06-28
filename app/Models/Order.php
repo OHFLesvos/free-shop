@@ -117,17 +117,17 @@ class Order extends Model implements Auditable
     {
         $qry->where('id', intval($filter))
             ->orWhereHas('customer', function ($customerQry) use ($filter) {
-                $customerQry->where(DB::raw('LOWER(name)'), 'LIKE', '%' . strtolower($filter) . '%')
-                    ->orWhere('id_number', 'LIKE', $filter . '%')
+                $customerQry->where(DB::raw('LOWER(name)'), 'LIKE', '%'.strtolower($filter).'%')
+                    ->orWhere('id_number', 'LIKE', $filter.'%')
                     ->orWhere(fn ($inner) => $inner->whereNumberCompare('id_number', $filter))
-                    ->orWhere('phone', 'LIKE', $filter . '%')
+                    ->orWhere('phone', 'LIKE', $filter.'%')
                     ->orWhere(fn ($inner) => $inner->whereNumberCompare('phone', $filter));
             })
-            ->orWhere('remarks', 'LIKE', '%' . $filter . '%');
+            ->orWhere('remarks', 'LIKE', '%'.$filter.'%');
     }
 
     /**
-     * @param Collection<int,int> $items list of item quantities keyed by product ID
+     * @param  Collection<int,int>  $items list of item quantities keyed by product ID
      * @return void
      */
     public function assignProducts(Collection $items)

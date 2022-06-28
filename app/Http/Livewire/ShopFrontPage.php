@@ -61,9 +61,9 @@ class ShopFrontPage extends FrontendPage
 
         $this->products = Product::query()
             ->available()
-            ->orderBy('category->' . App::getLocale())
+            ->orderBy('category->'.App::getLocale())
             ->orderBy('sequence')
-            ->orderBy('name->' . App::getLocale())
+            ->orderBy('name->'.App::getLocale())
             ->with('currency')
             ->get()
             ->filter(fn (Product $product) => $product->getAvailableQuantityPerOrder() > 0);
@@ -104,9 +104,10 @@ class ShopFrontPage extends FrontendPage
     {
         $basket = app()->make(ShoppingBasket::class);
 
-        $basketCosts = (int)$basket->items()
+        $basketCosts = (int) $basket->items()
             ->map(function (int $quantity, int $productId) use ($currencyId) {
                 $product = $this->products->firstWhere('id', $productId);
+
                 return ($product->currency_id == $currencyId) ? $product->price * $quantity : 0;
             })
             ->sum();
@@ -119,7 +120,7 @@ class ShopFrontPage extends FrontendPage
         return $this->customer->currencies->map(fn (Currency $currency) => [
             'name' => $currency->name,
             'total' => $this->customer->getBalance($currency),
-            'available' => $this->getAvailableBalance($currency->id)
+            'available' => $this->getAvailableBalance($currency->id),
         ]);
     }
 
@@ -134,7 +135,7 @@ class ShopFrontPage extends FrontendPage
                 items: $basket->items(),
                 remarks: $this->remarks,
                 logMessage: 'Customer placed order.',
-                notifyCustomer: !setting()->has('customer.skip_order_registered_notification'),
+                notifyCustomer: ! setting()->has('customer.skip_order_registered_notification'),
             );
 
             $this->order = $order;

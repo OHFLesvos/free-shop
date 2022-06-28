@@ -11,7 +11,7 @@ class SetUserTimezone
     /**
      * Handle the event.
      *
-     * @param Registered $event
+     * @param  Registered  $event
      * @return void
      */
     public function handle(Registered $event)
@@ -25,7 +25,7 @@ class SetUserTimezone
     {
         if ($user->timezone === null) {
             $location = GeoIP::getLocation();
-            if (!$location->default) {
+            if (! $location->default) {
                 $user->timezone = $location->timezone ?? null;
                 $user->save();
             }

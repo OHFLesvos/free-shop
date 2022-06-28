@@ -22,7 +22,7 @@ class LanguageSelectController extends Controller
 
     public function update(string $lang)
     {
-        if (!$this->localization->hasLanguageCode($lang)) {
+        if (! $this->localization->hasLanguageCode($lang)) {
             $lang = config('app.fallback_locale');
         }
 

@@ -24,6 +24,7 @@ class StockChangeWidget extends Component
                     ->get(),
             ]);
         }
+
         return '';
     }
 }

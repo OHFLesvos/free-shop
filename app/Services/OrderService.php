@@ -25,15 +25,16 @@ class OrderService
     }
 
     /**
-     * @param array<int,int> $selection
+     * @param  array<int,int>  $selection
      * @return string
      */
     public function calculateTotalCostsString(array $selection): string
     {
         $value = collect($selection)
             ->filter(fn ($quantity) => is_numeric($quantity) && $quantity > 0)
-            ->map(function(int $quantity, int $productId) {
+            ->map(function (int $quantity, int $productId) {
                 $product = Product::find($productId);
+
                 return [
                     'currency' => $product->currency_id,
                     'value' => $product->price * $quantity,
@@ -41,10 +42,9 @@ class OrderService
             })
             ->whereNotNull('currency')
             ->groupBy('currency')
-            ->map(fn (Collection $v, int $k) => $v->sum('value') . ' ' . Currency::find($k)->name)
+            ->map(fn (Collection $v, int $k) => $v->sum('value').' '.Currency::find($k)->name)
             ->join(', ');
 
         return filled($value) ? $value : 'Free';
     }
-
 }

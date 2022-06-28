@@ -34,7 +34,7 @@ class TopUpCustomerCredits extends Command
     {
         $days = setting()->get('customer.credit_top_up.days', 0);
         if ($days <= 0) {
-            $this->warn("Customer top-up skipped, no time range defined.");
+            $this->warn('Customer top-up skipped, no time range defined.');
             Log::info('Customer balance top-up skipped, no time range defined.', [
                 'event.kind' => 'event',
             ]);

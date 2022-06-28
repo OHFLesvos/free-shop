@@ -17,7 +17,7 @@ class PhoneNumberLink extends Component
         public ?string $body = null
     ) {
         $types = ['tel', 'sms', 'whatsapp', 'viber'];
-        assert(in_array($type, $types), '$type must be one of [' . implode(', ', $types) . ']');
+        assert(in_array($type, $types), '$type must be one of ['.implode(', ', $types).']');
     }
 
     /**
@@ -41,7 +41,8 @@ class PhoneNumberLink extends Component
         if ($this->type == 'sms') {
             return $this->formatSms();
         }
-        return 'tel:' . $this->value;
+
+        return 'tel:'.$this->value;
     }
 
     private function formatWhatsApp(): string
@@ -49,8 +50,9 @@ class PhoneNumberLink extends Component
         $value = $this->whatsAppUrlByUserAgent(request()->userAgent());
         $value .= preg_replace('/[^0-9]/', '', $this->value);
         if (filled($this->body)) {
-            $value .= '&text=' . urlencode($this->body);
+            $value .= '&text='.urlencode($this->body);
         }
+
         return $value;
     }
 
@@ -69,24 +71,27 @@ class PhoneNumberLink extends Component
             return 'https://api.whatsapp.com/send?phone=';
         }
         $this->attributes['target'] = '_blank';
+
         return 'https://web.whatsapp.com/send?phone=';
     }
 
     private function formatViber(): string
     {
-        $value = 'viber://chat/?number=' . urlencode($this->value);
+        $value = 'viber://chat/?number='.urlencode($this->value);
         if (filled($this->body)) {
-            $value .= '&text=' . urlencode($this->body);
+            $value .= '&text='.urlencode($this->body);
         }
+
         return $value;
     }
 
     private function formatSms()
     {
-        $value = 'sms://' . $this->value;
+        $value = 'sms://'.$this->value;
         if (filled($this->body)) {
-            $value .= '?body=' . urlencode($this->body);
+            $value .= '?body='.urlencode($this->body);
         }
+
         return $value;
     }
 }

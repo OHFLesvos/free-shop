@@ -34,7 +34,7 @@ class OrderRegisterPage extends BackendPage
     {
         return [
             'remarks' => [
-                'nullable'
+                'nullable',
             ],
             'selection' => [
                 'array',
@@ -47,7 +47,7 @@ class OrderRegisterPage extends BackendPage
             ],
             'selection.*' => [
                 'integer',
-                'min:1'
+                'min:1',
             ],
         ];
     }
@@ -62,9 +62,9 @@ class OrderRegisterPage extends BackendPage
         $this->authorize('create', Order::class);
 
         $this->products = Product::query()
-            ->orderBy('category->' . config('app.fallback_locale'))
+            ->orderBy('category->'.config('app.fallback_locale'))
             ->orderBy('sequence')
-            ->orderBy('name->' . config('app.fallback_locale'))
+            ->orderBy('name->'.config('app.fallback_locale'))
             ->get()
             ->filter(fn (Product $product) => $product->getAvailableQuantityPerOrder() > 0);
     }
@@ -99,7 +99,7 @@ class OrderRegisterPage extends BackendPage
 
             return redirect()
                 ->route('backend.orders.show', $order)
-                ->with('message', "Order registered.");
+                ->with('message', 'Order registered.');
         } catch (EmptyOrderException $ex) {
             session()->flash('error', $ex->getMessage());
         } catch (Exception $ex) {

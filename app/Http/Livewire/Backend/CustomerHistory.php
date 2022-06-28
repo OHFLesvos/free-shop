@@ -21,7 +21,7 @@ class CustomerHistory extends Component
                 ->audits()
                 ->with('user')
                 ->paginate(10),
-            'label' => "customer",
+            'label' => 'customer',
         ]);
     }
 }

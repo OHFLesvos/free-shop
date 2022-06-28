@@ -41,11 +41,12 @@ class ProductManagePage extends BackendPage
     protected function rules(): array
     {
         $defaultLocale = config('app.fallback_locale');
+
         return [
             'name.*' => 'nullable',
-            'name.' . $defaultLocale => 'required',
+            'name.'.$defaultLocale => 'required',
             'category.*' => 'nullable',
-            'category.' . $defaultLocale => 'required',
+            'category.'.$defaultLocale => 'required',
             'description.*' => 'nullable',
             'product.sequence' => [
                 'required',
@@ -82,7 +83,7 @@ class ProductManagePage extends BackendPage
             $this->authorize('create', Product::class);
         }
 
-        if (!isset($this->product)) {
+        if (! isset($this->product)) {
             $this->product = new Product();
             $this->product->is_available = true;
             $this->product->sequence = Product::count();
@@ -96,7 +97,7 @@ class ProductManagePage extends BackendPage
                     ->filter()
                     ->sort()
                     ->unique()
-                    ->values()
+                    ->values(),
             ]);
 
         if ($this->product->exists) {
@@ -115,7 +116,7 @@ class ProductManagePage extends BackendPage
     protected function title(): string
     {
         return $this->product->exists
-            ? 'Edit Product ' . $this->product->name
+            ? 'Edit Product '.$this->product->name
             : 'Register Product';
     }
 

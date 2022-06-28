@@ -42,6 +42,7 @@ class OrderCancelled extends Notification
                 $channels[] = 'mail';
             }
         }
+
         return $channels;
     }
 
@@ -60,6 +61,7 @@ class OrderCancelled extends Notification
         ]);
         $message .= "\n";
         $message .= route('my-orders');
+
         return $message;
     }
 

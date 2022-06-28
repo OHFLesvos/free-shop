@@ -13,7 +13,9 @@ class StockEditPage extends BackendPage
     use AuthorizesRequests;
 
     public Product $product;
+
     public $freeQuantity;
+
     public string $description;
 
     protected array $rules = [
@@ -33,7 +35,7 @@ class StockEditPage extends BackendPage
 
     protected function title(): string
     {
-        return 'Edit Stock of ' . $this->product->name;
+        return 'Edit Stock of '.$this->product->name;
     }
 
     public function mount(): void
@@ -88,7 +90,7 @@ class StockEditPage extends BackendPage
                 }
             }
 
-            session()->flash('message', "Stock of '" . $this->product->name . "' set to " . $this->product->stock . ".");
+            session()->flash('message', "Stock of '".$this->product->name."' set to ".$this->product->stock.'.');
         }
 
         return redirect()->route('backend.stock');

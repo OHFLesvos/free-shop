@@ -22,13 +22,14 @@ class ProductExport implements WithMultipleSheets, WithProperties
         foreach ($localization->getLanguageCodes() as $locale) {
             $sheets[] = new ProductsSheet($locale);
         }
+
         return $sheets;
     }
 
     public function properties(): array
     {
         return [
-            'title'   => config('app.name') . ' Products',
+            'title'   => config('app.name').' Products',
             'creator' => config('app.name'),
         ];
     }

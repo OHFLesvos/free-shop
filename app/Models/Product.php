@@ -10,8 +10,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
-use Spatie\Translatable\HasTranslations;
 use OwenIt\Auditing\Contracts\Auditable;
+use Spatie\Translatable\HasTranslations;
 
 class Product extends Model implements Auditable
 {
@@ -76,6 +76,7 @@ class Product extends Model implements Auditable
                 return Storage::url($this->picture);
             }
         }
+
         return null;
     }
 

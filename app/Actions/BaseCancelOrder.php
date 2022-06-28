@@ -22,5 +22,5 @@ abstract class BaseCancelOrder
         $this->after($order);
     }
 
-    protected abstract function after(Order $order): void;
+    abstract protected function after(Order $order): void;
 }

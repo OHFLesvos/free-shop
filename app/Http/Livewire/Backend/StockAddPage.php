@@ -44,9 +44,9 @@ class StockAddPage extends BackendPage
         return parent::view('livewire.backend.stock-add-page', [
             'products' => Product::query()
                 ->available()
-                ->orderBy('category->' . config('app.fallback_locale'))
+                ->orderBy('category->'.config('app.fallback_locale'))
                 ->orderBy('sequence')
-                ->orderBy('name->' . config('app.fallback_locale'))
+                ->orderBy('name->'.config('app.fallback_locale'))
                 ->get(),
         ]);
     }
@@ -77,7 +77,7 @@ class StockAddPage extends BackendPage
             $change->save();
         }
 
-        session()->flash('message', "Stock added.");
+        session()->flash('message', 'Stock added.');
 
         return redirect()->route('backend.stock.changes');
     }

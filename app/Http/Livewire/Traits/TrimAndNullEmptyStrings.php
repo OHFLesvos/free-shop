@@ -7,8 +7,8 @@ trait TrimAndNullEmptyStrings
     /**
      * Trims empty strings to null.
      *
-     * @param string $name the key
-     * @param mixed $value the value
+     * @param  string  $name the key
+     * @param  mixed  $value the value
      * @return void
      */
     public function updatedTrimAndNullEmptyStrings(string $name, $value): void

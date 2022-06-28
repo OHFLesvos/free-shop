@@ -24,7 +24,7 @@ class AddCommentInput extends Component
             'content' => [
                 'required',
                 'string',
-            ]
+            ],
         ]);
 
         $this->emit('commentAdded', $this->content);
@@ -34,7 +34,7 @@ class AddCommentInput extends Component
 
     public function updatingIsEditing(bool $value): void
     {
-        if (!$value) {
+        if (! $value) {
             $this->reset(['content']);
         }
     }

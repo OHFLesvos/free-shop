@@ -26,7 +26,7 @@ class ManageTagsPage extends BackendPage
                 'required',
                 'filled',
                 Rule::unique('tags', 'name')->ignore($this->editTag->id),
-            ]
+            ],
         ];
     }
 
