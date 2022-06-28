@@ -10,10 +10,25 @@
         "bootstrap/cache": true
     },
     "intelephense.environment.phpVersion": "8.0.0",
-    "cSpell.words": [
+    "cSpell.ignoreWords": [
         "alpinejs",
         "fontawesome",
         "fortawesome",
-        "yaireo"
+        "yaireo",
+        "Authenticatable",
+        "Authorizable",
+        "Cviebrock",
+        "Dyrynda",
+        "Gumlet",
+        "Maatwebsite",
+        "Propaganistas",
+        "Sluggable",
+        "Spatie",
+        "Torann",
+        "commentable",
+        "donatj",
+        "geoblock",
+        "libphonenumber",
+        "taggables"
     ],
 }
