@@ -28,6 +28,13 @@
         "fortawesome",
         "libphonenumber",
         "livewire",
-        "yaireo"
-    ],
+        "yaireo",
+        "Cviebrock",
+        "Maatwebsite",
+        "Sluggable",
+        "Torann",
+        "donatj",
+        "geoblock",
+        "taggables"
+    ]
 }
