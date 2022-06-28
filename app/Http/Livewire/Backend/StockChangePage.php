@@ -31,7 +31,7 @@ class StockChangePage extends BackendPage
     {
         return parent::view('livewire.backend.stock-changes-page', [
             'changes' => StockChange::query()
-                ->when(!$this->includeOrderChanges, fn ($qry) => $qry->whereNull('order_id'))
+                ->when(! $this->includeOrderChanges, fn ($qry) => $qry->whereNull('order_id'))
                 ->orderBy('created_at', 'desc')
                 ->paginate(25),
         ]);

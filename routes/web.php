@@ -15,8 +15,8 @@ use App\Http\Livewire\Backend\OrderDetailPage;
 use App\Http\Livewire\Backend\OrderEditPage;
 use App\Http\Livewire\Backend\OrderListPage;
 use App\Http\Livewire\Backend\OrderRegisterPage;
-use App\Http\Livewire\Backend\ProductManagePage;
 use App\Http\Livewire\Backend\ProductListPage;
+use App\Http\Livewire\Backend\ProductManagePage;
 use App\Http\Livewire\Backend\ReportsPage;
 use App\Http\Livewire\Backend\SettingsPage;
 use App\Http\Livewire\Backend\StockAddPage;
@@ -87,6 +87,7 @@ Route::middleware(['set-language'])
                             Auth::guard('customer')->logout();
                             $request->session()->invalidate();
                             $request->session()->regenerateToken();
+
                             return redirect()->route('home');
                         })
                             ->name('customer.logout');
@@ -170,6 +171,7 @@ Route::middleware('auth')
                     if (auth()->user()->can('viewAny', BlockedPhoneNumber::class)) {
                         return redirect()->route('backend.configuration.blocked-phone-numbers');
                     }
+
                     return abort(Response::HTTP_FORBIDDEN);
                 })
                     ->name('configuration');

@@ -116,19 +116,19 @@ class Order extends Model implements Auditable
     {
         $qry->where('id', intval($filter))
             ->orWhereHas('customer', function ($customerQry) use ($filter) {
-                $customerQry->where(DB::raw('LOWER(name)'), 'LIKE', '%' . strtolower($filter) . '%')
-                    ->orWhere('id_number', 'LIKE', $filter . '%')
+                $customerQry->where(DB::raw('LOWER(name)'), 'LIKE', '%'.strtolower($filter).'%')
+                    ->orWhere('id_number', 'LIKE', $filter.'%')
                     ->orWhere(fn ($inner) => $inner->whereNumberCompare('id_number', $filter))
-                    ->orWhere('phone', 'LIKE', $filter . '%')
+                    ->orWhere('phone', 'LIKE', $filter.'%')
                     ->orWhere(fn ($inner) => $inner->whereNumberCompare('phone', $filter));
             })
-            ->orWhere('remarks', 'LIKE', '%' . $filter . '%');
+            ->orWhere('remarks', 'LIKE', '%'.$filter.'%');
     }
 
     public function calculateTotalPrice(): int
     {
         return $this->products()->get()
-            ->map(fn (Product $product) => $product->price *  $product->pivot->quantity)
+            ->map(fn (Product $product) => $product->price * $product->pivot->quantity)
             ->sum();
     }
 }

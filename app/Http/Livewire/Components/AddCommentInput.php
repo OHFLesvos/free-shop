@@ -13,7 +13,6 @@ class AddCommentInput extends Component
 
     public string $newComment = '';
 
-
     public function render()
     {
         return view('livewire.components.add-comment-input');
@@ -25,7 +24,7 @@ class AddCommentInput extends Component
             'newComment' => [
                 'required',
                 'string',
-            ]
+            ],
         ]);
 
         $this->emit('commentAdded', [
@@ -37,7 +36,7 @@ class AddCommentInput extends Component
 
     public function updatingShowAddComment(bool $value): void
     {
-        if (!$value) {
+        if (! $value) {
             $this->reset(['newComment']);
         }
     }

@@ -21,6 +21,7 @@ class ReadyOrdersListExport implements WithProperties, FromQuery, WithMapping, W
     use DefaultWorksheetStyles;
 
     protected $worksheetTitle = 'Orders';
+
     protected $orientation = PageSetup::ORIENTATION_PORTRAIT;
 
     public function query()
@@ -60,14 +61,14 @@ class ReadyOrdersListExport implements WithProperties, FromQuery, WithMapping, W
     public function columnFormats(): array
     {
         return [
-            'D' => NumberFormat::FORMAT_DATE_YYYYMMDD . ' ' . NumberFormat::FORMAT_DATE_TIME3,
+            'D' => NumberFormat::FORMAT_DATE_YYYYMMDD.' '.NumberFormat::FORMAT_DATE_TIME3,
         ];
     }
 
     public function properties(): array
     {
         return [
-            'title'   => config('app.name') . ' List of ready orders',
+            'title'   => config('app.name').' List of ready orders',
             'creator' => config('app.name'),
         ];
     }

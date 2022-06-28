@@ -7,9 +7,9 @@ use App\Providers\RouteServiceProvider;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 use Laravel\Socialite\Facades\Socialite;
 use Laravel\Socialite\Two\InvalidStateException;
-use Illuminate\Support\Str;
 
 class SocialLoginController extends Controller
 {
@@ -24,6 +24,7 @@ class SocialLoginController extends Controller
         if ($this->organizationDomain() != null) {
             $driver->with(['hd' => $this->organizationDomain()]);
         }
+
         return $driver->redirect();
     }
 
@@ -42,7 +43,7 @@ class SocialLoginController extends Controller
         }
 
         $orgDomain = $this->organizationDomain();
-        if ($orgDomain != null && !Str::endsWith($socialUser->getEmail(), $orgDomain)) {
+        if ($orgDomain != null && ! Str::endsWith($socialUser->getEmail(), $orgDomain)) {
             return redirect()
                 ->route('backend.login')
                 ->withErrors([
@@ -84,15 +85,18 @@ class SocialLoginController extends Controller
     {
         if ($newAvatar !== null) {
             if (ini_get('allow_url_fopen')) {
-                $avatar = 'public/avatars/' . basename($newAvatar);
+                $avatar = 'public/avatars/'.basename($newAvatar);
                 if ($currentAvatar !== null && $avatar != $currentAvatar && Storage::exists($currentAvatar)) {
                     Storage::delete($currentAvatar);
                 }
                 Storage::put($avatar, file_get_contents($newAvatar));
+
                 return $avatar;
             }
+
             return $newAvatar;
         }
+
         return null;
     }
 }

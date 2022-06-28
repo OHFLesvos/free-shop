@@ -40,9 +40,9 @@ class ShopFrontPage extends FrontendPage
 
         $this->products = Product::query()
             ->available()
-            ->orderBy('category->' . App::getLocale())
+            ->orderBy('category->'.App::getLocale())
             ->orderBy('sequence')
-            ->orderBy('name->' . App::getLocale())
+            ->orderBy('name->'.App::getLocale())
             ->get()
             ->filter(fn ($product) => $product->quantity_available_for_customer > 0);
 
@@ -65,6 +65,7 @@ class ShopFrontPage extends FrontendPage
                 return true;
             }
         }
+
         return false;
     }
 
@@ -86,9 +87,10 @@ class ShopFrontPage extends FrontendPage
 
     public function getAvailableCreditProperty(ShoppingBasket $basket): int
     {
-        $basketCosts = (int)$basket->items()
+        $basketCosts = (int) $basket->items()
             ->map(fn ($quantity, $productId) => $this->products->firstWhere('id', $productId)->price * $quantity)
             ->sum();
+
         return $this->customer->credit - $basketCosts;
     }
 }

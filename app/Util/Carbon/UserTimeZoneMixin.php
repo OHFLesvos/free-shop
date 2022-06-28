@@ -16,6 +16,7 @@ class UserTimeZoneMixin
             if (setting()->has('timezone')) {
                 return $date->timezone(setting()->get('timezone'));
             }
+
             return $date;
         };
     }

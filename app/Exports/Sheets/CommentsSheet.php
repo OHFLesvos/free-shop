@@ -40,6 +40,7 @@ class CommentsSheet implements FromQuery, WithMapping, WithHeadings, WithColumnF
     public function map($comment): array
     {
         $commentable = $comment->commentable;
+
         return [
             $comment->id,
             optional($commentable)->id,
@@ -55,6 +56,7 @@ class CommentsSheet implements FromQuery, WithMapping, WithHeadings, WithColumnF
         if ($commentable instanceof Customer) {
             return "$commentable->name, $commentable->id_number";
         }
+
         return '?';
     }
 
@@ -68,7 +70,7 @@ class CommentsSheet implements FromQuery, WithMapping, WithHeadings, WithColumnF
     public function columnFormats(): array
     {
         return [
-            'F' => NumberFormat::FORMAT_DATE_YYYYMMDD . ' ' . NumberFormat::FORMAT_DATE_TIME3,
+            'F' => NumberFormat::FORMAT_DATE_YYYYMMDD.' '.NumberFormat::FORMAT_DATE_TIME3,
         ];
     }
 }

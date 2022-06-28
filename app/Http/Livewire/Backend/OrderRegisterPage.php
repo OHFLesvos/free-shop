@@ -45,9 +45,9 @@ class OrderRegisterPage extends BackendPage
 
         $this->order = new Order();
         $this->products = Product::query()
-            ->orderBy('category->' . config('app.fallback_locale'))
+            ->orderBy('category->'.config('app.fallback_locale'))
             ->orderBy('sequence')
-            ->orderBy('name->' . config('app.fallback_locale'))
+            ->orderBy('name->'.config('app.fallback_locale'))
             ->get()
             ->filter(fn ($product) => $product->quantity_available_for_customer > 0);
     }
@@ -95,13 +95,13 @@ class OrderRegisterPage extends BackendPage
             'order.id' => $this->order->id,
         ]);
 
-        if (!setting()->has('customer.skip_order_registered_notification')) {
+        if (! setting()->has('customer.skip_order_registered_notification')) {
             try {
                 $this->customer->notify(new OrderRegistered($this->order));
             } catch (PhoneNumberBlockedByAdminException $ex) {
                 session()->flash('error', __('The phone number :phone has been blocked by an administrator.', ['phone' => $ex->getPhone()]));
             } catch (\Exception $ex) {
-                Log::warning('[' . get_class($ex) . '] Cannot send notification: ' . $ex->getMessage());
+                Log::warning('['.get_class($ex).'] Cannot send notification: '.$ex->getMessage());
             }
         }
 

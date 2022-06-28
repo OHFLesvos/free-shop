@@ -9,8 +9,8 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
-use Spatie\Translatable\HasTranslations;
 use OwenIt\Auditing\Contracts\Auditable;
+use Spatie\Translatable\HasTranslations;
 
 class Product extends Model implements Auditable
 {
@@ -68,6 +68,7 @@ class Product extends Model implements Auditable
                 return Storage::url($this->picture);
             }
         }
+
         return null;
     }
 
@@ -99,6 +100,7 @@ class Product extends Model implements Auditable
         if ($this->limit_per_order !== null) {
             return min($this->limit_per_order, $this->free_quantity);
         }
+
         return max(0, $this->free_quantity);
     }
 

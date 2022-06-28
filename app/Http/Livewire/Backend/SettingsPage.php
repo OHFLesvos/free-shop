@@ -3,10 +3,10 @@
 namespace App\Http\Livewire\Backend;
 
 use App\Http\Livewire\Traits\CurrentRouteName;
-use Illuminate\Support\Collection;
 use Countries;
 use Gumlet\ImageResize;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
@@ -119,7 +119,7 @@ class SettingsPage extends BackendPage
                     if ((@preg_match($value, null) === false)) {
                         $fail('The pattern is invalid.');
                     }
-                }
+                },
             ],
             'customerIdNumberExample' => [
                 'nullable',
@@ -127,12 +127,12 @@ class SettingsPage extends BackendPage
                     if (filled($this->customerIdNumberPattern)) {
                         $values = preg_split('/\s*,\s*/', $value);
                         foreach ($values as $testValue) {
-                            if (!preg_match($this->customerIdNumberPattern, $testValue)) {
+                            if (! preg_match($this->customerIdNumberPattern, $testValue)) {
                                 $fail('The example is invalid.');
                             }
                         }
                     }
-                }
+                },
             ],
             'customerWaitingTimeBetweenOrders' => [
                 'nullable',
@@ -176,7 +176,7 @@ class SettingsPage extends BackendPage
 
     public function addToGeoblockWhitelist(): void
     {
-        if (filled($this->selectedCountry) && !$this->geoblockWhitelist->contains($this->selectedCountry)) {
+        if (filled($this->selectedCountry) && ! $this->geoblockWhitelist->contains($this->selectedCountry)) {
             $this->geoblockWhitelist->push($this->selectedCountry);
         }
         $this->selectedCountry = null;
@@ -193,7 +193,7 @@ class SettingsPage extends BackendPage
 
         $this->validate();
 
-        $checksum = md5((string)json_encode(Setting::all()));
+        $checksum = md5((string) json_encode(Setting::all()));
 
         $this->updateBooleanSetting('shop.disabled', $this->shopDisabled);
 
@@ -221,7 +221,7 @@ class SettingsPage extends BackendPage
             $this->brandLogo = null;
         }
         if (isset($this->brandLogoUpload)) {
-            $name = 'brand-logo-' . now()->format('YmdHis') . '.' . $this->brandLogoUpload->getClientOriginalExtension();
+            $name = 'brand-logo-'.now()->format('YmdHis').'.'.$this->brandLogoUpload->getClientOriginalExtension();
             $path = $this->brandLogoUpload->storePubliclyAs('public', $name);
 
             if ($path) {
@@ -242,7 +242,7 @@ class SettingsPage extends BackendPage
             $this->brandFavicon = null;
         }
         if (isset($this->brandFaviconUpload)) {
-            $name = 'brand-favicon-' . now()->format('YmdHis') . '.' . $this->brandFaviconUpload->getClientOriginalExtension();
+            $name = 'brand-favicon-'.now()->format('YmdHis').'.'.$this->brandFaviconUpload->getClientOriginalExtension();
             $path = $this->brandFaviconUpload->storePubliclyAs('public', $name);
 
             if ($path) {
@@ -267,7 +267,7 @@ class SettingsPage extends BackendPage
 
         setting()->save();
 
-        if ($checksum != md5((string)json_encode(Setting::all()))) {
+        if ($checksum != md5((string) json_encode(Setting::all()))) {
             Log::info('Updated settings.', [
                 'event.kind' => 'event',
                 'event.category' => 'configuration',
@@ -283,6 +283,7 @@ class SettingsPage extends BackendPage
     {
         if (filled($value)) {
             setting()->set($key, $value);
+
             return;
         }
         setting()->forget($key);
@@ -292,16 +293,17 @@ class SettingsPage extends BackendPage
     {
         if ($value) {
             setting()->set($key, true);
+
             return;
         }
         setting()->forget($key);
     }
 
-
     private function updateCollectionSetting(string $key, Collection $value): void
     {
         if ($value->isNotEmpty()) {
             setting()->set($key, $value->toArray());
+
             return;
         }
         setting()->forget($key);

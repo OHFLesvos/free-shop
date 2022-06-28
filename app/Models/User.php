@@ -85,7 +85,7 @@ class User extends Authenticatable
 
     public function scopeFilter(Builder $qry, string $filter): void
     {
-        $qry->where('name', 'LIKE', '%' . $filter . '%')
-            ->orWhere('email', 'LIKE', '%' . $filter . '%');
+        $qry->where('name', 'LIKE', '%'.$filter.'%')
+            ->orWhere('email', 'LIKE', '%'.$filter.'%');
     }
 }

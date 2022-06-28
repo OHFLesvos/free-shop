@@ -7,7 +7,6 @@ use Carbon\Carbon;
 use Countries;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Validator;
-
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider

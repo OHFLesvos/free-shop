@@ -17,6 +17,7 @@ class UserEditPage extends BackendPage
     use AuthorizesRequests;
 
     public User $user;
+
     public array $userRoles;
 
     public function rules(): array
@@ -24,7 +25,7 @@ class UserEditPage extends BackendPage
         return [
             'userRoles.*' => [
                 Rule::in(Role::pluck('id')),
-            ]
+            ],
         ];
     }
 
@@ -34,13 +35,13 @@ class UserEditPage extends BackendPage
 
         $this->userRoles = $this->user->roles->pluck('id')
             ->values()
-            ->map(fn ($id) => (string)$id)
+            ->map(fn ($id) => (string) $id)
             ->toArray();
     }
 
     protected function title(): string
     {
-        return 'Edit User ' . $this->user->name;
+        return 'Edit User '.$this->user->name;
     }
 
     public function render(): View

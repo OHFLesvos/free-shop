@@ -26,6 +26,7 @@ class LoginController extends Controller
                 'icon' => 'google',
             ];
         }
+
         return $oauth;
     }
 

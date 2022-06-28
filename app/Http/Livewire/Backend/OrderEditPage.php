@@ -36,9 +36,9 @@ class OrderEditPage extends BackendPage
                         ->sum();
                     $difference = $totalPrice - $this->order->costs;
                     if ($this->order->customer->credit < $difference) {
-                        $fail('Customer has not enough credit. ' . $difference . ' required, ' . $this->order->customer->credit . ' available.');
+                        $fail('Customer has not enough credit. '.$difference.' required, '.$this->order->customer->credit.' available.');
                     }
-                }
+                },
             ],
             'selection.*' => [
                 'integer',
@@ -49,7 +49,7 @@ class OrderEditPage extends BackendPage
 
     protected function title(): string
     {
-        return 'Edit Order #' . $this->order->id;
+        return 'Edit Order #'.$this->order->id;
     }
 
     public function mount(): void
@@ -105,7 +105,7 @@ class OrderEditPage extends BackendPage
             'order.costs' => $this->order->costs,
         ]);
 
-        session()->flash('message', "Order updated.");
+        session()->flash('message', 'Order updated.');
 
         return redirect()->route('backend.orders.show', $this->order);
     }

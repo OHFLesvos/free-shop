@@ -51,7 +51,7 @@ class TopUpCustomerCredits extends Command
 
             return 0;
         }
-        $this->warn("Customer top-up skipped, no time range defined.");
+        $this->warn('Customer top-up skipped, no time range defined.');
         Log::info('Customer credit top-up skipped, no time range defined.', [
             'event.kind' => 'event',
         ]);

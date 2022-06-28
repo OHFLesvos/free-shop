@@ -41,7 +41,7 @@ class LocalizationService
     public function getLocalizedNames(bool $publicOnly = false): array
     {
         return $this->languages
-            ->when($publicOnly, fn(Collection $c) => $c->where('public', true))
+            ->when($publicOnly, fn (Collection $c) => $c->where('public', true))
             ->pluck('name_localized', 'code')
             ->toArray();
     }

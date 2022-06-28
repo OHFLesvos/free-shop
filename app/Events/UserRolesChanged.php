@@ -16,8 +16,8 @@ class UserRolesChanged
     /**
      * Create a new event instance.
      *
-     * @param User $user the user whose roles have been changes
-     * @param array $previousRoles the names of the user's roles before the change
+     * @param  User  $user the user whose roles have been changes
+     * @param  array  $previousRoles the names of the user's roles before the change
      */
     public function __construct(
         public User $user,
