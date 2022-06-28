@@ -8,12 +8,6 @@ $navItems = [
         'authorized' => true,
     ],
     [
-        'label' => __('Checkout'),
-        'route' => 'checkout',
-        'icon' => 'shopping-basket',
-        'authorized' => auth('customer')->check(),
-    ],
-    [
         'label' => __('Your orders'),
         'route' => 'my-orders',
         'icon' => 'list-alt',

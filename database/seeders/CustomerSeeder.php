@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Currency;
 use App\Models\Customer;
 use App\Models\Tag;
 use Illuminate\Database\Seeder;
@@ -19,14 +20,22 @@ class CustomerSeeder extends Seeder
             ->count(10)
             ->create();
 
-        Customer::factory()
-            ->count(1000)
-            ->create()
-            ->each(function ($customer) use ($tags) {
-                $selectedTags = $tags
-                    ->random(mt_rand(0, $tags->count()))
-                    ->map(fn ($tag) => $tag->id);
-                $customer->tags()->sync($selectedTags);
-            });
+        $currencies = Currency::all();
+
+        $customers = Customer::factory()
+            ->count(500)
+            ->create();
+
+        $customers->each(function (Customer $customer) use ($tags) {
+            $selectedTags = $tags
+                ->random(mt_rand(0, $tags->count()))
+                ->map(fn ($tag) => $tag->id);
+            $customer->tags()->sync($selectedTags);
+        });
+
+        $customers->each(function (Customer $customer) use ($currencies) {
+            $balances = $currencies->mapWithKeys(fn (Currency $currency) => [$currency->id => mt_rand(0, $currency->top_up_amount)]);
+            $customer->setBalances($balances);
+        });
     }
 }

@@ -92,16 +92,22 @@
                         @error('customer.email') <div class="invalid-feedback">{{ $message }}</div> @enderror
                     </div>
                     <div class="col-md-6">
-                        <label for="creditInput" class="form-label">Credit</label>
-                        <input
-                            type="number"
-                            class="form-control @error('customer.credit') is-invalid @enderror"
-                            id="creditInput"
-                            required
-                            min="0"
-                            autocomplete="off"
-                            wire:model.defer="customer.credit">
-                        @error('customer.credit') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                        <label class="form-label">Currencies</label>
+                        @foreach ($currencies as $currency)
+                            <div class="input-group mb-3">
+                                <input
+                                    type="number"
+                                    class="form-control @error('balance.{{ $currency->id }}') is-invalid @enderror"
+                                    required
+                                    min="0"
+                                    autocomplete="off"
+                                    wire:model.defer="balance.{{ $currency->id }}">
+                                <span class="input-group-text">
+                                    {{ $currency->name }}
+                                </span>
+                                @error('balance.{{ $currency->id }}') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                            </div>
+                        @endforeach
                     </div>
                     <div class="col-md-6">
                         <label for="localeInput" class="form-label">Language</label>

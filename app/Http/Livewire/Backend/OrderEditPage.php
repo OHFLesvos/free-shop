@@ -2,8 +2,10 @@
 
 namespace App\Http\Livewire\Backend;
 
+use App\Actions\ModifyOrder;
 use App\Models\Order;
 use App\Models\Product;
+use Exception;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Support\Facades\Log;
 use Illuminate\View\View;
@@ -23,12 +25,9 @@ class OrderEditPage extends BackendPage
                 'array',
                 'min:1',
                 function ($attribute, $value, $fail) {
-                    foreach ($this->selection as $id => $quantity) {
-                        if ($quantity > 0) {
-                            return;
-                        }
+                    if (collect($this->selection)->filter(fn ($quantity) => $quantity > 0)->isEmpty()) {
+                        $fail('At least one product is required.');
                     }
-                    $fail('At least one product is required.');
                 },
                 function ($attribute, $value, $fail) {
                     $totalPrice = collect($this->selection)
@@ -56,9 +55,7 @@ class OrderEditPage extends BackendPage
     {
         $this->authorize('update', $this->order);
 
-        foreach ($this->order->products as $product) {
-            $this->selection[$product->id] = $product->pivot->quantity;
-        }
+        $this->selection = $this->order->getAssignedProducts()->toArray();
     }
 
     public function render(): View
@@ -72,41 +69,18 @@ class OrderEditPage extends BackendPage
 
         $this->validate();
 
-        foreach ($this->selection as $id => $quantity) {
-            if ($quantity < 0) {
-                continue;
-            }
+        try {
+            ModifyOrder::run(
+                order: $this->order,
+                items: collect($this->selection),
+            );
 
-            if ($quantity == 0) {
-                $this->order->products()->detach($id);
-            } else {
-                $this->order->products()->updateExistingPivot($id, [
-                    'quantity' => $quantity,
-                ]);
-            }
+            return redirect()
+                ->route('backend.orders.show', $this->order)
+                ->with('message', 'Order updated.');
+        } catch (Exception $ex) {
+            session()->flash('error', $ex->getMessage());
+            Log::error($ex);
         }
-
-        $totalPrice = $this->order->calculateTotalPrice();
-        $difference = $totalPrice - $this->order->costs;
-
-        $this->order->costs = $totalPrice;
-        $this->order->save();
-
-        $this->order->customer->credit = max(0, $this->order->customer->credit - $difference);
-        $this->order->customer->save();
-
-        Log::info('Updated order.', [
-            'event.kind' => 'event',
-            'event.outcome' => 'success',
-            'customer.name' => optional($this->order->customer)->name,
-            'customer.id_number' => optional($this->order->customer)->id_number,
-            'customer.phone' => optional($this->order->customer)->phone,
-            'order.id' => $this->order->id,
-            'order.costs' => $this->order->costs,
-        ]);
-
-        session()->flash('message', 'Order updated.');
-
-        return redirect()->route('backend.orders.show', $this->order);
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Exceptions\InsufficientBalanceException;
 use App\Models\Traits\NumberCompareScope;
 use Carbon\Carbon;
 use Dyrynda\Database\Support\NullableFields;
@@ -19,6 +20,8 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOneOrMany;
 use Illuminate\Foundation\Auth\Access\Authorizable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use libphonenumber\NumberParseException;
 use OwenIt\Auditing\Contracts\Auditable;
@@ -43,6 +46,7 @@ class Customer extends Model implements HasLocalePreference, AuthenticatableCont
         'remarks',
         'credit',
         'email',
+        'topped_up_at',
     ];
 
     /**
@@ -63,27 +67,145 @@ class Customer extends Model implements HasLocalePreference, AuthenticatableCont
         'topped_up_at' => 'datetime',
     ];
 
-    protected static function booted()
-    {
-        static::creating(function (Customer $customer) {
-            if ($customer->topped_up_at == null) {
-                $customer->topped_up_at = now();
-            }
-        });
-        static::deleting(function (Customer $customer) {
-            $customer->orders()
-                ->whereIn('status', ['new', 'ready'])
-                ->update(['status' => 'cancelled']);
-            $customer->orders()
-                ->update(['customer_id' => null]);
-            $customer->comments()
-                ->delete();
-        });
-    }
-
     public function orders(): HasMany
     {
         return $this->hasMany(Order::class);
+    }
+
+    public function currencies(): BelongsToMany
+    {
+        return $this->belongsToMany(Currency::class)
+            ->withPivot('value');
+    }
+
+    /**
+     * @param  ?Collection<Currency>  $currencies
+     * @return void
+     */
+    public function initializeBalances(?Collection $currencies = null): void
+    {
+        $currencies = $currencies ?? Currency::all();
+        $existingIds = $this->currencies->pluck('id');
+        $ids = $currencies->whereNotIn('id', $existingIds)
+            ->mapWithKeys(fn (Currency $currency) => [$currency->id => [
+                'value' => $currency->top_up_amount,
+            ]]);
+
+        $this->currencies()->sync($ids, false);
+    }
+
+    public function getBalance(int|Currency $currency): int
+    {
+        if (is_int($currency)) {
+            $currency = $this->currencies->firstWhere('id', $currency);
+        }
+
+        return $currency !== null ? $currency->getRelationValue('pivot')->value : 0;
+    }
+
+    public function setBalance(int $currencyId, int $value): void
+    {
+        if ($this->currencies->firstWhere('id', $currencyId) === null) {
+            $this->currencies()->attach($currencyId, [
+                'value' => $value,
+            ]);
+        } else {
+            $this->currencies()->updateExistingPivot($currencyId, [
+                'value' => $value,
+            ]);
+        }
+    }
+
+    public function addBalance(int $currencyId, int $value): void
+    {
+        assert($value > 0, 'Value must be positive');
+
+        $currency = $this->currencies->firstWhere('id', $currencyId);
+        if ($currency === null) {
+            $this->currencies()->attach($currencyId, [
+                'value' => $value,
+            ]);
+        } else {
+            $this->currencies()->updateExistingPivot($currencyId, [
+                'value' => $currency->getRelationValue('pivot')->value + $value,
+            ]);
+        }
+        $this->refresh();
+    }
+
+    /**
+     * @param  int  $currencyId
+     * @param  int  $value
+     * @return void
+     *
+     * @throws InsufficientBalanceException
+     */
+    public function subtractBalance(int $currencyId, int $value): void
+    {
+        assert($value > 0, 'Value must be positive');
+
+        $currency = $this->currencies->firstWhere('id', $currencyId);
+        if ($currency === null) {
+            throw new InsufficientBalanceException("Customer doesn't have the requested currency ($currencyId).");
+        }
+
+        $currentValue = $currency->getRelationValue('pivot')->value;
+        if ($currentValue - $value < 0) {
+            throw new InsufficientBalanceException("Customer doesn't have sufficient balance of {$currency->name}.");
+        }
+
+        $this->currencies()->updateExistingPivot($currencyId, [
+            'value' => $currentValue - $value,
+        ]);
+        $this->refresh();
+    }
+
+    /**
+     * @param  Collection<int,int>  $balances
+     * @return void
+     */
+    public function setBalances(Collection $balances): void
+    {
+        $ids = $balances->mapWithKeys(fn ($v, $k) => [$k => [
+            'value' => $v,
+        ]]);
+
+        $this->currencies()->sync($ids);
+    }
+
+    /**
+     * @return Collection<string,int>
+     */
+    public function balance(): Collection
+    {
+        return $this->currencies
+            ->sortBy('name', SORT_NATURAL | SORT_FLAG_CASE)
+            ->mapWithKeys(fn (Currency $currency) => [$currency->name => $this->getBalance($currency)]);
+    }
+
+    public function totalBalance(): string
+    {
+        return $this->balance()
+            ->map(fn ($v, $k) => "$v $k")
+            ->join(', ');
+    }
+
+    public function getNextTopUpDateAttribute(): ?Carbon
+    {
+        $days = setting()->get('customer.credit_top_up.days');
+        if ($days <= 0) {
+            return null;
+        }
+
+        // TODO: Handle non-assigned currencies
+        $needsTopUp = $this->currencies->contains(fn (Currency $currency) => $this->getBalance($currency) < $currency->top_up_amount);
+        if (! $needsTopUp) {
+            return null;
+        }
+
+        $date = $this->topped_up_at ? $this->topped_up_at->clone()->addDays($days) : today();
+
+        return $date->isBefore(today()) ? today() : $date;
     }
 
     public function comments(): HasOneOrMany
@@ -156,23 +278,12 @@ class Customer extends Model implements HasLocalePreference, AuthenticatableCont
         return null;
     }
 
-    public function getNextTopUpDateAttribute(): ?Carbon
+    public function addUserComment(string $content)
     {
-        $days = setting()->get('customer.credit_top_up.days');
-        if ($days > 0) {
-            $startingCredit = setting()->get('customer.starting_credit', config('shop.customer.starting_credit'));
-            $amount = setting()->get('customer.credit_top_up.amount', $startingCredit);
-            $maximum = setting()->get('customer.credit_top_up.maximum', $startingCredit);
-            if ($this->credit < min($this->credit + $amount, $maximum)) {
-                $date = $this->topped_up_at ? $this->topped_up_at->clone()->addDays($days) : today();
-                if ($date->isBefore(today())) {
-                    return today();
-                }
-
-                return $date;
-            }
-        }
-
-        return null;
+        $comment = new Comment([
+            'content' => $content,
+        ]);
+        $comment->user()->associate(Auth::user());
+        $this->comments()->save($comment);
     }
 }

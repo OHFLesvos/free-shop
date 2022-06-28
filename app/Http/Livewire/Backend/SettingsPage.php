@@ -27,8 +27,6 @@ class SettingsPage extends BackendPage
 
     public string $timezone;
 
-    public string $customerStartingCredit;
-
     public bool $shopDisabled;
 
     public bool $groupProductsByCategories;
@@ -40,10 +38,6 @@ class SettingsPage extends BackendPage
     public string $customerIdNumberExample;
 
     public string $customerCreditTopUpDays;
-
-    public string $customerCreditTopUpAmount;
-
-    public string $customerCreditTopUpMaximum;
 
     public string $customerWaitingTimeBetweenOrders;
 
@@ -93,22 +87,7 @@ class SettingsPage extends BackendPage
                 'nullable',
                 'timezone',
             ],
-            'customerStartingCredit' => [
-                'nullable',
-                'integer',
-                'min:0',
-            ],
             'customerCreditTopUpDays' => [
-                'nullable',
-                'integer',
-                'min:1',
-            ],
-            'customerCreditTopUpAmount' => [
-                'nullable',
-                'integer',
-                'min:1',
-            ],
-            'customerCreditTopUpMaximum' => [
                 'nullable',
                 'integer',
                 'min:1',
@@ -154,10 +133,7 @@ class SettingsPage extends BackendPage
         $this->geoblockWhitelist = collect(setting()->get('geoblock.whitelist', []));
         $this->orderDefaultPhoneCountry = setting()->get('order.default_phone_country', '');
         $this->timezone = setting()->get('timezone', '');
-        $this->customerStartingCredit = setting()->get('customer.starting_credit', '');
         $this->customerCreditTopUpDays = setting()->get('customer.credit_top_up.days', '');
-        $this->customerCreditTopUpAmount = setting()->get('customer.credit_top_up.amount', '');
-        $this->customerCreditTopUpMaximum = setting()->get('customer.credit_top_up.maximum', '');
         $this->shopMaxOrdersPerDay = setting()->get('shop.max_orders_per_day', '');
         $this->brandLogo = setting()->get('brand.logo');
         $this->brandFavicon = setting()->get('brand.favicon');
@@ -205,13 +181,7 @@ class SettingsPage extends BackendPage
 
         $this->updateStringSetting('timezone', $this->timezone);
 
-        $this->updateStringSetting('customer.starting_credit', $this->customerStartingCredit);
-
         $this->updateStringSetting('customer.credit_top_up.days', $this->customerCreditTopUpDays);
-
-        $this->updateStringSetting('customer.credit_top_up.amount', $this->customerCreditTopUpAmount);
-
-        $this->updateStringSetting('customer.credit_top_up.maximum', $this->customerCreditTopUpMaximum);
 
         $this->updateStringSetting('shop.max_orders_per_day', $this->shopMaxOrdersPerDay);
 

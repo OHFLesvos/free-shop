@@ -6,6 +6,7 @@ use Dyrynda\Database\Support\NullableFields;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
@@ -41,11 +42,13 @@ class Product extends Model implements Auditable
     ];
 
     public $fillable = [
+        'name',
         'sequence',
         'stock',
         'limit_per_order',
         'is_available',
         'price',
+        'currency_id',
     ];
 
     protected $casts = [
@@ -56,6 +59,11 @@ class Product extends Model implements Auditable
     {
         return $this->belongsToMany(Order::class)
             ->withPivot('quantity');
+    }
+
+    public function currency(): BelongsTo
+    {
+        return $this->belongsTo(Currency::class);
     }
 
     public function getPictureUrlAttribute(): ?string
@@ -95,13 +103,15 @@ class Product extends Model implements Auditable
         $this->stock = $value + $this->reserved_quantity;
     }
 
-    public function getQuantityAvailableForCustomerAttribute(): int
+    public function getAvailableQuantityPerOrder(): int
     {
+        $free_quantity = max(0, $this->free_quantity);
+
         if ($this->limit_per_order !== null) {
-            return min($this->limit_per_order, $this->free_quantity);
+            return min($this->limit_per_order, $free_quantity);
         }
 
-        return max(0, $this->free_quantity);
+        return $free_quantity;
     }
 
     public function scopeAvailable(Builder $qry): void

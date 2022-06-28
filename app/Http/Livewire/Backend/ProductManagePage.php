@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Backend;
 
+use App\Models\Currency;
 use App\Models\Product;
 use App\Services\LocalizationService;
 use Gumlet\ImageResize;
@@ -24,6 +25,8 @@ class ProductManagePage extends BackendPage
     public $picture;
 
     public Collection $categories;
+
+    public Collection $currencies;
 
     public bool $removePicture = false;
 
@@ -54,6 +57,9 @@ class ProductManagePage extends BackendPage
                 'required',
                 'integer',
                 'min:0',
+            ],
+            'product.currency_id' => [
+                'required',
             ],
             'product.limit_per_order' => [
                 'nullable',
@@ -103,6 +109,8 @@ class ProductManagePage extends BackendPage
         $this->name = $this->product->getTranslations('name');
         $this->category = $this->product->getTranslations('category');
         $this->description = $this->product->getTranslations('description');
+
+        $this->currencies = Currency::orderBy('name')->pluck('name', 'id');
     }
 
     protected function title(): string

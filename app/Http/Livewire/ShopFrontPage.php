@@ -2,19 +2,32 @@
 
 namespace App\Http\Livewire;
 
+use App\Actions\RegisterOrder;
+use App\Exceptions\EmptyOrderException;
+use App\Exceptions\InsufficientBalanceException;
+use App\Models\Currency;
 use App\Models\Customer;
 use App\Models\Order;
 use App\Models\Product;
+use App\Services\OrderService;
 use App\Services\ShoppingBasket;
+use Exception;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 use Illuminate\View\View;
 
 class ShopFrontPage extends FrontendPage
 {
+    /**
+     * @var Collection<Product>
+     */
     public Collection $products;
 
+    /**
+     * @var Collection<string>
+     */
     public Collection $categories;
 
     public ?Customer $customer = null;
@@ -25,16 +38,24 @@ class ShopFrontPage extends FrontendPage
 
     public bool $useCategories = false;
 
+    public ?Order $order = null;
+
+    public string $remarks = '';
+
+    protected array $rules = [
+        'remarks' => 'nullable',
+    ];
+
     protected function title(): string
     {
         return __('Choose your items');
     }
 
-    public function mount(): void
+    public function mount(OrderService $orderService): void
     {
         $this->shopDisabled = setting()->has('shop.disabled');
         $this->useCategories = setting()->has('shop.group_products_by_categories');
-        $this->dailyOrdersMaxedOut = $this->dailyOrdersMaxedOut();
+        $this->dailyOrdersMaxedOut = $orderService->isDailyOrderMaximumReached();
 
         $this->customer = Auth::guard('customer')->user();
 
@@ -43,8 +64,9 @@ class ShopFrontPage extends FrontendPage
             ->orderBy('category->'.App::getLocale())
             ->orderBy('sequence')
             ->orderBy('name->'.App::getLocale())
+            ->with('currency')
             ->get()
-            ->filter(fn ($product) => $product->quantity_available_for_customer > 0);
+            ->filter(fn (Product $product) => $product->getAvailableQuantityPerOrder() > 0);
 
         if ($this->useCategories) {
             $this->categories = $this->products->values()
@@ -53,20 +75,6 @@ class ShopFrontPage extends FrontendPage
                 ->unique()
                 ->values();
         }
-    }
-
-    private function dailyOrdersMaxedOut(): bool
-    {
-        if (setting()->has('shop.max_orders_per_day') && setting()->get('shop.max_orders_per_day') > 0) {
-            $currentOrderCount = Order::whereDate('created_at', today())
-                ->where('status', '!=', 'cancelled')
-                ->count();
-            if (setting()->get('shop.max_orders_per_day') <= $currentOrderCount) {
-                return true;
-            }
-        }
-
-        return false;
     }
 
     public function render(ShoppingBasket $basket): View
@@ -79,18 +87,83 @@ class ShopFrontPage extends FrontendPage
 
     public function add(ShoppingBasket $basket, int $productId, ?int $quantity = 1): void
     {
-        $price = $this->products->firstWhere('id', $productId)->price * $quantity;
-        if ($price <= $this->getAvailableCreditProperty($basket)) {
+        $product = $this->products->firstWhere('id', $productId);
+
+        $price = $product->price * $quantity;
+        if ($price <= $this->getAvailableBalance($product->currency_id)) {
             $basket->add($productId, $quantity);
         }
     }
 
-    public function getAvailableCreditProperty(ShoppingBasket $basket): int
+    public function remove(ShoppingBasket $basket, int $productId): void
     {
+        $basket->remove($productId);
+    }
+
+    public function getAvailableBalance(int $currencyId): int
+    {
+        $basket = app()->make(ShoppingBasket::class);
+
         $basketCosts = (int) $basket->items()
-            ->map(fn ($quantity, $productId) => $this->products->firstWhere('id', $productId)->price * $quantity)
+            ->map(function (int $quantity, int $productId) use ($currencyId) {
+                $product = $this->products->firstWhere('id', $productId);
+
+                return ($product->currency_id == $currencyId) ? $product->price * $quantity : 0;
+            })
             ->sum();
 
-        return $this->customer->credit - $basketCosts;
+        return $this->customer->getBalance($currencyId) - $basketCosts;
+    }
+
+    public function getAvailableBalances(): Collection
+    {
+        return $this->customer->currencies->map(fn (Currency $currency) => [
+            'name' => $currency->name,
+            'total' => $this->customer->getBalance($currency),
+            'available' => $this->getAvailableBalance($currency->id),
+        ]);
+    }
+
+    public function submit(ShoppingBasket $basket)
+    {
+        $this->validate();
+
+        try {
+            /** @var Order $order */
+            $order = RegisterOrder::run(
+                customer: $this->customer,
+                items: $basket->items(),
+                remarks: $this->remarks,
+                logMessage: 'Customer placed order.',
+                notifyCustomer: ! setting()->has('customer.skip_order_registered_notification'),
+            );
+
+            $this->order = $order;
+
+            $basket->clear();
+        } catch (InsufficientBalanceException $ex) {
+            session()->flash('error', $ex->getMessage());
+            Log::warning("Customer doesn't have sufficient balance to place order.", [
+                'event.kind' => 'event',
+                'event.outcome' => 'failure',
+                'customer.name' => $this->customer->name,
+                'customer.id_number' => $this->customer->id_number,
+                'customer.phone' => $this->customer->phone,
+                'customer.balance' => $this->customer->totalBalance(),
+            ]);
+        } catch (EmptyOrderException $ex) {
+            session()->flash('error', $ex->getMessage());
+            Log::warning('Customer tried to place empty order.', [
+                'event.kind' => 'event',
+                'event.outcome' => 'failure',
+                'customer.name' => $this->customer->name,
+                'customer.id_number' => $this->customer->id_number,
+                'customer.phone' => $this->customer->phone,
+                'customer.balance' => $this->customer->totalBalance(),
+            ]);
+        } catch (Exception $ex) {
+            session()->flash('error', $ex->getMessage());
+            Log::error($ex);
+        }
     }
 }

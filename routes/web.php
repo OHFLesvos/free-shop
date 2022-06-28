@@ -5,6 +5,8 @@ use App\Http\Controllers\LoginController;
 use App\Http\Controllers\SocialLoginController;
 use App\Http\Livewire\AboutPage;
 use App\Http\Livewire\Backend\BlockedPhoneNumbersPage;
+use App\Http\Livewire\Backend\CurrencyEditPage;
+use App\Http\Livewire\Backend\CurrencyListPage;
 use App\Http\Livewire\Backend\CustomerDetailPage;
 use App\Http\Livewire\Backend\CustomerListPage;
 use App\Http\Livewire\Backend\CustomerManagePage;
@@ -28,7 +30,6 @@ use App\Http\Livewire\Backend\TextBlockListPage;
 use App\Http\Livewire\Backend\UserEditPage;
 use App\Http\Livewire\Backend\UserListPage;
 use App\Http\Livewire\Backend\UserProfilePage;
-use App\Http\Livewire\CheckoutPage;
 use App\Http\Livewire\CustomerAccountPage;
 use App\Http\Livewire\CustomerLoginPage;
 use App\Http\Livewire\CustomerRegistrationPage;
@@ -76,8 +77,6 @@ Route::middleware(['set-language'])
                     });
                 Route::middleware(['auth:customer', 'customer-disabled-check'])
                     ->group(function () {
-                        Route::get('checkout', CheckoutPage::class)
-                            ->name('checkout');
                         Route::get('my-orders', MyOrdersPage::class)
                             ->name('my-orders');
                         Route::redirect('order-lookup', 'my-orders');
@@ -181,6 +180,12 @@ Route::middleware('auth')
                     ->name('configuration.text-blocks');
                 Route::get('configuration/text-blocks/{textBlock}/edit', TextBlockEditPage::class)
                     ->name('configuration.text-blocks.edit');
+                Route::get('configuration/currencies', CurrencyListPage::class)
+                    ->name('configuration.currencies');
+                Route::get('configuration/currencies/_create', CurrencyEditPage::class)
+                    ->name('configuration.currencies.create');
+                Route::get('configuration/currencies/{currency}/edit', CurrencyEditPage::class)
+                    ->name('configuration.currencies.edit');
                 Route::get('configuration/blocked-phone-numbers', BlockedPhoneNumbersPage::class)
                     ->name('configuration.blocked-phone-numbers');
                 Route::get('users', UserListPage::class)

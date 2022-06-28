@@ -129,6 +129,22 @@
                         @error('product.price') <div class="invalid-feedback">{{ $message }}</div> @enderror
                     </div>
                     <div class="col-md-3">
+                        <label for="inputCurrency" class="form-label">Currency</label>
+                        <select
+                            id="inputCurrency"
+                            class="form-select @error('product.currency_id') is-invalid @enderror"
+                            style="max-width: 11em;"
+                            wire:model.defer="product.currency_id">
+                            <option value="" selected>-- Select currency --</option>
+                            @foreach($currencies as $key => $value)
+                                <option value="{{ $key }}">
+                                    {{ $value }}
+                                </option>
+                            @endforeach
+                        </select>
+                        @error('product.currency_id') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                    </div>
+                    <div class="col-md-3">
                         <label for="inputLimitPerOrder" class="form-label">Limit per order</label>
                         <input
                             type="number"

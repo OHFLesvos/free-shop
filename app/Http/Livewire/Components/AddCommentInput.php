@@ -9,9 +9,9 @@ class AddCommentInput extends Component
 {
     use TrimEmptyStrings;
 
-    public bool $showAddComment = false;
+    public bool $isEditing = false;
 
-    public string $newComment = '';
+    public string $content = '';
 
     public function render()
     {
@@ -21,23 +21,21 @@ class AddCommentInput extends Component
     public function saveComment(): void
     {
         $this->validate([
-            'newComment' => [
+            'content' => [
                 'required',
                 'string',
             ],
         ]);
 
-        $this->emit('commentAdded', [
-            'content' => $this->newComment,
-        ]);
+        $this->emit('commentAdded', $this->content);
 
-        $this->reset(['showAddComment', 'newComment']);
+        $this->reset(['isEditing', 'content']);
     }
 
-    public function updatingShowAddComment(bool $value): void
+    public function updatingIsEditing(bool $value): void
     {
         if (! $value) {
-            $this->reset(['newComment']);
+            $this->reset(['content']);
         }
     }
 }

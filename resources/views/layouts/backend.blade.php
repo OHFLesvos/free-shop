@@ -65,6 +65,9 @@ $navItems = [
                 ->can('viewAny', App\Models\TextBlock::class) ||
             auth()
                 ->user()
+                ->can('create', App\Models\Currency::class) ||
+            auth()
+                ->user()
                 ->can('viewAny', App\Models\BlockedPhoneNumber::class),
     ],
 ];

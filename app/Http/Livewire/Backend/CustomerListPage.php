@@ -58,6 +58,7 @@ class CustomerListPage extends BackendPage
         session()->put('customers.page', $this->resolvePage());
 
         $customers = Customer::query()
+            ->with('currencies', fn ($qry) => $qry->orderBy('name'))
             ->when(filled($this->search), fn ($qry) => $qry->filter(trim($this->search)))
             ->when(count($this->tags) > 0, function ($qry) {
                 foreach ($this->tags as $tag) {

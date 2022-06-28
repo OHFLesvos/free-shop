@@ -24,6 +24,17 @@ class OrderDetailPage extends BackendPage
 
     public ?string $message = '';
 
+    public string $tab = 'products';
+
+    protected $queryString = [
+        'tab' => ['except' => 'products'],
+    ];
+
+    public array $tabs = [
+        'products' => 'Products',
+        'history' => 'History',
+    ];
+
     protected function title(): string
     {
         return 'Order #'.$this->order->id;
@@ -78,6 +89,8 @@ class OrderDetailPage extends BackendPage
             }
 
             $this->order->refresh();
+
+            $this->emitTo('backend.order-history', '$refresh');
 
             session()->flash('message', 'Order marked as '.$this->newStatus.'.');
         }

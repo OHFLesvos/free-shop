@@ -3,10 +3,12 @@
 namespace App\Http\Livewire\Backend;
 
 use App\Http\Livewire\Traits\TrimAndNullEmptyStrings;
+use App\Models\Currency;
 use App\Models\Customer;
 use App\Models\Tag;
 use App\Services\LocalizationService;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Illuminate\Support\Collection;
 use Illuminate\Validation\Rule;
 use Illuminate\View\View;
 use libphonenumber\NumberParseException;
@@ -19,10 +21,23 @@ class CustomerManagePage extends BackendPage
 
     public Customer $customer;
 
+    /**
+     * @var Collection<Currency>
+     */
+    public Collection $currencies;
+
     public ?string $phone = null;
 
     public string $phoneCountry;
 
+    /**
+     * @var Collection<int,int>
+     */
+    public Collection $balance;
+
+    /**
+     * @var array<string>
+     */
     public array $tags;
 
     /**
@@ -54,12 +69,16 @@ class CustomerManagePage extends BackendPage
                 'required_without:phone',
                 'email',
             ],
-            'tags' => [
+            'balance' => [
                 'array',
             ],
-            'customer.credit' => [
+            'balance.*' => [
+                'required',
                 'integer',
                 'min:0',
+            ],
+            'tags' => [
+                'array',
             ],
             'customer.locale' => [
                 'nullable',
@@ -81,10 +100,18 @@ class CustomerManagePage extends BackendPage
             $this->authorize('create', Customer::class);
         }
 
-        if (! isset($this->customer)) {
+        $this->currencies = Currency::orderBy('name')->get();
+
+        if (isset($this->customer)) {
+            $this->balance = $this->customer->currencies
+                ->mapWithKeys(fn (Currency $currency) => [$currency->id => $this->customer->getBalance($currency)]);
+            $this->currencies->whereNotIn('id', $this->balance->keys())
+                ->each(fn (Currency $currency) => $this->balance[$currency->id] = 0);
+        } else {
             $this->customer = new Customer();
-            $this->customer->credit = setting()->get('customer.starting_credit', config('shop.customer.starting_credit'));
             $this->customer->is_disabled = false;
+            $this->balance = $this->currencies
+                ->mapWithKeys(fn (Currency $currency) => [$currency->id => $currency->top_up_amount]);
         }
 
         $this->phoneCountry = setting()->get('order.default_phone_country', '');
@@ -94,7 +121,7 @@ class CustomerManagePage extends BackendPage
                 $phone = PhoneNumber::make($this->customer->phone);
                 $this->phoneCountry = $phone->getCountry();
                 $this->phone = $phone->formatNational();
-            } catch (NumberParseException $ignored) {
+            } catch (NumberParseException) {
                 $this->phoneCountry = '';
                 $this->phone = $this->customer->phone;
             }
@@ -130,8 +157,12 @@ class CustomerManagePage extends BackendPage
         if (! $this->customer->is_disabled) {
             $this->customer->disabled_reason = null;
         }
+        if ($this->customer->topped_up_at == null) {
+            $this->customer->topped_up_at = now();
+        }
 
         $this->customer->save();
+        $this->customer->setBalances($this->balance);
 
         $tags = [];
         foreach ($this->tags as $tag) {

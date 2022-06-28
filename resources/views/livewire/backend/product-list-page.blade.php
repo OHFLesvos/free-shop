@@ -48,7 +48,13 @@
                         <td>{{ $product->name }}</td>
                         <td>{{ $product->category }}</td>
                         <td>{{ $product->description }}</td>
-                        <td class="text-end">{{ $product->price }}</td>
+                        <td class="text-end">
+                            @if($product->price > 0 && $product->currency_id !== null)
+                                <strong>{{ $product->price }}</strong> {{ $product->currency->name }}
+                            @else
+                                <strong class="text-success">Free</strong>
+                            @endif
+                        </td>
                         <td class="text-end">{{ $product->limit_per_order }}</td>
                     </tr>
                 @empty

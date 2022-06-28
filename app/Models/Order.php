@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Dto\CostsDto;
 use App\Models\Traits\NumberCompareScope;
 use Dyrynda\Database\Support\NullableFields;
 use Illuminate\Database\Eloquent\Builder;
@@ -9,6 +10,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use OwenIt\Auditing\Contracts\Auditable;
 
@@ -33,7 +35,6 @@ class Order extends Model implements Auditable
     }
 
     protected $fillable = [
-        'costs',
         'ip_address',
         'user_agent',
         'remarks',
@@ -125,10 +126,54 @@ class Order extends Model implements Auditable
             ->orWhere('remarks', 'LIKE', '%'.$filter.'%');
     }
 
-    public function calculateTotalPrice(): int
+    /**
+     * @param  Collection<int,int>  $items list of item quantities keyed by product ID
+     * @return void
+     */
+    public function assignProducts(Collection $items)
     {
-        return $this->products()->get()
-            ->map(fn (Product $product) => $product->price * $product->pivot->quantity)
-            ->sum();
+        $itemIds = $items
+            ->filter(fn ($quantity) => is_numeric($quantity) && $quantity > 0)
+            ->mapWithKeys(fn ($quantity, $id) => [$id => [
+                'quantity' => $quantity,
+            ]]);
+
+        $this->products()->sync($itemIds);
+    }
+
+    /**
+     * @return Collection<int,int>
+     */
+    public function getAssignedProducts(): Collection
+    {
+        return $this->products->mapWithKeys(fn (Product $product) => [$product->id => $product->getRelationValue('pivot')->quantity]);
+    }
+
+    /**
+     * @return Collection<CostsDto>
+     */
+    public function getCosts(): Collection
+    {
+        $names = $this->products->mapWithKeys(fn (Product $product) => [$product->currency_id => $product->currency->name]);
+
+        return $this->products
+            ->filter(fn (Product $product) => $product->price > 0 && $product->currency_id !== null)
+            ->map(fn (Product $product) => [
+                'currency' => $product->currency_id,
+                'value' => $product->price * $product->getRelationValue('pivot')->quantity,
+            ])
+            ->groupBy('currency')
+            ->map(fn (Collection $v, int $k) => new CostsDto(
+                currency_id: $k,
+                currency_name: $names[$k],
+                value: $v->sum('value'),
+            ));
+    }
+
+    public function getCostsString(): string
+    {
+        $value = $this->getCosts()->map(fn (CostsDto $cost) => (string) $cost)->join(', ');
+
+        return filled($value) ? $value : '-';
     }
 }

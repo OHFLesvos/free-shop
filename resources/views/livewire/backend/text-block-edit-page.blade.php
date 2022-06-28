@@ -89,7 +89,7 @@
             </div>
 
             <x-slot name="footer">
-                <div class="d-flex justify-content-end">
+                <div class="d-flex justify-content-between">
                     @can('viewAny', App\Models\TextBlock::class)
                         <a
                             href="{{ route('backend.configuration.text-blocks') }}"

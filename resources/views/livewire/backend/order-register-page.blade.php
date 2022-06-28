@@ -1,6 +1,9 @@
 <div class="medium-container">
     <form wire:submit.prevent="submit" class="mb-4" autocomplete="off">
 
+        @if (session()->has('error'))
+            <x-alert type="danger" dismissible>{{ session()->get('error') }}</x-alert>
+        @endif
         @if ($errors->any())
             <x-alert type="danger">
                 @foreach ($errors->all() as $error)
@@ -10,40 +13,68 @@
         @endif
 
         <x-card title="Register order for {{ $customer->name }}">
-            @foreach ($products as $product)
-                <div class="row mb-3">
-                    <label
-                        for="product{{ $product->id }}Input"
-                        class="col-sm-10 col-form-label">
-                        {{ $product->name }}
+            <x-slot name="addon">
+                <ul class="list-group list-group-flush">
+                    @foreach ($products->groupBy('category') as $k => $v)
+                        <li class="list-group-item">
+                            <h6 class="my-2">{{ $k }}</h6>
+                        </li>
+                        @foreach ($v as $product)
+                            <li class="list-group-item">
+                                <div class="row align-items-center g-2">
+                                    <div class="col-sm">
+                                        <label for="product{{ $product->id }}Input">
+                                            {{ $product->name }}
+                                        </label>
+                                    </div>
+                                    <div class="col-sm-2">
+                                        @if($product->price > 0 && $product->currency_id !== null)
+                                            <strong>{{ $product->price }}</strong> {{ $product->currency->name }}
+                                        @else
+                                            <strong class="text-success">Free</strong>
+                                        @endif
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <small class="text-muted">
+                                            Available: {{ $product->freeQuantity }}<br>
+                                            Limit: {{ $product->getAvailableQuantityPerOrder() }}
+                                        </small>
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <input
+                                            type="number"
+                                            min="0"
+                                            max="{{ $product->getAvailableQuantityPerOrder() }}"
+                                            wire:model="selection.{{ $product->id }}"
+                                            placeholder="0"
+                                            class="form-control"
+                                            id="product{{ $product->id }}Input">
+                                    </div>
+                                </div>
+                            </li>
+                        @endforeach
+                    @endforeach
+                    <li class="list-group-item text-center">
+                        <strong>Total costs:</strong>
+                        {{ $this->totalPrice }}
                         <br>
-                        <small class="form-text text-muted">
-                            Price: {{ $product->price }}, Limit: {{ $product->quantity_available_for_customer }}
-                        </small>
-                    </label>
-
-                    <div class="col-sm-2">
-                        <input
-                            type="number"
-                            min="0"
-                            max="{{ $product->quantity_available_for_customer }}"
-                            wire:model="selection.{{ $product->id }}"
-                            placeholder="0"
-                            class="form-control"
-                            id="product{{ $product->id }}Input">
+                        <strong>Customer balance:</strong>
+                        {{ $customer->totalBalance() }}
+                    </li>
+                </ul>
+                <div class="card-body">
+                    <div>
+                        <label for="remarksInput" class="form-label">Remarks</label>
+                        <textarea
+                            class="form-control @error('remarks') is-invalid @enderror"
+                            id="remarksInput"
+                            autocomplete="off"
+                            rows="3"
+                            wire:model.defer="remarks"></textarea>
+                        @error('remarks') <div class="invalid-feedback">{{ $message }}</div> @enderror
                     </div>
                 </div>
-            @endforeach
-
-            <p class="text-end">Total price: {{ $this->totalPrice }}</p>
-
-            <div>
-                <label for="remarksInput" class="form-label">Remarks</label>
-                <textarea class="form-control @error('order.remarks') is-invalid @enderror" id="remarksInput"
-                    autocomplete="off" rows="3" wire:model.defer="order.remarks"></textarea>
-                @error('order.remarks') <div class="invalid-feedback">{{ $message }}</div> @enderror
-            </div>
-
+            </x-slot>
             <x-slot name="footer">
                 <div class="d-flex justify-content-between">
                     @can('view', $customer)
@@ -54,7 +85,7 @@
                         class="btn btn-primary"
                         wire:target="submit"
                         wire:loading.attr="disabled"
-                        @if($order->exists) disabled @endif>
+                        @if($success) disabled @endif>
                         <x-spinner wire:loading wire:target="submit" />
                         Save
                     </button>
@@ -62,5 +93,6 @@
                 </div>
             </x-slot>
         </x-card>
+
     </form>
 </div>
