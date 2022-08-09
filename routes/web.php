@@ -1,7 +1,7 @@
 <?php
 
 use App\Http\Controllers\LanguageSelectController;
-use App\Http\Controllers\LoginController;
+use App\Http\Controllers\LogoutController;
 use App\Http\Controllers\SocialLoginController;
 use App\Http\Livewire\AboutPage;
 use App\Http\Livewire\Backend\BlockedPhoneNumbersPage;
@@ -10,6 +10,7 @@ use App\Http\Livewire\Backend\CustomerListPage;
 use App\Http\Livewire\Backend\CustomerManagePage;
 use App\Http\Livewire\Backend\DashboardPage;
 use App\Http\Livewire\Backend\DataExportPage;
+use App\Http\Livewire\Backend\LoginPage;
 use App\Http\Livewire\Backend\ManageTagsPage;
 use App\Http\Livewire\Backend\OrderDetailPage;
 use App\Http\Livewire\Backend\OrderEditPage;
@@ -103,14 +104,14 @@ Route::get('languages/{lang}', [LanguageSelectController::class, 'update'])
 Route::prefix('backend')
     ->name('backend.')
     ->group(function () {
-        Route::get('login', [LoginController::class, 'login'])
+        Route::get('login', LoginPage::class)
             ->name('login')
             ->middleware('guest');
         Route::get('login/google', [SocialLoginController::class, 'redirectToGoogle'])
             ->name('login.google');
         Route::get('login/google/callback', [SocialLoginController::class, 'processGoogleCallback'])
             ->name('login.google.callback');
-        Route::post('logout', [LoginController::class, 'logout'])
+        Route::post('logout', LogoutController::class)
             ->name('logout');
     });
 
