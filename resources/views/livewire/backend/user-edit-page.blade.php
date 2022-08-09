@@ -30,13 +30,40 @@
     <div class="small-container" x-show="!shouldDelete">
         <form wire:submit.prevent="submit" class="mb-4" autocomplete="off">
             <x-card title="{{ $user->name }}">
-                <h6 class="card-subtitle mb-2">{{ $user->email }}</h6>
+                @isset($user->provider)
+                    <h6 class="card-subtitle mb-2">{{ $user->email }} <span class="text-info">({{ ucfirst($user->provider) }})</strong></h6>
+                @endisset
                 @isset($user->avatar)
                     <img
                         src="{{ storage_url($user->avatar) }}"
                         alt="Avatar"
                         class="img-thumbnail mb-3"/>
                 @endisset
+
+                @empty($user->provider)
+                    <div class="mb-3">
+                        <label for="nameInput" class="form-label">Name</label>
+                        <input
+                            type="text"
+                            class="form-control @error('user.name') is-invalid @enderror"
+                            id="nameInput"
+                            autocomplete="off"
+                            required
+                            wire:model.defer="user.name">
+                        @error('user.name') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                    </div>
+                    <div class="mb-3">
+                        <label for="emailInput" class="form-label">Email address</label>
+                        <input
+                            type="email"
+                            class="form-control @error('user.email') is-invalid @enderror"
+                            id="emailInput"
+                            autocomplete="off"
+                            required
+                            wire:model.defer="user.email">
+                        @error('user.email') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                    </div>
+                @endempty
 
                 <p class="form-label">Roles</p>
                 @foreach($roles as $role)

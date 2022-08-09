@@ -23,6 +23,14 @@ class UserEditPage extends BackendPage
     public function rules(): array
     {
         return [
+            'user.name' => [
+                Rule::requiredIf(fn () => $this->user->provider === null),
+            ],
+            'user.email' => [
+                Rule::requiredIf(fn () => $this->user->provider === null),
+                'email',
+                Rule::unique('users', 'email')->ignore($this->user->id),
+            ],
             'userRoles.*' => [
                 Rule::in(Role::pluck('id')),
             ],
@@ -61,6 +69,8 @@ class UserEditPage extends BackendPage
         $this->authorize('update', $this->user);
 
         $this->validate();
+
+        $this->user->save();
 
         $previousRoles = $this->user->getRoleNames()->toArray();
 

@@ -30,7 +30,8 @@
                 <th colspan="2">Name</th>
                 <th>Email</th>
                 <th>Roles</th>
-                <th>Last login</th>
+                <th class="fit">Provider</th>
+                <th class="fit">Last login</th>
             </thead>
             <tbody>
                 @forelse($users as $user)
@@ -54,7 +55,14 @@
                         <td>
                             {{ $user->getRoleNames()->join(', ') }}
                         </td>
-                        <td><x-date-time-info :value="$user->last_login_at"/></td>
+                        <td class="fit">
+                            @isset($user->provider)
+                                <span class="text-info">{{ ucfirst($user->provider) }}</span>
+                            @else
+                                Local
+                            @endisset
+                        </td>
+                        <td class="fit"><x-date-time-info :value="$user->last_login_at"/></td>
                     </tr>
                 @empty
                     <tr>
