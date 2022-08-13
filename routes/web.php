@@ -10,6 +10,7 @@ use App\Http\Livewire\Backend\CustomerListPage;
 use App\Http\Livewire\Backend\CustomerManagePage;
 use App\Http\Livewire\Backend\DashboardPage;
 use App\Http\Livewire\Backend\DataExportPage;
+use App\Http\Livewire\Backend\FirstUserRegistrationPage;
 use App\Http\Livewire\Backend\LoginPage;
 use App\Http\Livewire\Backend\ManageTagsPage;
 use App\Http\Livewire\Backend\OrderDetailPage;
@@ -113,6 +114,9 @@ Route::prefix('backend')
             ->name('login.google.callback');
         Route::post('logout', LogoutController::class)
             ->name('logout');
+        Route::get('register', FirstUserRegistrationPage::class)
+            ->name('register')
+            ->middleware('guest');
     });
 
 Route::middleware('auth')

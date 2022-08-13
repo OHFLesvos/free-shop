@@ -22,6 +22,13 @@ class LoginPage extends Component
         ],
     ];
 
+    public function mount()
+    {
+        if (count($this->getOauthProviders()) == 0 && !User::exists()) {
+            return redirect()->route('backend.register');
+        }
+    }
+
     public function render()
     {
         return view('livewire.backend.login-page', [
