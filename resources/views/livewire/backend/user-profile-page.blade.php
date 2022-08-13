@@ -49,6 +49,13 @@
                     @endif
                     <dt class="col-sm-3">Registered</dt>
                     <dd class="col-sm-9"><x-date-time-info :value="$user->created_at"/></dd>
+                    <dt class="col-sm-3">Last Login</dt>
+                    <dd class="col-sm-9">
+                        <x-date-time-info :value="$user->last_login_at"/><br>
+                        <x-icon icon="network-wired" fixed-width/> <x-ip-info :value="$user->last_login_ip"/>
+                        <x-icon icon="map-marker-alt" fixed-width class="ms-2"/> <x-geo-location-info :value="$user->last_login_ip"/></span>
+                        <x-icon icon="desktop" fixed-width class="ms-2"/> <x-user-agent-info :value="$user->last_login_user_agent"/>
+                    </dd>
                 </dl>
             </div>
         </div>
@@ -58,17 +65,12 @@
                 <a class="nav-link active" id="profile-tab" data-bs-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="true">Profile</a>
             </li>
             <li class="nav-item" role="presentation">
-                <a class="nav-link" id="security-tab" data-bs-toggle="tab" href="#security" role="tab" aria-controls="security" aria-selected="false">Security</a>
-            </li>
-            <li class="nav-item" role="presentation">
                 <a class="nav-link" id="account-tab" data-bs-toggle="tab" href="#account" role="tab" aria-controls="account" aria-selected="false">Account</a>
             </li>
         </ul>
         <div class="tab-content" id="myTabContent">
             <div class="tab-pane fade show active p-3 mb-4 bg-white" id="profile" role="tabpanel" aria-labelledby="profile-tab">
                 <form wire:submit.prevent="submit" autocomplete="off">
-
-                    <h5>Profile settings</h5>
                     <div class="mb-4">
                         <label for="timezone" class="form-label">Timezone:</label>
                         <div class="input-group">
@@ -101,26 +103,7 @@
                 </form>
             </div>
 
-            <div class="tab-pane fade p-3 mb-4 bg-white" id="security" role="tabpanel" aria-labelledby="security-tab">
-                @isset($user->last_login_at)
-                    <h5>Last Login</h5>
-                    <div>
-                        <dl class="row mb-0">
-                            <dt class="col-sm-2">Time</dt>
-                            <dd class="col-sm-10"><x-date-time-info :value="$user->last_login_at"/></dd>
-                            <dt class="col-sm-2">IP Address</dt>
-                            <dd class="col-sm-10"><x-ip-info :value="$user->last_login_ip"/></dd>
-                            <dt class="col-sm-2">Geo Location</dt>
-                            <dd class="col-sm-10"><x-geo-location-info :value="$user->last_login_ip"/></dd>
-                            <dt class="col-sm-2">User Agent</dt>
-                            <dd class="col-sm-10"><x-user-agent-info :value="$user->last_login_user_agent"/></dd>
-                        </dl>
-                    </div>
-                @endisset
-            </div>
-
             <div class="tab-pane fade p-3 mb-4 bg-white" id="account" role="tabpanel" aria-labelledby="account-tab">
-                <h5>Account settings</h5>
                 <div>
                     <button
                         type="button"
