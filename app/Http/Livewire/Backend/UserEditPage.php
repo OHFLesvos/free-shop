@@ -8,7 +8,10 @@ use App\Notifications\UserRolesUpdated;
 use App\Providers\AuthServiceProvider;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
+use Illuminate\Validation\Rules\Password;
 use Illuminate\View\View;
 use Spatie\Permission\Models\Role;
 
@@ -17,6 +20,9 @@ class UserEditPage extends BackendPage
     use AuthorizesRequests;
 
     public User $user;
+
+    public String $password = '';
+    public bool $showPassword = false;
 
     public array $userRoles;
 
@@ -33,6 +39,10 @@ class UserEditPage extends BackendPage
             ],
             'userRoles.*' => [
                 Rule::in(Role::pluck('id')),
+            ],
+            'password' => [
+                'nullable',
+                Password::defaults(),
             ],
         ];
     }
@@ -59,6 +69,12 @@ class UserEditPage extends BackendPage
         ]);
     }
 
+    public function generatePassword()
+    {
+        $this->password = Str::random(8);
+        $this->showPassword = true;
+    }
+
     public function getAdminRoleNameProperty(): string
     {
         return AuthServiceProvider::ADMINISTRATOR_ROLE;
@@ -69,6 +85,12 @@ class UserEditPage extends BackendPage
         $this->authorize('update', $this->user);
 
         $this->validate();
+
+        $passwordChanged = false;
+        if (filled($this->password)) {
+            $this->user->password = Hash::make($this->password);
+            $passwordChanged = true;
+        }
 
         $this->user->save();
 
@@ -81,7 +103,7 @@ class UserEditPage extends BackendPage
             $this->user->notify(new UserRolesUpdated());
         }
 
-        session()->flash('message', 'User updated.');
+        session()->flash('message', 'User updated.' . ($passwordChanged ? ' The password has been changed.': ''));
 
         if (Auth::user()->refresh()->cannot('viewAny', User::class)) {
             return redirect()->route('backend');

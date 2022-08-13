@@ -8,6 +8,7 @@ use Countries;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Validation\Rules\Password;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -39,6 +40,13 @@ class AppServiceProvider extends ServiceProvider
             } else {
                 $this->dropForeign($args);
             }
+        });
+
+        Password::defaults(function () {
+            $rule = Password::min(8);
+            return $this->app->isProduction()
+                        ? $rule->uncompromised()
+                        : $rule;
         });
     }
 }

@@ -63,6 +63,27 @@
                             wire:model.defer="user.email">
                         @error('user.email') <div class="invalid-feedback">{{ $message }}</div> @enderror
                     </div>
+                    <div class="mb-3">
+                        <label for="passwordInput" class="form-label">New Password</label>
+                        <div class="input-group">
+                            <input
+                                @if($showPassword) type="text" @else type="password" @endif
+                                class="form-control @error('password') is-invalid @enderror"
+                                id="passwordInput"
+                                autocomplete="off"
+                                placeholder="Leave empty to keep current password"
+                                wire:model.defer="password">
+                            <button type="button" class="btn btn-outline-primary" wire:click="$toggle('showPassword')">
+                                @if($showPassword)
+                                    <x-icon icon="eye-slash"/>
+                                @else
+                                    <x-icon icon="eye"/>
+                                @endif
+                            </button>
+                            <button type="button" class="btn btn-outline-primary" wire:click="generatePassword()">Generate</button>
+                            @error('password') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                        </div>
+                    </div>
                 @endempty
 
                 <p class="form-label">Roles</p>

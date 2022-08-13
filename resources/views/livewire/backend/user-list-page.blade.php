@@ -24,10 +24,13 @@
             @endif
         </div>
     </div>
+    @php
+        $hasAvatar = $users->whereNotNull('avatar')->isNotEmpty();
+    @endphp
     <div class="table-responsive">
         <table class="table table-bordered bg-white shadow-sm @can('manage users') table-hover @endcan">
             <thead>
-                <th colspan="2">Name</th>
+                <th @if($hasAvatar) colspan="2" @endif>Name</th>
                 <th>Email</th>
                 <th>Roles</th>
                 <th class="fit">Provider</th>
@@ -38,16 +41,18 @@
                     <tr
                         @can('update', $user) onclick="window.location='{{ route('backend.users.edit', $user) }}'" @endcan
                         class="@can('update', $user) cursor-pointer @endcan ">
-                        <td class="fit">
-                            @isset($user->avatar)
-                                <img
-                                    src="{{ storage_url($user->avatar) }}"
-                                    alt="Avatar"
-                                    class="align-top rounded-circle"
-                                    height="24"
-                                    width="24"/>
-                            @endisset
-                        </td>
+                        @if($hasAvatar)
+                            <td class="fit">
+                                @isset($user->avatar)
+                                    <img
+                                        src="{{ storage_url($user->avatar) }}"
+                                        alt="Avatar"
+                                        class="align-top rounded-circle"
+                                        height="24"
+                                        width="24"/>
+                                @endisset
+                            </td>
+                        @endif
                         <td>{{ $user->name }}</td>
                         <td>
                             <a href="mailto:{{ $user->email }}">{{ $user->email }}</a>
