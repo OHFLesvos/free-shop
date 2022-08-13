@@ -94,5 +94,18 @@
                 <small>Showing {{ $users->firstItem() }} to {{ $users->lastItem() }} of {{ $users->total() }} users</small>
             </div>
         </div>
+    @elseif($users->total() > 0)
+        <div class="d-flex justify-content-end">
+            <small>Showing {{ $users->total() }} records</small>
+        </div>
     @endif
+    @can('create', App\Model\User::class)
+        <p>
+            <a
+                href="{{ route('backend.users.create') }}"
+                class="btn btn-primary">
+                Register
+            </a>
+        </p>
+    @endcan
 </div>

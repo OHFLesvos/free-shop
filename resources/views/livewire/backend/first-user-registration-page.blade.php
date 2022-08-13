@@ -32,7 +32,7 @@
                     type="password"
                     class="form-control @error('password') is-invalid @enderror"
                     id="passwordInput"
-                    autocomplete="off"
+                    autocomplete="new-password"
                     required
                     wire:model.defer="password">
                 @error('password') <div class="invalid-feedback">{{ $message }}</div> @enderror
@@ -43,7 +43,7 @@
                     type="password"
                     class="form-control @error('password_confirmation') is-invalid @enderror"
                     id="passwordConfirmationInput"
-                    autocomplete="off"
+                    autocomplete="new-password"
                     required
                     wire:model.defer="password_confirmation">
                 @error('password_confirmation') <div class="invalid-feedback">{{ $message }}</div> @enderror

@@ -30,10 +30,10 @@ class UserEditPage extends BackendPage
     {
         return [
             'user.name' => [
-                Rule::requiredIf(fn () => $this->user->provider === null),
+                Rule::requiredIf(fn () => !$this->user->exists || $this->user->provider === null),
             ],
             'user.email' => [
-                Rule::requiredIf(fn () => $this->user->provider === null),
+                Rule::requiredIf(fn () => !$this->user->exists || $this->user->provider === null),
                 'email',
                 Rule::unique('users', 'email')->ignore($this->user->id),
             ],
@@ -41,7 +41,7 @@ class UserEditPage extends BackendPage
                 Rule::in(Role::pluck('id')),
             ],
             'password' => [
-                'nullable',
+                Rule::requiredIf(fn () => !$this->user->exists),
                 Password::defaults(),
             ],
         ];
@@ -49,7 +49,15 @@ class UserEditPage extends BackendPage
 
     public function mount(): void
     {
-        $this->authorize('update', $this->user);
+        if (isset($this->user)) {
+            $this->authorize('update', $this->user);
+        } else {
+            $this->authorize('create', User::class);
+        }
+
+        if (! isset($this->user)) {
+            $this->user = new User();
+        }
 
         $this->userRoles = $this->user->roles->pluck('id')
             ->values()
@@ -59,12 +67,15 @@ class UserEditPage extends BackendPage
 
     protected function title(): string
     {
-        return 'Edit User '.$this->user->name;
+        return $this->user->exists
+            ? 'Edit User '.$this->user->name
+            : 'Register User';
     }
 
     public function render(): View
     {
         return parent::view('livewire.backend.user-edit-page', [
+            'title' => $this->user->exists ? 'Edit User ' . $this->user->name : 'Register User',
             'roles' => Role::orderBy('name')->get(),
         ]);
     }
@@ -82,7 +93,11 @@ class UserEditPage extends BackendPage
 
     public function submit()
     {
-        $this->authorize('update', $this->user);
+        if ($this->user->exists) {
+            $this->authorize('update', $this->user);
+        } else {
+            $this->authorize('create', User::class);
+        }
 
         $this->validate();
 
@@ -103,7 +118,9 @@ class UserEditPage extends BackendPage
             $this->user->notify(new UserRolesUpdated());
         }
 
-        session()->flash('message', 'User updated.' . ($passwordChanged ? ' The password has been changed.': ''));
+        session()->flash('message', $this->user->wasRecentlyCreated
+            ? 'User registered.'
+            : 'User updated.' . ($passwordChanged ? ' The password has been changed.': ''));
 
         if (Auth::user()->refresh()->cannot('viewAny', User::class)) {
             return redirect()->route('backend');

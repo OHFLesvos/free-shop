@@ -29,7 +29,7 @@
 
     <div class="small-container" x-show="!shouldDelete">
         <form wire:submit.prevent="submit" class="mb-4" autocomplete="off">
-            <x-card title="{{ $user->name }}">
+            <x-card :title="$title">
                 @isset($user->provider)
                     <h6 class="card-subtitle mb-2">{{ $user->email }} <span class="text-info">({{ ucfirst($user->provider) }})</strong></h6>
                 @endisset
@@ -64,14 +64,17 @@
                         @error('user.email') <div class="invalid-feedback">{{ $message }}</div> @enderror
                     </div>
                     <div class="mb-3">
-                        <label for="passwordInput" class="form-label">New password</label>
+                        <label for="passwordInput" class="form-label">
+                            @if($user->exists) New password @else Password @endif
+                        </label>
                         <div class="input-group">
                             <input
                                 @if($showPassword) type="text" @else type="password" @endif
                                 class="form-control @error('password') is-invalid @enderror"
                                 id="passwordInput"
-                                autocomplete="off"
-                                placeholder="Leave empty to keep current password"
+                                autocomplete="new-password"
+                                @if(!$user->exists) required @endif
+                                @if($user->exists) placeholder="Leave empty to keep current password" @endif
                                 wire:model.defer="password">
                             <button type="button" class="btn btn-outline-primary" wire:click="$toggle('showPassword')">
                                 @if($showPassword)
@@ -114,15 +117,17 @@
                 <x-slot name="footer">
                     <div class="d-flex justify-content-between">
                         <span>
-                            @can('delete', $user)
-                                <button
-                                    type="button"
-                                    class="btn btn-danger"
-                                    wire:loading.attr="disabled"
-                                    @click="shouldDelete = true">
-                                    Delete
-                                </button>
-                            @endcan
+                            @if($user->exists)
+                                @can('delete', $user)
+                                    <button
+                                        type="button"
+                                        class="btn btn-danger"
+                                        wire:loading.attr="disabled"
+                                        @click="shouldDelete = true">
+                                        Delete
+                                    </button>
+                                @endcan
+                            @endif
                         </span>
                         <span>
                             @can('viewAny', App\Models\User::class)

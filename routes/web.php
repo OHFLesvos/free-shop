@@ -190,6 +190,8 @@ Route::middleware('auth')
                     ->name('configuration.blocked-phone-numbers');
                 Route::get('users', UserListPage::class)
                     ->name('users');
+                Route::get('users/_create', UserEditPage::class)
+                    ->name('users.create');
                 Route::get('users/{user}/edit', UserEditPage::class)
                     ->name('users.edit');
                 Route::get('user-profile', UserProfilePage::class)

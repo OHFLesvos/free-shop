@@ -19,7 +19,7 @@
                                         placeholder="Email address"
                                         required
                                         autofocus
-                                        autocomplete="off"
+                                        autocomplete="username"
                                         wire:loading.attr="disabled"
                                         wire:model.defer="email">
                                     @error('email') <div class="invalid-feedback">{{ $message }}</div> @enderror
@@ -30,7 +30,7 @@
                                         class="form-control @error('password') is-invalid @enderror"
                                         placeholder="Password"
                                         required
-                                        autocomplete="off"
+                                        autocomplete="current-password"
                                         wire:loading.attr="disabled"
                                         wire:model.defer="password">
                                     @error('password') <div class="invalid-feedback">{{ $message }}</div> @enderror
