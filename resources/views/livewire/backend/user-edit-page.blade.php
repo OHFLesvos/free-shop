@@ -64,7 +64,7 @@
                         @error('user.email') <div class="invalid-feedback">{{ $message }}</div> @enderror
                     </div>
                     <div class="mb-3">
-                        <label for="passwordInput" class="form-label">New Password</label>
+                        <label for="passwordInput" class="form-label">New password</label>
                         <div class="input-group">
                             <input
                                 @if($showPassword) type="text" @else type="password" @endif

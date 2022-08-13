@@ -4,6 +4,9 @@ namespace App\Http\Livewire\Backend;
 
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\Rule;
+use Illuminate\Validation\Rules\Password;
 use Illuminate\View\View;
 use Torann\GeoIP\Facades\GeoIP;
 
@@ -13,12 +16,27 @@ class UserProfilePage extends BackendPage
 
     public User $user;
 
-    public array $rules = [
-        'user.timezone' => [
-            'nullable',
-            'timezone',
-        ],
-    ];
+    public String $current_password = '';
+    public String $password = '';
+    public String $password_confirmation = '';
+
+    public function rules(): array
+    {
+        return [
+            'user.name' => [
+                Rule::requiredIf(fn () => $this->user->provider === null),
+            ],
+            'user.email' => [
+                Rule::requiredIf(fn () => $this->user->provider === null),
+                'email',
+                Rule::unique('users', 'email')->ignore($this->user->id),
+            ],
+            'user.timezone' => [
+                'nullable',
+                'timezone',
+            ],
+        ];
+    }
 
     public function mount(): void
     {
@@ -42,7 +60,33 @@ class UserProfilePage extends BackendPage
 
         $this->user->save();
 
-        session()->flash('submitMessage', 'User profile information updated.');
+        session()->flash('submitMessage', 'Your profile information has been updated.');
+    }
+
+    public function submitPassword()
+    {
+        if (filled($this->user->provider)) {
+            return;
+        }
+
+        $this->validate([
+            'current_password' => [
+                'required',
+                'current_password',
+            ],
+            'password' => [
+                'required',
+                'confirmed',
+                Password::defaults(),
+            ],
+        ]);
+
+        $this->user->password = Hash::make($this->password);
+        $this->user->save();
+
+        $this->reset(['password', 'current_password', 'password_confirmation']);
+
+        session()->flash('submitMessage', 'Your password has been updated.');
     }
 
     public function delete()
