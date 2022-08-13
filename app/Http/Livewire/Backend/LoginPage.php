@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Backend;
 
+use App\Models\User;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
@@ -25,6 +26,7 @@ class LoginPage extends Component
     {
         return view('livewire.backend.login-page', [
             'oauth' => $this->getOauthProviders(),
+            'hasLocalLogin' => User::whereNull('provider')->exists(),
         ])->layout('layouts.empty', ['title' => 'Login']);
     }
 

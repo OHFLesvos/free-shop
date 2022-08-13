@@ -1,57 +1,63 @@
-<div class="mx-auto" style="max-width: @if(count($oauth) > 0) 700px @else 400px @endif">
+<div class="mx-auto" style="max-width: @if(count($oauth) > 0 && $hasLocalLogin) 700px @else 400px @endif">
     <h1 class="display-4 text-center">{{ config('app.name') }}</h1>
     <h2 class="mb-4 display-6 text-center">Backend Login</h2>
 
-    <div class="row my-5 gy-2 align-items-center justify-content-center">
-        <div class="col-md">
-            <form wire:submit.prevent="submit" autocomplete="off">
-                <div class="card">
+    <div class="row g-4 mb-4">
+        @if($hasLocalLogin)
+            <div class="col-md">
+                <div class="card h-100">
                     <div class="card-body">
-                        @if(count($oauth) > 0)
-                            <h5 class="card-title mb-4">Local account</h5>
-                        @endif
-                        <div class="mb-3">
-                            <input
-                                type="email"
-                                class="form-control @error('email') is-invalid @enderror"
-                                placeholder="Email address"
-                                required
-                                autofocus
-                                autocomplete="off"
-                                wire:loading.attr="disabled"
-                                wire:model.defer="email">
-                            @error('email') <div class="invalid-feedback">{{ $message }}</div> @enderror
-                        </div>
-                        <div class="mb-3">
-                            <input
-                                type="password"
-                                class="form-control @error('password') is-invalid @enderror"
-                                placeholder="Password"
-                                required
-                                autocomplete="off"
-                                wire:loading.attr="disabled"
-                                wire:model.defer="password">
-                            @error('password') <div class="invalid-feedback">{{ $message }}</div> @enderror
-                        </div>
-                        <div class="d-grid">
-                            <button type="submit" class="btn btn-primary">Login</button>
+                        <h5 class="card-title mb-3 text-center">Login with local account</h5>
+                        <form wire:submit.prevent="submit" autocomplete="off">
+                            <div class="mb-3">
+                                <input
+                                    type="email"
+                                    class="form-control @error('email') is-invalid @enderror"
+                                    placeholder="Email address"
+                                    required
+                                    autofocus
+                                    autocomplete="off"
+                                    wire:loading.attr="disabled"
+                                    wire:model.defer="email">
+                                @error('email') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                            </div>
+                            <div class="mb-3">
+                                <input
+                                    type="password"
+                                    class="form-control @error('password') is-invalid @enderror"
+                                    placeholder="Password"
+                                    required
+                                    autocomplete="off"
+                                    wire:loading.attr="disabled"
+                                    wire:model.defer="password">
+                                @error('password') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                            </div>
+                            <div class="d-grid">
+                                <button type="submit" class="btn btn-primary">Login</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        @endif
+        @if(count($oauth) > 0)
+            <div class="col-md">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h5 class="card-title mb-3 text-center">Login with service provider</h5>
+                        <div class="row row-cols-1 g-3">
+                            @foreach ($oauth as $service)
+                                <div class="col d-grid">
+                                    <a href="{{ $service['url'] }}" class="btn btn-outline-primary">
+                                        <x-icon type="brands" :icon="$service['icon']"/>
+                                        {{ $service['label'] }}
+                                        @if($service['domain'] != null)({{ $service['domain'] }})@endif
+                                    </a>
+                                </div>
+                            @endforeach
                         </div>
                     </div>
                 </div>
-            </form>
-        </div>
-        @if(count($oauth) > 0)
-            <div class="col-md-auto text-center">or</div>
-            <div class="col-md">
-                    <div class="d-grid">
-                        @foreach ($oauth as $service)
-                            <a href="{{ $service['url'] }}" class="btn btn-info">
-                                <x-icon type="brands" :icon="$service['icon']"/>
-                                {{ $service['label'] }}
-                                @if($service['domain'] != null)({{ $service['domain'] }})@endif
-                            </a>
-                        @endforeach
-                    </div>
             </div>
         @endif
     </div>
