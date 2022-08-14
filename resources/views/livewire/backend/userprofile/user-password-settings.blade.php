@@ -1,6 +1,6 @@
-@empty($user->provider)
-    <form wire:submit.prevent="submitPassword" autocomplete="off">
-        <x-card title="Change password">
+<form wire:submit.prevent="submitPassword" autocomplete="off">
+    <x-card title="Change password">
+        @empty($user->provider)
             <div class="mb-3">
                 <label for="currentPasswordInput" class="form-label">Current password</label>
                 <input
@@ -37,8 +37,8 @@
             <x-slot name="footer">
                 <x-submit-button>Save</x-submit-button>
             </x-slot>
-        </x-card>
-    </form>
-@else
-    <x-alert type="info">If you need to change your password, please do this directly in your {{ ucfirst($user->provider) }} account management.</x-alert>
-@endif
+        @else
+            <x-alert type="info" class="mb-0">If you need to change your password, please do this directly in your {{ ucfirst($user->provider) }} account management.</x-alert>
+        @endif
+    </x-card>
+</form>
