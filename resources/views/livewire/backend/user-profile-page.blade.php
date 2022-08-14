@@ -171,16 +171,20 @@
         @endif
 
         <x-card title="Delete account">
-            <p>Here you can delete your account and remove all associated data from the system.</p>
-            <div>
-                <button
-                    type="button"
-                    class="btn btn-danger"
-                    wire:loading.attr="disabled"
-                    @click="shouldDelete = true">
-                    Delete account
-                </button>
-            </div>
+            @unless($this->isLastAdmin)
+                <p>Here you can delete your account and remove all associated data from the system.</p>
+                <div>
+                    <button
+                        type="button"
+                        class="btn btn-danger"
+                        wire:loading.attr="disabled"
+                        @click="shouldDelete = true">
+                        Delete account
+                    </button>
+                </div>
+            @else
+                <x-alert type="warning" class="mb-0">You cannot remove your account as it is the only one with an administrator role.</x-alert>
+            @endunless
         </x-card>
 
     </div>

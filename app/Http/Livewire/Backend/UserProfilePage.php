@@ -3,6 +3,7 @@
 namespace App\Http\Livewire\Backend;
 
 use App\Models\User;
+use App\Providers\AuthServiceProvider;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rule;
@@ -89,8 +90,17 @@ class UserProfilePage extends BackendPage
         session()->flash('submitMessage', 'Your password has been updated.');
     }
 
+    public function getIsLastAdminProperty(): bool
+    {
+        return !$this->user->hasRole(AuthServiceProvider::ADMINISTRATOR_ROLE) || User::role(AuthServiceProvider::ADMINISTRATOR_ROLE)->count() == 1;
+    }
+
     public function delete()
     {
+        if ($this->getIsLastAdminProperty()) {
+            return;
+        }
+
         $this->user->delete();
 
         return redirect(route('backend.login'));
