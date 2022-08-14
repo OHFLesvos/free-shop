@@ -27,7 +27,10 @@ class UserProfilePage extends BackendPage
 
     public function getIsLastAdminProperty(): bool
     {
-        return !$this->user->hasRole(AuthServiceProvider::ADMINISTRATOR_ROLE) || User::role(AuthServiceProvider::ADMINISTRATOR_ROLE)->count() == 1;
+        if ($this->user->hasRole(AuthServiceProvider::ADMINISTRATOR_ROLE)) {
+            return User::role(AuthServiceProvider::ADMINISTRATOR_ROLE)->count() == 1;
+        }
+        return false;
     }
 
     public function refreshUser()
