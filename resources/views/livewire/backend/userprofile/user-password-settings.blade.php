@@ -1,4 +1,3 @@
-
 @empty($user->provider)
     <form wire:submit.prevent="submitPassword" autocomplete="off">
         <x-card title="Change password">
@@ -40,4 +39,6 @@
             </x-slot>
         </x-card>
     </form>
+@else
+    <x-alert type="info">If you need to change your password, please do this directly in your {{ ucfirst($user->provider) }} account management.</x-alert>
 @endif
