@@ -15,7 +15,7 @@ use Illuminate\Validation\Rules\Password;
 use Illuminate\View\View;
 use Spatie\Permission\Models\Role;
 
-class UserEditPage extends BackendPage
+class UserManagePage extends BackendPage
 {
     use AuthorizesRequests;
 
@@ -74,7 +74,7 @@ class UserEditPage extends BackendPage
 
     public function render(): View
     {
-        return parent::view('livewire.backend.user-edit-page', [
+        return parent::view('livewire.backend.user-manage-page', [
             'title' => $this->user->exists ? 'Edit User ' . $this->user->name : 'Register User',
             'roles' => Role::orderBy('name')->get(),
         ]);

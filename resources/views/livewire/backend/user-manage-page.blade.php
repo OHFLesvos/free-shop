@@ -49,6 +49,7 @@
                             id="nameInput"
                             autocomplete="off"
                             required
+                            @unless($user->exists) autofocus @endunless
                             wire:model.defer="user.name">
                         @error('user.name') <div class="invalid-feedback">{{ $message }}</div> @enderror
                     </div>

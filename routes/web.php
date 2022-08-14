@@ -27,7 +27,7 @@ use App\Http\Livewire\Backend\StockEditPage;
 use App\Http\Livewire\Backend\StockPage;
 use App\Http\Livewire\Backend\TextBlockEditPage;
 use App\Http\Livewire\Backend\TextBlockListPage;
-use App\Http\Livewire\Backend\UserEditPage;
+use App\Http\Livewire\Backend\UserManagePage;
 use App\Http\Livewire\Backend\UserListPage;
 use App\Http\Livewire\Backend\UserProfilePage;
 use App\Http\Livewire\CheckoutPage;
@@ -190,9 +190,9 @@ Route::middleware('auth')
                     ->name('configuration.blocked-phone-numbers');
                 Route::get('users', UserListPage::class)
                     ->name('users');
-                Route::get('users/_create', UserEditPage::class)
+                Route::get('users/_create', UserManagePage::class)
                     ->name('users.create');
-                Route::get('users/{user}/edit', UserEditPage::class)
+                Route::get('users/{user}/edit', UserManagePage::class)
                     ->name('users.edit');
                 Route::get('user-profile', UserProfilePage::class)
                     ->name('user-profile');
