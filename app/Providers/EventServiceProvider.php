@@ -12,6 +12,7 @@ use App\Listeners\LogUserCreated;
 use App\Listeners\LogUserDeleted;
 use App\Listeners\LogUserLogout;
 use App\Listeners\LogUserRolesChanged;
+use App\Listeners\SendUserWelcomeEmail;
 use App\Listeners\SetUserTimezone;
 use App\Listeners\UpdateUserLastLogin;
 use Illuminate\Auth\Events\Failed;
@@ -31,6 +32,7 @@ class EventServiceProvider extends ServiceProvider
     protected $listen = [
         Registered::class => [
             SendEmailVerificationNotification::class,
+            SendUserWelcomeEmail::class,
             SetUserTimezone::class,
         ],
         Login::class => [

@@ -3,6 +3,7 @@
 namespace App\Http\Livewire\Backend;
 
 use App\Models\User;
+use Illuminate\Auth\Events\Registered;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rule;
@@ -60,6 +61,8 @@ class FirstUserRegistrationPage extends Component
 
         $this->user->password = Hash::make($this->password);
         $this->user->save();
+
+        event(new Registered($this->user));
 
         Auth::login($this->user);
 
