@@ -63,6 +63,6 @@ class FirstUserRegistrationPage extends Component
 
         Auth::login($this->user);
 
-        return redirect()->route('backend.dashboard');
+        return redirect()->route('backend');
     }
 }

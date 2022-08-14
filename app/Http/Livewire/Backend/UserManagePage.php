@@ -6,6 +6,7 @@ use App\Events\UserRolesChanged;
 use App\Models\User;
 use App\Notifications\UserRolesUpdated;
 use App\Providers\AuthServiceProvider;
+use Illuminate\Auth\Events\Registered;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -101,6 +102,10 @@ class UserManagePage extends BackendPage
 
         $this->validate();
 
+        if ($this->user->email_verified_at == null) {
+            $this->user->email_verified_at = now();
+        }
+
         $passwordChanged = false;
         if (filled($this->password)) {
             $this->user->password = Hash::make($this->password);
@@ -108,6 +113,10 @@ class UserManagePage extends BackendPage
         }
 
         $this->user->save();
+
+        if ($this->user->wasRecentlyCreated) {
+            event(new Registered($this->user));
+        }
 
         $previousRoles = $this->user->getRoleNames()->toArray();
 
