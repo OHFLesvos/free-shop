@@ -26,7 +26,7 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
       - run: npm ci
-      - run: npm run dev
+      - run: npm run build
 
   laravel-tests:
     name: Laravel tests
@@ -101,7 +101,7 @@ jobs:
       with:
         node-version: '16.x'
     - run: npm ci
-    - run: npm run prod
+    - run: npm run build
     - name: Enable maintenance mode on remote
       uses: appleboy/ssh-action@master
       with:
