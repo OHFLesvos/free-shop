@@ -33,7 +33,7 @@ jobs:
       with:
         node-version: '16.x'
     - run: npm ci
-    - run: npm run prod
+    - run: npm run build
     - name: Enable maintenance mode on remote
       uses: appleboy/ssh-action@master
       with:

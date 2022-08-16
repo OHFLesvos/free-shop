@@ -133,7 +133,7 @@ See https://docs.microsoft.com/en-us/windows/wsl/install for more info.
 
 Install Ubuntu for WSL from the Microsoft Store.
 
-Install Docker for Windows or Rancher Desktop. 
+Install Docker for Windows or Rancher Desktop.
 
 In case of Rancher Desktop, change the settings to expose Docker to Ubuntu, and fix socket permissions as needed:
 
@@ -152,7 +152,7 @@ Configure the sail bash alias by adding the following line to `.bashrc`:
 
 Copy `.env.example` to `.env`.
 
-Set 
+Set
 
     DB_HOST=mysql
 
@@ -161,7 +161,7 @@ Run the following commands:
     sail up -d
     sail artisan key:generate
     sail artisan migrate --seed
-    sail npm run install
+    sail npm install
     sail npm run dev
 
 ### Recommended software for development

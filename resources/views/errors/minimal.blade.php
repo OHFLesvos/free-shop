@@ -3,10 +3,8 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-
         <title>@yield('title') | {{ config('app.name') }}</title>
-
-        <link href="{{ mix('css/app.css') }}" rel="stylesheet">
+        @vite(['resources/js/app.js', 'resources/sass/app.scss'])
     </head>
     <body class="bg-light h-100 d-flex">
         <main class="container align-self-center">
