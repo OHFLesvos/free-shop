@@ -5,10 +5,10 @@
 <div
     {{ $attributes->merge(['class' => 'alert alert-' . $type . ' shadow-sm'.($dismissible ? ' alert-dismissible fade show' : '')]) }}
     role="alert">
-    @if($type == 'success')<x-icon icon="check-circle" fixed-width/>
-    @elseif($type == 'info')<x-icon icon="info-circle" fixed-width/>
-    @elseif($type == 'warning')<x-icon icon="exclamation-circle" fixed-width/>
-    @elseif($type == 'danger')<x-icon icon="exclamation-triangle" fixed-width/>
+    @if($type == 'success')<x-icon icon="circle-check" fixed-width/>
+    @elseif($type == 'info')<x-icon icon="circle-info" fixed-width/>
+    @elseif($type == 'warning')<x-icon icon="circle-exclamation" fixed-width/>
+    @elseif($type == 'danger')<x-icon icon="triangle-exclamation" fixed-width/>
     @endif
     {{ $slot }}
     @if($dismissible)

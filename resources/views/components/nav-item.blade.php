@@ -9,7 +9,7 @@
         @endisset
         {{ $item['label'] }}
         @isset($attributes['target'])
-            <small><x-icon icon="external-link-alt"/></small>
+            <small><x-icon icon="up-right-from-square"/></small>
         @endif
     </a>
 </li>

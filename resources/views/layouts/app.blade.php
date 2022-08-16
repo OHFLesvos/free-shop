@@ -4,25 +4,25 @@ $navItems = [
     [
         'label' => __('Shop'),
         'route' => 'shop-front',
-        'icon' => 'shopping-bag',
+        'icon' => 'bag-shopping',
         'authorized' => true,
     ],
     [
         'label' => __('Checkout'),
         'route' => 'checkout',
-        'icon' => 'shopping-basket',
+        'icon' => 'basket-shopping',
         'authorized' => auth('customer')->check(),
     ],
     [
         'label' => __('Your orders'),
         'route' => 'my-orders',
-        'icon' => 'list-alt',
+        'icon' => 'rectangle-list',
         'authorized' => auth('customer')->check(),
     ],
     [
         'label' => __('About'),
         'route' => 'about',
-        'icon' => 'info-circle',
+        'icon' => 'circle-info',
         'authorized' => true,
     ],
     [

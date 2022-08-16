@@ -20,7 +20,7 @@
                         </x-phone-number-link>
                         <x-phone-number-link :value="$customer->phone" :body="'Hello '.$customer->name. '. '" type="sms"
                             class="btn btn-outline-primary btn-sm">
-                            <x-icon icon="sms" /> SMS
+                            <x-icon icon="comment-sms" /> SMS
                         </x-phone-number-link>
                         <x-phone-number-link :value="$customer->phone" :body="'Hello '.$customer->name.'. '" type="whatsapp"
                             class="btn btn-outline-primary btn-sm">

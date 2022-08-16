@@ -86,7 +86,7 @@
                     </small>
                 </div>
                 <p class="card-text d-flex align-items-center">
-                    <x-icon icon="info-circle" class="fa-2x me-3"/>
+                    <x-icon icon="circle-info" class="fa-2x me-3"/>
                     <span>
                         {!! __('We will send you updates about your order via SMS to <strong dir="ltr" class="text-nowrap">:phone</strong>.', ['phone' => $customer->phoneFormattedInternational]) !!}
                         {!! __('You can update your phone number <a href=":url">here</a>.', ['url' => route('customer.account') ]) !!}</a>

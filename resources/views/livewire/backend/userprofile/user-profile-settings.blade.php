@@ -48,7 +48,7 @@
                     <span
                         wire:loading.remove
                         wire:target="detectTimezone">
-                        <x-icon icon="search-location"/>
+                        <x-icon icon="magnifying-glass-location"/>
                     </span>
                 </button>
                 @error('timezone') <div class="invalid-feedback">{{ $message }}</div> @enderror
