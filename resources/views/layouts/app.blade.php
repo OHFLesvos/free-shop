@@ -55,9 +55,9 @@ $rNavItems = [
 @endphp
 @inject('localization', 'App\Services\LocalizationService')
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" @if($localization->isRtlLocale()) dir="rtl" @endif>
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" @if($localization->isRtlLocale()) dir="rtl" @endif class="h-100">
     @include('layouts.includes.head')
-    <body class="bg-light">
+    <body class="d-flex flex-column h-100 bg-light">
         <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm mb-4">
             <div class="container">
                 <a class="navbar-brand" href="{{ route('home') }}">
@@ -110,7 +110,7 @@ $rNavItems = [
                 </div>
             </div>
         </nav>
-        <main>
+        <main class="flex-shrink-0">
             <div class="container">
                 @isset($slot)
                     {{ $slot }}
@@ -119,13 +119,23 @@ $rNavItems = [
                 @endif
             </div>
         </main>
-        <footer class="mt-5">
-            <p class="text-center">
-                <small>
-                    @include('layouts.includes.copyright')
-                    | <a href="{{ route('privacy-policy') }}">{{ __('Privacy Policy') }}</a>
-                </small>
-            </p>
+        <footer class="footer mt-auto py-4 bg-white border-top shadow-sm">
+            <div class="container">
+                <div class="d-lg-flex justify-content-between align-items-end">
+                    <div>
+                        <small>
+                            <strong>{{ config('app.name') }}</strong><br>
+                            @include('layouts.includes.copyright')
+                        </small>
+                    </div>
+                    <div class="text-end mt-4 mt-lg-0">
+                        <small>
+                            <a href="{{ route('about') }}">{{ __('About') }}</a>
+                            <a href="{{ route('privacy-policy') }}" class="ms-2">{{ __('Privacy Policy') }}</a>
+                        </small>
+                    </div>
+                </div>
+            </div>
         </footer>
         @include('layouts.includes.foot')
     </body>

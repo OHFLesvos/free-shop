@@ -24,7 +24,7 @@
                 </div>
             @endunless
             <p class="text-center my-5">
-                {{ config('app.name') }} | @include('layouts.includes.copyright')
+                <strong>{{ config('app.name') }}</strong> | @include('layouts.includes.copyright')
             </p>
         </main>
     </body>

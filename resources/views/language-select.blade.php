@@ -14,9 +14,9 @@
             @endforeach
         </div>
     </div>
-    <p class="text-center">
+    <footer class="text-center my-4">
         <small>
             @include('layouts.includes.copyright')
         </small>
-    </p>
+    </footer>
 @endsection
