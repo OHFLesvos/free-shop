@@ -61,7 +61,7 @@
         <x-card title="Last Login">
             <x-icon icon="clock" fixed-width class="me-1" title="Date/time" aria-label="Date/time"/> <x-date-time-info :value="$user->last_login_at"/><br>
             <x-icon icon="network-wired" fixed-width class="me-1" title="IP address" aria-label="IP address"/> <x-ip-info :value="$user->last_login_ip"/><br>
-            <x-icon icon="map-marker-alt" fixed-width class="me-1" title="Location" aria-label="Location"/> <x-geo-location-info :value="$user->last_login_ip"/><br>
+            <x-icon icon="location-dot" fixed-width class="me-1" title="Location" aria-label="Location"/> <x-geo-location-info :value="$user->last_login_ip"/><br>
             <x-icon icon="desktop" fixed-width class="me-1" title="User agent" aria-label="User agent"/> <x-user-agent-info :value="$user->last_login_user_agent"/>
         </x-card>
 

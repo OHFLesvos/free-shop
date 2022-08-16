@@ -7,10 +7,10 @@
 ])
 @php
     $prefix = 'fa';
-    if ($type == 'solid') { $prefix = 'fas'; }
-    elseif ($type == 'regular') { $prefix = 'far'; }
-    elseif ($type == 'light') { $prefix = 'fal'; }
-    elseif ($type == 'duotone') { $prefix = 'fad'; }
-    elseif ($type == 'brands') { $prefix = 'fab'; }
+    if ($type == 'solid') { $prefix = 'fa-solid'; }
+    elseif ($type == 'regular') { $prefix = 'fa-regular'; }
+    elseif ($type == 'light') { $prefix = 'fa-light'; }
+    elseif ($type == 'duotone') { $prefix = 'fa-duotone'; }
+    elseif ($type == 'brands') { $prefix = 'fa-brands'; }
 @endphp
 <i {{ $attributes->merge(['class' => $prefix . ' fa-' . $icon . ($spin ? ' fa-spin' : '').($pulse ? ' fa-pulse' : '').($fixedWidth ? ' fa-fw' : '')]) }}></i>

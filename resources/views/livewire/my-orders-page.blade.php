@@ -18,7 +18,7 @@
                     <x-icon icon="ban" class="text-danger" />
                     {{ __('This order has been cancelled.') }}
                 @elseif($order->status == 'completed')
-                    <x-icon icon="check-circle" type="regular" class="text-success" />
+                    <x-icon icon="circle-check" type="regular" class="text-success" />
                     {{ __('This order has been completed.') }}
                 @elseif($order->status == 'ready')
                     <x-icon icon="box" class="text-info" />

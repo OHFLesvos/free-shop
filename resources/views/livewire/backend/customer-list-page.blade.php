@@ -45,14 +45,14 @@
                         type="button"
                         class="btn btn-outline-primary btn-sm"
                         wire:click="$set('tags', [])">
-                        <x-icon icon="times"/>
+                        <x-icon icon="xmark"/>
                     </button>
                 @endif
             </div>
             <a
                 href="{{ route('backend.tags') }}"
                 class="btn btn-secondary btn-sm ms-2">
-                <x-icon icon="cog" class="d-md-none"/>
+                <x-icon icon="gear" class="d-md-none"/>
                 <span class="d-none d-md-inline">Manage tags</span>
             </a>
         </div>

@@ -28,7 +28,7 @@
                                     type="button"
                                     wire:click="edit(0)"
                                     wire:loading.attr="disabled">
-                                    <x-icon icon="times-circle" title="Cancel"/>
+                                    <x-icon icon="circle-xmark" title="Cancel"/>
                                 </button>
                                 <button
                                     class="btn btn-danger"
