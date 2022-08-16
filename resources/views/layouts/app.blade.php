@@ -122,12 +122,15 @@ $rNavItems = [
         <footer class="footer mt-auto py-4 bg-white border-top shadow-sm">
             <div class="container">
                 <div class="d-lg-flex justify-content-between align-items-end">
+                    <div class="d-flex align-items-center">
+                    <img src="{{asset('img/signet_ohf.png')}}" style="height: 50px" class="me-3"/>
                     <div>
                         <small>
                             <strong>{{ config('app.name') }}</strong><br>
                             @include('layouts.includes.copyright')
                         </small>
                     </div>
+                </div>
                     <div class="text-end mt-4 mt-lg-0">
                         <small>
                             <a href="{{ route('about') }}">{{ __('About') }}</a>
