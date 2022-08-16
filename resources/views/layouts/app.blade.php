@@ -133,8 +133,7 @@ $rNavItems = [
                 </div>
                     <div class="text-end mt-4 mt-lg-0">
                         <small>
-                            <a href="{{ route('about') }}">{{ __('About') }}</a>
-                            <a href="{{ route('privacy-policy') }}" class="ms-2">{{ __('Privacy Policy') }}</a>
+                            <a href="{{ route('privacy-policy') }}">{{ __('Privacy Policy') }}</a>
                         </small>
                     </div>
                 </div>
