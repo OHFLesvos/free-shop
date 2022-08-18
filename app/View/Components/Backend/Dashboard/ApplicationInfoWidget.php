@@ -17,6 +17,7 @@ class ApplicationInfoWidget extends Component
         if (Auth::user()->can('view system information')) {
             $data = [
                 'Name' => config('app.name'),
+                'Environment' => app()->environment(),
             ];
             $gitInfoFile = base_path('.gitinfo');
             if (file_exists($gitInfoFile)) {
