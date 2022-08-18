@@ -1,4 +1,4 @@
-<div class="medium-container">
+<div class="container">
     @can('update settings')
         @if(setting()->has('shop.disabled', false))
             <x-alert type="warning">
@@ -7,7 +7,7 @@
             </x-alert>
         @endif
         @if(!filled(setting()->get('customer.credit_top_up.days')))
-        <x-alert type="info">
+        <x-alert type="info" class="mb-4">
                 Automatic top-up is not enabled.
                 <a href="{{ route('backend.configuration.settings') }}" class="float-end">Change</a>
             </x-alert>
@@ -20,7 +20,8 @@
             Please ask an administrator to assign you one or more roles.
         </x-alert>
     @endif
-    <div class="row row-cols-1 row-cols-md-2 gx-4 gy-2">
+
+    <div class="row" data-masonry='{"percentPosition": true }'>
         @php ob_start() @endphp
         <x-backend.dashboard.orders-widget/>
         <x-backend.dashboard.customers-widget/>

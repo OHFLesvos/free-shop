@@ -16,3 +16,5 @@ Alpine.start()
 
 import Tagify from '@yaireo/tagify'
 window.Tagify = Tagify;
+
+import 'masonry-layout'
