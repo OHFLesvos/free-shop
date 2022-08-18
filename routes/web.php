@@ -121,7 +121,7 @@ Route::prefix('backend')
 
 Route::middleware('auth')
     ->group(function () {
-        Route::redirect('backend', 'backend/dashboard')
+        Route::redirect('backend', '/backend/dashboard')
             ->name('backend');
         Route::prefix('backend')
             ->name('backend.')
