@@ -6,6 +6,7 @@ use App\Http\Livewire\Traits\CurrentRouteName;
 use Countries;
 use Gumlet\ImageResize;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
@@ -51,21 +52,17 @@ class SettingsPage extends BackendPage
 
     public ?string $selectedCountry = null;
 
+    public ?string $brandName;
+
     public ?string $brandLogo;
 
-    /**
-     * @var \Illuminate\Http\UploadedFile|null
-     */
-    public $brandLogoUpload;
+    public ?UploadedFile $brandLogoUpload;
 
     public bool $brandLogoRemove = false;
 
     public ?string $brandFavicon;
 
-    /**
-     * @var \Illuminate\Http\UploadedFile|null
-     */
-    public $brandFaviconUpload;
+    public ?UploadedFile $brandFaviconUpload;
 
     public bool $brandFaviconRemove = false;
 
@@ -74,6 +71,10 @@ class SettingsPage extends BackendPage
     protected function rules(): array
     {
         return [
+            'brandName' => [
+                'nullable',
+                'string',
+            ],
             'shopDisabled' => [
                 'boolean',
             ],
@@ -159,6 +160,7 @@ class SettingsPage extends BackendPage
         $this->customerCreditTopUpAmount = setting()->get('customer.credit_top_up.amount', '');
         $this->customerCreditTopUpMaximum = setting()->get('customer.credit_top_up.maximum', '');
         $this->shopMaxOrdersPerDay = setting()->get('shop.max_orders_per_day', '');
+        $this->brandName = setting()->get('brand.name', '');
         $this->brandLogo = setting()->get('brand.logo');
         $this->brandFavicon = setting()->get('brand.favicon');
         $this->customerIdNumberPattern = setting()->get('customer.id_number_pattern', '');
@@ -256,6 +258,8 @@ class SettingsPage extends BackendPage
 
             $this->brandFaviconUpload = null;
         }
+
+        $this->updateStringSetting('brand.name', $this->brandName);
 
         $this->updateStringSetting('customer.id_number_pattern', $this->customerIdNumberPattern);
 

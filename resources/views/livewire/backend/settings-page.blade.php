@@ -10,22 +10,24 @@
         <x-card title="General settings">
 
             <div class="mb-3">
-                <label for="timezone" class="form-label">Default timezone:</label>
-                <select
-                    id="timezone"
-                    wire:model.defer="timezone"
-                    class="form-select @error('timezone') is-invalid @enderror"
-                    style="max-width: 20em;">
-                    <option value="">- Default timezone ({{ config('app.timezone') }}) -</option>
-                    @foreach (listTimezones() as $value => $label)
-                        <option value="{{ $value }}">{{ $label }}</option>
-                    @endforeach
-                </select>
-                @error('timezone') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                <label for="brandNameInput" class="form-label">
+                    Brand name:
+                </label>
+                <input
+                    type="text"
+                    id="brandNameInput"
+                    wire:model.defer="brandName"
+                    placeholder="{{ config('app.name') }}"
+                    class="form-control @error('brandName') is-invalid @enderror"
+                    aria-describedby="brandNameHelp">
+                @error('brandName') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                <small id="brandNameHelp" class="form-text">
+                    Name which will be shown as the title of the shop.
+                </small>
             </div>
 
             <div class="mb-3">
-                <label for="brandLogoInput" class="form-label">Brand Logo:</label>
+                <label for="brandLogoInput" class="form-label">Brand logo:</label>
                 <input
                     type="file"
                     class="form-control"
@@ -62,7 +64,7 @@
                 @endif
             </div>
 
-            <div>
+            <div class="mb-3">
                 <label for="brandFaviconInput" class="form-label">Favicon:</label>
                 <input
                     type="file"
@@ -100,6 +102,21 @@
                         </div>
                     </div>
                 @endif
+            </div>
+
+            <div>
+                <label for="timezone" class="form-label">Default timezone:</label>
+                <select
+                    id="timezone"
+                    wire:model.defer="timezone"
+                    class="form-select @error('timezone') is-invalid @enderror"
+                    style="max-width: 20em;">
+                    <option value="">- Default timezone ({{ config('app.timezone') }}) -</option>
+                    @foreach (listTimezones() as $value => $label)
+                        <option value="{{ $value }}">{{ $label }}</option>
+                    @endforeach
+                </select>
+                @error('timezone') <div class="invalid-feedback">{{ $message }}</div> @enderror
             </div>
 
         </x-card>
