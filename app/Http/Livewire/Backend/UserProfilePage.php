@@ -30,12 +30,13 @@ class UserProfilePage extends BackendPage
         if ($this->user->hasRole(AuthServiceProvider::ADMINISTRATOR_ROLE)) {
             return User::role(AuthServiceProvider::ADMINISTRATOR_ROLE)->count() == 1;
         }
+
         return false;
     }
 
     public function refreshUser()
     {
-       $this->user->refresh();
+        $this->user->refresh();
     }
 
     public function delete()

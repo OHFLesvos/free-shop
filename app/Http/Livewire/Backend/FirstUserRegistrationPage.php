@@ -15,6 +15,7 @@ class FirstUserRegistrationPage extends Component
     public User $user;
 
     public String $password = '';
+
     public String $password_confirmation = '';
 
     public function rules(): array
@@ -48,7 +49,7 @@ class FirstUserRegistrationPage extends Component
     public function render()
     {
         return view('livewire.backend.first-user-registration-page')
-            ->layout('layouts.empty', ['title' => 'User registration']);;
+            ->layout('layouts.empty', ['title' => 'User registration']);
     }
 
     public function submit()

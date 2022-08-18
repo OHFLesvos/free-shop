@@ -19,9 +19,9 @@ class UserRegistered extends Notification
     public function toMail(User $notifiable): MailMessage
     {
         return (new MailMessage)
-            ->subject('User account created in ' . config('app.name'))
-            ->greeting('Hello ' . $notifiable->name)
-            ->line('A user account has been created for you in the application "' . config('app.name') . '".')
+            ->subject('User account created in '.config('app.name'))
+            ->greeting('Hello '.$notifiable->name)
+            ->line('A user account has been created for you in the application "'.config('app.name').'".')
             ->action('Open backend', route('backend'))
             ->line('Thank you for using our service!');
     }

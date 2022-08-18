@@ -12,7 +12,9 @@ class UserPasswordSettings extends Component
     public User $user;
 
     public String $current_password = '';
+
     public String $password = '';
+
     public String $password_confirmation = '';
 
     public function rules(): array
@@ -48,5 +50,4 @@ class UserPasswordSettings extends Component
 
         session()->flash('submitMessage', 'Your password has been updated.');
     }
-
 }

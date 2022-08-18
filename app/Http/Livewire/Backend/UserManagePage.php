@@ -23,6 +23,7 @@ class UserManagePage extends BackendPage
     public User $user;
 
     public String $password = '';
+
     public bool $showPassword = false;
 
     public array $userRoles;
@@ -31,10 +32,10 @@ class UserManagePage extends BackendPage
     {
         return [
             'user.name' => [
-                Rule::requiredIf(fn () => !$this->user->exists || $this->user->provider === null),
+                Rule::requiredIf(fn () => ! $this->user->exists || $this->user->provider === null),
             ],
             'user.email' => [
-                Rule::requiredIf(fn () => !$this->user->exists || $this->user->provider === null),
+                Rule::requiredIf(fn () => ! $this->user->exists || $this->user->provider === null),
                 'email',
                 Rule::unique('users', 'email')->ignore($this->user->id),
             ],
@@ -42,7 +43,7 @@ class UserManagePage extends BackendPage
                 Rule::in(Role::pluck('id')),
             ],
             'password' => [
-                Rule::requiredIf(fn () => !$this->user->exists),
+                Rule::requiredIf(fn () => ! $this->user->exists),
                 Password::defaults(),
             ],
         ];
@@ -76,7 +77,7 @@ class UserManagePage extends BackendPage
     public function render(): View
     {
         return parent::view('livewire.backend.user-manage-page', [
-            'title' => $this->user->exists ? 'Edit User ' . $this->user->name : 'Register User',
+            'title' => $this->user->exists ? 'Edit User '.$this->user->name : 'Register User',
             'roles' => Role::orderBy('name')->get(),
         ]);
     }
@@ -129,7 +130,7 @@ class UserManagePage extends BackendPage
 
         session()->flash('message', $this->user->wasRecentlyCreated
             ? 'User registered.'
-            : 'User updated.' . ($passwordChanged ? ' The password has been changed.': ''));
+            : 'User updated.'.($passwordChanged ? ' The password has been changed.' : ''));
 
         if (Auth::user()->refresh()->cannot('viewAny', User::class)) {
             return redirect()->route('backend');

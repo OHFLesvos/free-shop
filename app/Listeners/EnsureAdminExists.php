@@ -21,7 +21,7 @@ class EnsureAdminExists
     {
         if ($event->user instanceof User) {
             $adminRole = Role::findOrCreate(AuthServiceProvider::ADMINISTRATOR_ROLE);
-            if (!User::role($adminRole)->exists()) {
+            if (! User::role($adminRole)->exists()) {
                 $this->assignAdmin($event->user, $adminRole);
             }
         }

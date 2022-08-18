@@ -29,7 +29,7 @@ class ProductExport implements WithMultipleSheets, WithProperties
     public function properties(): array
     {
         return [
-            'title'   => config('app.name').' Products',
+            'title' => config('app.name').' Products',
             'creator' => config('app.name'),
         ];
     }

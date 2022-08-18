@@ -34,7 +34,6 @@ class UserProfileSettings extends Component
         return view('livewire.backend.userprofile.user-profile-settings');
     }
 
-
     public function detectTimezone(): void
     {
         $geoIp = GeoIP::getLocation();

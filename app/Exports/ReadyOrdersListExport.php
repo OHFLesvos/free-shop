@@ -68,7 +68,7 @@ class ReadyOrdersListExport implements WithProperties, FromQuery, WithMapping, W
     public function properties(): array
     {
         return [
-            'title'   => config('app.name').' List of ready orders',
+            'title' => config('app.name').' List of ready orders',
             'creator' => config('app.name'),
         ];
     }

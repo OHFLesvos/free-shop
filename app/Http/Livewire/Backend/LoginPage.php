@@ -10,6 +10,7 @@ use Livewire\Component;
 class LoginPage extends Component
 {
     public String $email = '';
+
     public String $password = '';
 
     protected array $rules = [
@@ -24,7 +25,7 @@ class LoginPage extends Component
 
     public function mount()
     {
-        if (count($this->getOauthProviders()) == 0 && !User::exists()) {
+        if (count($this->getOauthProviders()) == 0 && ! User::exists()) {
             return redirect()->route('backend.register');
         }
     }
@@ -56,9 +57,10 @@ class LoginPage extends Component
     {
         $credentials = $this->validate();
 
-        if (!Auth::attempt($credentials)) {
+        if (! Auth::attempt($credentials)) {
             $this->addError('email', 'Invalid username or password');
             $this->reset();
+
             return;
         }
 
