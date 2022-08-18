@@ -5,8 +5,8 @@ on:
     branches: [ production ]
 
 env:
-  PHP_BIN: php80
-  PHP_VERSION: '8.0'
+  PHP_BIN: php81
+  PHP_VERSION: '8.1'
 
 jobs:
   deploy-to-prod:

@@ -5,7 +5,7 @@
     "keywords": ["framework", "laravel"],
     "license": "GPL-3.0-or-later",
     "require": {
-        "php": "^8.0.2",
+        "php": "^8.1.0",
         "anlutro/l4-settings": "^1.0",
         "carlos-meneses/laravel-mpdf": "^2.1",
         "cviebrock/eloquent-sluggable": "^9.0",
