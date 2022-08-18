@@ -1,7 +1,7 @@
 @extends('components.backend.dashboard.base-widget')
 
 @section('title')
-    System
+    {{ $title }}
 @overwrite
 
 @section('content')
