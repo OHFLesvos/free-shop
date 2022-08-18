@@ -1,5 +1,5 @@
 <div class="mx-auto" style="max-width: @if(count($oauth) > 0 && $hasLocalLogin) 700px @else 400px @endif">
-    <h1 class="display-4 text-center">{{ config('app.name') }}</h1>
+    <h1 class="display-4 text-center">{{ setting()->get('brand.name', config('app.name')) }}</h1>
     <h2 class="mb-4 display-6 text-center">Backend Login</h2>
 
     @if(!$hasLocalLogin && count($oauth) == 0)

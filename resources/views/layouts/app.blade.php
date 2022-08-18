@@ -64,7 +64,7 @@ $rNavItems = [
                     @if(setting()->has('brand.logo') && Storage::exists(setting()->get('brand.logo')))
                         <img src="{{ storage_url(setting()->get('brand.logo')) }}" alt="Logo" height="24" class="me-1" />
                     @endif
-                    {{ config('app.name') }}
+                    {{ setting()->get('brand.name', config('app.name')) }}
                 </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>

@@ -162,7 +162,7 @@ class ReportsPage extends BackendPage
         ];
         $config = [
             'title' => $name,
-            'author' => config('app.name'),
+            'author' => setting()->get('brand.name', config('app.name')),
             'margin_left' => 20,
             'margin_right' => 20,
             'margin_top' => 20,
@@ -171,6 +171,7 @@ class ReportsPage extends BackendPage
             'margin_footer' => 10,
         ];
 
+        /** @var \Meneses\LaravelMpdf\LaravelMpdf $pdf */
         $pdf = PDF::loadView('backend.pdf-report', $data, $mergeData, $config);
 
         return response()->streamDownload(fn () => $pdf->stream(), $name.'.pdf');

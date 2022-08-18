@@ -19,5 +19,5 @@ Open backend
 @endcomponent
 
 Thanks,<br>
-{{ config('app.name') }}
+{{ setting()->get('brand.name', config('app.name')) }}
 @endcomponent

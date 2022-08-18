@@ -100,7 +100,9 @@ class DataExportPage extends BackendPage
         ]);
 
         $name = $types[$this->type]['label'];
-        $filename = config('app.name').' - '.$name.' '.now()->toDateString().'.'.$this->format;
+        $appName = setting()->get('brand.name', config('app.name'));
+        $date = now()->toDateString();
+        $filename = "$appName - $name - $date.$this->format";
 
         Log::info('Exported data to file.', [
             'event.kind' => 'event',

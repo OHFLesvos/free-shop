@@ -1,5 +1,5 @@
 <div class="mx-auto" style="max-width: 400px">
-    <h1 class="display-4 text-center">{{ config('app.name') }}</h1>
+    <h1 class="display-4 text-center">{{ setting()->get('brand.name', config('app.name')) }}</h1>
     <h2 class="mb-4 display-6 text-center">Backend Login</h2>
 
     <form wire:submit.prevent="submit" autocomplete="off">
@@ -10,6 +10,7 @@
                     type="text"
                     class="form-control @error('user.name') is-invalid @enderror"
                     id="nameInput"
+                    autofocus
                     autocomplete="off"
                     required
                     wire:model.defer="user.name">

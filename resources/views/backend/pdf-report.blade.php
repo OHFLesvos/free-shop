@@ -21,7 +21,7 @@
 </head>
 <body>
     <htmlpageheader name="page-header">
-        {{ config('app.name') }}
+        {{ setting()->get('brand.name', config('app.name')) }}
     </htmlpageheader>
 
     <h1>Report</h1>
