@@ -7,8 +7,8 @@ on:
     branches: [ main ]
 
 env:
-  PHP_BIN: php80
-  PHP_VERSION: '8.0'
+  PHP_BIN: php81
+  PHP_VERSION: '8.1'
 
 jobs:
   npm-build:
