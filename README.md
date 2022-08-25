@@ -172,3 +172,20 @@ Run the following commands:
 * [XAMPP (on Windows)](https://www.apachefriends.org/)
 * [Composer](https://getcomposer.org/)
 * [NodeJS/NPM](https://nodejs.org/)
+
+
+## Productive docker image
+
+Adapt the environment variables in `docker-compose-prod.yml` according to your setup.
+
+Build the docker image:
+
+    docker-compose -f docker-compose-prod.yml build
+
+Run the docker image:
+
+    docker-compose -f docker-compose-prod.yml up -d
+
+Migrate the database:
+
+    docker-compose exec app php artisan migrate --force
