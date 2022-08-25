@@ -7,6 +7,7 @@ services:
     ports:
       - "80:80"
     environment:
+      # - APP_DEBUG=false
       - DB_CONNECTION=mysql # pgsql
       - DB_HOST=mysql.example.com
       - DB_PORT=3306 # 5432
@@ -28,9 +29,9 @@ services:
       # - GOOGLE_CLIENT_SECRET=
       # - GOOGLE_REDIRECT_URI=http://example.com/backend/login/google/callback
       # - GOOGLE_ORGANIZATION_DOMAIN=
-    volumes:
-      - logs:/var/www/html/storage/logs
-      - appdata:/var/www/html/storage/app
-volumes:
-  logs:
-  appdata:
+    # volumes:
+    #   - logs:/var/www/html/storage/logs
+    #   - appdata:/var/www/html/storage/app
+# volumes:
+#   logs:
+#   appdata:

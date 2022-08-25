@@ -36,5 +36,6 @@ COPY .env.prod /var/www/html/.env
 
 RUN php artisan optimize && \
     php artisan config:clear && \
-    php artisan storage:link && \
-    php artisan key:generate
+    php artisan storage:link
+
+CMD ["/bin/sh", "-c", "php artisan key:generate -n && php artisan config:cache && php artisan migrate --force && apache2-foreground"]

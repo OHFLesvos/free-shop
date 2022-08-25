@@ -186,6 +186,6 @@ Run the docker image:
 
     docker-compose -f docker-compose-prod.yml up -d
 
-Migrate the database:
+Execute Laravel artisan command inside the container (if needed):
 
-    docker-compose exec app php artisan migrate --force
+    docker-compose exec app php artisan YOUR_COMMAND
