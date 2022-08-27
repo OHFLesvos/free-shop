@@ -68,6 +68,7 @@ class ReadyOrdersListExport implements WithProperties, FromQuery, WithMapping, W
     public function properties(): array
     {
         $appName = setting()->get('brand.name', config('app.name'));
+
         return [
             'title' => "$appName List of ready orders",
             'creator' => $appName,

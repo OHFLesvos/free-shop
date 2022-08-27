@@ -19,6 +19,7 @@ class UserRegistered extends Notification
     public function toMail(User $notifiable): MailMessage
     {
         $appName = setting()->get('brand.name', config('app.name'));
+
         return (new MailMessage)
             ->subject('User account created in '.$appName)
             ->greeting('Hello '.$notifiable->name)

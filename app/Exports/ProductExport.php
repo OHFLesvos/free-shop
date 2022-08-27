@@ -29,6 +29,7 @@ class ProductExport implements WithMultipleSheets, WithProperties
     public function properties(): array
     {
         $appName = setting()->get('brand.name', config('app.name'));
+
         return [
             'title' => "$appName Products",
             'creator' => $appName,
