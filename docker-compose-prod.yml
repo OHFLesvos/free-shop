@@ -3,7 +3,7 @@ services:
   app:
     build:
       context: ./
-      dockerfile: Dockerfile-prod
+      dockerfile: Dockerfile.prod
     ports:
       - "80:80"
     environment:
