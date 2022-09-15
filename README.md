@@ -119,7 +119,7 @@ More information here: https://github.com/nunomaduro/larastan
 
 Run:
 
-   ./vendor/bin/pint
+    ./vendor/bin/pint
 
 More information here: https://github.com/laravel/pint
 
@@ -137,8 +137,30 @@ Install Docker for Windows or Rancher Desktop.
 
 In case of Rancher Desktop, change the settings to expose Docker to Ubuntu, and fix socket permissions as needed:
 
-    sudo chmod 666 /var/run/docker.sock
-    sudo usermod -aG docker ${USER}
+```bash
+sudo chmod 666 /var/run/docker.sock
+sudo usermod -aG docker ${USER}
+```
+
+In case of Docker for Windows, if you get an error message like `/usr/bin/docker-credential-desktop.exe: Invalid argument`, you can do the following:
+
+Edit the ~/.docker/config.json file `~/.docker/config.json`. 
+
+It should display something similar to this:
+
+```json
+{
+    "credsStore": "desktop.exe"
+}
+```
+
+Change “credsStore” to “credStore” like this:
+
+```json
+{
+    "credStore": "desktop.exe"
+}
+```
 
 Install Visual Studio Code and the Remote - WSL extension. Open a new WSL window, and checkout the code from Github.
 
@@ -148,7 +170,9 @@ Setup Laravel sail:
 
 Configure the sail bash alias by adding the following line to `.bashrc`:
 
-    alias sail='[ -f sail ] && bash sail || bash vendor/bin/sail'
+```bash
+alias sail='[ -f sail ] && bash sail || bash vendor/bin/sail'
+```
 
 Copy `.env.example` to `.env`.
 
