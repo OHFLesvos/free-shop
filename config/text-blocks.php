@@ -15,7 +15,7 @@ return [
     ],
     'shop-disabled' => [
         'type' => 'plain',
-        'purpose' => 'Text displayed when the shop is disbaled',
+        'purpose' => 'Text displayed when the shop is disabled',
     ],
     'post-checkout' => [
         'type' => 'markdown',
