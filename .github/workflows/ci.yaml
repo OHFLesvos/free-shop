@@ -41,6 +41,8 @@ jobs:
         node-version: ${{ env.NODE_VERSION }}
     - name: Install packages via NPM
       run: npm ci
+    - name: Audit NPM packages
+      run: npm audit --omit dev
     - name: Build assets
       run: npm run build
     - name: Create Database
