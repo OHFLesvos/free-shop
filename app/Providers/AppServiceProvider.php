@@ -4,9 +4,7 @@ namespace App\Providers;
 
 use App\Util\Carbon\UserTimeZoneMixin;
 use Carbon\Carbon;
-use Countries;
 use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Validation\Rules\Password;
 
@@ -30,8 +28,6 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         Carbon::mixin(new UserTimeZoneMixin());
-
-        Validator::extend('country_code', fn ($attribute, $value) => in_array($value, array_keys(Countries::getList())));
 
         Blueprint::macro('dropForeignSafe', function ($args) {
             if (app()->runningUnitTests()) {

@@ -120,8 +120,6 @@ return [
 
     'phone' => 'Le champ :attribute doit être un numéro valide.',
 
-    'country_code' => 'Le champ :attribute doit être un code de pays valide.',
-
     /*
     |--------------------------------------------------------------------------
     | Custom Validation Language Lines

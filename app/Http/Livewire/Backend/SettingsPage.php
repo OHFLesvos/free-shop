@@ -3,6 +3,7 @@
 namespace App\Http\Livewire\Backend;
 
 use App\Http\Livewire\Traits\CurrentRouteName;
+use App\Rules\CountryCode;
 use Countries;
 use Gumlet\ImageResize;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
@@ -83,7 +84,7 @@ class SettingsPage extends BackendPage
             ],
             'orderDefaultPhoneCountry' => [
                 'nullable',
-                'country_code',
+                new CountryCode,
             ],
             'shopMaxOrdersPerDay' => [
                 'nullable',
