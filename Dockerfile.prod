@@ -9,7 +9,7 @@ WORKDIR /src
 RUN npm ci && \
     npm run build
 
-FROM php:8.1-apache-bullseye
+FROM php:8.2.0RC1-fpm-bullseye
 
 RUN apt-get update -y && apt-get upgrade -y
 
