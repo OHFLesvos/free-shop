@@ -31,7 +31,7 @@ is marked as ready, the customer receives a notification by SMS informing about 
 
 ### 3rd-party services
 
-* [REQUIRED] [Google OAuth](https://developers.google.com/identity/protocols/oauth2/web-server) for backend (administrator) login
+* [OPTIONAL] [Google OAuth](https://developers.google.com/identity/protocols/oauth2/web-server) for backend (administrator) login
 * [REQUIRED] [Twilio](https://www.twilio.com/) for sending order updates by SMS
 * [REQUIRED] [Symfony Mailer](https://symfony.com/doc/current/mailer.html)-compatible mail service
 * [OPTIONAL] [Sentry](https://sentry.io/welcome/) for application monitoring
