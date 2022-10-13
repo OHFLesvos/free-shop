@@ -6,7 +6,7 @@ use Torann\GeoIP\Facades\GeoIP;
 
 class GeoBlockChecker
 {
-    public function isBlocked()
+    public function isBlocked(): bool
     {
         $countries = setting()->get('geoblock.whitelist', []);
 

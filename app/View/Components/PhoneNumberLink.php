@@ -2,6 +2,7 @@
 
 namespace App\View\Components;
 
+use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
 
 class PhoneNumberLink extends Component
@@ -20,12 +21,7 @@ class PhoneNumberLink extends Component
         assert(in_array($type, $types), '$type must be one of ['.implode(', ', $types).']');
     }
 
-    /**
-     * Get the view / contents that represent the component.
-     *
-     * @return \Illuminate\Contracts\View\View|string
-     */
-    public function render()
+    public function render(): View
     {
         return view('components.phone-number-link');
     }
@@ -85,7 +81,7 @@ class PhoneNumberLink extends Component
         return $value;
     }
 
-    private function formatSms()
+    private function formatSms(): string
     {
         $value = 'sms://'.$this->value;
         if (filled($this->body)) {

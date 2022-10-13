@@ -11,7 +11,7 @@ class UserRegistered extends Notification
 {
     use Queueable;
 
-    public function via($notifiable): array
+    public function via(): array
     {
         return ['mail'];
     }
