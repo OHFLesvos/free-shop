@@ -4,9 +4,11 @@ namespace App\Models;
 
 use Dyrynda\Database\Support\NullableFields;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Query\JoinClause;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use OwenIt\Auditing\Contracts\Auditable;
@@ -58,50 +60,67 @@ class Product extends Model implements Auditable
             ->withPivot('quantity');
     }
 
-    public function getPictureUrlAttribute(): ?string
+    /**
+     * @return Attribute<?string,never>
+     */
+    protected function pictureUrl(): Attribute
     {
-        if ($this->picture !== null) {
-            if (preg_match('#^http[s]?://#', $this->picture)) {
-                return $this->picture;
-            }
-            if (Storage::exists($this->picture)) {
-                return Storage::url($this->picture);
-            }
-        }
+        return Attribute::make(
+            get: function () {
+                if ($this->picture !== null) {
+                    if (preg_match('#^http[s]?://#', $this->picture)) {
+                        return $this->picture;
+                    }
+                    if (Storage::exists($this->picture)) {
+                        return Storage::url($this->picture);
+                    }
+                }
 
-        return null;
+                return null;
+            },
+        );
     }
 
-    public function getReservedQuantityAttribute(): int
+    /**
+     * @return Attribute<int,never>
+     */
+    protected function reservedQuantity(): Attribute
     {
-        return DB::table('orders')->whereIn('orders.status', ['new', 'ready'])
-            ->join('order_product', function ($join) {
-                $join->on('orders.id', '=', 'order_product.order_id')
-                    ->where('order_product.product_id', '=', $this->id);
-            })
-            ->groupBy('order_product.product_id')
-            ->selectRaw('sum(quantity) as reserved')
-            ->first()
-            ->reserved ?? 0;
+        return Attribute::make(
+            get: fn () => DB::table('orders')
+                ->whereIn('orders.status', ['new', 'ready'])
+                ->join('order_product', function (JoinClause $join) {
+                    $join->on('orders.id', '=', 'order_product.order_id')
+                        ->where('order_product.product_id', '=', $this->id);
+                })
+                ->groupBy('order_product.product_id')
+                ->sum('quantity'),
+        );
     }
 
-    public function getFreeQuantityAttribute(): int
+    /**
+     * @return Attribute<int,int>
+     */
+    protected function freeQuantity(): Attribute
     {
-        return $this->stock - $this->reserved_quantity;
+        return Attribute::make(
+            get: fn () => $this->stock - $this->reserved_quantity,
+            set: fn (int $value) => [
+                'stock' => $value + $this->reserved_quantity,
+            ],
+        );
     }
 
-    public function setFreeQuantityAttribute(int $value): void
+    /**
+     * @return Attribute<int,never>
+     */
+    protected function quantityAvailableForCustomer(): Attribute
     {
-        $this->stock = $value + $this->reserved_quantity;
-    }
-
-    public function getQuantityAvailableForCustomerAttribute(): int
-    {
-        if ($this->limit_per_order !== null) {
-            return min($this->limit_per_order, $this->free_quantity);
-        }
-
-        return max(0, $this->free_quantity);
+        return Attribute::make(
+            get: fn () => $this->limit_per_order !== null
+                ? min($this->limit_per_order, $this->free_quantity)
+                : max(0, $this->free_quantity)
+        );
     }
 
     public function scopeAvailable(Builder $qry): void

@@ -12,6 +12,7 @@ use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
 use Illuminate\Contracts\Translation\HasLocalePreference;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -63,7 +64,7 @@ class Customer extends Model implements HasLocalePreference, AuthenticatableCont
         'topped_up_at' => 'datetime',
     ];
 
-    protected static function booted()
+    protected static function booted(): void
     {
         static::creating(function (Customer $customer) {
             if ($customer->topped_up_at == null) {
@@ -125,17 +126,23 @@ class Customer extends Model implements HasLocalePreference, AuthenticatableCont
         return $this->locale;
     }
 
-    public function getPhoneFormattedInternationalAttribute(): ?string
+    /**
+     * @return Attribute<?string,never>
+     */
+    protected function phoneFormattedInternational(): Attribute
     {
-        if ($this->phone !== null) {
-            try {
-                return PhoneNumber::make($this->phone)->formatInternational();
-            } catch (NumberParseException $ignored) {
-                return $this->phone;
-            }
-        }
-
-        return null;
+        return Attribute::make(
+            get: function () {
+                if ($this->phone === null) {
+                    return null;
+                }
+                try {
+                    return PhoneNumber::make($this->phone)->formatInternational();
+                } catch (NumberParseException $ignored) {
+                    return $this->phone;
+                }
+            },
+        );
     }
 
     public function getNextOrderIn(): ?Carbon
@@ -156,23 +163,29 @@ class Customer extends Model implements HasLocalePreference, AuthenticatableCont
         return null;
     }
 
-    public function getNextTopUpDateAttribute(): ?Carbon
+    /**
+     * @return Attribute<?Carbon,never>
+     */
+    protected function nextTopUpDate(): Attribute
     {
-        $days = setting()->get('customer.credit_top_up.days');
-        if ($days > 0) {
-            $startingCredit = setting()->get('customer.starting_credit', config('shop.customer.starting_credit'));
-            $amount = setting()->get('customer.credit_top_up.amount', $startingCredit);
-            $maximum = setting()->get('customer.credit_top_up.maximum', $startingCredit);
-            if ($this->credit < min($this->credit + $amount, $maximum)) {
-                $date = $this->topped_up_at ? $this->topped_up_at->clone()->addDays($days) : today();
-                if ($date->isBefore(today())) {
-                    return today();
+        return Attribute::make(
+            get: function () {
+                $days = setting()->get('customer.credit_top_up.days');
+                if ($days <= 0) {
+                    return null;
                 }
+                $startingCredit = setting()->get('customer.starting_credit', config('shop.customer.starting_credit'));
+                $amount = setting()->get('customer.credit_top_up.amount', $startingCredit);
+                $maximum = setting()->get('customer.credit_top_up.maximum', $startingCredit);
+                if ($this->credit < min($this->credit + $amount, $maximum)) {
+                    $date = $this->topped_up_at ? $this->topped_up_at->clone()->addDays($days) : today();
+                    if ($date->isBefore(today())) {
+                        return today();
+                    }
 
-                return $date;
-            }
-        }
-
-        return null;
+                    return $date;
+                }
+            },
+        );
     }
 }

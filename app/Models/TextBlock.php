@@ -25,7 +25,7 @@ class TextBlock extends Model implements Auditable
         'content',
     ];
 
-    public function getRouteKeyName()
+    public function getRouteKeyName(): string
     {
         return 'name';
     }

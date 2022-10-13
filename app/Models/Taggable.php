@@ -8,7 +8,7 @@ class Taggable extends MorphPivot
 {
     protected $table = 'taggables';
 
-    public static function boot()
+    public static function boot(): void
     {
         parent::boot();
         static::deleted(function ($item) {

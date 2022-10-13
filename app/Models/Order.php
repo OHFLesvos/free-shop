@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Models\Traits\NumberCompareScope;
 use Dyrynda\Database\Support\NullableFields;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -23,7 +24,7 @@ class Order extends Model implements Auditable
         'completed_at' => 'datetime',
     ];
 
-    protected static function booted()
+    protected static function booted(): void
     {
         static::updating(function (Order $order) {
             if ($order->status == 'completed' && $order->completed_at == null) {
@@ -72,14 +73,24 @@ class Order extends Model implements Auditable
         return $this->belongsTo(Customer::class);
     }
 
-    public function getIsOpenAttribute(): bool
+    /**
+     * @return Attribute<bool,never>
+     */
+    protected function isOpen(): Attribute
     {
-        return in_array($this->status, ['new', 'ready']);
+        return Attribute::make(
+            get: fn () => in_array($this->status, ['new', 'ready']),
+        );
     }
 
-    public function getIsCancellableAttribute(): bool
+    /**
+     * @return Attribute<bool,never>
+     */
+    protected function isCancellable(): Attribute
     {
-        return $this->status == 'new';
+        return Attribute::make(
+            get: fn () => $this->status == 'new',
+        );
     }
 
     public function scopeRegisteredInDateRange(Builder $qry, ?string $start, ?string $end): void
