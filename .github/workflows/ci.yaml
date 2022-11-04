@@ -94,7 +94,7 @@ jobs:
             cd ${{ secrets.REMOTE_TARGET }}
             if [ -f .env ] && [ -f artisan ]; then ${{ env.PHP_BIN }} artisan down; fi
       - name: Deploy to remote
-        uses: easingthemes/ssh-deploy@v2.1.5
+        uses: easingthemes/ssh-deploy@v3.0.1
         env:
           ARGS: "-rltgoDzvO --delete --exclude '.env' --exclude '.git' --exclude 'storage/app/' --exclude 'storage/framework/' --exclude 'storage/logs/' --exclude 'node_modules' --exclude '.vscode' --exclude '.github'"
           REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
