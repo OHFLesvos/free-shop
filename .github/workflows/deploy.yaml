@@ -7,6 +7,7 @@ on:
 env:
   PHP_BIN: php81
   PHP_VERSION: "8.1"
+  NODE_VERSION: "16"
 
 jobs:
   deploy-to-prod:
@@ -29,9 +30,9 @@ jobs:
       - name: Install Dependencies
         run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist  --optimize-autoloader --no-dev
       - name: Use Node.js
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v3
         with:
-          node-version: "16.x"
+          node-version: ${{ env.NODE_VERSION }}
       - run: npm ci
       - run: npm run build
       - name: Enable maintenance mode on remote
