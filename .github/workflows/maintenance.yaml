@@ -3,7 +3,7 @@ name: Workflow maintenance
 on:
   workflow_dispatch:
   schedule:
-    - cron: "0 1 * * *"
+    - cron: "0 1 1 * *"
 
 jobs:
   cleanup:
@@ -16,4 +16,4 @@ jobs:
           token: ${{ github.token }}
           repository: ${{ github.repository }}
           retain_days: 30
-          keep_minimum_runs: 5
+          keep_minimum_runs: 6
