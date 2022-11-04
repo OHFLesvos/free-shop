@@ -57,6 +57,7 @@ jobs:
         run: vendor/bin/phpunit
 
   deploy-to-staging:
+    name: Deploy to staging
     environment: staging
     runs-on: ubuntu-latest
     needs: [laravel-tests]

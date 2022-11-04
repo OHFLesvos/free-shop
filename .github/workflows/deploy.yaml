@@ -10,6 +10,7 @@ env:
 
 jobs:
   deploy-to-prod:
+    name: Deploy to production
     runs-on: ubuntu-latest
 
     steps:
