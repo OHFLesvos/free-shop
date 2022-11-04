@@ -23,7 +23,7 @@
         "maatwebsite/excel": "^3.1",
         "megastruktur/phone-country-codes": "^0.4.0",
         "monarobase/country-list": "^3.2",
-        "mpdf/mpdf": "^8.0",
+        "mpdf/mpdf": "^8.1",
         "owen-it/laravel-auditing": "^13.0",
         "propaganistas/laravel-phone": "^4.2",
         "sentry/sentry-laravel": "^3.0.1",

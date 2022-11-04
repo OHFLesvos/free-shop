@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "5bf1ce0171b26a72fdd61df0d5675807",
+    "content-hash": "74666fab6f82a108c1090ab54daf73e0",
     "packages": [
         {
             "name": "anlutro/l4-settings",
@@ -127,20 +127,20 @@
         },
         {
             "name": "carlos-meneses/laravel-mpdf",
-            "version": "2.1.7",
+            "version": "2.1.9",
             "source": {
                 "type": "git",
                 "url": "https://github.com/mccarlosen/laravel-mpdf.git",
-                "reference": "a05c6194458071aeba4ecff40e8f883ddf091de9"
+                "reference": "df2244cfdf533fa3206c8441d1c0b94efe1d34c2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mccarlosen/laravel-mpdf/zipball/a05c6194458071aeba4ecff40e8f883ddf091de9",
-                "reference": "a05c6194458071aeba4ecff40e8f883ddf091de9",
+                "url": "https://api.github.com/repos/mccarlosen/laravel-mpdf/zipball/df2244cfdf533fa3206c8441d1c0b94efe1d34c2",
+                "reference": "df2244cfdf533fa3206c8441d1c0b94efe1d34c2",
                 "shasum": ""
             },
             "require": {
-                "mpdf/mpdf": "^8.0.0",
+                "mpdf/mpdf": "^8.1.0",
                 "php": "^7.4|^8.0"
             },
             "type": "library",
@@ -171,9 +171,15 @@
             ],
             "support": {
                 "issues": "https://github.com/mccarlosen/laravel-mpdf/issues",
-                "source": "https://github.com/mccarlosen/laravel-mpdf/tree/2.1.7"
+                "source": "https://github.com/mccarlosen/laravel-mpdf/tree/2.1.9"
             },
-            "time": "2021-08-24T18:53:11+00:00"
+            "funding": [
+                {
+                    "url": "https://www.paypal.me/mccarlosen",
+                    "type": "custom"
+                }
+            ],
+            "time": "2022-08-25T17:09:52+00:00"
         },
         {
             "name": "clue/stream-filter",
@@ -3669,16 +3675,16 @@
         },
         {
             "name": "mpdf/mpdf",
-            "version": "v8.0.16",
+            "version": "v8.1.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/mpdf/mpdf.git",
-                "reference": "df333a84190ac549b25204b6de2dfb7eb0bffa3d"
+                "reference": "a8a22f4874157e490d41b486053a20bec42e182c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mpdf/mpdf/zipball/df333a84190ac549b25204b6de2dfb7eb0bffa3d",
-                "reference": "df333a84190ac549b25204b6de2dfb7eb0bffa3d",
+                "url": "https://api.github.com/repos/mpdf/mpdf/zipball/a8a22f4874157e490d41b486053a20bec42e182c",
+                "reference": "a8a22f4874157e490d41b486053a20bec42e182c",
                 "shasum": ""
             },
             "require": {
@@ -3687,7 +3693,9 @@
                 "myclabs/deep-copy": "^1.7",
                 "paragonie/random_compat": "^1.4|^2.0|^9.99.99",
                 "php": "^5.6 || ^7.0 || ~8.0.0 || ~8.1.0",
-                "psr/log": "^1.0 || ^2.0 || ^3.0",
+                "php-http/message-factory": "^1.0",
+                "psr/http-message": "^1.0",
+                "psr/log": "^1.0 || ^2.0",
                 "setasign/fpdi": "^2.1"
             },
             "require-dev": {
@@ -3740,7 +3748,7 @@
                     "type": "custom"
                 }
             ],
-            "time": "2022-01-20T10:03:08+00:00"
+            "time": "2022-08-15T08:15:09+00:00"
         },
         {
             "name": "myclabs/deep-copy",
@@ -5363,16 +5371,16 @@
         },
         {
             "name": "psr/log",
-            "version": "3.0.0",
+            "version": "2.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-fig/log.git",
-                "reference": "fe5ea303b0887d5caefd3d431c3e61ad47037001"
+                "reference": "ef29f6d262798707a9edd554e2b82517ef3a9376"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-fig/log/zipball/fe5ea303b0887d5caefd3d431c3e61ad47037001",
-                "reference": "fe5ea303b0887d5caefd3d431c3e61ad47037001",
+                "url": "https://api.github.com/repos/php-fig/log/zipball/ef29f6d262798707a9edd554e2b82517ef3a9376",
+                "reference": "ef29f6d262798707a9edd554e2b82517ef3a9376",
                 "shasum": ""
             },
             "require": {
@@ -5381,7 +5389,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "3.x-dev"
+                    "dev-master": "2.0.x-dev"
                 }
             },
             "autoload": {
@@ -5407,9 +5415,9 @@
                 "psr-3"
             ],
             "support": {
-                "source": "https://github.com/php-fig/log/tree/3.0.0"
+                "source": "https://github.com/php-fig/log/tree/2.0.0"
             },
-            "time": "2021-07-14T16:46:02+00:00"
+            "time": "2021-07-14T16:41:46+00:00"
         },
         {
             "name": "psr/simple-cache",
