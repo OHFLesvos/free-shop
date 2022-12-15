@@ -120,7 +120,7 @@ class OrderListPage extends BackendPage
                     } elseif ($newStatus == 'completed') {
                         CompleteOrder::run($order);
                     }
-                } catch (\Twilio\Exceptions\TwilioException | PhoneNumberBlockedByAdminException $ex) {
+                } catch (\Twilio\Exceptions\TwilioException|PhoneNumberBlockedByAdminException $ex) {
                     Log::warning('['.get_class($ex).'] Unable to notify customer about order change: '.$ex->getMessage());
                 } catch (\Exception $ex) {
                     session()->flash('error', $ex->getMessage());
