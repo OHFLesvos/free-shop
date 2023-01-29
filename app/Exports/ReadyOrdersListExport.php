@@ -61,7 +61,7 @@ class ReadyOrdersListExport implements WithProperties, FromQuery, WithMapping, W
     public function columnFormats(): array
     {
         return [
-            'D' => NumberFormat::FORMAT_DATE_YYYYMMDD.' '.NumberFormat::FORMAT_DATE_TIME3,
+            'D' => NumberFormat::FORMAT_DATE_YYYYMMDD . ' ' . NumberFormat::FORMAT_DATE_TIME3,
         ];
     }
 

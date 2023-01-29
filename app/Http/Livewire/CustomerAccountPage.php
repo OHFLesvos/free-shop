@@ -34,7 +34,7 @@ class CustomerAccountPage extends FrontendPage
             'idNumber' => [
                 'required',
                 setting()->has('customer.id_number_pattern')
-                    ? 'regex:'.setting()->get('customer.id_number_pattern')
+                    ? 'regex:' . setting()->get('customer.id_number_pattern')
                     : null,
                 Rule::unique('customers', 'id_number')->ignore($this->customer->id),
             ],

@@ -85,7 +85,7 @@ class SocialLoginController extends Controller
     {
         if ($newAvatar !== null) {
             if (ini_get('allow_url_fopen')) {
-                $avatar = 'public/avatars/'.basename($newAvatar);
+                $avatar = 'public/avatars/' . basename($newAvatar);
                 if ($currentAvatar !== null && $avatar != $currentAvatar && Storage::exists($currentAvatar)) {
                     Storage::delete($currentAvatar);
                 }

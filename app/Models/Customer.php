@@ -108,12 +108,12 @@ class Customer extends Model implements HasLocalePreference, AuthenticatableCont
 
     public function scopeFilter(Builder $qry, string $filter): void
     {
-        $qry->where(DB::raw('LOWER(name)'), 'LIKE', '%'.strtolower($filter).'%')
-            ->orWhere('id_number', 'LIKE', $filter.'%')
+        $qry->where(DB::raw('LOWER(name)'), 'LIKE', '%' . strtolower($filter) . '%')
+            ->orWhere('id_number', 'LIKE', $filter . '%')
             ->orWhere(fn ($inner) => $inner->whereNumberCompare('id_number', $filter))
-            ->orWhere('phone', 'LIKE', $filter.'%')
+            ->orWhere('phone', 'LIKE', $filter . '%')
             ->orWhere(fn ($inner) => $inner->whereNumberCompare('phone', $filter))
-            ->orWhere('remarks', 'LIKE', '%'.$filter.'%');
+            ->orWhere('remarks', 'LIKE', '%' . $filter . '%');
     }
 
     public function routeNotificationForTwilio(): ?string

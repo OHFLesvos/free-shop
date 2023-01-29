@@ -26,7 +26,7 @@ class OrderDetailPage extends BackendPage
 
     protected function title(): string
     {
-        return 'Order #'.$this->order->id;
+        return 'Order #' . $this->order->id;
     }
 
     public function mount(): void
@@ -70,7 +70,7 @@ class OrderDetailPage extends BackendPage
                     CompleteOrder::run($this->order);
                 }
             } catch (\Twilio\Exceptions\TwilioException|PhoneNumberBlockedByAdminException $ex) {
-                Log::warning('['.get_class($ex).'] Unable to notify customer about order change: '.$ex->getMessage());
+                Log::warning('[' . get_class($ex) . '] Unable to notify customer about order change: ' . $ex->getMessage());
             } catch (\Exception $ex) {
                 session()->flash('error', $ex->getMessage());
 
@@ -79,7 +79,7 @@ class OrderDetailPage extends BackendPage
 
             $this->order->refresh();
 
-            session()->flash('message', 'Order marked as '.$this->newStatus.'.');
+            session()->flash('message', 'Order marked as ' . $this->newStatus . '.');
         }
 
         $this->showChangeStatus = false;

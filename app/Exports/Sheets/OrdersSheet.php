@@ -58,7 +58,7 @@ class OrdersSheet implements FromQuery, WithMapping, WithHeadings, WithColumnFor
             $order->id,
             $order->status,
             isset($order->customer) ? $order->customer->id : null,
-            isset($order->customer) ? ($order->customer->name.', '.$order->customer->id_number.', '.$this->mapPhone($order->customer->phone)) : null,
+            isset($order->customer) ? ($order->customer->name . ', ' . $order->customer->id_number . ', ' . $this->mapPhone($order->customer->phone)) : null,
             $order->ip_address,
             $this->mapBrowser($order->user_agent),
             $this->mapOS($order->user_agent),
@@ -77,7 +77,7 @@ class OrdersSheet implements FromQuery, WithMapping, WithHeadings, WithColumnFor
         try {
             return PhoneNumber::make($value)->formatInternational();
         } catch (Throwable $ignored) {
-            return ' '.$value;
+            return ' ' . $value;
         }
     }
 
@@ -85,7 +85,7 @@ class OrdersSheet implements FromQuery, WithMapping, WithHeadings, WithColumnFor
     {
         $userAgent = (new UserAgentParser())->parse($value);
 
-        return $userAgent->browser().' '.$userAgent->browserVersion();
+        return $userAgent->browser() . ' ' . $userAgent->browserVersion();
     }
 
     private function mapOS($value)
@@ -105,8 +105,8 @@ class OrdersSheet implements FromQuery, WithMapping, WithHeadings, WithColumnFor
     public function columnFormats(): array
     {
         return [
-            'J' => NumberFormat::FORMAT_DATE_YYYYMMDD.' '.NumberFormat::FORMAT_DATE_TIME3,
-            'K' => NumberFormat::FORMAT_DATE_YYYYMMDD.' '.NumberFormat::FORMAT_DATE_TIME3,
+            'J' => NumberFormat::FORMAT_DATE_YYYYMMDD . ' ' . NumberFormat::FORMAT_DATE_TIME3,
+            'K' => NumberFormat::FORMAT_DATE_YYYYMMDD . ' ' . NumberFormat::FORMAT_DATE_TIME3,
         ];
     }
 }

@@ -24,7 +24,7 @@ class TextBlockEditPage extends BackendPage
 
         return [
             'content.*' => 'nullable',
-            'content.'.$defaultLocale => config('text-blocks.'.$this->textBlock->name.'.required') ? 'required' : 'nullable',
+            'content.' . $defaultLocale => config('text-blocks.' . $this->textBlock->name . '.required') ? 'required' : 'nullable',
         ];
     }
 
@@ -45,7 +45,7 @@ class TextBlockEditPage extends BackendPage
 
     protected function title(): string
     {
-        return 'Edit Text Block '.$this->textBlock->name;
+        return 'Edit Text Block ' . $this->textBlock->name;
     }
 
     public function render(): View
@@ -79,6 +79,6 @@ class TextBlockEditPage extends BackendPage
 
     public function getSupportsMarkdownProperty(): bool
     {
-        return config('text-blocks.'.$this->textBlock->name.'.type') == 'markdown';
+        return config('text-blocks.' . $this->textBlock->name . '.type') == 'markdown';
     }
 }

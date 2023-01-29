@@ -85,7 +85,7 @@ class CustomersSheet implements FromQuery, WithMapping, WithHeadings, WithColumn
         try {
             return PhoneNumber::make($value)->formatInternational();
         } catch (Throwable $t) {
-            return ' '.$value;
+            return ' ' . $value;
         }
     }
 
@@ -99,8 +99,8 @@ class CustomersSheet implements FromQuery, WithMapping, WithHeadings, WithColumn
     public function columnFormats(): array
     {
         return [
-            'H' => NumberFormat::FORMAT_DATE_YYYYMMDD.' '.NumberFormat::FORMAT_DATE_TIME3,
-            'I' => NumberFormat::FORMAT_DATE_YYYYMMDD.' '.NumberFormat::FORMAT_DATE_TIME3,
+            'H' => NumberFormat::FORMAT_DATE_YYYYMMDD . ' ' . NumberFormat::FORMAT_DATE_TIME3,
+            'I' => NumberFormat::FORMAT_DATE_YYYYMMDD . ' ' . NumberFormat::FORMAT_DATE_TIME3,
         ];
     }
 }

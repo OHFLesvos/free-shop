@@ -70,14 +70,14 @@ class UserManagePage extends BackendPage
     protected function title(): string
     {
         return $this->user->exists
-            ? 'Edit User '.$this->user->name
+            ? 'Edit User ' . $this->user->name
             : 'Register User';
     }
 
     public function render(): View
     {
         return parent::view('livewire.backend.user-manage-page', [
-            'title' => $this->user->exists ? 'Edit User '.$this->user->name : 'Register User',
+            'title' => $this->user->exists ? 'Edit User ' . $this->user->name : 'Register User',
             'roles' => Role::orderBy('name')->get(),
         ]);
     }
@@ -130,7 +130,7 @@ class UserManagePage extends BackendPage
 
         session()->flash('message', $this->user->wasRecentlyCreated
             ? 'User registered.'
-            : 'User updated.'.($passwordChanged ? ' The password has been changed.' : ''));
+            : 'User updated.' . ($passwordChanged ? ' The password has been changed.' : ''));
 
         if (Auth::user()->refresh()->cannot('viewAny', User::class)) {
             return redirect()->route('backend');

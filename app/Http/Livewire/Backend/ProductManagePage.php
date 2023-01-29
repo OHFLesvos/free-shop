@@ -41,9 +41,9 @@ class ProductManagePage extends BackendPage
 
         return [
             'name.*' => 'nullable',
-            'name.'.$defaultLocale => 'required',
+            'name.' . $defaultLocale => 'required',
             'category.*' => 'nullable',
-            'category.'.$defaultLocale => 'required',
+            'category.' . $defaultLocale => 'required',
             'description.*' => 'nullable',
             'product.sequence' => [
                 'required',
@@ -108,7 +108,7 @@ class ProductManagePage extends BackendPage
     protected function title(): string
     {
         return $this->product->exists
-            ? 'Edit Product '.$this->product->name
+            ? 'Edit Product ' . $this->product->name
             : 'Register Product';
     }
 

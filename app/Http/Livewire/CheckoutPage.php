@@ -113,7 +113,7 @@ class CheckoutPage extends FrontendPage
             } catch (PhoneNumberBlockedByAdminException $ex) {
                 session()->flash('error', __('The phone number :phone has been blocked by an administrator.', ['phone' => $ex->getPhone()]));
             } catch (\Exception $ex) {
-                Log::warning('['.get_class($ex).'] Cannot send notification: '.$ex->getMessage());
+                Log::warning('[' . get_class($ex) . '] Cannot send notification: ' . $ex->getMessage());
             }
         }
 

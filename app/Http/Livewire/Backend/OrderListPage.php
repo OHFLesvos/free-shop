@@ -121,7 +121,7 @@ class OrderListPage extends BackendPage
                         CompleteOrder::run($order);
                     }
                 } catch (\Twilio\Exceptions\TwilioException|PhoneNumberBlockedByAdminException $ex) {
-                    Log::warning('['.get_class($ex).'] Unable to notify customer about order change: '.$ex->getMessage());
+                    Log::warning('[' . get_class($ex) . '] Unable to notify customer about order change: ' . $ex->getMessage());
                 } catch (\Exception $ex) {
                     session()->flash('error', $ex->getMessage());
 
@@ -130,7 +130,7 @@ class OrderListPage extends BackendPage
                 $updated++;
             }
         }
-        session()->flash('message', 'Updated '.$updated.' orders.');
+        session()->flash('message', 'Updated ' . $updated . ' orders.');
 
         $this->selectedItems = [];
     }

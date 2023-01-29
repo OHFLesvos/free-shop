@@ -39,7 +39,7 @@ class CustomerManagePage extends BackendPage
             'customer.id_number' => [
                 'required',
                 setting()->has('customer.id_number_pattern')
-                    ? 'regex:'.setting()->get('customer.id_number_pattern')
+                    ? 'regex:' . setting()->get('customer.id_number_pattern')
                     : null,
                 Rule::unique('customers', 'id_number')->ignore($this->customer->id),
             ],
@@ -106,7 +106,7 @@ class CustomerManagePage extends BackendPage
     protected function title(): string
     {
         return $this->customer->exists
-            ? 'Edit Customer '.$this->customer->name
+            ? 'Edit Customer ' . $this->customer->name
             : 'Register Customer';
     }
 

@@ -29,9 +29,9 @@ class ProductListPage extends BackendPage
             'products' => Product::query()
                 ->when($this->state == 'available', fn ($qry) => $qry->available())
                 ->when($this->state == 'disabled', fn ($qry) => $qry->disabled())
-                ->orderBy('category->'.config('app.fallback_locale'))
+                ->orderBy('category->' . config('app.fallback_locale'))
                 ->orderBy('sequence')
-                ->orderBy('name->'.config('app.fallback_locale'))
+                ->orderBy('name->' . config('app.fallback_locale'))
                 ->get(),
         ]);
     }

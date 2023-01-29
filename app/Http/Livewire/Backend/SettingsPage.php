@@ -224,7 +224,7 @@ class SettingsPage extends BackendPage
             $this->brandLogo = null;
         }
         if (isset($this->brandLogoUpload)) {
-            $name = 'brand-logo-'.now()->format('YmdHis').'.'.$this->brandLogoUpload->getClientOriginalExtension();
+            $name = 'brand-logo-' . now()->format('YmdHis') . '.' . $this->brandLogoUpload->getClientOriginalExtension();
             $path = $this->brandLogoUpload->storePubliclyAs('public', $name);
 
             if ($path) {
@@ -245,7 +245,7 @@ class SettingsPage extends BackendPage
             $this->brandFavicon = null;
         }
         if (isset($this->brandFaviconUpload)) {
-            $name = 'brand-favicon-'.now()->format('YmdHis').'.'.$this->brandFaviconUpload->getClientOriginalExtension();
+            $name = 'brand-favicon-' . now()->format('YmdHis') . '.' . $this->brandFaviconUpload->getClientOriginalExtension();
             $path = $this->brandFaviconUpload->storePubliclyAs('public', $name);
 
             if ($path) {

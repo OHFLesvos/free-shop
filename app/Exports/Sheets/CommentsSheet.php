@@ -70,7 +70,7 @@ class CommentsSheet implements FromQuery, WithMapping, WithHeadings, WithColumnF
     public function columnFormats(): array
     {
         return [
-            'F' => NumberFormat::FORMAT_DATE_YYYYMMDD.' '.NumberFormat::FORMAT_DATE_TIME3,
+            'F' => NumberFormat::FORMAT_DATE_YYYYMMDD . ' ' . NumberFormat::FORMAT_DATE_TIME3,
         ];
     }
 }

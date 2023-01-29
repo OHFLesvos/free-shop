@@ -26,7 +26,7 @@ class ProductFactory extends Factory
         return [
             'name' => $name,
             'category' => ucfirst($this->faker->word),
-            'picture' => $this->faker->boolean(70) ? 'https://picsum.photos/seed/'.md5($name).'/300/150' : null,
+            'picture' => $this->faker->boolean(70) ? 'https://picsum.photos/seed/' . md5($name) . '/300/150' : null,
             'description' => $this->faker->optional(0.9)->text,
             'sequence' => $this->faker->numberBetween(0, 10),
             'price' => $this->faker->numberBetween(0, 10),

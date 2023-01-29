@@ -44,9 +44,9 @@ class StockAddPage extends BackendPage
         return parent::view('livewire.backend.stock-add-page', [
             'products' => Product::query()
                 ->available()
-                ->orderBy('category->'.config('app.fallback_locale'))
+                ->orderBy('category->' . config('app.fallback_locale'))
                 ->orderBy('sequence')
-                ->orderBy('name->'.config('app.fallback_locale'))
+                ->orderBy('name->' . config('app.fallback_locale'))
                 ->get(),
         ]);
     }
