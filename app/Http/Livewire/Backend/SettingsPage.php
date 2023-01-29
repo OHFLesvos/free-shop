@@ -118,7 +118,7 @@ class SettingsPage extends BackendPage
             'customerIdNumberPattern' => [
                 'nullable',
                 function ($attribute, $value, $fail) {
-                    if ((@preg_match($value, null) === false)) {
+                    if ((@preg_match($value, '') === false)) {
                         $fail('The pattern is invalid.');
                     }
                 },
