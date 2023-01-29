@@ -7,7 +7,6 @@ use App\Rules\CountryCode;
 use Countries;
 use Gumlet\ImageResize;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
-use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
@@ -57,13 +56,19 @@ class SettingsPage extends BackendPage
 
     public ?string $brandLogo;
 
-    public ?UploadedFile $brandLogoUpload;
+    /**
+     * @var \Illuminate\Http\UploadedFile|null
+     */
+    public $brandLogoUpload;
 
     public bool $brandLogoRemove = false;
 
     public ?string $brandFavicon;
 
-    public ?UploadedFile $brandFaviconUpload;
+    /**
+     * @var \Illuminate\Http\UploadedFile|null
+     */
+    public $brandFaviconUpload;
 
     public bool $brandFaviconRemove = false;
 
@@ -129,7 +134,7 @@ class SettingsPage extends BackendPage
                     if (filled($this->customerIdNumberPattern)) {
                         $values = preg_split('/\s*,\s*/', $value);
                         foreach ($values as $testValue) {
-                            if (! preg_match($this->customerIdNumberPattern, $testValue)) {
+                            if (!preg_match($this->customerIdNumberPattern, $testValue)) {
                                 $fail('The example is invalid.');
                             }
                         }
@@ -179,7 +184,7 @@ class SettingsPage extends BackendPage
 
     public function addToGeoblockWhitelist(): void
     {
-        if (filled($this->selectedCountry) && ! $this->geoblockWhitelist->contains($this->selectedCountry)) {
+        if (filled($this->selectedCountry) && !$this->geoblockWhitelist->contains($this->selectedCountry)) {
             $this->geoblockWhitelist->push($this->selectedCountry);
         }
         $this->selectedCountry = null;
@@ -219,9 +224,12 @@ class SettingsPage extends BackendPage
         $this->updateStringSetting('shop.max_orders_per_day', $this->shopMaxOrdersPerDay);
 
         if (setting()->has('brand.logo') && ($this->brandLogoRemove) || isset($this->brandLogoUpload)) {
-            Storage::delete(setting()->get('brand.logo'));
+            if (filled(setting()->get('brand.logo'))) {
+                Storage::delete(setting()->get('brand.logo'));
+            }
             setting()->forget('brand.logo');
             $this->brandLogo = null;
+            $this->brandLogoRemove = false;
         }
         if (isset($this->brandLogoUpload)) {
             $name = 'brand-logo-' . now()->format('YmdHis') . '.' . $this->brandLogoUpload->getClientOriginalExtension();
@@ -240,9 +248,12 @@ class SettingsPage extends BackendPage
         }
 
         if (setting()->has('brand.favicon') && ($this->brandFaviconRemove) || isset($this->brandFaviconUpload)) {
-            Storage::delete(setting()->get('brand.favicon'));
+            if (filled(setting()->get('brand.favicon'))) {
+                Storage::delete(setting()->get('brand.favicon'));
+            }
             setting()->forget('brand.favicon');
             $this->brandFavicon = null;
+            $this->brandFaviconRemove = false;
         }
         if (isset($this->brandFaviconUpload)) {
             $name = 'brand-favicon-' . now()->format('YmdHis') . '.' . $this->brandFaviconUpload->getClientOriginalExtension();
