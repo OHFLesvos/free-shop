@@ -154,7 +154,7 @@ class ReportsPage extends BackendPage
 
     public function generatePdf(): Response
     {
-        $name = 'Report - ' . $this->ranges[$this->range] . ' (' . now()->toDateString() . ')';
+        $name = 'Report - '.$this->ranges[$this->range].' ('.now()->toDateString().')';
 
         $data = $this->getData();
         $mergeData = [
@@ -174,6 +174,6 @@ class ReportsPage extends BackendPage
         /** @var \Mccarlosen\LaravelMpdf\LaravelMpdf $pdf */
         $pdf = PDF::loadView('backend.pdf-report', $data, $mergeData, $config);
 
-        return response()->streamDownload(fn () => $pdf->stream(), $name . '.pdf');
+        return response()->streamDownload(fn () => $pdf->stream(), $name.'.pdf');
     }
 }
