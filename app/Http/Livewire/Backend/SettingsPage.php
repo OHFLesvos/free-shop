@@ -134,7 +134,7 @@ class SettingsPage extends BackendPage
                     if (filled($this->customerIdNumberPattern)) {
                         $values = preg_split('/\s*,\s*/', $value);
                         foreach ($values as $testValue) {
-                            if (!preg_match($this->customerIdNumberPattern, $testValue)) {
+                            if (! preg_match($this->customerIdNumberPattern, $testValue)) {
                                 $fail('The example is invalid.');
                             }
                         }
@@ -184,7 +184,7 @@ class SettingsPage extends BackendPage
 
     public function addToGeoblockWhitelist(): void
     {
-        if (filled($this->selectedCountry) && !$this->geoblockWhitelist->contains($this->selectedCountry)) {
+        if (filled($this->selectedCountry) && ! $this->geoblockWhitelist->contains($this->selectedCountry)) {
             $this->geoblockWhitelist->push($this->selectedCountry);
         }
         $this->selectedCountry = null;
