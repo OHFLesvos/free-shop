@@ -14,6 +14,6 @@
         "masonry-layout": "^4.2.2",
         "node-snackbar": "^0.1.16",
         "sass": "^1.54.4",
-        "vite": "^3.0.8"
+        "vite": "^4.0.4"
     }
 }
