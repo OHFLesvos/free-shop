@@ -6,7 +6,6 @@ use App\Http\Livewire\Traits\TrimEmptyStrings;
 use App\Models\Customer;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
-use Propaganistas\LaravelPhone\PhoneNumber;
 
 class CustomerRegistrationPage extends FrontendPage
 {
@@ -74,7 +73,7 @@ class CustomerRegistrationPage extends FrontendPage
         $customer = Customer::create([
             'name' => $this->name,
             'id_number' => $this->idNumber,
-            'phone' => filled($this->phone) ? PhoneNumber::make($this->phone, $this->phoneCountry)->formatE164() : null,
+            'phone' => filled($this->phone) ? phone($this->phone, $this->phoneCountry)->formatE164() : null,
             'email' => filled($this->email) ? $this->email : null,
             'locale' => app()->getLocale(),
             'credit' => setting()->get('customer.starting_credit', config('shop.customer.starting_credit')),

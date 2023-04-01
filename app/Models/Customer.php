@@ -23,7 +23,6 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\DB;
 use libphonenumber\NumberParseException;
 use OwenIt\Auditing\Contracts\Auditable;
-use Propaganistas\LaravelPhone\PhoneNumber;
 
 class Customer extends Model implements HasLocalePreference, AuthenticatableContract, AuthorizableContract, CanResetPasswordContract, Auditable
 {
@@ -137,7 +136,7 @@ class Customer extends Model implements HasLocalePreference, AuthenticatableCont
                     return null;
                 }
                 try {
-                    return PhoneNumber::make($this->phone)->formatInternational();
+                    return phone($this->phone)->formatInternational();
                 } catch (NumberParseException $ignored) {
                     return $this->phone;
                 }

@@ -30,7 +30,7 @@ class BlockedPhoneNumbersPage extends BackendPage
     protected array $rules = [
         'phone' => [
             'required',
-            'phone:AUTO,mobile',
+            'phone:INTERNATIONAL,mobile',
             'unique:blocked_phone_numbers,phone',
         ],
         'reason' => [

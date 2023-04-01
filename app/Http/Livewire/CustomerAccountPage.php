@@ -9,7 +9,6 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\Rule;
 use Illuminate\View\View;
 use libphonenumber\NumberParseException;
-use Propaganistas\LaravelPhone\PhoneNumber;
 
 class CustomerAccountPage extends FrontendPage
 {
@@ -64,7 +63,7 @@ class CustomerAccountPage extends FrontendPage
         $this->name = $this->customer->name;
         $this->idNumber = $this->customer->id_number;
         try {
-            $phone = PhoneNumber::make($this->customer->phone);
+            $phone = phone($this->customer->phone);
             $this->phoneCountry = $phone->getCountry();
             $this->phone = $phone->formatNational();
         } catch (NumberParseException $ignored) {
@@ -86,7 +85,7 @@ class CustomerAccountPage extends FrontendPage
         $this->customer->name = $this->name;
         $this->customer->id_number = $this->idNumber;
         $this->customer->phone = isset($this->phone)
-            ? PhoneNumber::make($this->phone, $this->phoneCountry)->formatE164()
+            ? phone($this->phone, $this->phoneCountry)->formatE164()
             : null;
         $this->customer->email = $this->email;
         $this->customer->save();
@@ -105,7 +104,7 @@ class CustomerAccountPage extends FrontendPage
 
     public function getCanDeleteProperty(): bool
     {
-        return ! $this->customer->orders()->exists();
+        return !$this->customer->orders()->exists();
     }
 
     public function delete()

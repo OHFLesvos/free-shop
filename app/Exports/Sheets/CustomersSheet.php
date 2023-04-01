@@ -13,7 +13,6 @@ use Maatwebsite\Excel\Concerns\WithMapping;
 use Maatwebsite\Excel\Concerns\WithStyles;
 use PhpOffice\PhpSpreadsheet\Shared\Date;
 use PhpOffice\PhpSpreadsheet\Style\NumberFormat;
-use Propaganistas\LaravelPhone\PhoneNumber;
 use Throwable;
 
 class CustomersSheet implements FromQuery, WithMapping, WithHeadings, WithColumnFormatting, ShouldAutoSize, WithStyles
@@ -83,7 +82,7 @@ class CustomersSheet implements FromQuery, WithMapping, WithHeadings, WithColumn
     private function mapPhone($value)
     {
         try {
-            return PhoneNumber::make($value)->formatInternational();
+            return phone($value)->formatInternational();
         } catch (Throwable $t) {
             return ' ' . $value;
         }

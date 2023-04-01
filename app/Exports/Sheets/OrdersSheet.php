@@ -14,7 +14,6 @@ use Maatwebsite\Excel\Concerns\WithMapping;
 use Maatwebsite\Excel\Concerns\WithStyles;
 use PhpOffice\PhpSpreadsheet\Shared\Date;
 use PhpOffice\PhpSpreadsheet\Style\NumberFormat;
-use Propaganistas\LaravelPhone\PhoneNumber;
 use Throwable;
 
 class OrdersSheet implements FromQuery, WithMapping, WithHeadings, WithColumnFormatting, ShouldAutoSize, WithStyles
@@ -75,7 +74,7 @@ class OrdersSheet implements FromQuery, WithMapping, WithHeadings, WithColumnFor
     private function mapPhone($value)
     {
         try {
-            return PhoneNumber::make($value)->formatInternational();
+            return phone($value)->formatInternational();
         } catch (Throwable $ignored) {
             return ' ' . $value;
         }
