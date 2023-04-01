@@ -41,22 +41,30 @@ is marked as ready, the customer receives a notification by SMS informing about 
 
 Install PHP package dependencies:
 
-    composer install
+```bash
+composer install
+```
 
 Copy `.env.example` to `.env` and change database parameters and any other parameters according to your web setup.
 
 Generate encryption key:
 
-    php artisan key:generate
+```bash
+php artisan key:generate
+```
 
 Create/migrate database tables:
 
-    php artisan migrate
+```bash
+php artisan migrate
+```
 
 Cache routes and configuration for increased performance (don't use during development!):
 
-    php artisan optimize
-    php artisan view:clear
+```bash
+php artisan optimize
+php artisan view:clear
+```
 
 ## Deployment
 
@@ -66,15 +74,15 @@ The code contains a [GitHub actions](https://docs.github.com/en/actions) definit
 
 Setup the task scheduler using the following cronjob:
 
-    * * * * * cd /path-to-your-project && php artisan schedule:run >> /dev/null 2>&1
+```cron
+* * * * * cd /path-to-your-project && php artisan schedule:run >> /dev/null 2>&1
+```
 
 More information can be found in the [Laravel documentation](https://laravel.com/docs/8.x/scheduling#running-the-scheduler).
 
 ## Setup backend access
 
-Backend login relies on Google OAuth. Create API credentials according to the following guide:
-
-https://developers.google.com/identity/sign-in/web/sign-in
+Backend login relies on Google OAuth. Create API credentials according to [this guide](https://developers.google.com/identity/sign-in/web/sign-in).
 
 to obtain the client ID and client secret values.
 
@@ -88,48 +96,62 @@ Access the backend via http://your-site.com/backend
 
 Install and compile JavaScript and CSS files for the public web directory:
 
-    npm install
-    num run dev
+```bash
+npm install
+num run dev
+```
 
 ### Database seeding
 
 To seed the database with random entries, run:
 
-    php artisan db:seed
+```bash
+php artisan db:seed
+```
 
 ### Export language strings from code
 
 Export translatable strings for any language:
 
-    php artisan translatable:export fr,ar,fa,so
+```bash
+php artisan translatable:export fr,ar,fa,so
+```
 
 Find untranslated strings in a language file (for example French = fr):
 
-    php artisan translatable:inspect-translations fr
+```bash
+php artisan translatable:inspect-translations fr
+```
 
 ## Static code analysis
 
 Run:
 
-    ./vendor/bin/phpstan analyse
+```bash
+./vendor/bin/phpstan analyse
+```
 
-More information here: https://github.com/nunomaduro/larastan
+More information [here](https://github.com/nunomaduro/larastan).
 
 ## Code style fixer
 
 Run:
 
-    ./vendor/bin/pint
+```bash
+./vendor/bin/pint
+```
 
-More information here: https://github.com/laravel/pint
+More information [here](https://github.com/laravel/pint).
 
 ## Set up development environment on WSL with Docker and Laravel Sail
 
 Install WSL (Windows Subsystem for Linux), enable WSL version 2 and make it the default version. Run in an elevated command or PowerShell window:
 
-    wsl --install
+```bash
+wsl --install
+```
 
-See https://docs.microsoft.com/en-us/windows/wsl/install for more info.
+See [here](https://docs.microsoft.com/en-us/windows/wsl/install) for more info.
 
 Install Ubuntu for WSL from the Microsoft Store.
 
@@ -144,7 +166,7 @@ sudo usermod -aG docker ${USER}
 
 In case of Docker for Windows, if you get an error message like `/usr/bin/docker-credential-desktop.exe: Invalid argument`, you can do the following:
 
-Edit the ~/.docker/config.json file `~/.docker/config.json`. 
+Edit the ~/.docker/config.json file `~/.docker/config.json`.
 
 It should display something similar to this:
 
@@ -166,7 +188,9 @@ Install Visual Studio Code and the Remote - WSL extension. Open a new WSL window
 
 Setup Laravel sail:
 
-    docker run --rm -u "$(id -u):$(id -g)" -v $(pwd):/opt -w /opt laravelsail/php81-composer:latest composer install --ignore-platform-reqs
+```bash
+docker run --rm -u "$(id -u):$(id -g)" -v $(pwd):/opt -w /opt laravelsail/php81-composer:latest composer install --ignore-platform-reqs
+```
 
 Configure the sail bash alias by adding the following line to `.bashrc`:
 
@@ -178,15 +202,19 @@ Copy `.env.example` to `.env`.
 
 Set
 
-    DB_HOST=mysql
+```bash
+DB_HOST=mysql
+```
 
 Run the following commands:
 
-    sail up -d
-    sail artisan key:generate
-    sail artisan migrate --seed
-    sail npm install
-    sail npm run dev
+```bash
+sail up -d
+sail artisan key:generate
+sail artisan migrate --seed
+sail npm install
+sail npm run dev
+```
 
 ### Recommended software for development
 
@@ -197,19 +225,24 @@ Run the following commands:
 * [Composer](https://getcomposer.org/)
 * [NodeJS/NPM](https://nodejs.org/)
 
-
 ## Productive docker image
 
 Adapt the environment variables in `docker-compose-prod.yml` according to your setup.
 
 Build the docker image:
 
-    docker-compose -f docker-compose-prod.yml build
+```bash
+docker-compose -f docker-compose-prod.yml build
+```
 
 Run the docker image:
 
-    docker-compose -f docker-compose-prod.yml up -d
+```bash
+docker-compose -f docker-compose-prod.yml up -d
+```
 
 Execute Laravel artisan command inside the container (if needed):
 
-    docker-compose exec app php artisan YOUR_COMMAND
+```bash
+docker-compose exec app php artisan YOUR_COMMAND
+```
