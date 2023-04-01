@@ -11,7 +11,6 @@ trait CheckBlockedPhoneNumber
      * Checks if the given phone number is marked as blocked
      *
      * @param  string  $phone the phone number
-     * @return void
      *
      * @throws PhoneNumberBlockedByAdminException in case the phone number is blocked
      */

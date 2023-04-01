@@ -9,7 +9,6 @@ trait TrimAndNullEmptyStrings
      *
      * @param  string  $name the key
      * @param  mixed  $value the value
-     * @return void
      */
     public function updatedTrimAndNullEmptyStrings(string $name, $value): void
     {

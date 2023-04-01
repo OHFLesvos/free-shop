@@ -10,7 +10,6 @@ class LogUserCreated
     /**
      * Handle the event.
      *
-     * @param  UserCreated  $event
      * @return void
      */
     public function handle(UserCreated $event)

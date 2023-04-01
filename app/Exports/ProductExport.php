@@ -12,9 +12,6 @@ class ProductExport implements WithMultipleSheets, WithProperties
 {
     use Exportable;
 
-    /**
-     * @return array
-     */
     public function sheets(): array
     {
         $sheets = [];
