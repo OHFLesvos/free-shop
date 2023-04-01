@@ -12,7 +12,6 @@
         "doctrine/dbal": "^3.0",
         "donatj/phpuseragentparser": "^1.1",
         "dyrynda/laravel-nullable-fields": "^4.1",
-        "fruitcake/laravel-cors": "^3.0",
         "gumlet/php-image-resize": "^2.0",
         "guzzlehttp/guzzle": "^7.2",
         "laravel-notification-channels/twilio": "^3.1",
@@ -25,7 +24,7 @@
         "monarobase/country-list": "^3.2",
         "mpdf/mpdf": "^8.1",
         "owen-it/laravel-auditing": "^13.0",
-        "propaganistas/laravel-phone": "^4.2",
+        "propaganistas/laravel-phone": "^5.0",
         "sentry/sentry-laravel": "^3.0.1",
         "spatie/laravel-permission": "^5.0",
         "spatie/laravel-translatable": "^6.0",
@@ -87,7 +86,10 @@
     "config": {
         "optimize-autoloader": true,
         "preferred-install": "dist",
-        "sort-packages": true
+        "sort-packages": true,
+        "allow-plugins": {
+            "php-http/discovery": true
+        }
     },
     "minimum-stability": "dev",
     "prefer-stable": true
