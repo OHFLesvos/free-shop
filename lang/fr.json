@@ -27,7 +27,7 @@
     "Switch language": "Changer de langue",
     "Your order has been submitted and your order number is <strong>#:id<\/strong>.": "Votre commande a été soumise et votre numéro de commande est <strong>#:id<\/strong>.",
     "We will contact you via your phone <strong>:phone<\/strong> when the order is ready.": "Nous vous contacterons via votre téléphone <strong>:phone<\/strong> quand la commande sera prête.",
-    "You can place a new order in :time.": "Vous pouvez passer une nouvelle commande dans :time.",
+    "You can place a new order on :date.": "Vous pouvez passer une nouvelle commande le :date.",
     "Next top-up on <strong>:date<\/strong>.": "Prochaine recharge le <strong>:date<\/strong>.",
     "View your orders": "Voir vos commandes",
     "Your Order": "Votre commande",

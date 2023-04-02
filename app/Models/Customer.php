@@ -152,8 +152,9 @@ class Customer extends Model implements HasLocalePreference, AuthenticatableCont
                 ->orderBy('created_at', 'desc')
                 ->first();
             if ($lastOrder != null) {
-                if (now()->subDays($days)->lte($lastOrder->created_at)) {
-                    return $lastOrder->created_at->clone()->addDays($days);
+                $newOrderPossibleDate = $lastOrder->created_at->clone()->addDays($days)->startOfDay();
+                if (today()->lt($newOrderPossibleDate)) {
+                    return $newOrderPossibleDate;
                 }
             }
         }
