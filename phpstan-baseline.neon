@@ -11,6 +11,11 @@ parameters:
 			path: app/Actions/CompleteOrder.php
 
 		-
+			message: "#^Call to an undefined method Laravel\\\\Socialite\\\\Contracts\\\\Provider\\:\\:with\\(\\)\\.$#"
+			count: 1
+			path: app/Http/Controllers/SocialLoginController.php
+
+		-
 			message: "#^Cannot call method getName\\(\\) on object\\|string\\.$#"
 			count: 1
 			path: app/Http/Livewire/Backend/BlockedPhoneNumbersPage.php
@@ -24,6 +29,11 @@ parameters:
 			message: "#^Binary operation \"\\.\" between 'Edit Product ' and array results in an error\\.$#"
 			count: 1
 			path: app/Http/Livewire/Backend/ProductManagePage.php
+
+		-
+			message: "#^Static call to instance method Mccarlosen\\\\LaravelMpdf\\\\Facades\\\\LaravelMpdf\\:\\:loadView\\(\\)\\.$#"
+			count: 1
+			path: app/Http/Livewire/Backend/ReportsPage.php
 
 		-
 			message: "#^Cannot call method getName\\(\\) on object\\|string\\.$#"

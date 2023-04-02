@@ -80,7 +80,7 @@ class CustomerManagePage extends BackendPage
             $this->authorize('create', Customer::class);
         }
 
-        if (!isset($this->customer)) {
+        if (! isset($this->customer)) {
             $this->customer = new Customer();
             $this->customer->credit = setting()->get('customer.starting_credit', config('shop.customer.starting_credit'));
             $this->customer->is_disabled = false;
@@ -126,7 +126,7 @@ class CustomerManagePage extends BackendPage
             ? phone($this->phone, $this->phoneCountry)->formatE164()
             : null;
 
-        if (!$this->customer->is_disabled) {
+        if (! $this->customer->is_disabled) {
             $this->customer->disabled_reason = null;
         }
 

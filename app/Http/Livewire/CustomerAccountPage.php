@@ -104,7 +104,7 @@ class CustomerAccountPage extends FrontendPage
 
     public function getCanDeleteProperty(): bool
     {
-        return !$this->customer->orders()->exists();
+        return ! $this->customer->orders()->exists();
     }
 
     public function delete()
