@@ -13,7 +13,7 @@ is marked as ready, the customer receives a notification by SMS informing about 
 * A web server like:
   * Apache (tested with 2.4.x)
   * Nginx
-* PHP >= 8.1 with the following extensions:
+* PHP >= 8.2 with the following extensions:
   * BCMath
   * Ctype
   * Fileinfo
@@ -189,7 +189,7 @@ Install Visual Studio Code and the Remote - WSL extension. Open a new WSL window
 Setup Laravel sail:
 
 ```bash
-docker run --rm -u "$(id -u):$(id -g)" -v $(pwd):/opt -w /opt laravelsail/php81-composer:latest composer install --ignore-platform-reqs
+docker run --rm -u "$(id -u):$(id -g)" -v $(pwd):/opt -w /opt laravelsail/php82-composer:latest composer install --ignore-platform-reqs
 ```
 
 Configure the sail bash alias by adding the following line to `.bashrc`:
