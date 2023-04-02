@@ -27,7 +27,7 @@
     "Switch language": "عوض کردن زبان",
     "Your order has been submitted and your order number is <strong>#:id<\/strong>.": "سفارش شما ارسال شده و شماره سفارش شما <strong>#:id<\/strong> است.",
     "We will contact you via your phone <strong>:phone<\/strong> when the order is ready.": "وقتی سفارش شما آماده شد از طریق شماره تلفن<strong>:phone<\/strong> با شما تماس خواهیم گرفت",
-    "You can place a new order on :date.": "می توانید سفارش جدید را در این تاریخ ثبت کنید : :date.",
+    "You can place a new order on <strong>:date</strong>.": "می توانید سفارش جدید را در این تاریخ ثبت کنید <strong>:date</strong>.",
     "Next top-up on <strong>:date<\/strong>.": "تاریخ بعدی <strong>:date<\/strong>.",
     "View your orders": "نمایش سفارش شما",
     "Your Order": "محصول شما",

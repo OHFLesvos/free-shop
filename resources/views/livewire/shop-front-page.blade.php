@@ -28,7 +28,8 @@
                     <div class="col-md order-md-1">
                         @isset($nextOrderIn)
                             <x-alert type="info">
-                                {{ __('You can place a new order on :date.', ['date' => $nextOrderIn->isoFormat('LL')]) }}</x-alert>
+                                {!! __('You can place a new order on <strong>:date</strong>.', ['date' => $nextOrderIn->isoFormat('LL')]) !!}
+                            </x-alert>
                         @endisset
                         @if ($useCategories)
                             @foreach ($categories as $category)

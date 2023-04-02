@@ -11,7 +11,8 @@
         </x-alert>
         @if (isset($nextOrderIn))
             <x-alert type="info">
-                {{ __('You can place a new order on :date.', ['date' => $nextOrderIn->isoFormat('LL')]) }}</x-alert>
+                {!! __('You can place a new order on <strong>:date</strong>.', ['date' => $nextOrderIn->isoFormat('LL')]) !!}
+            </x-alert>
         @endif
         @isset($order->customer->nextTopUpDate)
             <x-alert type="info">{!! __('Next top-up on <strong>:date</strong>.', ['date' => $order->customer->nextTopUpDate->isoFormat('LL')]) !!}</x-alert>
@@ -25,7 +26,8 @@
             {!! $textRepo->getMarkdown('post-checkout') !!}
         @endif
     @elseif(isset($nextOrderIn))
-        <x-alert type="info">{{ __('You can place a new order on :date.', ['date' => $nextOrderIn->isoFormat('LL')]) }}
+        <x-alert type="info">
+            {!! __('You can place a new order on <strong>:date</strong>.', ['date' => $nextOrderIn->isoFormat('LL')]) !!}
         </x-alert>
         <p><a href="{{ route('my-orders') }}" class="btn btn-primary">{{ __('View your orders') }}</a></p>
     @elseif ($basket->isNotEmpty())
