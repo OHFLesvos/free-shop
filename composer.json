@@ -2,20 +2,23 @@
     "name": "ohflesvos/free-shop",
     "type": "project",
     "description": "A 'free web-shop' application based on the Laravel framework",
-    "keywords": ["framework", "laravel"],
+    "keywords": [
+        "framework",
+        "laravel"
+    ],
     "license": "GPL-3.0-or-later",
     "require": {
         "php": "^8.1.0",
         "anlutro/l4-settings": "^1.0",
         "carlos-meneses/laravel-mpdf": "^2.1",
-        "cviebrock/eloquent-sluggable": "^9.0",
+        "cviebrock/eloquent-sluggable": "^10.0",
         "doctrine/dbal": "^3.0",
         "donatj/phpuseragentparser": "^1.1",
         "dyrynda/laravel-nullable-fields": "^4.1",
         "gumlet/php-image-resize": "^2.0",
         "guzzlehttp/guzzle": "^7.2",
         "laravel-notification-channels/twilio": "^3.1",
-        "laravel/framework": "^9.2",
+        "laravel/framework": "^10.0",
         "laravel/socialite": "^5.1",
         "livewire/livewire": "^2.3",
         "lorisleiva/laravel-actions": "^2.1",
@@ -40,10 +43,10 @@
         "laravel/sail": "^1.14",
         "laravel/tinker": "^2.7",
         "mockery/mockery": "^1.4.4",
-        "nunomaduro/collision": "^6.1",
+        "nunomaduro/collision": "^7.4",
         "nunomaduro/larastan": "^2.0",
-        "phpunit/phpunit": "^9.5.10",
-        "spatie/laravel-ignition": "^1.0"
+        "phpunit/phpunit": "^10.0",
+        "spatie/laravel-ignition": "^2.0"
     },
     "autoload": {
         "files": [
@@ -91,6 +94,6 @@
             "php-http/discovery": true
         }
     },
-    "minimum-stability": "dev",
+    "minimum-stability": "stable",
     "prefer-stable": true
 }

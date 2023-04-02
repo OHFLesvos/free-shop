@@ -20,7 +20,6 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOneOrMany;
 use Illuminate\Foundation\Auth\Access\Authorizable;
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Support\Facades\DB;
 use libphonenumber\NumberParseException;
 use OwenIt\Auditing\Contracts\Auditable;
 
@@ -107,7 +106,7 @@ class Customer extends Model implements HasLocalePreference, AuthenticatableCont
 
     public function scopeFilter(Builder $qry, string $filter): void
     {
-        $qry->where(DB::raw('LOWER(name)'), 'LIKE', '%' . strtolower($filter) . '%')
+        $qry->whereRaw('LOWER(name) LIKE ?', ['%' . strtolower($filter) . '%'])
             ->orWhere('id_number', 'LIKE', $filter . '%')
             ->orWhere(fn ($inner) => $inner->whereNumberCompare('id_number', $filter))
             ->orWhere('phone', 'LIKE', $filter . '%')

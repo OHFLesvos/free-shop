@@ -10,7 +10,6 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use Illuminate\Support\Facades\DB;
 use OwenIt\Auditing\Contracts\Auditable;
 
 class Order extends Model implements Auditable
@@ -126,8 +125,8 @@ class Order extends Model implements Auditable
     public function scopeFilter(Builder $qry, string $filter): void
     {
         $qry->where('id', intval($filter))
-            ->orWhereHas('customer', function ($customerQry) use ($filter) {
-                $customerQry->where(DB::raw('LOWER(name)'), 'LIKE', '%' . strtolower($filter) . '%')
+            ->orWhereHas('customer', function (Builder $customerQry) use ($filter) {
+                $customerQry->whereRaw('LOWER(name) LIKE ?', ['%' . strtolower($filter) . '%'])
                     ->orWhere('id_number', 'LIKE', $filter . '%')
                     ->orWhere(fn ($inner) => $inner->whereNumberCompare('id_number', $filter))
                     ->orWhere('phone', 'LIKE', $filter . '%')
