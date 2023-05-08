@@ -54,11 +54,12 @@
                                         <a href="{{ $service['url'] }}" class="btn btn-outline-primary">
                                             <x-icon type="brands" :icon="$service['icon']"/>
                                             {{ $service['label'] }}
-                                            @if($service['domain'] != null)({{ $service['domain'] }})@endif
+                                            @if(count($service['domains']) == 1)({{ $service['domains'][0] }})@endif
                                         </a>
                                     </div>
                                 @endforeach
                             </div>
+                            @error('oauth')<x-alert type="danger" class="mt-3 mb-0">{{ $message }}</x-alert> @enderror
                         </div>
                     </div>
                 </div>

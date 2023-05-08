@@ -13,16 +13,17 @@ use Laravel\Socialite\Two\InvalidStateException;
 
 class SocialLoginController extends Controller
 {
-    public function organizationDomain(): ?string
+    public function organizationDomains(): array
     {
-        return config('services.google.organization_domain');
+        return array_filter(explode(',', config('services.google.organization_domain', '')));
     }
 
     public function redirectToGoogle()
     {
         $driver = Socialite::driver('google');
-        if ($this->organizationDomain() != null) {
-            $driver->with(['hd' => $this->organizationDomain()]);
+        $orgDomains = $this->organizationDomains();
+        if (! empty($orgDomains)) {
+            $driver->with(['hd' => count($orgDomains) == 1 ? $orgDomains[0] : '*']);
         }
 
         return $driver->redirect();
@@ -42,13 +43,13 @@ class SocialLoginController extends Controller
                 ]);
         }
 
-        $orgDomain = $this->organizationDomain();
-        if ($orgDomain != null && ! Str::endsWith($socialUser->getEmail(), $orgDomain)) {
+        $orgDomains = $this->organizationDomains();
+        if (! empty($orgDomains) && empty(array_filter($orgDomains, fn ($orgDomain) => Str::endsWith($socialUser->getEmail(), $orgDomain)))) {
             return redirect()
                 ->route('backend.login')
                 ->withErrors([
-                    'email' => [
-                        sprintf('Only %s email addresses are accepted.', $orgDomain),
+                    'oauth' => [
+                        sprintf('Only email addresses belonging to %s are accepted.', implode(', ', $orgDomains)),
                     ],
                 ]);
         }
