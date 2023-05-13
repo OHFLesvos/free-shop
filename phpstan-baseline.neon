@@ -31,11 +31,6 @@ parameters:
 			path: app/Http/Livewire/Backend/ProductManagePage.php
 
 		-
-			message: "#^Static call to instance method Mccarlosen\\\\LaravelMpdf\\\\Facades\\\\LaravelMpdf\\:\\:loadView\\(\\)\\.$#"
-			count: 1
-			path: app/Http/Livewire/Backend/ReportsPage.php
-
-		-
 			message: "#^Cannot call method getName\\(\\) on object\\|string\\.$#"
 			count: 1
 			path: app/Http/Livewire/Backend/SettingsPage.php
@@ -99,4 +94,3 @@ parameters:
 			message: "#^Cannot call method getName\\(\\) on object\\|string\\.$#"
 			count: 1
 			path: app/View/Components/NavItem.php
-
