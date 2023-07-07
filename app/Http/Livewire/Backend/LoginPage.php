@@ -45,7 +45,7 @@ class LoginPage extends Component
             $oauth['google'] = [
                 'url' => route('backend.login.google'),
                 'label' => 'Sign in with Google',
-                'domain' => config('services.google.organization_domain'),
+                'domains' => array_filter(explode(',', config('services.google.organization_domain', ''))),
                 'icon' => 'google',
             ];
         }
