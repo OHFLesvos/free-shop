@@ -37,7 +37,7 @@ class TextBlockRepository
             ?? config('text-blocks.' . $name . '.default_content');
     }
 
-    public function getPlain(string $name, ?string $locale = null): ?string
+    public function getPlain(string $name, string $locale = null): ?string
     {
         return TextBlock::whereName($name)
             ->get()
