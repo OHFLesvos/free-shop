@@ -233,12 +233,17 @@ class SettingsPage extends BackendPage
         }
         if (isset($this->brandLogoUpload)) {
             $name = 'brand-logo-' . now()->format('YmdHis') . '.' . $this->brandLogoUpload->getClientOriginalExtension();
-            $path = $this->brandLogoUpload->storePubliclyAs('public', $name);
+            $image = ImageResize::createFromString($this->brandLogoUpload->get());
+            $image->resizeToHeight(24);
+            Storage::put($name, $image->getImageAsString(), 'public');
+            $path = Storage::url($this->picture->path());
+            //$path = $this->brandLogoUpload->storePubliclyAs('public', $name);
 
             if ($path) {
-                $image = new ImageResize(Storage::path($path));
-                $image->resizeToHeight(24);
-                $image->save(Storage::path($path));
+                //$image = new ImageResize(Storage::path($path));
+                
+                //$image->resizeToHeight(24);
+                //$image->save(Storage::path($path));
 
                 setting()->set('brand.logo', $path);
                 $this->brandLogo = $path;
@@ -257,12 +262,16 @@ class SettingsPage extends BackendPage
         }
         if (isset($this->brandFaviconUpload)) {
             $name = 'brand-favicon-' . now()->format('YmdHis') . '.' . $this->brandFaviconUpload->getClientOriginalExtension();
-            $path = $this->brandFaviconUpload->storePubliclyAs('public', $name);
+            $image = ImageResize::createFromString($this->brandLogoUpload->get());
+            $image->resizeToBestFit(32, 32);
+            Storage::put($name, $image->getImageAsString(), 'public');
+            $path = Storage::url($this->picture->path());
+            //$path = $this->brandFaviconUpload->storePubliclyAs('public', $name);
 
             if ($path) {
-                $image = new ImageResize(Storage::path($path));
-                $image->resizeToBestFit(32, 32);
-                $image->save(Storage::path($path));
+                //$image = new ImageResize(Storage::path($path));
+                //$image->resizeToBestFit(32, 32);
+                //$image->save(Storage::path($path));
 
                 setting()->set('brand.favicon', $path);
                 $this->brandFavicon = $path;
