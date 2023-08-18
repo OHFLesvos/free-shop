@@ -236,7 +236,7 @@ class SettingsPage extends BackendPage
             $image = ImageResize::createFromString($this->brandLogoUpload->get());
             $image->resizeToHeight(24);
             Storage::put($name, $image->getImageAsString(), 'public');
-            $path = Storage::url($this->picture->path());
+            $path = Storage::url($name);
             //$path = $this->brandLogoUpload->storePubliclyAs('public', $name);
 
             if ($path) {
@@ -265,7 +265,7 @@ class SettingsPage extends BackendPage
             $image = ImageResize::createFromString($this->brandLogoUpload->get());
             $image->resizeToBestFit(32, 32);
             Storage::put($name, $image->getImageAsString(), 'public');
-            $path = Storage::url($this->picture->path());
+            $path = Storage::url($name);
             //$path = $this->brandFaviconUpload->storePubliclyAs('public', $name);
 
             if ($path) {
