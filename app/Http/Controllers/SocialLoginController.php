@@ -90,7 +90,7 @@ class SocialLoginController extends Controller
                 if ($currentAvatar !== null && $avatar != $currentAvatar && Storage::exists($currentAvatar)) {
                     Storage::delete($currentAvatar);
                 }
-                Storage::put($avatar, file_get_contents($newAvatar));
+                Storage::put($avatar, file_get_contents($newAvatar), 'public');
 
                 return $avatar;
             }
