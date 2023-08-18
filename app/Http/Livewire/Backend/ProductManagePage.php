@@ -156,11 +156,12 @@ class ProductManagePage extends BackendPage
         }
 
         if (isset($this->picture)) {
-            $this->product->picture = $this->picture->storePublicly('public/pictures');
-
-            $image = new ImageResize(Storage::path($this->product->picture));
+            $image = ImageResize::createFromString($this->picture->get());
+            //$image = new ImageResize(Storage::path($this->product->picture));
             $image->resizeToWidth(config('shop.product.max_picture_width'));
-            $image->save(Storage::path($this->product->picture));
+            $this->product->picture = Storage::put('public/pictures'.$this->picture->path(), $image->getImageAsString());
+            //$this->product->picture = $this->picture->storePublicly('public/pictures');
+            //$image->save(Storage::path($this->product->picture));
         }
 
         $this->product->save();
