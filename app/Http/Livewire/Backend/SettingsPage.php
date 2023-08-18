@@ -262,7 +262,7 @@ class SettingsPage extends BackendPage
         }
         if (isset($this->brandFaviconUpload)) {
             $name = 'brand-favicon-' . now()->format('YmdHis') . '.' . $this->brandFaviconUpload->getClientOriginalExtension();
-            $image = ImageResize::createFromString($this->brandLogoUpload->get());
+            $image = ImageResize::createFromString($this->brandFaviconUpload->get());
             $image->resizeToBestFit(32, 32);
             Storage::put($name, $image->getImageAsString(), 'public');
             $path = Storage::url($name);
