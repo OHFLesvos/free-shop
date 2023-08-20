@@ -61,7 +61,7 @@ $rNavItems = [
         <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm mb-4">
             <div class="container">
                 <a class="navbar-brand" href="{{ route('home') }}">
-                    @if(setting()->has('brand.logo') && Storage::exists(setting()->get('brand.logo')))
+                    @if(setting()->has('brand.logo'))
                         <img src="{{ storage_url(setting()->get('brand.logo')) }}" alt="Logo" height="24" class="me-1" />
                     @endif
                     {{ setting()->get('brand.name', config('app.name')) }}
