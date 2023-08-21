@@ -39,13 +39,11 @@ class CustomerAccountPage extends FrontendPage
             ],
             'phone' => [
                 'nullable',
-                'required_without:email',
                 'phone:phoneCountry,mobile',
             ],
             'phoneCountry' => 'required_with:phone',
             'email' => [
                 'nullable',
-                'required_without:phone',
                 'email',
             ],
         ];
