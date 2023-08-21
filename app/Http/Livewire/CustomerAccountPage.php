@@ -67,9 +67,6 @@ class CustomerAccountPage extends FrontendPage
         } catch (\Throwable $ignored) {
             $this->phoneCountry = '';
             $this->phone = $this->customer->phone;
-        } catch (\Exception $ignored) {
-            $this->phoneCountry = '';
-            $this->phone = $this->customer->phone;
         }
         $this->email = $this->customer->email;
     }
