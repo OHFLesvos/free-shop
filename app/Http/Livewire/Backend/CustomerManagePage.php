@@ -44,13 +44,11 @@ class CustomerManagePage extends BackendPage
             ],
             'phone' => [
                 'nullable',
-                'required_without:customer.email',
                 'phone:phoneCountry,mobile',
             ],
             'phoneCountry' => 'required_with:phone',
             'customer.email' => [
                 'nullable',
-                'required_without:phone',
                 'email',
             ],
             'tags' => [
