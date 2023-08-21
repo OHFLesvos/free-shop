@@ -64,7 +64,7 @@ class CustomerAccountPage extends FrontendPage
             $phone = phone($this->customer->phone);
             $this->phoneCountry = $phone->getCountry();
             $this->phone = $phone->formatNational();
-        } catch (NumberParseException $ignored) {
+        } catch (Exception $ignored) {
             $this->phoneCountry = '';
             $this->phone = $this->customer->phone;
         }
