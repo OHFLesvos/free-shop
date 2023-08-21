@@ -40,12 +40,10 @@ class CustomerRegistrationPage extends FrontendPage
             ],
             'name' => 'required',
             'phone' => [
-                'required_without:email',
                 'phone:phoneCountry,mobile',
             ],
             'phoneCountry' => 'required_with:phone',
             'email' => [
-                'required_without:phone',
                 'email',
             ],
         ];
