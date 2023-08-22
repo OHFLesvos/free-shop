@@ -241,7 +241,7 @@ class SettingsPage extends BackendPage
 
             if ($path) {
                 //$image = new ImageResize(Storage::path($path));
-                
+
                 //$image->resizeToHeight(24);
                 //$image->save(Storage::path($path));
 

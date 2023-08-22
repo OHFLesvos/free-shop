@@ -8,7 +8,6 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\Rule;
 use Illuminate\View\View;
-use libphonenumber\NumberParseException;
 
 class CustomerAccountPage extends FrontendPage
 {
