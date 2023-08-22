@@ -39,13 +39,11 @@ class CustomerAccountPage extends FrontendPage
             ],
             'phone' => [
                 'nullable',
-                'required_without:email',
                 'phone:phoneCountry,mobile',
             ],
             'phoneCountry' => 'required_with:phone',
             'email' => [
                 'nullable',
-                'required_without:phone',
                 'email',
             ],
         ];
@@ -66,7 +64,7 @@ class CustomerAccountPage extends FrontendPage
             $phone = phone($this->customer->phone);
             $this->phoneCountry = $phone->getCountry();
             $this->phone = $phone->formatNational();
-        } catch (NumberParseException $ignored) {
+        } catch (\Throwable $ignored) {
             $this->phoneCountry = '';
             $this->phone = $this->customer->phone;
         }
