@@ -23,15 +23,15 @@ use Illuminate\Notifications\Notifiable;
 use libphonenumber\NumberParseException;
 use OwenIt\Auditing\Contracts\Auditable;
 
-class Customer extends Model implements HasLocalePreference, AuthenticatableContract, AuthorizableContract, CanResetPasswordContract, Auditable
+class Customer extends Model implements Auditable, AuthenticatableContract, AuthorizableContract, CanResetPasswordContract, HasLocalePreference
 {
+    use Authenticatable;
+    use Authorizable;
+    use CanResetPassword;
     use HasFactory;
     use Notifiable;
     use NullableFields;
     use NumberCompareScope;
-    use Authenticatable;
-    use Authorizable;
-    use CanResetPassword;
     use \OwenIt\Auditing\Auditable;
 
     protected $fillable = [

@@ -17,8 +17,8 @@ use Spatie\Translatable\HasTranslations;
 class Product extends Model implements Auditable
 {
     use HasFactory;
-    use NullableFields;
     use HasTranslations;
+    use NullableFields;
     use \OwenIt\Auditing\Auditable;
 
     /**

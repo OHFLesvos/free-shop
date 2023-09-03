@@ -15,8 +15,8 @@ use Livewire\WithPagination;
 
 class OrderListPage extends BackendPage
 {
-    use WithPagination;
     use AuthorizesRequests;
+    use WithPagination;
     use WithSorting;
 
     protected string $paginationTheme = 'bootstrap';

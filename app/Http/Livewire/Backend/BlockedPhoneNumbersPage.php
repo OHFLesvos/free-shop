@@ -12,10 +12,10 @@ use Livewire\WithPagination;
 class BlockedPhoneNumbersPage extends BackendPage
 {
     use AuthorizesRequests;
-    use WithPagination;
     use AuthorizesRequests;
     use CurrentRouteName;
     use TrimEmptyStrings;
+    use WithPagination;
 
     protected string $title = 'Blocked Phone Numbers';
 

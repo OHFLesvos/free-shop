@@ -9,8 +9,8 @@ use Livewire\WithPagination;
 
 class UserListPage extends BackendPage
 {
-    use WithPagination;
     use AuthorizesRequests;
+    use WithPagination;
 
     protected string $title = 'Users';
 

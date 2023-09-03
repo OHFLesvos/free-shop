@@ -12,8 +12,8 @@ use Livewire\WithPagination;
 
 class CustomerDetailPage extends BackendPage
 {
-    use WithPagination;
     use AuthorizesRequests;
+    use WithPagination;
 
     protected string $paginationTheme = 'bootstrap';
 

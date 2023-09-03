@@ -8,8 +8,8 @@ use Spatie\Translatable\HasTranslations;
 
 class TextBlock extends Model implements Auditable
 {
-    use \OwenIt\Auditing\Auditable;
     use HasTranslations;
+    use \OwenIt\Auditing\Auditable;
 
     protected $fillable = [
         'name',

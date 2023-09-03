@@ -11,8 +11,8 @@ use Livewire\WithPagination;
 
 class CustomerListPage extends BackendPage
 {
-    use WithPagination;
     use AuthorizesRequests;
+    use WithPagination;
     use WithSorting;
 
     protected string $title = 'Customers';

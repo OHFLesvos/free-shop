@@ -15,10 +15,10 @@ use PhpOffice\PhpSpreadsheet\Shared\Date;
 use PhpOffice\PhpSpreadsheet\Style\NumberFormat;
 use PhpOffice\PhpSpreadsheet\Worksheet\PageSetup;
 
-class ReadyOrdersListExport implements WithProperties, FromQuery, WithMapping, WithHeadings, WithColumnFormatting, ShouldAutoSize, WithStyles
+class ReadyOrdersListExport implements FromQuery, ShouldAutoSize, WithColumnFormatting, WithHeadings, WithMapping, WithProperties, WithStyles
 {
-    use Exportable;
     use DefaultWorksheetStyles;
+    use Exportable;
 
     protected $worksheetTitle = 'Orders';
 

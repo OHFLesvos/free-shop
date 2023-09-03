@@ -16,9 +16,9 @@ use Setting;
 
 class SettingsPage extends BackendPage
 {
-    use WithFileUploads;
     use AuthorizesRequests;
     use CurrentRouteName;
+    use WithFileUploads;
 
     protected string $title = 'Settings';
 

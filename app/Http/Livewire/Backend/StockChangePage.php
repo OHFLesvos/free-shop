@@ -11,8 +11,8 @@ use Livewire\WithPagination;
 class StockChangePage extends BackendPage
 {
     use AuthorizesRequests;
-    use WithPagination;
     use CurrentRouteName;
+    use WithPagination;
 
     protected string $paginationTheme = 'bootstrap';
 

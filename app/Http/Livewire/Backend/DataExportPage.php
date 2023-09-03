@@ -18,8 +18,8 @@ use Symfony\Component\HttpFoundation\Response;
 
 class DataExportPage extends BackendPage
 {
-    use WithFileUploads;
     use AuthorizesRequests;
+    use WithFileUploads;
 
     protected string $title = 'Data Export';
 
